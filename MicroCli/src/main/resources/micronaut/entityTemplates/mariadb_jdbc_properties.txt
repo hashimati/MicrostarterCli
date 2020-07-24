@@ -1,0 +1,8 @@
+datasources:
+  default:
+    url: jdbc:mariadb://127.0.0.1:3306/${databasename}
+    driverClassName: org.mariadb.jdbc.Driver
+    username: Enter database username
+    password: 'enter the password'
+    dialect: MYSQL
+    schema-generate: create

@@ -1,0 +1,37 @@
+datasources:
+  default:
+    url: ${jdbcURL}
+    driverClassName: ${jdbcDriver}
+    username: sa
+    password: ''
+    dialect: ${DIALECT}
+
+    #url: jdbc:oracle:thin:@localhost:1521
+
+    #url: jdbc:postgresql://localhost:5432/postgres
+    #driverClassName:org.postgresql.Driver
+    #runtime 'org.postgresql:postgresql:42.2.4'
+
+    #url: jdbc:h2:mem:default;DB_CLOSE_DELAY: -1;DB_CLOSE_ON_EXIT=FALSE
+    #driverClassName:org.h2.Driver
+    #schema-generate: CREATE_DROP
+
+    #url: jdbc:mysql://127.0.0.1:3306/helloworlddb
+    #driverClassName: com.mysql.cj.jdbc.Driver
+---
+jackson:
+  bean-introspection-module: true
+---
+jpa:
+  default:
+    properties:
+      hibernate:
+        bytecode:
+          provider: none
+        hbm2ddl:
+          auto: update
+---
+liquibase:
+  datasources:
+    users:
+      change-log: 'classpath:db/liquibase-changelog.xml'

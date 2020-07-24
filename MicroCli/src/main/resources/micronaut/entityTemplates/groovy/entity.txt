@@ -1,0 +1,41 @@
+package ${entitypackage}
+
+${importedPackages};
+import javax.validation.constraints.*;
+import groovy.transform.Canonical;
+import groovy.transform.CompileStatic;
+${jpa?'import javax.persistence.*':''};
+${jdbc?'import io.micronaut.data.annotation.*;' :''}
+${jpa?'import io.micronaut.data.annotation.*;' :''}
+
+${containDate?'import java.util.Date':''}
+import java.util.*
+
+@CompileStatic
+@Canonical
+<% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
+<% if(jdbc) out.print "@MappedEntity(\"${collectionName}\")"%>
+class ${className}{
+
+    <% if(jpa) out.println '@Id'%>
+    <% if(jpa) out.println '@GeneratedValue(strategy = GenerationType.SEQUENCE)' %>
+    <% if(jpa) out.println 'long id'%>
+
+    <% if(jdbc) out.println '@Id'%>
+    <% if(jdbc) out.println '@GeneratedValue(GeneratedValue.Type.AUTO)' %>
+    <% if(jdbc) out.println 'long id'%>
+
+    <% if(normal) out.println 'String id;'%>
+    ${instances};
+
+  <% if(jdbc) out.println '@DateCreated' %>
+  <% if(jdbc) out.println 'Date dateCreated;' %>
+
+  <% if(jdbc) out.println '@DateUpdated' %>
+  <% if(jdbc) out.println 'Date dateUpdated;' %>
+  <% if(jpa) out.println '@DateCreated' %>
+  <% if(jpa) out.println 'Date dateCreated;' %>
+
+  <% if(jpa) out.println '@DateUpdated' %>
+  <% if(jpa) out.println 'Date dateUpdated;' %>
+}

@@ -1,0 +1,114 @@
+datasources:
+  default:
+    url: jdbc:mysql://127.0.0.1:3306/${databasename}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 'Hello@1234'
+    dialect: MYSQL
+
+// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.19</version>
+</dependency>
+
+
+----
+datasources:
+  default:
+    url: jdbc:mariadb://127.0.0.1:3306/${databasename}
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
+    password: 'Hello@1234'
+    dialect: MYSQL
+
+<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+<dependency>
+    <groupId>org.mariadb.jdbc</groupId>
+    <artifactId>mariadb-java-client</artifactId>
+    <version>2.6.0</version>
+</dependency>
+// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
+
+----
+
+datasources:
+  default:
+    url: jdbc:postgresql://127.0.0.1:5740/${databasename}
+    driverClassName: org.postgresql.Driver
+    username: <Enter your username here>
+    password: <Enter your password here>
+    dialect: POSTGRES
+
+
+
+compile group: 'org.postgresql', name: 'postgresql', version: '42.2.11'
+
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.2.11</version>
+</dependency>
+
+
+----
+
+
+
+datasources:
+  default:
+    url: jdbc:oracle:thin:@myhost:1521:${databasename}
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    username: root
+    password: 'Hello@1234'
+    dialect: ORACLE
+
+// https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc10
+compile group: 'com.oracle.ojdbc', name: 'ojdbc10', version: '19.3.0.0'
+<!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc10 -->
+<dependency>
+    <groupId>com.oracle.ojdbc</groupId>
+    <artifactId>ojdbc10</artifactId>
+    <version>19.3.0.0</version>
+</dependency>
+
+
+
+----
+datasources:
+  default:
+    url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+    schema-generate: CREATE_DROP
+    dialect: H2
+----
+
+
+datasources:
+  default:
+    url: jdbc:sqlserver://localhost;instance=SQLEXPRESS;databaseName=${databaseName}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: root
+    password: 'Hello@1234'
+    dialect: SQL_SERVER
+
+jre8 jre11 jre13
+
+<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>8.2.2.jre8</version>
+</dependency>
+
+// https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.2.jre8'
+
+----

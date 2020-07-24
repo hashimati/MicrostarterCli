@@ -1,0 +1,38 @@
+package ${servicePackage};
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import ${entityPackage};
+import ${repoPackage};
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import org.bson.BsonDocument;
+import org.bson.BsonString;
+
+
+@Singleton
+public class ${className}Service {
+
+
+    @Inject ${className}Repository ${entityName}Repository;
+
+	public Single<${className}> save(${className} ${entityName}) {
+
+        //TODO insert your logic here!
+        //saving Object
+
+        return ${entityName}Repository.save(${entityName});
+    }
+
+    public Single<${className}> findById(String id){
+        return ${entityName}Repository.findById(id);
+    }
+
+     public Flowable<${className}> findAll(){
+            return ${entityName}Repository.findAll();
+     }
+
+    public Single<Boolean> deleteById(String id) {
+	    return ${entityName}Repository.deleteById(id);
+	}
+}

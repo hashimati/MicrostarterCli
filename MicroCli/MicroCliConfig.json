@@ -1,0 +1,30 @@
+{
+  "projectInfo": {
+    "applicationType": "cli",
+    "defaultPackage": "io.hashimati",
+    "testFramework": "junit",
+    "sourceLanguage": "java",
+    "buildTool": "gradle",
+    "features": [
+      "junit",
+      "shade",
+      "readme",
+      "app-name",
+      "docker",
+      "logback",
+      "picocli-junit",
+      "gradle",
+      "file-watch",
+      "java",
+      "picocli",
+      "picocli-java-application",
+      "yaml"
+    ]
+  },
+  "databaseName": "MyDatabase",
+  "databaseType": "H2",
+  "dataBackendRun": "JDBC",
+  "entities": [],
+  "relations": [],
+  "enums": []
+}

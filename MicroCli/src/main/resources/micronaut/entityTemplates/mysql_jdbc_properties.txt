@@ -1,0 +1,8 @@
+datasources:
+  default:
+    url: jdbc:mysql://127.0.0.1:3306/${databasename}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: Enter your username
+    password: 'Enter your password'
+    dialect: MYSQL
+    schema-generate: create

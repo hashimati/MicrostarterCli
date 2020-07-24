@@ -1,0 +1,47 @@
+package ${entitypackage};
+
+${importedPackages}
+${jpa?'import javax.persistence.*;' :''}
+${jpa?'import javax.persistence.*;' :''}
+${jdbc?'import io.micronaut.data.annotation.*;' :''}
+${jpa?'import io.micronaut.data.annotation.*;' :''}
+
+import lombok.*;
+import javax.validation.constraints.*;
+${containDate?'import java.util.Date;':''}
+import java.util.*;
+
+@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
+<% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
+<% if(jdbc) out.print "@MappedEntity(\"${collectionName}\")"%>
+public class ${className}{
+    <% if(jpa) out.println '@Id'%>
+    <% if(jpa) out.println '@GeneratedValue(strategy = GenerationType.SEQUENCE)' %>
+    <% if(jpa) out.println '@EqualsAndHashCode.Exclude' %>
+    <% if(jpa) out.println 'private Long id;' %>
+    <% if(jdbc) out.println '@Id'%>
+    <% if(jdbc) out.println '@GeneratedValue(GeneratedValue.Type.AUTO)' %>
+    <% if(jdbc) out.println '@EqualsAndHashCode.Exclude' %>
+    <% if(jdbc) out.println 'private Long id;'%>
+
+    <% if(normal) out.println 'private String id;' %>
+
+    ${instances}
+
+
+      <% if(jdbc) out.println '@DateCreated' %>
+      <% if(jdbc) out.println 'private Date dateCreated;' %>
+
+      <% if(jdbc) out.println '@DateUpdated' %>
+      <% if(jdbc) out.println 'private Date dateUpdated;' %>
+      <% if(jpa) out.println '@DateCreated' %>
+      <% if(jpa) out.println 'private Date dateCreated;' %>
+
+      <% if(jpa) out.println '@DateUpdated' %>
+      <% if(jpa) out.println 'private Date dateUpdated;' %>
+}

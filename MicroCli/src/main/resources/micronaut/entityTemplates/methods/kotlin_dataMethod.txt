@@ -1,0 +1,1 @@
+    fun findBy${attribute}(${attr}:${attributeType}):${className};

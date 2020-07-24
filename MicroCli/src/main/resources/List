@@ -1,0 +1,90 @@
+  implementation("io.micronaut.flyway:micronaut-flyway")
+<dependency>
+    <groupId>io.micronaut.flyway</groupId>
+    <artifactId>micronaut-flyway</artifactId>
+    <scope>compile</scope>
+</dependency>
+
+
+     --------------
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+<dependency>
+    <groupId>io.micronaut.sql</groupId>
+    <artifactId>micronaut-jdbc-hikari</artifactId>
+    <scope>compile</scope>
+</dependency>
+
+   --------------
+
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+<dependency>
+    <groupId>io.micronaut.data</groupId>
+    <artifactId>micronaut-data-jdbc</artifactId>
+    <scope>compile</scope>
+</dependency>
+    --------------------
+
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
+<dependency>
+    <groupId>io.micronaut.mongodb</groupId>
+    <artifactId>micronaut-mongo-reactive</artifactId>
+    <scope>compile</scope>
+</dependency>
+
+    ----------------
+    implementation("io.micronaut.mongodb:micronaut-mongo-sync")
+<dependency>
+    <groupId>io.micronaut.mongodb</groupId>
+    <artifactId>micronaut-mongo-sync</artifactId>
+    <scope>compile</scope>
+</dependency>
+---------------------------
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+
+<dependency>
+    <groupId>io.micronaut.data</groupId>
+    <artifactId>micronaut-data-jpa</artifactId>
+    <scope>compile</scope>
+</dependency>
+
+----
+
+    implementation("io.micronaut.liquibase:micronaut-liquibase")
+<dependency>
+    <groupId>io.micronaut.liquibase</groupId>
+    <artifactId>micronaut-liquibase</artifactId>
+    <scope>compile</scope>
+</dependency>
+
+-------------------------------------------------------
+
+
+
+
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1")
+
+<dependency>
+    <groupId>de.flapdoodle.embed</groupId>
+    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+    <version>2.0.1</version>
+    <scope>test</scope>
+</dependency>
+
+-----------------
+    runtimeOnly("com.h2database:h2")
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+----------------------------
+
+graphql
+implementation("io.micronaut.graphql:micronaut-graphql")
+<dependency>
+      <groupId>io.micronaut.graphql</groupId>
+      <artifactId>micronaut-graphql</artifactId>
+      <scope>compile</scope>
+</dependency>
+
+

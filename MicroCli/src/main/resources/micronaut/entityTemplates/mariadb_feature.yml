@@ -1,0 +1,4 @@
+description: Maria JDBC Driver
+dependencies:
+  - scope: compile
+    coords: org.mariadb.jdbc:mariadb-java-client:2.6.0

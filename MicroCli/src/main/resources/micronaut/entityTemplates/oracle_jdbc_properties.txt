@@ -1,0 +1,8 @@
+datasources:
+  default:
+    url: jdbc:oracle:thin:@myhost:1521:${databasename}
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    username: enter database username
+    password: 'Enter the password'
+    dialect: ORACLE
+    schema-generate: create

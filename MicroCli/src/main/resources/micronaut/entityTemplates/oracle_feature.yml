@@ -1,0 +1,4 @@
+description: Oracle JDBC Driver
+dependencies:
+  - scope: compile
+    coords: com.oracle.ojdbc:ojdbc10:19.3.0.0
