@@ -22,9 +22,17 @@
     ]
   },
   "databaseName": "MyDatabase",
-  "databaseType": "H2",
+  "databaseType": "MariaDB",
   "dataBackendRun": "JDBC",
   "entities": [],
   "relations": [],
-  "enums": []
+  "enums": [
+    {
+      "name": "OrderStatus",
+      "values": [
+        "CREATED"
+      ],
+      "enumPackage": "io.hashimati.enums"
+    }
+  ]
 }
