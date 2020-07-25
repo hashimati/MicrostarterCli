@@ -298,7 +298,8 @@ public class MicronautEntityGenerator
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", "");
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
-
+                System.out.println("Here is the fucking");
+                System.out.println("The is the stupid template "  +templatesService.loadTemplateContent(templatePath));
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
             }
             return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();

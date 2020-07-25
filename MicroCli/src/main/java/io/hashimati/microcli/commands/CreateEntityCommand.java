@@ -86,8 +86,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             entity.setFrameworkType(configurationInfo.getDataBackendRun());
-            entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
-
+          //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
+            entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
 
             /*
             todo 1. Set package.
@@ -102,6 +102,22 @@ public class CreateEntityCommand implements Callable<Integer> {
             System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "java"));
             System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "groovy"));
             System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "kotlin"));
+
+            System.out.println(micronautEntityGenerator.generateRepository(entity, "java"));
+            System.out.println(micronautEntityGenerator.generateRepository(entity, "kotlin"));
+            System.out.println(micronautEntityGenerator.generateRepository(entity, "groovy"));
+
+            System.out.println(micronautEntityGenerator.generateService(entity, "java"));
+            System.out.println(micronautEntityGenerator.generateService(entity, "kotlin"));
+            System.out.println(micronautEntityGenerator.generateService(entity, "groovy"));
+
+            System.out.println(micronautEntityGenerator.generateController(entity, "java"));
+            System.out.println(micronautEntityGenerator.generateController(entity, "kotlin"));
+            System.out.println(micronautEntityGenerator.generateController(entity, "groovy"));
+
+            System.out.println(micronautEntityGenerator.generateClient(entity, "java"));
+            System.out.println(micronautEntityGenerator.generateClient(entity, "kotlin"));
+            System.out.println(micronautEntityGenerator.generateClient(entity, "groovy"));
         }
         catch(Exception ex)
         {

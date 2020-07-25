@@ -176,4 +176,13 @@ public class Entity
         return visitor.visit(this);
     }
 
+    public void setPackages(String defaultPackage) {
+
+        this.setEntityPackage(defaultPackage+".domains");
+        this.setRepoPackage(defaultPackage+".repositories");
+        this.setServicePackage(defaultPackage+".services");
+        this.setRestPackage(defaultPackage+".controllers");
+        this.setClientPackage(defaultPackage+".clients");
+
+    }
 }
