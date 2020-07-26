@@ -99,25 +99,19 @@ public class CreateEntityCommand implements Callable<Integer> {
                  7. generate Test Repository
                  8. Configure openAPI.
              */
-            System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "java"));
-            System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "groovy"));
-            System.out.println(micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(), "kotlin"));
+            String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
+            String entityFileContent  =micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(),lang);
 
-            System.out.println(micronautEntityGenerator.generateRepository(entity, "java"));
-            System.out.println(micronautEntityGenerator.generateRepository(entity, "kotlin"));
-            System.out.println(micronautEntityGenerator.generateRepository(entity, "groovy"));
+            String repositoryFileContent = micronautEntityGenerator.generateRepository(entity, lang);
 
-            System.out.println(micronautEntityGenerator.generateService(entity, "java"));
-            System.out.println(micronautEntityGenerator.generateService(entity, "kotlin"));
-            System.out.println(micronautEntityGenerator.generateService(entity, "groovy"));
+            String serviceFileContent = micronautEntityGenerator.generateService(entity, lang);
 
-            System.out.println(micronautEntityGenerator.generateController(entity, "java"));
-            System.out.println(micronautEntityGenerator.generateController(entity, "kotlin"));
-            System.out.println(micronautEntityGenerator.generateController(entity, "groovy"));
+            String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
+            String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
 
-            System.out.println(micronautEntityGenerator.generateClient(entity, "java"));
-            System.out.println(micronautEntityGenerator.generateClient(entity, "kotlin"));
-            System.out.println(micronautEntityGenerator.generateClient(entity, "groovy"));
+
+            System.out.println(entityFileContent + "\n" + repositoryFileContent +"\n" + serviceFileContent + "\n" + controllerFileContent + "\n" + clientFileContent);
+            
         }
         catch(Exception ex)
         {
