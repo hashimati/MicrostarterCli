@@ -60,13 +60,15 @@ dependencies {
     implementation "org.fusesource.jansi:jansi:1.18"
     implementation "org.yaml:snakeyaml:1.26"
     // https://mvnrepository.com/artifact/org.jline/jline
-// https://mvnrepository.com/artifact/info.picocli/picocli-shell-jline3
+// https://mvnrepository.
+//
+// com/artifact/info.picocli/picocli-shell-jline3
    // compile group: 'info.picocli', name: 'picocli-shell-jline3', version: '4.1.4'
    // compile group: 'de.codeshelf.consoleui', name: 'consoleui', version: '0.0.9'
     implementation 'jline:jline:2.9'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
-
+jline
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 
