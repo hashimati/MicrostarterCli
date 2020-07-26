@@ -4,6 +4,7 @@ import io.hashimati.domains.ConfigurationInfo;
 import io.hashimati.domains.Entity;
 import io.hashimati.domains.EntityRelation;
 import io.hashimati.microcli.MicronautEntityGenerator;
+import io.hashimati.utils.GeneratorUtils;
 import io.hashimati.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -90,28 +91,44 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
 
             /*
-            todo 1. Set package.
-                 2. write to a file
-                 3. generate Service.
-                 4. generate Client
-                 5. generate Controller
-                 6. gnerate Test Controller.
-                 7. generate Test Repository
-                 8. Configure openAPI.
+            todo 1. Set package. (done)
+                 2. write to a file (done)
+                 3. generate Service. (done)
+                 4. generate Client (done)
+                 5. generate Controller (done)
+                 6. gnerate Test Controller. (done)
+                 7. generate Test Repository (done)
+                 8. Fix the output file path.
+                 9. prompt for attributes.
+                 10. prompt for validations.
+                 11. Configure openAPI.(done)
              */
             String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
             String entityFileContent  =micronautEntityGenerator.generateEntity(entity, new ArrayList<EntityRelation>(),lang);
 
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getEntityPackage()) + "/"+entity.getName()+".java", entityFileContent);
+
             String repositoryFileContent = micronautEntityGenerator.generateRepository(entity, lang);
+
+
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getRepoPackage()) + "/"+entity.getName()+"Repository.java", repositoryFileContent);
+
 
             String serviceFileContent = micronautEntityGenerator.generateService(entity, lang);
 
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getServicePackage()) + "/"+entity.getName()+"Service.java", serviceFileContent);
             String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
+
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getRestPackage()) + "/"+entity.getName()+"Controller.java", controllerFileContent);
+
             String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
+
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getClientPackage()) + "/"+entity.getName()+".java", clientFileContent);
+
 
 
             System.out.println(entityFileContent + "\n" + repositoryFileContent +"\n" + serviceFileContent + "\n" + controllerFileContent + "\n" + clientFileContent);
-            
+
         }
         catch(Exception ex)
         {
