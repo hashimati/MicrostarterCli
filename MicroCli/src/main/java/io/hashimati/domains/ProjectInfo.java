@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 @Data
 public class ProjectInfo {
@@ -24,7 +25,7 @@ public class ProjectInfo {
     sourceLanguage,
     buildTool;
 
-    private HashSet<String> features;
+    private LinkedHashSet<String> features;
     public ProjectInfo visit(Visitor<ProjectInfo> visitor)
     {
         return visitor.visit(this);
