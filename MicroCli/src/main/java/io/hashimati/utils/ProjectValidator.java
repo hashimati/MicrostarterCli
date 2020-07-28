@@ -97,6 +97,37 @@ public class ProjectValidator {
         int toIndex = pomContent.indexOf(to);
         return pomContent.substring(fromIndex, toIndex);
     }
+    public static boolean updateMavenDependencies(String newDependencies) throws IOException
+    {
+        String pomContent = getPomFileContent();
+
+
+        String from  = "<dependencies>", to ="</dependencies>";
+        int fromIndex = pomContent.indexOf(from )+ from.length();
+        int toIndex = pomContent.indexOf(to);
+        String dependencies =  pomContent.substring(fromIndex, toIndex);
+        String newDep = dependencies +"\n"+ newDependencies;
+        pomContent = pomContent.replace(dependencies, newDep);
+
+        GeneratorUtils.createFile("pom.xml", pomContent);
+        return true;
+    }
+    public static boolean updateGradlewDependencies(String newDependencies) throws IOException
+    {
+        String gradleContent = getGradleFileContent();
+
+        String from  = "dependencies {", to ="}\n" +
+                "\n" +
+                "test.classpath";
+        int fromIndex = gradleContent.indexOf(from )+ from.length();
+        int toIndex = gradleContent.indexOf(to);
+        String dependencies= gradleContent.substring(fromIndex, toIndex);
+        String newDep = dependencies+"\n"+newDependencies;
+        gradleContent = gradleContent.replace(dependencies, newDep);
+        GeneratorUtils.createFile("build.gradle", gradleContent);
+        return true;
+    }
+
 
     private static String getGradleFileContent() throws FileNotFoundException {
         String cwd = System.getProperty("user.dir");

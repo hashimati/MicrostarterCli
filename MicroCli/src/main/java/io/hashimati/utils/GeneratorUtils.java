@@ -69,6 +69,7 @@ public class GeneratorUtils
             PrintWriter pw = new PrintWriter(file);
             pw.println(content);
             pw.flush();
+            pw.close();
             logger.info("created {}", path
             );
 
@@ -82,13 +83,6 @@ public class GeneratorUtils
         }
     }
 
-
-    /**
-     *
-     * @param Tuple2<String, String>
-     * @return zip file
-     * @throws Exception
-     */
 
 
     public static String getFileContent(File f) throws FileNotFoundException {
