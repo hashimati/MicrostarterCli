@@ -1,4 +1,13 @@
-FROM openjdk:14-alpine
-COPY build/libs/MicroCli-*-all.jar MicroCli.jar
+FROM oracle/graalvm-ce:20.1.0-java8 as graalvm
+RUN gu install native-image
+
+COPY . /home/app/MicroCli
+WORKDIR /home/app/MicroCli
+
+RUN native-image --no-server -cp build/libs/MicroCli-*-all.jar
+
+FROM frolvlad/alpine-glibc
+RUN apk update && apk add libstdc++
 EXPOSE 8080
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "MicroCli.jar"]
+COPY --from=graalvm /home/app/MicroCli/MicroCli /app/MicroCli
+ENTRYPOINT ["/app/MicroCli"]
