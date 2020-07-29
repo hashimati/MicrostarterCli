@@ -81,6 +81,9 @@ dependencies {
 // https://mvnrepository.com/artifact/org.yaml/snakeyaml
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.26'
 
+
+
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
 }
 
 test.classpath += configurations.developmentOnly

@@ -42,6 +42,9 @@ public class ConfigurationInitializer {
         }
         File file = new File("MicroCliConfig.json");
 
+
+
+
         if(file.isFile() && file.exists())
         {
             configurationInfo =  ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
@@ -49,6 +52,14 @@ public class ConfigurationInitializer {
         else {
             configurationInfo = new ConfigurationInfo();//ask for Database Name;
 
+            if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
+            {
+                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromMaven());
+            }
+            else if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
+            {
+                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromGradle());
+            }
             //Getting Database Name;
             InputResult  databaseNameResult = PromptGui.inputText("databaseName", "Enter the database name: ", "MyDatabase");
             configurationInfo.setDatabaseName( databaseNameResult.getInput());
@@ -111,11 +122,15 @@ public class ConfigurationInitializer {
 
         }
         projectInfo.getFeatures().add("openapi");
+        MicronautProjectValidator.addDependency(features.get("openapi"));
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
+
+        MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
         MicronautProjectValidator.addLombok();
         configurationInfo.setProjectInfo(projectInfo);
+
 
         //System.out.println(configurationInfo);
         configurationInfo.writeToFile();

@@ -19,7 +19,8 @@ import java.util.HashSet;
 public class ConfigurationInfo {
 
     private ProjectInfo projectInfo;
-    private String databaseName,
+    private String appName,
+            databaseName,
             databaseType, // H2, MariaDB, MySQL, Oracle, Postgres, MS_SQL, or Mongo
             dataBackendRun, // JPA, JDBC or none
             dataMigrationTool; //liquibase, Flyway

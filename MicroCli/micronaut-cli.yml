@@ -4,4 +4,4 @@ testFramework: junit
 sourceLanguage: java
 buildTool: gradle
 features: [app-name, docker, file-watch, gradle, java, junit, logback, picocli, picocli-java-application,
-  picocli-junit, readme, shade, yaml, graalvm, openapi]
+  picocli-junit, readme, shade, yaml, graalvm, openapi, mongo-reactive]

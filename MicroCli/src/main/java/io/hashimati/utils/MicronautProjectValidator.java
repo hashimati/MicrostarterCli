@@ -3,11 +3,15 @@ package io.hashimati.utils;
 import io.hashimati.config.Feature;
 import io.hashimati.config.FeaturesFactory;
 import io.hashimati.domains.ProjectInfo;
+import io.hashimati.microcli.GenerateFiles;
+import org.graalvm.compiler.lir.StandardOp;
 import org.yaml.snakeyaml.Yaml;
+import sun.java2d.loops.GeneralRenderer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -100,6 +104,25 @@ public class MicronautProjectValidator {
         int toIndex = pomContent.indexOf(to);
         return pomContent.substring(fromIndex, toIndex);
     }
+
+    public static String getAppNameFromMaven() throws FileNotFoundException {
+
+        String pomContent = getPomFileContent();
+
+
+        String from  = "<artifactId>", to ="</artifactId>";
+        int fromIndex = pomContent.indexOf(from )+ from.length();
+        int toIndex = pomContent.indexOf(to);
+        return pomContent.substring(fromIndex, toIndex);
+    }
+
+    public static String getAppNameFromGradle() throws FileNotFoundException {
+        String fileContent = GeneratorUtils.getFileContent(new File("settings.gradle"));
+
+        String from = "rootProject.name=\"";
+        return fileContent.substring(from.length(),fileContent.indexOf("\"", from.length()));
+    }
+
     public static boolean updateMavenDependencies(String newDependencies) throws IOException
     {
         String pomContent = getPomFileContent();
@@ -111,7 +134,6 @@ public class MicronautProjectValidator {
         String dependencies =  pomContent.substring(fromIndex, toIndex);
         String newDep = dependencies +"\n"+ newDependencies+ "\n";
         pomContent = pomContent.replace(dependencies, newDep);
-
         GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
         return true;
     }
@@ -187,6 +209,42 @@ public class MicronautProjectValidator {
         {
             return updateMavenDependencies(Arrays.stream(feature).map(x->x.getMaven()).reduce("", (x, y)->x+"\n"+ y));
         }
+        return false;
+    }
+
+
+    public static boolean addingOpenApiToApplicationFile(String appName) throws FileNotFoundException {
+
+        if(projectInfo == null)
+            projectInfo = getProjectInfo();
+
+        if(!projectInfo.getApplicationType().equalsIgnoreCase("default"))
+            return false;
+
+
+        String annotations = "import io.swagger.v3.oas.annotations.*;\n" +
+                "import io.swagger.v3.oas.annotations.info.*;\n" +
+                "\n" +
+                "@OpenAPIDefinition(\n" +
+                "    info = @Info(\n" +
+                "            title = \"demo\",\n" +
+                "            version = \"0.0\"\n" +
+                "    )\n" +
+                ")".replace("demo", appName);
+
+        String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo().getSourceLanguage().toLowerCase();
+        String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
+        String from = "import io.micronaut.runtime.Micronaut;";
+        if(!projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
+        {
+           annotations = annotations.replace(";","");
+           from = from.replace(";", "");
+        }
+
+        String content = GeneratorUtils.getFileContent(new File(mainFilePath));
+        content = content.replace(from, from+"\n"+annotations );
+
+        GeneratorUtils.dumpContentToFile(mainFilePath, content);
         return false;
     }
 }

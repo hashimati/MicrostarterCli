@@ -20,12 +20,14 @@
       "shade",
       "yaml",
       "graalvm",
-      "openapi"
+      "openapi",
+      "mongo-reactive"
     ]
   },
+  "appName": "MicroCli",
   "databaseName": "MyDatabase",
-  "databaseType": "H2",
-  "dataBackendRun": "JPA",
+  "databaseType": "MongoDB",
+  "dataBackendRun": "none",
   "entities": [],
   "relations": [],
   "enums": []

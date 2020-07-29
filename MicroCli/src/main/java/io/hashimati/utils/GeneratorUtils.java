@@ -70,7 +70,15 @@ public class GeneratorUtils
             return  false;
         }
     }
-    //writing String block to a file;
+
+    /**
+     *
+     * @param path
+     * @param content
+     * @apiNote to be used used for create source files.
+     * @return
+     * @throws IOException
+     */
     public static boolean createFile(String path, String content) throws IOException {
 
         File file = new File( path);

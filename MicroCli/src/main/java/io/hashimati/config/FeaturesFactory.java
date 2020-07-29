@@ -187,6 +187,21 @@ public class FeaturesFactory {
                     "\t</dependency>");
             setGradle("    implementation(\"io.micronaut.graphql:micronaut-graphql\")\n");
         }});
+        features.put("openapi", new Feature(){{
+            setName("openapi");
+            setMaven("    <dependency>\n" +
+                    "      <groupId>io.swagger.core.v3</groupId>\n" +
+                    "      <artifactId>swagger-annotations</artifactId>\n" +
+                    "      <scope>compile</scope>\n" +
+                    "    </dependency>");
+            setGradle("    implementation(\"io.swagger.core.v3:swagger-annotations\")");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.configuration:micronaut-openapi\")");
+            setAnnotationMaven("            <path>\n" +
+                    "              <groupId>io.micronaut.configuration</groupId>\n" +
+                    "              <artifactId>micronaut-openapi</artifactId>\n" +
+                    "              <version>${micronaut.openapi.version}</version>\n" +
+                    "            </path>");
+        }});
 
 
         features.put("lombok", new Feature(){{
