@@ -1,7 +1,6 @@
 package io.hashimati.domains;
 
 import io.hashimati.utils.GeneratorUtils;
-import io.hashimati.utils.ProjectValidator;
 import io.hashimati.utils.Visitor;
 import lombok.Data;
 import org.yaml.snakeyaml.DumperOptions;
@@ -11,8 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 

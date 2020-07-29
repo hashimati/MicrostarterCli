@@ -73,7 +73,6 @@ public class GeneratorUtils
             logger.info("created {}", path
             );
 
-
             return true;
         } catch (FileNotFoundException e) {
             logger.error("Failed to crate {}", path);

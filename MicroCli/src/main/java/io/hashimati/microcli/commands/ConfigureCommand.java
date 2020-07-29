@@ -10,11 +10,15 @@ import org.fusesource.jansi.AnsiConsole;
 //import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine.Command;
 
+import javax.inject.Inject;
 import java.util.concurrent.Callable;
 
 @Command(name = "configure", description = "To create the configuration file.")
 public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
+
+    @Inject
+    private ConfigurationInitializer configurationInitializer;
     @Override
     public ConfigurationInfo call() throws Exception {
 
@@ -33,9 +37,7 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //
 //        String prompt2 = "What's your name? ";
 //        String name = lineReader.readLine(prompt2);
-
-        new ConfigurationInitializer().init();
-
+        configurationInitializer.init();
         return ConfigurationInitializer.configurationInfo;
     }
 }

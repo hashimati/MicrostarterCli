@@ -1,5 +1,6 @@
 package io.hashimati.microcli.commands;
 
+import io.hashimati.config.Feature;
 import io.hashimati.domains.ConfigurationInfo;
 import io.hashimati.domains.Entity;
 import io.hashimati.domains.EntityRelation;
@@ -13,6 +14,7 @@ import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 
 @Command(name = "create-entity", description = "To create a new entity")
@@ -33,6 +35,10 @@ public class CreateEntityCommand implements Callable<Integer> {
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
+
+
+    @Inject
+    private HashMap<String, Feature> features;
 
     @Override
     public Integer call() throws Exception {

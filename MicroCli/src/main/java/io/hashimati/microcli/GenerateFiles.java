@@ -1,11 +1,9 @@
 package io.hashimati.microcli;
 
 
-import io.hashimati.utils.ProjectValidator;
+import io.hashimati.utils.MicronautProjectValidator;
 import lombok.SneakyThrows;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
@@ -38,10 +36,10 @@ public class GenerateFiles implements  Runnable {
         String currentWorkingDirectory = System.getProperty("user.dir");
         System.out.println(templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(CONTROLLER)));
         if (verbose) {
-            System.out.println("Is real Project:"+ ProjectValidator.isMavenOrGradle());
-            System.out.println("Main Files: "+ ProjectValidator.getMainPackage());
-            System.out.println("Dependencies: " + ProjectValidator.getGradleDependencies());
-            System.out.println("Maven Dependencies " + ProjectValidator.getMavenDependencies());
+            System.out.println("Is real Project:"+ MicronautProjectValidator.isMavenOrGradle());
+            System.out.println("Main Files: "+ MicronautProjectValidator.getMainPackage());
+            System.out.println("Dependencies: " + MicronautProjectValidator.getGradleDependencies());
+            System.out.println("Maven Dependencies " + MicronautProjectValidator.getMavenDependencies());
         }
     }
 }

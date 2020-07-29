@@ -1,14 +1,16 @@
 package io.hashimati.utils;
 
+import io.hashimati.config.Feature;
 import io.hashimati.domains.ProjectInfo;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class ProjectValidator {
+public class MicronautProjectValidator {
 
     public static ProjectInfo projectInfo = null;
     public static boolean isMavenOrGradle() throws FileNotFoundException {
@@ -149,8 +151,41 @@ public class ProjectValidator {
         String content = GeneratorUtils.getFileContent(micronautCli);
         return (projectInfo = yaml.loadAs(content, ProjectInfo.class));
     }
+
     public static String getMainPackage() throws IOException {
         return getProjectInfo().getDefaultPackage();
     }
 
+    public static boolean addDependency(Feature... feature) throws IOException {
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
+        {
+            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle()).reduce("", (x, y)->x+"\n"+ y));
+        }
+        else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
+        {
+            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getMaven()).reduce("", (x, y)->x+"\n"+ y));
+        }
+        return false;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
