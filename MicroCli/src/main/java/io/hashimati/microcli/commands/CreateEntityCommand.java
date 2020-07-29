@@ -1,6 +1,7 @@
 package io.hashimati.microcli.commands;
 
 import io.hashimati.config.Feature;
+import io.hashimati.config.FeaturesFactory;
 import io.hashimati.domains.ConfigurationInfo;
 import io.hashimati.domains.Entity;
 import io.hashimati.domains.EntityRelation;
@@ -37,8 +38,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
-    @Inject
-    private HashMap<String, Feature> features;
+
+    private HashMap<String, Feature> features = FeaturesFactory.features();
 
     @Override
     public Integer call() throws Exception {

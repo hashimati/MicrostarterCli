@@ -1,6 +1,7 @@
 package io.hashimati.utils;
 
 import io.hashimati.config.Feature;
+import io.hashimati.config.FeaturesFactory;
 import io.hashimati.domains.ProjectInfo;
 import org.yaml.snakeyaml.Yaml;
 
@@ -108,25 +109,27 @@ public class MicronautProjectValidator {
         int fromIndex = pomContent.indexOf(from )+ from.length();
         int toIndex = pomContent.indexOf(to);
         String dependencies =  pomContent.substring(fromIndex, toIndex);
-        String newDep = dependencies +"\n"+ newDependencies;
+        String newDep = dependencies +"\n"+ newDependencies+ "\n";
         pomContent = pomContent.replace(dependencies, newDep);
 
-        GeneratorUtils.createFile("pom.xml", pomContent);
+        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
         return true;
     }
-    public static boolean updateGradlewDependencies(String newDependencies) throws IOException
+    public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException
     {
         String gradleContent = getGradleFileContent();
 
+        if(gradleContent.contains(newDependencies.trim()))
+            return true;
         String from  = "dependencies {", to ="}\n" +
                 "\n" +
                 "test.classpath";
         int fromIndex = gradleContent.indexOf(from )+ from.length();
         int toIndex = gradleContent.indexOf(to);
         String dependencies= gradleContent.substring(fromIndex, toIndex);
-        String newDep = dependencies+"\n"+newDependencies;
+        String newDep = index <= 0? newDependencies + "\n" + dependencies + "\n" :dependencies+"\n"+newDependencies+"\n";
         gradleContent = gradleContent.replace(dependencies, newDep);
-        GeneratorUtils.createFile("build.gradle", gradleContent);
+        GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
         return true;
     }
 
@@ -156,14 +159,33 @@ public class MicronautProjectValidator {
         return getProjectInfo().getDefaultPackage();
     }
 
+    public static boolean addLombok() throws IOException {
+        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java"))
+        {
+            Feature lombok = FeaturesFactory.features().get("lombok");
+            if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
+            {
+                updateGradlewDependencies(lombok.getAnnotationGradle(), -2);
+                updateGradlewDependencies(lombok.getGradle(), 3);
+                updateGradlewDependencies(lombok.getTestGradleAnnotation(), 2);
+                updateGradlewDependencies(lombok.getTestGradle(),2);
+                return true;
+            }
+            else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean addDependency(Feature... feature) throws IOException {
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
-            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle()).reduce("", (x, y)->x+"\n"+ y));
+            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle()).reduce("", (x, y)->x+"\n"+ y),2);
         }
         else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
         {
-            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getMaven()).reduce("", (x, y)->x+"\n"+ y));
+            return updateMavenDependencies(Arrays.stream(feature).map(x->x.getMaven()).reduce("", (x, y)->x+"\n"+ y));
         }
         return false;
     }

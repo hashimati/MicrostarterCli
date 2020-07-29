@@ -16,10 +16,10 @@ import java.util.concurrent.Callable;
 @Command(name = "configure", description = "To create the configuration file.")
 public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
-
-    @Inject
-    private ConfigurationInitializer configurationInitializer;
-    @Override
+//
+//    @Inject
+//    private ConfigurationInitializer configurationInitializer;
+//    @Override
     public ConfigurationInfo call() throws Exception {
 
         AnsiConsole.systemInstall();
@@ -37,7 +37,7 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //
 //        String prompt2 = "What's your name? ";
 //        String name = lineReader.readLine(prompt2);
-        configurationInitializer.init();
+       new  ConfigurationInitializer().init();
         return ConfigurationInitializer.configurationInfo;
     }
 }

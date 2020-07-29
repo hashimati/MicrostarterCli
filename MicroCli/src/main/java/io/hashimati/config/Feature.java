@@ -8,7 +8,11 @@ import lombok.Data;
 public class Feature {
 
     private String name,
-    maven, gradle;
+    maven, gradle,
+    annotationMaven,
+    annotationGradle,
+    testGradle,
+    testGradleAnnotation;
 
 
     public Feature visit(Visitor<Feature> visitor)

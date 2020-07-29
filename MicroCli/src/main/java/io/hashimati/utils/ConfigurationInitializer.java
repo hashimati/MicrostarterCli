@@ -3,6 +3,7 @@ package io.hashimati.utils;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.config.Feature;
+import io.hashimati.config.FeaturesFactory;
 import io.hashimati.domains.ConfigurationInfo;
 import io.hashimati.domains.ProjectInfo;
 
@@ -25,9 +26,10 @@ public class ConfigurationInitializer {
 
 
     @Inject
-    private HashMap<String, Feature> features;
+    private HashMap<String, Feature> features  =FeaturesFactory.features();
 
     public void init() throws IOException {
+
 
       //  Runtime.getRuntime().addShutdownHook(new Thread(()->{}));
 
@@ -83,8 +85,10 @@ public class ConfigurationInitializer {
 
 
                 //todo add dependencies to build file;
+
                 MicronautProjectValidator.addDependency(databaseFeature,
                         features.get("jdbc-hikari"),
+                        features.get(databaseTypeResult.getSelectedId().toLowerCase()),
                         features.get("h2"));
 
                 if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
@@ -110,6 +114,7 @@ public class ConfigurationInitializer {
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
+        MicronautProjectValidator.addLombok();
         configurationInfo.setProjectInfo(projectInfo);
 
         //System.out.println(configurationInfo);

@@ -55,12 +55,27 @@ public class GeneratorUtils
     }
 
 
+
+    public static boolean dumpContentToFile(String path, String content){
+
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new File(path));
+            pw.print(content);
+            pw.flush();
+            pw.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return  false;
+        }
+    }
     //writing String block to a file;
     public static boolean createFile(String path, String content) throws IOException {
 
         File file = new File( path);
         File parent = file.getParentFile();
-        parent.setWritable(true);
+       // parent.setWritable(true);
         if(!parent.exists())
             parent.mkdirs();
         //file.createNewFile();
