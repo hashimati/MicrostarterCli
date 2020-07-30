@@ -22,6 +22,7 @@ public class TemplatesService {
             kotlinTemplates = new HashMap<>(),
             sqlEntityTemplates = new HashMap<>();
 
+    private HashMap<String, String> properties = new HashMap<>();
 
     public static final String
     CLIENT = "client",
@@ -44,6 +45,20 @@ public class TemplatesService {
     public static String ATTRIBUTE = "attribute",
     CONSTRAINT  ="constraint",
    CREATE= "create";
+
+
+    //=======================
+
+    public static final String OPENAPI_yml = "OPENAPI",
+    H2_JDBC_yml = "JDBC",
+    ORACLE_JDBC_yml = "JPA",
+            POSTGRES_JDBC_yml = "POSTGRES",
+            MARIADB_JDBC_yml = "MARIADB",
+            MYSQL_JDBC_yml = "MYSQL",
+            JPA_yml = "jpa";
+
+
+
 
     @EventListener
     public void loadTemplates(StartupEvent event) throws IOException {
@@ -102,6 +117,15 @@ public class TemplatesService {
         sqlEntityTemplates.put(CONSTRAINT,"micronaut/entityTemplates/sql/constraint_template.sql");
         sqlEntityTemplates.put(CREATE,"micronaut/entityTemplates/sql/create_template.sql");
 
+
+        properties.put(OPENAPI_yml, "micronaut/entityTemplates/");
+        properties.put(H2_JDBC_yml, "micronaut/entityTemplates/");
+        properties.put(ORACLE_JDBC_yml, "micronaut/entityTemplates/oracle_jdbc_properties.txt");
+        properties.put(H2_JDBC_yml, "micronaut/entityTemplates/h2_jdbc_properties.txt");
+        properties.put(MARIADB_JDBC_yml, "micronaut/entityTemplates/mariadb_jdbc_properties.txt");
+        properties.put(POSTGRES_JDBC_yml, "micronaut/entityTemplates/postgres_jdbc_properties.txt");
+        properties.put(MYSQL_JDBC_yml, "micronaut/entityTemplates/mysql_jdbc_properties.txt");
+        properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.txt");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
