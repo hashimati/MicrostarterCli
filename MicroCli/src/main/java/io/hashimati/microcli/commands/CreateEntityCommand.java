@@ -9,7 +9,6 @@ import io.hashimati.microcli.MicronautEntityGenerator;
 import io.hashimati.utils.GeneratorUtils;
 import io.hashimati.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -130,7 +129,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
             String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
 
-            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getClientPackage()) + "/"+entity.getName()+".java", clientFileContent);
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/java/"+GeneratorUtils.packageToPath(entity.getClientPackage()) + "/"+entity.getName()+"Client.java", clientFileContent);
 
 
 

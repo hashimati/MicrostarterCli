@@ -3,17 +3,12 @@ package io.hashimati.utils;
 import io.hashimati.config.Feature;
 import io.hashimati.config.FeaturesFactory;
 import io.hashimati.domains.ProjectInfo;
-import io.hashimati.microcli.GenerateFiles;
-import org.graalvm.compiler.lir.StandardOp;
 import org.yaml.snakeyaml.Yaml;
-import sun.java2d.loops.GeneralRenderer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class MicronautProjectValidator {
 
@@ -195,10 +190,98 @@ public class MicronautProjectValidator {
             }
             else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
             {
+                //todo
+
                 return true;
             }
         }
         return false;
+    }
+    public static boolean addOpenapi() throws IOException {
+
+        if(getProjectInfo().getApplicationType().equalsIgnoreCase("default"))
+        {
+            Feature openapi = FeaturesFactory.features().get("openapi");
+            if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
+            {
+                updateGradlewDependencies(openapi.getAnnotationGradle(), 3);
+                updateGradlewDependencies(openapi.getGradle(), 3);
+
+                return true;
+            }
+            else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
+            {
+
+
+                //todo
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+    public  static boolean addExposingSwaggerUIToMaven() throws FileNotFoundException {
+        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")){
+            String pom = getPomFileContent().replace("<compilerArgs>",
+                    "<compilerArgs>\n" + "                    <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>");
+
+            return true;
+        }
+        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
+        {
+            String pom = getPomFileContent();
+
+
+            return true;
+        }
+        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("groovy"))
+        {
+            String index = "<property>\n" +
+                    "                  <name>groovy.parameters</name>\n" +
+                    "                  <value>true</value>\n" +
+                    "                </property>";
+            String replace = index+"\n"+
+                    "                 <property>\n" +
+                    "                  <name>micronaut.openapi.views.spec</name>\n" +
+                    "                  <value>rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</value>\n" +
+                    "                </property>\n";
+
+            String pom = getPomFileContent().replace(index, replace);
+            GeneratorUtils.dumpContentToFile("pom.xml", pom);
+
+            return true;
+        }
+        return false;
+    }
+    public  static boolean addExposingSwaggerUIToGradle() throws FileNotFoundException {
+
+        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")) {
+            String gradleContent = getGradleFileContent().replace("options.encoding = \"UTF-8\"",
+                    "options.encoding = \"UTF-8\"\n" +
+                            "    options.fork = true\n" +
+                            "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n");
+
+            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+            return true;
+        }
+        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
+        {
+            String gradleContent = getGradleFileContent().replace("arguments {",
+                    "    arguments {\n" +
+                            "        arg(\"micronaut.openapi.views.spec\", \"redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop\")\n");
+            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+
+            return true;
+        }
+        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("groovy")){
+
+            String gradleContent = getGradleFileContent().replace("-Dgroovy.parameters=true", "-Dgroovy.parameters=true"+",micronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop");
+
+            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+            return true;
+        }
+            return false;
     }
     public static boolean addDependency(Feature... feature) throws IOException {
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
@@ -242,7 +325,7 @@ public class MicronautProjectValidator {
         }
 
         String content = GeneratorUtils.getFileContent(new File(mainFilePath));
-        content = content.replace(from, from+"\n"+annotations );
+        content = content.replace(from, from+"\n"+annotations );https://instagram.fdmm2-3.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/108193602_124165032685632_5795289934719882707_n.jpg?_nc_ht=instagram.fdmm2-3.fna.fbcdn.net&_nc_cat=100&_nc_ohc=g-gfAGEfYzYAX9l9FHG&oh=4fced48addfe0428edbdcd4340ab6c4b&oe=5F4BC600
 
         GeneratorUtils.dumpContentToFile(mainFilePath, content);
         return false;

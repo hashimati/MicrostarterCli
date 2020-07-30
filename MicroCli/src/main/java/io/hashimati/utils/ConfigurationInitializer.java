@@ -121,13 +121,18 @@ public class ConfigurationInitializer {
             }
 
         }
-        projectInfo.getFeatures().add("openapi");
-        MicronautProjectValidator.addDependency(features.get("openapi"));
+      if(!projectInfo.getFeatures().contains("openapi"))
+      {
+
+          projectInfo.getFeatures().add("openapi");
+          MicronautProjectValidator.addOpenapi();
+          MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
+
+      }
+    //MicronautProjectValidator.addDependency(features.get("openapi"));
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
-
-        MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
         MicronautProjectValidator.addLombok();
         configurationInfo.setProjectInfo(projectInfo);
 
