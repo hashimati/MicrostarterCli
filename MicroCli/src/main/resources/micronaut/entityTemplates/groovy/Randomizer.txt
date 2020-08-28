@@ -107,9 +107,25 @@ class Randomizer<T> {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            }else if(f.getType().isEnum())
+            {
+                try {
+                    String value = getEnumValues(f.getType())[0].name();
+                    f.set(t, Enum.valueOf((Class<Enum>) f.getType(),  value));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
             System.gc();
         }
         return t;
+    }
+
+    static <E extends Enum> E[] getEnumValues(Class<?> enumClass)
+            throws NoSuchFieldException, IllegalAccessException {
+        Field f = enumClass.getDeclaredField(enumClass.getDeclaredFields()[0].getName());
+        f.setAccessible(true);
+        Object o = f.get(null);
+        return (E[]) o;
     }
 }
