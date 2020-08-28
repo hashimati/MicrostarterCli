@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENUMS;
 
 
@@ -62,7 +64,21 @@ public class CreateEnumCommand implements Callable<Integer> {
                 put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                 put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
             }});
-            String outPutPath = System.getProperty("user.dir")+enumFilePath+"/"+name+".java";
+
+            String extension = ".java";
+            switch (configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase())
+            {
+                case GROOVY_LANG:
+                    extension= ".groovy";
+                    break;
+                case KOTLIN_LANG:
+                    extension = ".kt";
+                    break;
+                default:
+                    extension = ".java";
+                    break;
+            }
+            String outPutPath = System.getProperty("user.dir")+enumFilePath+"/"+name+extension;
 
 
             GeneratorUtils.createFile(outPutPath.replace("\\", "/"), micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase()));
