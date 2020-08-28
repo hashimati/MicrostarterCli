@@ -21,11 +21,11 @@ class ${className}ControllerTest {
     ${className} body;
     @Test
     void save() {
-        ${className} ${entityClass} = new ${className}();
-        ${entityClass}.setName("Ahmed");
-        ${entityClass}.age=23
-        HttpRequest<${className}> request = HttpRequest.POST("/save", ${className});
-        this.body = client.toBlocking().retrieve(request, ${className}.class);
+        ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance()
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName})
+        this.${entityName} = client.toBlocking().retrieve(request, ${className}.class)
+
+        this.body = client.toBlocking().retrieve(request, ${className}.class)
         assert body != null;
     }
 
