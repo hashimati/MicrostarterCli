@@ -1,0 +1,46 @@
+package ${controllerPackage}
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+
+import javax.inject.Inject
+import io.reactivex.Single
+import io.reactivex.Flowable
+import ${entityPackage}
+import ${servicePackage}
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller("/api/${entityName}")
+class ${className}Controller {
+
+   @Inject
+   lateinit var ${entityName}Service: ${className}Service
+
+    @Post("/save")
+    fun save(@Body ${entityName}:${className}):Single<${className}>
+    {
+        log.info("Saving ${className}: {}", ${entityName} )
+
+        return ${entityName}Service.save(${entityName})
+    }
+
+    @Get("/find")
+    fun findById(@Parameter("id")  id: String):Single<${className}> {
+        log.info("Finding ${className} by Id: {}", id)
+        return ${entityName}Service.findById(id)
+    }
+
+
+    @Get("/find/all")
+    fun findAll():Flowable<${className}>{
+        log.info("Finding All ${className}")
+        return ${entityName}Service.findAll()
+    }
+
+    companion object {
+            val log :Logger = LoggerFactory.getLogger(${className}Controller::class.java)
+        }
+}

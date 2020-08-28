@@ -1,0 +1,32 @@
+package ${clientPackage}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client;
+import javax.inject.Inject
+import io.reactivex.Flowable
+import io.reactivex.Single
+import ${entityPackage}
+
+
+@Client("/api/${entities}")
+interface ${classNameA}Client {
+
+    @Post("/save")
+    fun save(${entityName}:${classNameA}): Single<${className}>
+
+    @Get("/get")
+    fun findById(@Parameter("id") id:Long): Single<${className}>
+
+    @Delete("/delete/{id}")
+    fun deleteById(@PathVariable("id") id: Long): Boolean
+
+    @Get("/findAll")
+    fun findAll():Flowable<${className}>
+
+    @Put("/update")
+    fun update(@Body ${entityName}: ${className}):Single<${className}>
+}
+

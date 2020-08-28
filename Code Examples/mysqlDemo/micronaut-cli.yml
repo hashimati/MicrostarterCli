@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [app-name, data, data-jdbc, docker, file-watch, gradle, http-client, java, java-application, jdbc-hikari, junit, logback, mysql, netty-server, readme, shade, testcontainers, yaml]

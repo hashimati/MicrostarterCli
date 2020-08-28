@@ -1,0 +1,75 @@
+package ${defaultPackage}.controllers
+
+import ${defaultPackage}.domains.${className}
+import ${defaultPackage}.utils.Randomizer
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.client.RxHttpClient
+import io.micronaut.http.client.annotation.Client
+import io.micronaut.test.annotation.MicronautTest
+import org.junit.jupiter.api.Test
+
+import javax.inject.Inject
+
+
+@MicronautTest
+class ${className}ControllerTest {
+
+    @Inject
+    @Client("/api/${entityClass}")
+    RxHttpClient client;
+
+    ${className} body;
+    @Test
+    void save() {
+        ${className} ${entityClass} = new ${className}();
+        ${entityClass}.setName("Ahmed");
+        ${entityClass}.age=23
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${className});
+        this.body = client.toBlocking().retrieve(request, ${className}.class);
+        assert body != null;
+    }
+
+    @Test
+    void findById() {
+
+
+        save();
+        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.body.getId());
+        ${className} body = client.toBlocking().retrieve(request, ${className}.class);
+        assert body != null
+        assert body.getId() == this.body.getId();
+    }
+
+    @Test
+    void deleteById() {
+        save();
+        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.body.id);
+
+        Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+
+        println body
+        assert body.booleanValue()== true;
+
+    }
+
+    @Test
+    void findAll() {
+
+        save();
+        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        System.out.println(list);
+        assert list != null;
+
+    }
+
+    @Test
+    void update() {
+        save();
+        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body);
+
+        ${className} ${entityClass} = client.toBlocking().retrieve(request, ${className}.class);
+        assert ${entityClass} != null;
+
+    }
+}

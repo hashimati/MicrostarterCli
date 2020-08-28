@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati.audiostreamer
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [app-name, asciidoctor, data, data-jdbc, docker, file-watch, gradle, h2, http-client, java, java-application, jdbc-hikari, junit, logback, mongo-reactive, mongo-sync, netty-server, readme, shade, views-thymeleaf, yaml]

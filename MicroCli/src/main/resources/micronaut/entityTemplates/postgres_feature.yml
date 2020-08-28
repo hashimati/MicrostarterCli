@@ -1,0 +1,4 @@
+description: Postgres JDBC Driver
+dependencies:
+  - scope: compile
+    coords: org.postgresql:postgresql:42.2.11

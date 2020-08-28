@@ -1,0 +1,49 @@
+package ${controllerPackage}
+
+
+import javax.inject.Inject
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.reactivex.Flowable
+import io.reactivex.Single
+import javax.inject.Inject
+
+import ${entityPackage}
+import ${servicePackage}
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller("/api/${entityName}")
+class ${className}Controller {
+
+    static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
+    @Inject
+    ${className}Service ${entityName}Service
+
+
+
+    @Post("/save")
+    Single<${className}> save(@Body ${className} ${entityName})
+    {
+        log.info("Saving  ${className} : {}", ${entityName});
+
+        //TODO: enter your logic here before saving.
+        return ${entityName}Service.save(${entityName})
+    }
+    @Get("/find")
+    Single<${className}> findById(@Parameter("id") String id)
+    {
+            log.info("Finding ${className} By Id: {}", id);
+
+            return ${entityName}Service.findById(id)
+    }
+
+    @Get("/find/all")
+    Flowable<${className}> findAll()
+    {
+            log.info("Finding all ${className}");
+            return ${entityName}Service.findAll()
+    }
+}

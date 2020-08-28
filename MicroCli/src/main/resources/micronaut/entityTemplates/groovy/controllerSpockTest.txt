@@ -1,0 +1,90 @@
+package ${defaultPackage}.controllers
+
+import ${defaultPackage}.domains.${className}
+import ${defaultPackage}.utils.Randomizer
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.client.RxHttpClient
+import io.micronaut.http.client.annotation.Client
+import io.micronaut.runtime.EmbeddedApplication
+import io.micronaut.test.annotation.MicronautTest
+import spock.lang.Specification
+
+import javax.inject.Inject
+
+@MicronautTest
+class ${className}ControllerTest extends Specification{
+
+
+    @Inject
+    EmbeddedApplication application
+
+
+    @Inject
+    @Client("/api/${entityName}")
+    RxHttpClient client;
+
+
+    ${className} body;
+
+    def saving()
+    {
+        ${className} ${entityName} = new Randomizer<${className}>( ${className}.class).getRandomInstance();;
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName});
+        this.body = client.toBlocking().retrieve(request, ${className}.class);
+    }
+
+
+    def 'testing saving ${entityName}'() {
+        saving()
+        expect:
+        this.body != null;
+    }
+
+
+    def 'test finding ${entityName} by Id'() {
+        saving()
+
+        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.body.getId());
+        ${className} body = client.toBlocking().retrieve(request, ${className}.class);
+
+        expect:
+        body.getId() == this.body.getId();
+    }
+//
+//
+    def 'test deleting ${entityName} by id'() {
+        saving();
+        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.body.id);
+
+        Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+
+        println body
+        expect:
+        body.booleanValue()== true;
+
+    }
+
+
+    void 'test finding all'() {
+
+        saving();
+        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        System.out.println(list);
+        expect:
+        list != null;
+
+    }
+
+
+    void 'test updating ${entityName}'() {
+        saving();
+        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body);
+
+        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        expect:
+        ${entityName} != null;
+
+    }
+}
+

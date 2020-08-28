@@ -1,0 +1,79 @@
+{
+  "projectInfo": {
+    "applicationType": "default",
+    "defaultPackage": "io.hashimati",
+    "testFramework": "kotlintest",
+    "sourceLanguage": "java",
+    "buildTool": "gradle",
+    "features": [
+      "annotation-api",
+      "app-name",
+      "docker",
+      "file-watch",
+      "gradle",
+      "http-client",
+      "java",
+      "java-application",
+      "kotlintest",
+      "logback",
+      "netty-server",
+      "readme",
+      "shade",
+      "yaml",
+      "data-jdbc",
+      "h2",
+      "liquibase",
+      "openapi"
+    ]
+  },
+  "appName": "javawithKotlintest",
+  "databaseName": "MyDatabase",
+  "databaseType": "H2",
+  "dataBackendRun": "JDBC",
+  "dataMigrationTool": "liquibase",
+  "entities": [
+    {
+      "name": "Order",
+      "entityPackage": "io.hashimati.domains",
+      "repoPackage": "io.hashimati.repositories",
+      "servicePackage": "io.hashimati.services",
+      "restPackage": "io.hashimati.controllers",
+      "clientPackage": "io.hashimati.clients",
+      "databaseType": "H2",
+      "collectionName": "orders",
+      "databaseName": "MyDatabase",
+      "frameworkType": "JDBC",
+      "attributes": [
+        {
+          "name": "qoute",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false
+        },
+        {
+          "name": "dealer",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false
+        },
+        {
+          "name": "side",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "enums": []
+}

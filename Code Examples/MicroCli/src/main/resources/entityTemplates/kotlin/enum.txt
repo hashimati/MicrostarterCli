@@ -1,0 +1,6 @@
+package ${enumPackage}
+
+
+enum class ${className} {
+    ${options}
+}

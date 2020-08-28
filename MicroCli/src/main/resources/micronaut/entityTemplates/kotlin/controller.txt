@@ -1,0 +1,55 @@
+package ${controllerPackage}
+
+import io.micronaut.http.annotation.*
+import ${entityPackage}
+import ${servicePackage}
+import javax.inject.Inject;
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+@Controller("/api/${entities}")
+class ${className}Controller {
+
+
+    @Inject
+    lateinit var ${entityName}Service: ${className}Service
+
+    @Post("/save")
+    fun save(@Body ${entityName}: ${className}):  ${className} {
+
+        log.info("Saving ${className} :{}", ${entityName})
+        return ${entityName}Service.save(${entityName})
+    }
+
+
+    @Get("/get")
+    fun findById(id:Long): ${className} {
+        log.info("Finding ${className}: {}", id )
+        return ${entityName}Service.findById(id)
+    }
+
+    @Delete("/delete/{id}")
+    fun deleteById(id:Long): Boolean {
+        log.info("Deleting ${className}: {}", id)
+        return  ${entityName}Service.deleteById(id)
+    }
+
+    @Get("/findAll")
+    fun findAll():Iterable<${className}>{
+        log.info("find All")
+        return ${entityName}Service.findAll()
+    }
+
+    @Put("/update")
+    fun update(@Body ${entityName}: ${className}):${className}
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Service.update(${entityName})
+
+    }
+    companion object {
+            val log :Logger = LoggerFactory.getLogger(${className}Controller::class.java)
+        }
+ }

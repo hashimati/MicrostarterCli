@@ -1,0 +1,99 @@
+package ${controllerPackage};
+
+
+import javax.inject.Inject;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.http.annotation.*;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import javax.inject.Inject;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import ${entityPackage};
+import ${servicePackage};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller("/api/${entityName}")
+public class ${className}Controller {
+
+    private static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
+
+    @Inject
+    private ${className}Service ${entityName}Service ;
+
+
+
+    @Post("/save")
+    @Operation(summary = "Creating a ${entityName} and Storing in the database",
+            description = "A REST service, which saves ${className} objects to the database."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not stored")
+    public Single<${className}> save(@Body ${className} ${entityName})
+    {
+        log.info("Saving  ${className} : {}", ${entityName});
+        //TODO: enter your logic here before saving.
+        return ${entityName}Service.save(${entityName});
+    }
+
+    @Get("/get")
+    @Operation(summary = "Getting a ${entityName} by Id",
+        description = "A REST service, which retrieves a ${className} object by Id."
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public Single<${className}> findById(@Parameter("id") String id)
+    {
+            log.info("Finding ${className} By Id: {}", id);
+            return ${entityName}Service.findById(id);
+    }
+
+    @Get("/findAll")
+    @Operation(summary = "Retrieving all ${entityName} objects as Json",
+            description = "A REST service, which returns all ${className} objects from the database."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    public Flowable<${className}> findAll()
+    {
+            log.info("Finding All ${className}");
+            return ${entityName}Service.findAll();
+    }
+
+    @Delete("/delete/{id}")
+    @Operation(summary = "Deleting a ${entityName} by ID",
+            description = "A REST service, which deletes ${className} object from the database."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "boolean")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public Single<Boolean> deleteById(@PathVariable("id") String id){
+        log.info("Deleting ${className} by Id: {}", id);
+        return  ${entityName}Service.deleteById(id);
+    }
+
+    @Put("/update")
+    @Operation(summary = "Updating a ${entityName}.",
+            description = "A REST service, which update a ${className} objects to the database."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public Single<${className}> update(@Body ${className} ${entityName}) {
+        log.info("update {}", ${entityName});
+        return ${entityName}Service.update(${entityName});
+    }
+}

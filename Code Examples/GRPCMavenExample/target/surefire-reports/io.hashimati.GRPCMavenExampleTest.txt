@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.hashimati.GRPCMavenExampleTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.319 s - in io.hashimati.GRPCMavenExampleTest

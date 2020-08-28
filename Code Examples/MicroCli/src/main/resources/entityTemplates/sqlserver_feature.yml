@@ -1,0 +1,4 @@
+description: SQL Server JDBC
+dependencies:
+  - scope: compile
+    coords: com.microsoft.sqlserver:mssql-jdbc:8.2.2.jre${javaversion}

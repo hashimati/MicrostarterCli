@@ -1,0 +1,4 @@
+datasources:
+  default:
+    url: jdbc:tc:sqlserver:2019-CU4-ubuntu-16.04://databaseName=tempdb
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver

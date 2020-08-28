@@ -1,0 +1,13 @@
+package ${entityRepositoryPackage}
+
+import ${importEntity}
+import io.micronaut.data.annotation.*
+import io.micronaut.data.model.*
+import io.micronaut.data.annotation.Repository
+import io.micronaut.data.repository.CrudRepository
+import java.util.Optional
+
+@Repository
+interface ${className}Repository:CrudRepository<${className}, Long> {
+    ${methods}
+}

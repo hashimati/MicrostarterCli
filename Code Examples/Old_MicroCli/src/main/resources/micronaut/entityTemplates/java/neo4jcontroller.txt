@@ -1,0 +1,42 @@
+package ${controllerPackage};
+
+
+import javax.inject.Inject;
+
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.http.annotation.*;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import javax.inject.Inject;
+
+import ${entityPackage};
+import ${servicePackage};
+
+
+@Controller("/api/${entityName}s")
+public class ${className}Controller {
+
+    @Inject
+    private ${className}Service ${entityName}Service ;
+
+
+
+    @Post("/save")
+    public Single<${className}> save(@Body ${className} ${entityName})
+    {
+
+        //TODO: enter your logic here before saving.
+        return ${entityName}Service.save(${entityName});
+    }
+    @Get("/find")
+    public Single<${className}> findById(@Parameter("id") String id)
+    {
+            return ${entityName}Service.findById(id);
+    }
+
+    @Get("/find/all")
+    public Flowable<${className}> findAll()
+    {
+            return ${entityName}Service.findAll();
+    }
+}

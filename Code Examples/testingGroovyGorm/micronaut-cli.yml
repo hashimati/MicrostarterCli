@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati.gorm
+testFramework: junit
+sourceLanguage: groovy
+buildTool: gradle
+features: [annotation-api, app-name, docker, file-watch, gradle, groovy, groovy-application, h2, hibernate-gorm, hibernate-validator, http-client, junit, logback, mongo-gorm, mongo-reactive, netty-server, readme, shade, yaml]

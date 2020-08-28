@@ -1,0 +1,73 @@
+package ${entityRepositoryPackage};
+
+import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoClients;
+import com.mongodb.reactivestreams.client.MongoCollection;
+
+import ${entityPackage}.${entityClass};
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import org.bson.BsonDocument;
+import org.bson.BsonString;
+
+import javax.inject.Singleton;
+
+@Singleton
+public class ${entityClass}Repository {
+
+    private final MongoClient mongoClient;
+    public ${entityClass}Repository(MongoClient mongoClient){
+
+        this.mongoClient = mongoClient;
+
+    }
+
+    private MongoCollection<${entityClass}> getCollection()
+    {
+
+        return mongoClient.getDatabase("${databaseName}")
+                .getCollection("${collectionName}", ${entityClass}.class);
+    }
+
+    private Single<${entityClass}> findAsSingle(BsonDocument query)
+    {
+        return Single
+                .fromPublisher(getCollection()
+                        .find(query));
+    }
+
+    private Flowable<${entityClass}> findAsFlowable(BsonDocument query)
+    {
+        return Flowable
+                .fromPublisher(getCollection()
+                        .find(query));
+    }
+
+
+    public Single<${entityClass}> save(${entityClass} object)
+    {
+
+        return Single.fromPublisher(getCollection().insertOne(object)
+        ).map(success ->object);
+    }
+
+    public Flowable<${entityClass}> findAll()
+    {
+        return Flowable.fromPublisher(getCollection().find());
+    }
+
+    public Single<${entityClass}> findById(final String id){
+        final BsonDocument document = new BsonDocument();
+        document.append("_id", new BsonString(id));
+        return findAsSingle(document);
+    }
+
+    public Single<Boolean> deleteById(String id) {
+        BsonDocument document = new BsonDocument();
+        document.append("_id", new BsonString(id));
+        return Single.fromPublisher(getCollection().deleteOne(document))
+        .map(success->Boolean.TRUE)
+        .onErrorReturn(faile->Boolean.FALSE);
+	}
+
+}

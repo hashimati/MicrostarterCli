@@ -1,0 +1,6 @@
+ <column name="${columnName}" type="${dataType}" ${autoIncrement? 'autoIncrement="true"':''}>
+        <constraints nullable="${nullable}" unique="${unique}" primaryKey="${primaryKey}" <%if(primary) out.print
+        "primaryKeyName=\"pk_${columnName}\""%> <#if(foreign) out.print ""#>/>
+ </column>
+
+

@@ -1,0 +1,69 @@
+package ${defaultPackage}.controllers;
+
+import ${defaultPackage}.domains.${className};
+import ${defaultPackage}.utils.Randomizer;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.test.annotation.MicronautTest;
+import org.junit.jupiter.api.Test;
+
+import javax.inject.Inject;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@MicronautTest
+class ${className}ControllerTest {
+
+    @Inject
+    @Client("/api/${entityName}")
+    RxHttpClient client;
+
+    ${className} ${entityName};
+
+
+
+    @Test
+    void save() throws InstantiationException, IllegalAccessException {
+        ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance();
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName});
+        this.${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        assertNotNull(${entityName});
+    }
+
+    @Test
+    void findById() throws InstantiationException, IllegalAccessException {
+        save();
+        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.${entityName}.getId());
+        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        assertNotNull(${entityName});
+        assertEquals(${entityName}.getId() , this.${entityName}.getId());
+    }
+
+    @Test
+    void deleteById() throws InstantiationException, IllegalAccessException{
+        save();
+        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.${entityName}.getId());
+        Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+        assertTrue(body.booleanValue());
+    }
+
+    @Test
+    void findAll() throws InstantiationException, IllegalAccessException{
+
+        save();
+        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        System.out.println(list);
+        assertNotNull(list);
+
+    }
+
+    @Test
+    void update() throws InstantiationException, IllegalAccessException{
+        save();
+        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.${entityName});
+        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        assertNotNull(${entityName});
+    }
+}

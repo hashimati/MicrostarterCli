@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: testingwithKarate
+  server:
+    port: 9090

@@ -1,0 +1,4 @@
+description: MySQl JDBC Driver
+dependencies:
+  - scope: compile
+    coords: mysql:mysql-connector-java:8.0.19

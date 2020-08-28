@@ -1,0 +1,5 @@
+package ${enumPackage};
+
+public enum ${className} {
+    ${options}
+}

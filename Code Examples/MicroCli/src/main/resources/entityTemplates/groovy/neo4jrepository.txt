@@ -1,0 +1,72 @@
+package ${entityRepositoryPackage}
+
+import com.mongodb.reactivestreams.client.MongoClient
+import com.mongodb.reactivestreams.client.MongoClients
+import com.mongodb.reactivestreams.client.MongoCollection
+
+import ${entityPackage}.${entityClass}
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import org.bson.BsonDocument;
+import org.bson.BsonString;
+
+import javax.inject.Singleton;
+
+@Singleton
+class ${entityClass}Repository {
+
+    @Inject
+    MongoClient mongoClient
+
+    MongoCollection<${entityClass}> getCollection()
+    {
+
+        return mongoClient.getDatabase("${databaseName}")
+                .getCollection("${collectionName}", ${entityClass}.class)
+    }
+
+    Single<${entityClass}> findAsSingle(BsonDocument query)
+    {
+        return Single
+                .fromPublisher(getCollection()
+                        .find(query))
+    }
+
+    Flowable<${entityClass}> findAsFlowable(BsonDocument query)
+    {
+        return Flowable
+                .fromPublisher(getCollection()
+                        .find(query))
+    }
+
+
+    Single<${entityClass}> save(${entityClass} object)
+    {
+
+        return Single.fromPublisher(getCollection().insertOne(object)
+        ).map(success ->object)
+    }
+
+    Flowable<${entityClass}> findAll()
+    {
+
+        return Flowable.fromPublisher(getCollection().find())
+    }
+
+    Single<${entityClass}> findById(final String id){
+        final BsonDocument document = new BsonDocument();
+        document.append("_id", new BsonString(id));
+        return findAsSingle(document)
+    }
+
+
+    Single<Boolean> deleteById(String id) {
+        BsonDocument document = new BsonDocument();
+        document.append("_id", new BsonString(id));
+        return Single.fromPublisher(getCollection().deleteOne(document))
+        .map(success->Boolean.TRUE)
+        .onErrorReturn(faile->Boolean.FALSE)
+
+	}
+
+}

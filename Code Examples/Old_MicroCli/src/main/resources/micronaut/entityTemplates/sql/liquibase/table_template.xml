@@ -1,0 +1,5 @@
+<createTable tableName="${tableName}"
+             remarks="A table to contain all ${tableName}">
+
+   ${columns}
+</createTable>

@@ -1,0 +1,48 @@
+package ${servicePackage}
+
+import javax.inject.Inject
+import javax.inject.Singleton
+import ${entityPackage}
+import ${repoPackage}
+import io.reactivex.Single
+import io.reactivex.Flowable
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.inject.Inject
+
+@Singleton
+class ${className}Service {
+
+
+   static final Logger log = LoggerFactory.getLogger(${className}Service.class);
+
+    @Inject ${className}Repository ${entityName}Repository
+
+	Single<${className}> save(${className} ${entityName}) {
+
+        log.info("Saving  ${className} : {}", ${entityName});
+
+        //TODO insert your logic here!
+        //saving Object
+
+        return ${entityName}Repository.save(${entityName})
+    }
+
+    Single<${className}> findById(String id){
+        log.info("Finding ${className} By Id: {}", id);
+        return ${entityName}Repository.findById(id)
+    }
+
+    Flowable<${className}> findAll(){
+
+            log.info("Finding all ${className}");
+            return ${entityName}Repository.findAll()
+    }
+
+    Single<Boolean> deleteById(String id) {
+
+        log.info("Deleting ${className} By Id: {}", id);
+        return ${entityName}Repository.deleteById(id)
+	}
+}

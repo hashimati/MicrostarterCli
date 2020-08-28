@@ -1,0 +1,1 @@
+CONSTRAINT ${name} ${constraintType} (${attribute}) REFERENCES ${entity}(id)

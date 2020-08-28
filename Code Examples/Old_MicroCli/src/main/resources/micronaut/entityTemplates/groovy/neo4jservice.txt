@@ -1,0 +1,37 @@
+package ${servicePackage}
+
+import javax.inject.Inject
+import javax.inject.Singleton
+import javax.transaction.Transactional
+import ${entityPackage}
+import ${servicePackage}
+import io.reactivex.Single
+import io.reactivex.Flowable
+
+
+@Singleton
+class ${className}Service {
+
+
+    @Inject ${className}Repository ${entityName}Repository
+
+	Single<${className}> save(${className} ${entityName}) {
+
+        //TODO insert your logic here!
+        //saving Object
+
+        return ${entityName}Repository.save(${entityName})
+    }
+
+    Single<${className}> findById(String id){
+        return ${entityName}Repository.findById(id)
+    }
+
+    Flowable<${className}> findAll(){
+            return ${entityName}Repository.findAll()
+    }
+
+    Single<Boolean> deleteById(String id) {
+	    return ${entityName}Repository.deleteById(id)
+	}
+}

@@ -1,0 +1,9 @@
+package ${exceptionPackage};
+
+public class ${className}GeneralException extends RuntimeException {
+    private String message;
+    public ${className}GeneralException(String message)
+    {
+        super(message);
+    }
+}

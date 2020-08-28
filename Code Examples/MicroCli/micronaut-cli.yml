@@ -1,0 +1,6 @@
+applicationType: cli
+defaultPackage: io.hashimati.microcli
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, docker, file-watch, graalvm, gradle, java, junit, logback, picocli, picocli-java-application, picocli-junit, readme, shade, yaml]
