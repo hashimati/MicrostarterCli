@@ -7,6 +7,7 @@ package ${packageName}.utils;
  */
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,12 +21,12 @@ public class Randomizer<T> {
         this.tClass = t;
         this.rnd = new Random();
     }
-    public T getRandomInstance() throws  IllegalAccessException, InstantiationException {
+    public T getRandomInstance() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
         T t = this.tClass.newInstance();
         List<Field> fields  = Arrays.asList(tClass.getDeclaredFields())
                 .stream().filter(f-> (!f.getName().equalsIgnoreCase("id")
-                        && !f.getName().equalsIgnoreCase("datecreated")
-                        && !f.getName().equalsIgnoreCase("dateupdated")))
+                && !f.getName().equalsIgnoreCase("datecreated")
+                && !f.getName().equalsIgnoreCase("dateupdated")))
                 .collect(Collectors.toList());
         for (Field f : fields) {
             f.setAccessible(true);
@@ -50,14 +51,14 @@ public class Randomizer<T> {
                     e.printStackTrace();
                 }
             } else if (Date.class.equals(f.getType())){
-                  try{
-                      f.set(t, new Date());
+                try{
+                    f.set(t, new Date());
 
-                  }
-                  catch(IllegalAccessException e)
-                  {
+                }
+                catch(IllegalAccessException e)
+                {
                     e.printStackTrace();
-                  }
+                }
             } else if (Character.TYPE.equals(f.getType())) {
                 try {
                     f.setChar(t, (char) rnd.nextInt(100));
@@ -107,8 +108,24 @@ public class Randomizer<T> {
                     e.printStackTrace();
                 }
             }
+            else if(f.getType().isEnum())
+            {
+                try {
+                    String value = getEnumValues(f.getType())[0].name();
+                    f.set(t, Enum.valueOf((Class<Enum>) f.getType(),  value));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
             System.gc();
         }
         return t;
+    }
+    private static <E extends Enum> E[] getEnumValues(Class<?> enumClass)
+            throws NoSuchFieldException, IllegalAccessException {
+        Field f = enumClass.getDeclaredField("$VALUES");
+        f.setAccessible(true);
+        Object o = f.get(null);
+        return (E[]) o;
     }
 }
