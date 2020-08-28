@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ${className}ControllerTest {
 
     @Inject
-    @Client("/api/${entityClass}")
+    @Client("/api/${entityName}")
     RxHttpClient client;
 
     ${className} body;
@@ -23,7 +23,7 @@ class ${className}ControllerTest {
     void save() {
         ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance()
         HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName})
-        this.${entityName} = client.toBlocking().retrieve(request, ${className}.class)
+        this.body = client.toBlocking().retrieve(request, ${className}.class)
 
         this.body = client.toBlocking().retrieve(request, ${className}.class)
         assert body != null;
@@ -68,8 +68,8 @@ class ${className}ControllerTest {
         save();
         HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body);
 
-        ${className} ${entityClass} = client.toBlocking().retrieve(request, ${className}.class);
-        assert ${entityClass} != null;
+        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        assert ${entityName} != null;
 
     }
 }
