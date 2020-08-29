@@ -123,7 +123,7 @@ public class Randomizer<T> {
     }
     private static <E extends Enum> E[] getEnumValues(Class<?> enumClass)
             throws NoSuchFieldException, IllegalAccessException {
-        Field f = enumClass.getDeclaredField("$VALUES");
+        Field f = enumClass.getDeclaredField(enumClass.getDeclaredFields()[0].getName());
         f.setAccessible(true);
         Object o = f.get(null);
         return (E[]) o;
