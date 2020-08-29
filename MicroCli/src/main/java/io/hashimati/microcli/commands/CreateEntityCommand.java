@@ -332,19 +332,22 @@ extension, serviceFileContent);
 
             //========
             String controllertest = micronautEntityGenerator.generateTestController(entity, lang, configurationInfo.getProjectInfo().getTestFramework());
+            String langDir = configurationInfo.getProjectInfo().getSourceLanguage();
             switch (configurationInfo.getProjectInfo().getTestFramework().toLowerCase())
             {
                 case "spock":
                     extension = ".groovy";
+                    langDir = "groovy";
                     break;
                 case "kotlintest":
                     extension = ".kt";
+                    langDir = "kotlin";
                     break;
                 default:
                     extension = extension;
                     break;
             }
-            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/test/"+configurationInfo.getProjectInfo().getSourceLanguage()+"/"+GeneratorUtils.packageToPath(entity.getRestPackage()) +"/"+ entity.getName()+"ControllerTest"+extension, controllertest);
+            GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/test/"+langDir+"/"+GeneratorUtils.packageToPath(entity.getRestPackage()) +"/"+ entity.getName()+"ControllerTest"+extension, controllertest);
 
 
 
