@@ -1,0 +1,15 @@
+package ${package}
+
+
+import io.micronaut.configuration.kafka.annotation.KafkaClient
+import io.micronaut.configuration.kafka.annotation.Topic
+import io.micronaut.messaging.annotation.Body
+${importMessage}
+
+
+@KafkaClient
+interface ${className} {
+
+    @Topic("${topic}")
+    fun send(@Body message:${Message})
+}
