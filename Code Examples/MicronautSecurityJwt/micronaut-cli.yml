@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: io.hashimati.micronautsecurityjwt
+---
+testFramework: junit
+sourceLanguage: java

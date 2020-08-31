@@ -1,0 +1,70 @@
+micronaut:
+  application:
+    name: MicronautSecurityJwt
+  server:
+    port: 9090
+
+
+---
+micronaut:
+  views:
+    thymeleaf:
+      enabled: true
+
+---
+micronaut:
+  router:
+    static-resources:
+      default:
+        mapping: "/**"
+      '*':
+        paths:
+        - "classpath:static"
+
+---
+
+micronaut:
+  security:
+    enabled: true
+    endpoints:
+      login:
+        enabled: true
+      oauth:
+        enabled: true
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          secret:
+            generator:
+              secret: "${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"
+      # header and propegation information
+      writer:
+        header:
+          enabled: true
+          header-name: "Authorization"
+          prefix: "Bearer "
+      propagation:
+        enabled: true
+        service-id-regex:
+---
+
+datasources:
+  default:
+    url: jdbc:mariadb://127.0.0.1:3306/HelloWorldDB
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
+    password: 'Hello@1234'
+    dialect: MYSQL
+
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+---
+
+datasources.default: {}

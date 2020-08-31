@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: io.hashimati.micronautsecurityjwtgroovy
+---
+testFramework: spock
+sourceLanguage: groovy
