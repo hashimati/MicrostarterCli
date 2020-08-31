@@ -1,0 +1,22 @@
+package ${package};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import io.micronaut.configuration.kafka.annotation.KafkaListener;
+import io.micronaut.configuration.kafka.annotation.Topic;
+import io.micronaut.messaging.annotation.Body;
+${importMessage}
+
+@KafkaListener(groupId = "${groupId}")
+public class ${className} {
+
+    private static final Logger log= LoggerFactory.getLogger(${className}.class);
+
+    @Topic("${topic}")
+    public void receive(@Body ${Message} message)
+    {
+        log.info("Received {}", message);
+    }
+}
