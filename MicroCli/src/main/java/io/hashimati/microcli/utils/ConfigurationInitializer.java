@@ -8,6 +8,8 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.TemplatesService;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,6 +20,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static io.hashimati.microcli.services.TemplatesService.OPENAPI_yml;
+import static io.hashimati.microcli.utils.PromptGui.*;
+import static org.fusesource.jansi.Ansi.Color.*;
 
 
 @Singleton
@@ -49,7 +53,7 @@ public class ConfigurationInitializer {
 
         if(!MicronautProjectValidator.isValidProject())
         {
-            System.out.println("The current directory is not a directory of Micronaut proejct");
+            printlnErr("The current directory is not a directory of Micronaut proejct");
             System.exit(0);
         }
         File file = new File("MicroCliConfig.json");
@@ -232,8 +236,8 @@ public class ConfigurationInitializer {
         //System.out.println(configurationInfo);
         configurationInfo.writeToFile();
 
-        System.out.println("micrnaut-cli.yml file has been updated");
-        System.out.println("Configuration file has been created!");
+        printlnSuccess("micrnaut-cli.yml file has been updated");
+        printlnSuccess("Configuration file has been created!");
     }
 
 }
