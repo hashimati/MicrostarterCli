@@ -6,7 +6,7 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 
 
-@Client("${map}")
+@Client(id ="${service-id}")
 public interface ${className} {
 
 }
