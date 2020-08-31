@@ -8,6 +8,8 @@ import picocli.CommandLine.Command;
 
 import java.util.concurrent.Callable;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 @Command(name = "configure", description = "To create the configuration file.")
 public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
@@ -18,6 +20,8 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
     public ConfigurationInfo call() throws Exception {
 
         AnsiConsole.systemInstall();
+        ansi().eraseScreen();
+
 //        Terminal terminal = TerminalBuilder
 //                .builder()
 //                .system(true)
