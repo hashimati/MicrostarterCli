@@ -1,0 +1,15 @@
+package ${servicePackage}
+
+
+import javax.inject.Inject
+import javax.inject.Singleton
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Singleton
+class ${className} {
+
+      companion object {
+            val log :Logger = LoggerFactory.getLogger(${className}::class.java)
+        }
+ }
