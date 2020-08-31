@@ -46,6 +46,7 @@ public class AddAttributeCommand implements Callable<Integer> {
 
 
         AnsiConsole.systemInstall();
+
         ConfigurationInfo configurationInfo =ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
 
         if(configurationInfo.getEntities().isEmpty())
