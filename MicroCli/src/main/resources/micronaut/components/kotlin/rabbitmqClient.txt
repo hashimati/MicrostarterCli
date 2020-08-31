@@ -1,0 +1,13 @@
+package ${package};
+
+
+${importMessage}
+import io.micronaut.rabbitmq.annotation.Binding;
+import io.micronaut.rabbitmq.annotation.RabbitClient;
+
+@RabbitClient
+interface ${className} {
+
+    @Binding("${queueName}")
+    fun sendOrder(message:${Message});
+}
