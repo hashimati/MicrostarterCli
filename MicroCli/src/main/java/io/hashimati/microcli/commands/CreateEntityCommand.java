@@ -12,6 +12,7 @@ import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -27,6 +28,10 @@ import java.util.stream.Collectors;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
+import static io.hashimati.microcli.utils.PromptGui.println;
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.ansi;
 
 @Command(name = "create-entity", aliases ={"entity"}, description = "To create a new entity")
 public class CreateEntityCommand implements Callable<Integer> {
@@ -58,7 +63,8 @@ public class CreateEntityCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
         AnsiConsole.systemInstall();
-
+        org.fusesource.jansi.AnsiConsole.systemInstall();
+        ansi().eraseScreen();
         try
         {
            // To get the current configuration and to configure the project if it's not previously configured.
@@ -362,7 +368,8 @@ extension, serviceFileContent);
         catch(Exception ex)
         {
             ex.printStackTrace();
-            System.out.println("The \"-m\" parameter should be of type \"integer\"");
+            println("Failed to create entity!", RED);
+
             return (-1);
         }
 
