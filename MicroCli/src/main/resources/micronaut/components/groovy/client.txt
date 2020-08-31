@@ -1,0 +1,14 @@
+package ${package}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client;
+
+
+@Client("${map}")
+interface ${className} {
+
+}
+

@@ -51,5 +51,5 @@ class ${className}Controller {
     }
     companion object {
             val log :Logger = LoggerFactory.getLogger(${className}Controller::class.java)
-        }
+    }
  }
