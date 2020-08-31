@@ -1,0 +1,16 @@
+package ${package};
+
+
+${importMessage}
+import io.micronaut.rabbitmq.annotation.Queue;
+import io.micronaut.rabbitmq.annotation.RabbitListener;
+
+@RabbitListener
+class ${className} {
+
+    @Queue("${queueName}")
+    fun receive(message: ${Message})
+    {
+        System.out.println(message);
+    }
+}
