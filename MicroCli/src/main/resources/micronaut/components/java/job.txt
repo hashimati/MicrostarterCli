@@ -1,0 +1,22 @@
+package ${package};
+
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.micronaut.scheduling.annotation.Scheduled;
+import io.micronaut.retry.annotation.Retryable;
+
+
+@Singleton
+public class ${className} {
+    private static final Logger log = LoggerFactory.getLogger(${className}.class);
+
+
+    @Scheduled(fixedRate = "5m")
+    @Retryable(attempts = "5")
+    public void message() {
+        log.info("message");
+    }
+}
