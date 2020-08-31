@@ -42,7 +42,18 @@ public class TemplatesService {
             SERVICE = "service",
             CONTROLLER_UNIT_TEST = "controller_unit",
             CONTROLLER_SPOCK_TEST = "controller_spock",
-            CONTROLLER_KOTLIN_TEST = "controller_kotlintest";
+            CONTROLLER_KOTLIN_TEST = "controller_kotlintest",
+            //COMP is stands for Component.
+            COMP_CONTROLLER = "comp_controller",
+            COMP_Singleton = "comp_singleton",
+            COMP_CLIENT = "comp_client",
+            COMP_JOB= "comp_job",
+            RABBITMQ_CLIENT = "rabbitMQ_client",
+            RABBITMQ_LISTENER = "rabbitMQ_listener",
+            KAFKA_CLIENT = "kafka_client",
+            KAFKA_LISTENER = "kafaka_listener";
+
+
 
     public static String ATTRIBUTE = "attribute",
     CONSTRAINT  ="constraint",
@@ -93,6 +104,16 @@ public class TemplatesService {
         javaTemplates.put(SERVICE, "micronaut/entityTemplates/java/service.txt");
         javaTemplates.put(RANDOMIZER,  "micronaut/entityTemplates/java/Randomizer.txt");
         javaTemplates.put(CONTROLLER_UNIT_TEST,  "micronaut/entityTemplates/java/controllerJunitTest.txt");
+        javaTemplates.put(COMP_CONTROLLER,"micronaut/components/java/controller.txt");
+        javaTemplates.put(COMP_Singleton,"micronaut/components/java/Service.txt");
+        javaTemplates.put(COMP_JOB,"micronaut/components/java/job.txt");
+        javaTemplates.put(COMP_CLIENT,"micronaut/components/java/client.txt");
+        javaTemplates.put(RABBITMQ_CLIENT,"micronaut/components/java/rabbitmqClient.txt");
+        javaTemplates.put(RABBITMQ_LISTENER,"micronaut/components/java/rabbitmqConsumer.txt");
+        javaTemplates.put(KAFKA_CLIENT,"micronaut/components/java/kafkaClient.txt");
+        javaTemplates.put(KAFKA_LISTENER,"micronaut/components/java/kafkaConsumer.txt");
+
+
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -113,6 +134,16 @@ public class TemplatesService {
         groovyTemplates.put(RANDOMIZER,  "micronaut/entityTemplates/groovy/Randomizer.txt");
         groovyTemplates.put(CONTROLLER_UNIT_TEST,  "micronaut/entityTemplates/groovy/controllerJunitTest.txt");
         groovyTemplates.put(CONTROLLER_SPOCK_TEST,  "micronaut/entityTemplates/groovy/controllerSpockTest.txt");
+        groovyTemplates.put(COMP_CONTROLLER,"micronaut/components/groovy/controller.txt");
+        groovyTemplates.put(COMP_Singleton,"micronaut/components/groovy/Service.txt");
+        groovyTemplates.put(COMP_JOB,"micronaut/components/groovy/job.txt");
+        groovyTemplates.put(COMP_CLIENT,"micronaut/components/groovy/client.txt");
+        groovyTemplates.put(RABBITMQ_CLIENT,"micronaut/components/groovy/rabbitmqClient.txt");
+        groovyTemplates.put(RABBITMQ_LISTENER,"micronaut/components/groovy/rabbitmqConsumer.txt");
+        groovyTemplates.put(KAFKA_CLIENT,"micronaut/components/groovy/kafkaClient.txt");
+        groovyTemplates.put(KAFKA_LISTENER,"micronaut/components/groovy/kafkaConsumer.txt");
+
+
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
@@ -132,6 +163,14 @@ public class TemplatesService {
         kotlinTemplates.put(SERVICE, "micronaut/entityTemplates/kotlin/service.txt");
         kotlinTemplates.put(RANDOMIZER,  "micronaut/entityTemplates/kotlin/Randomizer.txt");
         kotlinTemplates.put(CONTROLLER_UNIT_TEST,  "micronaut/entityTemplates/kotlin/controllerJunitTest.txt");
+        kotlinTemplates.put(COMP_CONTROLLER,"micronaut/components/kotlin/controller.txt");
+        kotlinTemplates.put(COMP_Singleton,"micronaut/components/kotlin/Service.txt");
+        kotlinTemplates.put(COMP_JOB,"micronaut/components/kotlin/job.txt");
+        kotlinTemplates.put(COMP_CLIENT,"micronaut/components/kotlin/client.txt");
+        kotlinTemplates.put(RABBITMQ_CLIENT,"micronaut/components/kotlin/rabbitmqClient.txt");
+        kotlinTemplates.put(RABBITMQ_LISTENER,"micronaut/components/kotlin/rabbitmqConsumer.txt");
+        kotlinTemplates.put(KAFKA_CLIENT,"micronaut/components/kotlin/kafkaClient.txt");
+        kotlinTemplates.put(KAFKA_LISTENER,"micronaut/components/kotlin/kafkaConsumer.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
