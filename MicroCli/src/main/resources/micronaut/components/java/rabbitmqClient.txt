@@ -1,0 +1,15 @@
+package ${package};
+
+
+//This Producers, //create orders queue in the RabbitMQ Console
+
+${importMessage}
+import io.micronaut.rabbitmq.annotation.Binding;
+import io.micronaut.rabbitmq.annotation.RabbitClient;
+
+@RabbitClient
+public interface ${className} {
+
+    @Binding("${queueName}")
+    void sendOrder(${Message} message);
+}
