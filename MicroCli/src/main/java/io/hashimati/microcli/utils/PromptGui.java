@@ -8,9 +8,13 @@ import de.codeshelf.consoleui.prompt.builder.ExpandableChoicePromptBuilder;
 import de.codeshelf.consoleui.prompt.builder.ListPromptBuilder;
 import de.codeshelf.consoleui.prompt.builder.PromptBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Color;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class PromptGui {
 
@@ -126,4 +130,20 @@ public class PromptGui {
         return (CheckboxResult)prompt.prompt(builder.build()).get(name);
 
     }
+
+
+
+    public static void println(String message, Color color)
+    {
+        System.out.println(ansi().fgBright(color).a(message));
+    }
+    public static void printlnErr(String message)
+    {
+        System.out.println(ansi().bold().fgBrightRed().a(message));
+    }
+    public static void printlnSuccess(String message)
+    {
+        System.out.println(ansi().bold().fgBrightGreen().a(message));
+    }
+
 }
