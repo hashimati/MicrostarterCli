@@ -39,7 +39,7 @@ public class MicronautComponentGenerator {
         return null;
     }
 
-    public String generateClient(String classPackage, String className,String,String serviceId, String lang){
+    public String generateClient(String classPackage, String className,String serviceId, String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("package", classPackage);
         map.put("className", className);
