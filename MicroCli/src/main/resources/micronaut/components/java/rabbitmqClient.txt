@@ -1,7 +1,6 @@
 package ${package};
 
 
-//This Producers, //create orders queue in the RabbitMQ Console
 
 ${importMessage}
 import io.micronaut.rabbitmq.annotation.Binding;
