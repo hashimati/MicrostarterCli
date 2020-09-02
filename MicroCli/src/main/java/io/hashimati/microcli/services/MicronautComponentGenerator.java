@@ -32,12 +32,13 @@ public class MicronautComponentGenerator {
         map.put("className", className);
         return generate(TemplatesService.COMP_Singleton, map, lang);
     }
-
-    public String generateRepository(String className, String lang){
+//
+//    public String generateRepository(String classPackage, String className, String lang){
 //        HashMap<String, String> map = new HashMap<>();
-//        return generate(TemplatesService.COMP_CONTROLLER, map, lang);
-        return null;
-    }
+//        map.put("package", classPackage);
+//        map.put("className", className);
+//        return generate(TemplatesService.COMP_REPOSITORY, map, lang);
+//    }
 
     public String generateClient(String classPackage, String className,String serviceId, String lang){
         HashMap<String, String> map = new HashMap<>();
@@ -57,15 +58,21 @@ public class MicronautComponentGenerator {
 
     }
 
-    public String generateWebSocket(String className,String lang){
+    public String generateWebSocket(String classPackage, String className, String path,String lang){
         HashMap<String, String> map = new HashMap<>();
-        return generate(TemplatesService.COMP_CONTROLLER, map, lang);
+        map.put("package", classPackage);
+        map.put("className", className);
+        map.put("path", path);
+        return generate(TemplatesService.COMP_WEBSOCKET, map, lang);
 
     }
 
-    public String generateWebsocketClient(String className,String lang){
+    public String generateWebsocketClient(String classPackage, String className, String path,String lang){
         HashMap<String, String> map = new HashMap<>();
-        return generate(TemplatesService.COMP_CONTROLLER, map, lang);
+        map.put("package", classPackage);
+        map.put("className", className);
+        map.put("path", path);
+        return generate(TemplatesService.COMP_WEBSOCKET_CLIENT, map, lang);
     }
 
     public String generateKafkaClient(String classPackage, String topic, String message, String messagePackage,String className,String lang){
