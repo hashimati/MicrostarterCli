@@ -39,11 +39,10 @@ public class CreateControllerCommand implements Callable<Integer> {
 
 
         String extension =GeneratorUtils.getSourceFileExtension(lang);
-        String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>(){{
+        String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GENERAL_PATH, new HashMap<String, String>(){{
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
-        controllerPath = controllerPath.substring(0, controllerPath.lastIndexOf("."));
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
 
