@@ -135,7 +135,7 @@ public class PromptGui {
 
     public static void println(String message, Color color)
     {
-        System.out.println(ansi().fgBright(color).a(message));
+        System.out.println(ansi().fg(color).a(message));
     }
     public static void printlnErr(String message)
     {
