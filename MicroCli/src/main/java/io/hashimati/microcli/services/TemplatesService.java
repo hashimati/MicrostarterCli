@@ -46,8 +46,12 @@ public class TemplatesService {
             //COMP is stands for Component.
             COMP_CONTROLLER = "comp_controller",
             COMP_Singleton = "comp_singleton",
+            COMP_REPOSITORY= "comp_repository",
             COMP_CLIENT = "comp_client",
             COMP_JOB= "comp_job",
+            COMP_WEBSOCKET = "comp_websocket",
+            COMP_WEBSOCKET_CLIENT= "comp_websocket_client",
+
             RABBITMQ_CLIENT = "rabbitMQ_client",
             RABBITMQ_LISTENER = "rabbitMQ_listener",
             KAFKA_CLIENT = "kafka_client",
@@ -108,6 +112,10 @@ public class TemplatesService {
         javaTemplates.put(COMP_Singleton,"micronaut/components/java/Service.txt");
         javaTemplates.put(COMP_JOB,"micronaut/components/java/job.txt");
         javaTemplates.put(COMP_CLIENT,"micronaut/components/java/client.txt");
+        javaTemplates.put(COMP_REPOSITORY,"micronaut/components/java/repository.txt");
+        javaTemplates.put(COMP_WEBSOCKET,"micronaut/components/java/websocket.txt");
+        javaTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/java/websocketClient.txt");
+        javaTemplates.put(COMP_CLIENT,"micronaut/components/java/client.txt");
         javaTemplates.put(RABBITMQ_CLIENT,"micronaut/components/java/rabbitmqClient.txt");
         javaTemplates.put(RABBITMQ_LISTENER,"micronaut/components/java/rabbitmqConsumer.txt");
         javaTemplates.put(KAFKA_CLIENT,"micronaut/components/java/kafkaClient.txt");
@@ -142,7 +150,9 @@ public class TemplatesService {
         groovyTemplates.put(RABBITMQ_LISTENER,"micronaut/components/groovy/rabbitmqConsumer.txt");
         groovyTemplates.put(KAFKA_CLIENT,"micronaut/components/groovy/kafkaClient.txt");
         groovyTemplates.put(KAFKA_LISTENER,"micronaut/components/groovy/kafkaConsumer.txt");
-
+        groovyTemplates.put(COMP_REPOSITORY,"micronaut/components/groovy/repository.txt");
+        groovyTemplates.put(COMP_WEBSOCKET,"micronaut/components/groovy/websocket.txt");
+        groovyTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/groovy/websocketClient.txt");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -171,6 +181,9 @@ public class TemplatesService {
         kotlinTemplates.put(RABBITMQ_LISTENER,"micronaut/components/kotlin/rabbitmqConsumer.txt");
         kotlinTemplates.put(KAFKA_CLIENT,"micronaut/components/kotlin/kafkaClient.txt");
         kotlinTemplates.put(KAFKA_LISTENER,"micronaut/components/kotlin/kafkaConsumer.txt");
+        kotlinTemplates.put(COMP_REPOSITORY,"micronaut/components/kotlin/repository.txt");
+        kotlinTemplates.put(COMP_WEBSOCKET,"micronaut/components/kotlin/websocket.txt");
+        kotlinTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/kotlin/websocketClient.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
