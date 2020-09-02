@@ -1,4 +1,4 @@
-package ${servicePackage}
+package ${pack}
 
 
 import javax.inject.Inject
