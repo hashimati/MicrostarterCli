@@ -28,6 +28,8 @@ public class CreateControllerCommand implements Callable<Integer> {
         AnsiConsole.systemInstall();
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()) );
         String packageName = PromptGui.inputText("pack", "Enter the controller's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
+
+        System.out.println("this Fucking Package " + packageName);
         String className = PromptGui.inputText("className", "Enter controller name: ", "MyController").getInput();
 
         String path = PromptGui.inputText("map", "Enter the controller's path: ", "/"+className).getInput();
@@ -41,6 +43,7 @@ public class CreateControllerCommand implements Callable<Integer> {
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
+        controllerPath = controllerPath.substring(0, controllerPath.lastIndexOf("."));
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
 
