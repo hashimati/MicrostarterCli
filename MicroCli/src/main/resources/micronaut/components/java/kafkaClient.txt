@@ -1,4 +1,4 @@
-package ${package};
+package ${pack};
 
 
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
