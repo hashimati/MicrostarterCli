@@ -1,4 +1,4 @@
-package ${package;
+package ${pack};
 
 import io.micronaut.websocket.WebSocketBroadcaster;
 import io.micronaut.websocket.WebSocketSession;
