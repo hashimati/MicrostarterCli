@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import groovy.text.SimpleTemplateEngine;
+import io.hashimati.microcli.constants.ProjectConstants;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static javax.xml.xpath.XPathConstants.NODE;
 
 public class GeneratorUtils
@@ -293,5 +295,21 @@ public class GeneratorUtils
         return Arrays.stream(list)
                 .reduce((x,y)->x+separator+y)
                 .get();
+    }
+
+    public static String getSourceFileExtension(String lang) {
+        String extension =".";
+        switch (lang.toLowerCase())
+        {
+            case KOTLIN_LANG:
+                return new StringBuilder().append(extension).append(ProjectConstants.Extensions.KOTLIN).toString();
+            case GROOVY_LANG:
+                return new StringBuilder().append(extension).append(ProjectConstants.Extensions.GROOVY).toString();
+            case JAVA_LANG:
+            default:
+                return new StringBuilder().append(extension).append(ProjectConstants.Extensions.JAVA).toString();
+
+
+        }
     }
 }
