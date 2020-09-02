@@ -258,21 +258,8 @@ public class CreateEntityCommand implements Callable<Integer> {
             String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
             String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang);
 
-            String extension =".";
-            switch (configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase())
-            {
-                case KOTLIN_LANG:
-                    extension += ProjectConstants.Extensions.KOTLIN;
-                    break;
-                case GROOVY_LANG:
-                    extension += ProjectConstants.Extensions.GROOVY;
-                    break;
-                case JAVA_LANG:
-                default:
-                    extension += ProjectConstants.Extensions.JAVA;
-                    break;
+            String extension =GeneratorUtils.getSourceFileExtension(lang);
 
-            }
             String entityPath = GeneratorUtils.generateFromTemplate(ENTITY_PATH, new HashMap<String, String>(){{
                 put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                 put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
