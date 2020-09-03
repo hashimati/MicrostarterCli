@@ -238,6 +238,7 @@ public class ConfigurationInitializer {
 
         printlnSuccess("micrnaut-cli.yml file has been updated");
         printlnSuccess("Configuration file has been created!");
+        setToDefault();
     }
 
 }
