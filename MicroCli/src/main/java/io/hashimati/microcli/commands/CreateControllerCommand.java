@@ -5,9 +5,7 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -15,7 +13,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
 
-import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
+import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
+import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
+import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
 @Command(name = "create-controller", aliases = {"controller", "c", "control"})
@@ -43,12 +43,11 @@ public class CreateControllerCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        GeneratorUtils.createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
 
-        PromptGui.printlnSuccess(className + " is create successfully!");
-        AnsiConsole.systemUninstall();
-        PromptGui.println("", Ansi.Color.WHITE);
+        printlnSuccess(className + " is create successfully!");
+        setToDefault();
 
-        return null;
+        return 0;
     }
 }
