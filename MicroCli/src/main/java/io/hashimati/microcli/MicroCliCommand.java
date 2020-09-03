@@ -2,15 +2,11 @@ package io.hashimati.microcli;
 
 import io.hashimati.microcli.commands.*;
 import io.micronaut.configuration.picocli.PicocliRunner;
-import io.micronaut.context.ApplicationContext;
-
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 
 @Command(name = "MicroCli", description = "...",
-        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class})
+        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class, CreateKafkaClientCommand.class, CreateKafkaListenerCommand.class, CreateRabbitMQClientCommand.class, CreateRabbitMQListenerCommand.class, CreateWebsocketClientCommand.class, CreateWebsocketServerCommand.class})
 public class MicroCliCommand implements Runnable {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
