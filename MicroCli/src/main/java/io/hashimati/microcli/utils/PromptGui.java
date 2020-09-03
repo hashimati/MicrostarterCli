@@ -140,10 +140,15 @@ public class PromptGui {
     public static void printlnErr(String message)
     {
         System.out.println(ansi().bold().fgBrightRed().a(message));
+
     }
     public static void printlnSuccess(String message)
     {
         System.out.println(ansi().bold().fgBrightGreen().a(message));
+    }
+    public static void setToDefault()
+    {
+        System.out.println(ansi().bgDefault().boldOff());
     }
 
 }
