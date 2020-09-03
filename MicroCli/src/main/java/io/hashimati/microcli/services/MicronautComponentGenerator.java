@@ -75,7 +75,7 @@ public class MicronautComponentGenerator {
         return generate(TemplatesService.COMP_WEBSOCKET_CLIENT, map, lang);
     }
 
-    public String generateKafkaClient(String classPackage, String topic, String message, String messagePackage,String className,String lang){
+    public String generateKafkaClient(String classPackage,String className, String topic, String message, String messagePackage,String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
