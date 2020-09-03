@@ -10,7 +10,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "MicroCli", description = "...",
-        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class})
+        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class})
 public class MicroCliCommand implements Runnable {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
