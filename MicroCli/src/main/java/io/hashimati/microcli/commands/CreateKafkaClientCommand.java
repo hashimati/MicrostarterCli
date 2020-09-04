@@ -25,10 +25,17 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
         AnsiConsole.systemInstall();
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()) );
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        ConfigurationInfo  configurationInfo;
+        if(!configurationFile.exists()){
+            configurationInfo =  new ConfigureCommand().call();
+        }
+        else {
+            configurationInfo = ConfigurationInfo.fromFile(configurationFile);
+        }
         String packageName = PromptGui.inputText("pack", "Enter the job's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
-        String className = PromptGui.inputText("className", "Enter job name: ", "MyJob").getInput();
+        String className = PromptGui.inputText("className", "Enter job name: ", "MyKafkaClient").getInput();
         String topic = PromptGui.inputText("topic", "Enter the topic:", "mytopic").getInput();
 
         String messageType = PromptGui.inputText("messageType", "Enter message type: ", "String").getInput();
