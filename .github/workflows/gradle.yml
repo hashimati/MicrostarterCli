@@ -20,8 +20,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
+    - name: show files
+      run: ls
     - name: Change directory to MicroCli
-      run: cd MicroCli/MicroCli
+      run: cd MicroCli
+    - name: show files
+      run: ls
+    - name: Change directory to MicroCli
+      run: cd MicroCli
     - name: show files
       run: ls
     - name: Grant execute permission for gradlew
