@@ -26,10 +26,17 @@ public class CreateWebsocketClientCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
         AnsiConsole.systemInstall();
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()) );
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        ConfigurationInfo  configurationInfo;
+        if(!configurationFile.exists()){
+            configurationInfo =  new ConfigureCommand().call();
+        }
+        else {
+            configurationInfo = ConfigurationInfo.fromFile(configurationFile);
+        }
         String packageName = PromptGui.inputText("pack", "Enter the websocket client's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
-        String className = PromptGui.inputText("className", "Enter websocket client name: ", "MyController").getInput();
+        String className = PromptGui.inputText("className", "Enter websocket client name: ", "MyWebSocketClient").getInput();
 
         String path = PromptGui.inputText("map", "Enter the websocket path: ", "/"+className).getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
