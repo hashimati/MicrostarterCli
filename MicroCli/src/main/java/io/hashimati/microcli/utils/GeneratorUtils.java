@@ -165,7 +165,7 @@ public class GeneratorUtils
         File file = new File(path);
         try {
              FileUtils.forceDelete(file);
-            printlnSuccess("Deleted: " + file.getAbsolutePath());
+             printlnSuccess("Deleted: " + file.getAbsolutePath());
              return true;
         } catch (IOException e) {
             return false;
