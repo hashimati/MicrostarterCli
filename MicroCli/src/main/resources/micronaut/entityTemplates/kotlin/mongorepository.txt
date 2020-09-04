@@ -16,10 +16,8 @@ import javax.inject.Singleton
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @Singleton
-class ${entityClass}Repository {
+class ${entityClass}Repository(private val mongoClient:MongoClient) {
 
-    @Inject
-    lateinit var  mongoClient:MongoClient;
 
 
 
