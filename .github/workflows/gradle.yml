@@ -21,10 +21,14 @@ jobs:
       with:
         java-version: 11
     - name: show files
+      working-directory: ./MicroCli
       run: ls
     - name: show directory path
+      working-directory: ./MicroCli
       run: pwd
     - name: Grant execute permission for gradlew
+      working-directory: ./MicroCli
       run: chmod +x gradlew
     - name: Build with Gradle
+      working-directory: ./MicroCli
       run: ./gradlew build
