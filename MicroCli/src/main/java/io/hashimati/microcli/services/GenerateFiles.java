@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import static io.hashimati.microcli.services.TemplatesService.CONTROLLER;
 
+@Deprecated
 @Command(name = "generate", description = "generating domains" )
 public class GenerateFiles implements  Runnable {
 
