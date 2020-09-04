@@ -24,7 +24,7 @@ class ${className}ControllerTest {
 
 
     @Test
-    void save() throws InstantiationException, IllegalAccessException {
+    void save() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
         ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance();
         HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName});
         this.${entityName} = client.toBlocking().retrieve(request, ${className}.class);
@@ -32,7 +32,7 @@ class ${className}ControllerTest {
     }
 
     @Test
-    void findById() throws InstantiationException, IllegalAccessException {
+    void findById() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
         save();
         HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.${entityName}.getId());
         ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
@@ -41,7 +41,7 @@ class ${className}ControllerTest {
     }
 
     @Test
-    void deleteById() throws InstantiationException, IllegalAccessException{
+    void deleteById() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
         save();
         HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.${entityName}.getId());
         Boolean body= client.toBlocking().retrieve(request, Boolean.class);
@@ -49,7 +49,7 @@ class ${className}ControllerTest {
     }
 
     @Test
-    void findAll() throws InstantiationException, IllegalAccessException{
+    void findAll() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
 
         save();
         HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
@@ -60,7 +60,7 @@ class ${className}ControllerTest {
     }
 
     @Test
-    void update() throws InstantiationException, IllegalAccessException{
+    void update() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
         save();
         HttpRequest<${className}> request = HttpRequest.PUT("/update", this.${entityName});
         ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
