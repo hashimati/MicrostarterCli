@@ -26,7 +26,7 @@ public class ConfigurationInfo {
             dataBackendRun, // JPA, JDBC or none
             dataMigrationTool; //liquibase, Flyway
     HashSet<Entity> entities = new HashSet<>();
-    ArrayList<EntityRelation> relations = new ArrayList<EntityRelation>();
+    ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
 
     public ConfigurationInfo visit(Visitor<ConfigurationInfo> visitor)
