@@ -10,6 +10,7 @@ import de.codeshelf.consoleui.prompt.builder.PromptBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.IOException;
 import java.util.List;
@@ -135,19 +136,23 @@ public class PromptGui {
 
     public static void println(String message, Color color)
     {
+        AnsiConsole.systemInstall();
         System.out.println(ansi().fg(color).a(message));
     }
     public static void printlnErr(String message)
     {
+        AnsiConsole.systemInstall();
         System.out.println(ansi().bold().fgBrightRed().a(message));
 
     }
     public static void printlnSuccess(String message)
     {
+        AnsiConsole.systemInstall();
         System.out.println(ansi().bold().fgBrightGreen().a(message));
     }
     public static void setToDefault()
     {
+        AnsiConsole.systemInstall();
         System.out.println(ansi().bgDefault().boldOff());
     }
 
