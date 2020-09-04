@@ -13,8 +13,8 @@ public class DomainsRequest {
             version, build, language, viewFramework,
             javaVersion, profile, testframework;
     private String  databaseName, databaseType;
-    private ArrayList<Entity> entities = new ArrayList<Entity>();
-    private ArrayList<EntityRelation> entityRelations = new ArrayList<EntityRelation>();
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<EntityRelation> entityRelations = new ArrayList<>();
 
     private ArrayList<EnumClass> enumClasses = new ArrayList<>();
     private SecurityModel security;
