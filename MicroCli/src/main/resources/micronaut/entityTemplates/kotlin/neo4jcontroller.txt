@@ -12,10 +12,8 @@ import ${servicePackage}
 
 
 @Controller("/api/${entityName}s")
-class ${className}Controller {
+class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
-   @Inject
-   lateinit var ${entityName}Service: ${className}Service
 
     @Post("/save")
     fun save(@Body ${entityName}:${className}):Single<${className}>
