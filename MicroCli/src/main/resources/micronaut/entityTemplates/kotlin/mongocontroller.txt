@@ -14,10 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller("/api/${entityName}")
-class ${className}Controller {
-
-   @Inject
-   lateinit var ${entityName}Service: ${className}Service
+class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
     @Post("/save")
     fun save(@Body ${entityName}:${className}):Single<${className}>
