@@ -14,10 +14,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ${entityClass}Repository {
+class ${entityClass}Repository(private val mongoClient:MongoClient) {
 
-    @Inject
-    lateinit var  mongoClient:MongoClient;
 
    fun getCollection(): MongoCollection<${entityClass}> {
          return mongoClient.getDatabase("${databaseName}").getCollection("${collectionName}", ${entityClass}::class.java)
