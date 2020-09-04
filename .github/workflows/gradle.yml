@@ -22,6 +22,8 @@ jobs:
         java-version: 11
     - name: Change directory to MicroCli
       run: cd MicroCli
+    - name: show files
+      run: ls
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
