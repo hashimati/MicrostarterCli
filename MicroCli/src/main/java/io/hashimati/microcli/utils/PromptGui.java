@@ -153,7 +153,7 @@ public class PromptGui {
     public static void setToDefault()
     {
         AnsiConsole.systemInstall();
-        System.out.println(ansi().bgDefault().boldOff());
+        System.out.println(ansi().fgDefault().boldOff());
     }
 
 }
