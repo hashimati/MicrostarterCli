@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
+import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static javax.xml.xpath.XPathConstants.NODE;
 
 public class GeneratorUtils
@@ -89,7 +90,6 @@ public class GeneratorUtils
         File file = new File(path);
         if(!file.exists()) {
             try {
-                System.out.println("i' here  " + path + content);
                 return createFile(path, content);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -165,7 +165,7 @@ public class GeneratorUtils
         File file = new File(path);
         try {
              FileUtils.forceDelete(file);
-            System.out.println("Deleted: " + file.getAbsolutePath());
+            printlnSuccess("Deleted: " + file.getAbsolutePath());
              return true;
         } catch (IOException e) {
             return false;
@@ -248,14 +248,14 @@ public class GeneratorUtils
     public static String appendXML(String parentXmlStr, String childXmlStr, String parentPath, String childPath) throws XPathExpressionException, TransformerException {
         InputSource parent  =  new InputSource(parentXmlStr);
 
-        System.out.println(parent.getPublicId());
+        //System.out.println(parent.getPublicId());
         InputSource child = new InputSource(childXmlStr);
 
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node parentNode  = (Node)xPath.evaluate(parentPath, parent, NODE);
-        System.out.println(parentNode.getBaseURI());
+       // System.out.println(parentNode.getBaseURI());
         Document parentDoc = parentNode.getOwnerDocument();
-        System.out.println(parentDoc);
+        //System.out.println(parentDoc);
         Node childNode = (Node)xPath.evaluate(childPath, child, NODE);
 
         parentNode.getParentNode().replaceChild(
