@@ -479,6 +479,10 @@ public class MicronautProjectValidator {
                 ")"+(projectInfo.getSourceLanguage().toLowerCase().equalsIgnoreCase(KOTLIN_LANG)?"\nobject Api {\n" +
                 "}":"")).replace("demo", appName);
 
+        if(projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin"))
+        {
+            annotations = annotations.replace("@Info", "Info");
+        }
         String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo().getSourceLanguage().toLowerCase();
         String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
         String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":"import io.micronaut.runtime.Micronaut;";
