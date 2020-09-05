@@ -2,8 +2,6 @@ package ${defaultPackage}.controllers;
 
 import ${defaultPackage}.domains.${className};
 import ${defaultPackage}.utils.Randomizer;
-import hashimati.kot.domains.Order;
-import hashimati.kot.utils.Randomizer;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
