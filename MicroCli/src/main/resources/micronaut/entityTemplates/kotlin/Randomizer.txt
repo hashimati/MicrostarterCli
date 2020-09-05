@@ -1,9 +1,11 @@
 package ${packageName}.utils
 
+
 import java.lang.reflect.Field
 import java.util.*
 import java.util.stream.Collectors
 import java.util.stream.IntStream
+import kotlin.random.Random
 
 
 /**
@@ -105,6 +107,7 @@ class Randomizer<T>(private val tClass: Class<T>) {
         }
 
     init {
-        rnd = Random()
+        rnd = Random
     }
 }
+
