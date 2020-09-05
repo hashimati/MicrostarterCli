@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.services.TemplatesService.H2_JDBC_yml;
 
 public class MicronautProjectValidator {
@@ -467,7 +468,7 @@ public class MicronautProjectValidator {
             return false;
 
 
-        String annotations = "import io.swagger.v3.oas.annotations.*;\n" +
+        String annotations = ("import io.swagger.v3.oas.annotations.*;\n" +
                 "import io.swagger.v3.oas.annotations.info.*;\n" +
                 "\n" +
                 "@OpenAPIDefinition(\n" +
@@ -475,11 +476,12 @@ public class MicronautProjectValidator {
                 "            title = \"demo\",\n" +
                 "            version = \"0.0\"\n" +
                 "    )\n" +
-                ")".replace("demo", appName);
+                ")"+(projectInfo.getSourceLanguage().toLowerCase().equalsIgnoreCase(KOTLIN_LANG)?"\nobject Api {\n" +
+                "}":"")).replace("demo", appName);
 
         String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo().getSourceLanguage().toLowerCase();
         String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
-        String from = "import io.micronaut.runtime.Micronaut;";
+        String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":"import io.micronaut.runtime.Micronaut;";
         if(!projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
         {
            annotations = annotations.replace(";","");
@@ -487,7 +489,7 @@ public class MicronautProjectValidator {
         }
 
         String content = GeneratorUtils.getFileContent(new File(mainFilePath));
-        content = content.replace(from, from+"\n"+annotations );https://instagram.fdmm2-3.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/108193602_124165032685632_5795289934719882707_n.jpg?_nc_ht=instagram.fdmm2-3.fna.fbcdn.net&_nc_cat=100&_nc_ohc=g-gfAGEfYzYAX9l9FHG&oh=4fced48addfe0428edbdcd4340ab6c4b&oe=5F4BC600
+        content = content.replace(from, from+"\n"+annotations );
 
         GeneratorUtils.dumpContentToFile(mainFilePath, content);
         return false;
