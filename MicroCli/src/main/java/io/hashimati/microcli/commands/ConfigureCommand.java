@@ -34,6 +34,7 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //                .terminal(terminal)
 //                .build();
 //
+        
 //        String prompt2 = "What's your name? ";
 //        String name = lineReader.readLine(prompt2);
        new  ConfigurationInitializer().init();
