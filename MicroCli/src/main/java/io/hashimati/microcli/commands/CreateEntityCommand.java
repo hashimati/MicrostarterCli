@@ -135,7 +135,7 @@ public class CreateEntityCommand implements Callable<Integer> {
              */
 
             attributeLoop: for(;;) {
-                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add attribute?");
+                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add an attribute?");
 
                 if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
                 {
@@ -145,7 +145,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                     EntityAttribute entityAttribute = new EntityAttribute();
                     //todo Enter attribute Name.
 
-                    InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter attribute name", "attrbute");
+                    InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter the attribute name", "attrbute");
                     entityAttribute.setName(attrNameResult.getInput());
 
                     //todo Enter attribute Type:
@@ -189,14 +189,14 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                                     entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?").getConfirmed() == YES);
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Minimum length?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a minimum length?").getConfirmed() == YES)
 
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum length", "1");
                                         entityConstraints.setMin(Long.parseLong(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Maximum length?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a maximum length?").getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum Length", "100");
                                         entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
                                     }
@@ -217,26 +217,26 @@ public class CreateEntityCommand implements Callable<Integer> {
                                 case "short":
                                 case "int":
                                 case "long":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Minimum number?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?").getConfirmed() == YES)
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
                                         entityConstraints.setMin(Long.parseLong(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Maximum number?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?").getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
                                         entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
                                     }
                                     break;
                                 case "float":
                                 case "double":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Minimum number?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?").getConfirmed() == YES)
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
                                         entityConstraints.setDecimalMin(Double.parseDouble(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter Maximum number?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?").getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
                                         entityConstraints.setDecimalMax(Double.parseDouble(maxSize.getInput()));
                                     }
