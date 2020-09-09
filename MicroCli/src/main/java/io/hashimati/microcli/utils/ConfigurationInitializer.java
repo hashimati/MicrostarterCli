@@ -231,13 +231,13 @@ public class ConfigurationInitializer {
 
         MicronautProjectValidator.addLombok();
         configurationInfo.setProjectInfo(projectInfo);
-
+        printlnSuccess("micronaut-cli.yml file has been updated");
 
         //System.out.println(configurationInfo);
         configurationInfo.writeToFile();
 
-        printlnSuccess("micrnaut-cli.yml file has been updated");
-        printlnSuccess("Configuration file has been created!");
+
+
         setToDefault();
     }
 
