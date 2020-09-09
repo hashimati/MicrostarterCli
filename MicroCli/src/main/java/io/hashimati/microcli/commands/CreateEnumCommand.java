@@ -4,6 +4,7 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.EnumClass;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -16,9 +17,11 @@ import java.util.concurrent.Callable;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENUMS;
+import static io.hashimati.microcli.utils.PromptGui.printlnWarning;
+import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
-@Command(name = "create-enum", description = "Create Enumuration Class")
+@Command(name = "create-enum",aliases = {"enum"}, description = "Create Enumuration Class")
 public class CreateEnumCommand implements Callable<Integer> {
    
     @Option(names={"-n", "--name"}, description = "Enumuration class name")
@@ -50,7 +53,8 @@ public class CreateEnumCommand implements Callable<Integer> {
              boolean isExist = configurationInfo.getEnums().stream().anyMatch(x->x.getName().equals(enumClass.getName()));
             if(isExist)
             {
-                System.out.println("Warnning: "+ name + " is already exist. ");
+                printlnWarning("Warning: "+ name + " is already exist. ");
+                setToDefault();
                 for(EnumClass e : configurationInfo.getEnums())
                 {
                     if(e.getName().equals(name)) {
