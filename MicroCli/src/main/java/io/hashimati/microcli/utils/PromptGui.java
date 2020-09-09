@@ -156,4 +156,8 @@ public class PromptGui {
         System.out.println(ansi().fgDefault().boldOff());
     }
 
+    public static void printlnWarning(String message) {
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().bold().fgBrightYellow().a(message));
+    }
 }
