@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
+
 /**
  * @author Ahmed Al Hashmi (@Hashimati)
  */
@@ -44,10 +46,21 @@ public class ConfigurationInfo {
     public boolean writeToFile() {
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new File(getConfigurationFileName()));
+
+            File configurationFile = new File(getConfigurationFileName());
+            boolean isAlreadyExist = configurationFile.exists();
+
+            pw = new PrintWriter(configurationFile);
             pw.print( GeneratorUtils.toPrettyFormat(toJson()));
+
             pw.flush();
             pw.close();
+            if(isAlreadyExist)
+                printlnSuccess("Configuration file has been updated!");
+            else
+                printlnSuccess("Configuration file has been created!");
+
+
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
