@@ -1,6 +1,7 @@
 package io.hashimati.microcli.services;
 
 
+import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.utils.GeneratorUtils;
 
 import javax.inject.Inject;
@@ -75,51 +76,52 @@ public class MicronautComponentGenerator {
         return generate(TemplatesService.COMP_WEBSOCKET_CLIENT, map, lang);
     }
 
-    public String generateKafkaClient(String classPackage,String className, String topic, String message, String messagePackage,String lang){
+    public String generateKafkaClient(String classPackage,String className, String topic, Entity entity,String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
-        map.put("Message", message);
-        map.put("importMessage", "");
+        map.put("Message", entity == null?"String": entity.getName());
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
 
         return generate(TemplatesService.KAFKA_CLIENT, map, lang);
 
     }
 
-    public String generateKafkaConsumer(String classPackage, String groupId, String topic, String message, String messagePackage, String className,String lang){
+    public String generateKafkaConsumer(String classPackage,String className, String groupId, String topic, Entity entity,String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("groupId", groupId);
         map.put("topic", topic);
-        map.put("Message", message);
-        map.put("importMessage", "");
+        map.put("Message", entity == null?"String": entity.getName());
+
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
 
         return generate(TemplatesService.KAFKA_LISTENER, map, lang);
 
     }
 
-    public String generateRabbitMQClient(String classPackage, String className,String queueName,String message,String messagePackage,  String lang){
+    public String generateRabbitMQClient(String classPackage, String className, String queueName, Entity entity, String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("queueName", queueName);
-        map.put("Message", message);
+        map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage", "");
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
         return generate(TemplatesService.RABBITMQ_CLIENT, map, lang);
 
     }
 
-    public String generateRabbitMQConsumer(String classPackage, String className,String queueName, String message, String lang){
+    public String generateRabbitMQConsumer(String classPackage, String className,String queueName, Entity entity, String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("queueName", queueName);
-        map.put("Message", message);
+        map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage", "");
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
         return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
     }
 
