@@ -2,6 +2,7 @@ package io.hashimati.microcli.commands;
 
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
@@ -13,14 +14,20 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
 @CommandLine.Command(name= "create-kafka-client", aliases = {"kafka-client", "kafkaClient", "KafkaClient"}, description = "To create Kafka Client.")
 public class CreateKafkaClientCommand implements Callable<Integer> {
+
+    @CommandLine.Option(names = {"-e", "--entity"})
+    String entityName;
+
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
+
     @Override
     public Integer call() throws Exception {
 
@@ -33,22 +40,22 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
         else {
             configurationInfo = ConfigurationInfo.fromFile(configurationFile);
         }
-        String packageName = PromptGui.inputText("pack", "Enter the job's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
-        String className = PromptGui.inputText("className", "Enter job name: ", "MyKafkaClient").getInput();
-        String topic = PromptGui.inputText("topic", "Enter the topic:", "mytopic").getInput();
-
-        String messageType = PromptGui.inputText("messageType", "Enter message type: ", "String").getInput();
-
-        String messagePackage = null;
-        if(!Arrays.asList("string", "integer", "int", "byte", "short", "byte", "char", "Character", "float", "double", "boolean").contains(messageType.toLowerCase()))
+        String packageName = PromptGui.inputText("pack", "Enter the class's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
+        String className = PromptGui.inputText("className", "Enter the class name: ", "KafkaListener").getInput();
+        String topic = PromptGui.inputText("topic", "Enter the topic name", className).getInput();
+        if(entityName == null)
         {
-            messagePackage = inputText("messageTypePackage", "Enter the package of " + messageType + ":", "com.example").getInput();
+            entityName = PromptGui.createListPrompt("entity", "Select Message Type: ",
+                    configurationInfo.getEntities().stream().map(x->x.getName()).collect(Collectors.toList())
+                            .toArray(new String[configurationInfo.getEntities().size()])).getSelectedId();
         }
 
-        String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateKafkaClient(packageName, className,topic, messageType,messagePackage, lang);
 
+        Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
+
+        String lang = configurationInfo.getProjectInfo().getSourceLanguage();
+        String content = micronautComponentGenerator.generateKafkaClient(packageName, className, topic, entity,lang);
 
 
         String extension = GeneratorUtils.getSourceFileExtension(lang);
@@ -61,7 +68,6 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
 
         printlnSuccess(className + " is create successfully!");
         setToDefault();
-
-        return 0;
+        return null;
     }
 }
