@@ -100,4 +100,17 @@ public class DataTypeMapper
         put("postgres", "POSTGRES");
         put("h2", "H2");
     }};
+    public final static HashMap<String ,String> graphqlMapper = new HashMap<String, String>(){{
+
+        putIfAbsent("int", "Int");
+        put("byte", "Int");
+        put("long", "Int");
+        put("short", "Int");
+        put("boolean", "Boolean");
+        put("char", "String");
+        put("float", "Float");
+        put("double", "Float");
+        put("string", "String");
+        put("date", "String");
+    }};
 }

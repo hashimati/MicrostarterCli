@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: cacheCaffine
+---
+micronaut:
+  caches:
+    books:
+      charset: "UTF-8"
+      maximum-size: 100
+      expire-after-access: 868000s
