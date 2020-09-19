@@ -116,6 +116,7 @@ public class ConfigurationInitializer {
 
 
 
+
             //Getting JDBC or JPA from the user.
             //if(!isDatabaseConfiguredByDefault.get())
             if(!configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb")) {
@@ -144,6 +145,7 @@ public class ConfigurationInitializer {
                         }
                         break;
                 }
+
 
 
 
@@ -208,6 +210,27 @@ public class ConfigurationInitializer {
 
         }
 
+        if(!projectInfo.getFeatures().contains("rabbitmq") &&
+                !projectInfo.getFeatures().contains("kafka") &&
+                !projectInfo.getFeatures().contains("nats"))
+        {
+            ListResult messagingTypeResult = PromptGui.createListPrompt("databaseType", "Select Messaging type: ", "Nats", "RabbitMQ", "Kafka", "none");
+            configurationInfo.setMessaging(messagingTypeResult.getSelectedId().toLowerCase());
+            if(!messagingTypeResult.getSelectedId().equalsIgnoreCase("none")){
+
+                projectInfo.getFeatures().add(configurationInfo.getMessaging());
+                MicronautProjectValidator.addDependency(features.get(configurationInfo.getMessaging()));
+                projectInfo.dumpToFile();
+
+
+                //AddingYaml
+                templatesService.loadTemplates(null);
+                String messagingProperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(configurationInfo.getMessaging().toUpperCase())); /// The index == to featureName.toUppercase
+                MicronautProjectValidator.appendToProperties(messagingProperties);
+                // End adding Yaml
+            }
+        }
 
       if(!projectInfo.getFeatures().contains("openapi"))
       {
