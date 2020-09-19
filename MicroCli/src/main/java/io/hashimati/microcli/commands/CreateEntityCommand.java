@@ -48,6 +48,13 @@ public class CreateEntityCommand implements Callable<Integer> {
     private ConfigurationInfo configurationInfo;
 
 
+
+    @Option(names = {"--no-endpoint"}, description = "To prevent generating controller.")
+    private boolean noEndpoint;
+
+    @Option(names ={"--graphql"}, description = "To generate GraphQL")
+    private boolean graphql;
+
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
@@ -296,14 +303,16 @@ extension, serviceFileContent);
 
 
             //============================
-            String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
-            String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>(){{
-                put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
-                put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
-            }});
-            GeneratorUtils.createFile(System.getProperty("user.dir")+controllerPath+ "/"+entity.getName()+"Controller"+extension, controllerFileContent);
+            if(!noEndpoint) {
+                String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
+                String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>() {{
+                    put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                    put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                }});
+                GeneratorUtils.createFile(System.getProperty("user.dir") + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
+            }
 
 
             ////==========
