@@ -1,0 +1,16 @@
+package ${pack};
+
+
+import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.micronaut.messaging.annotation.Body;
+${importMessage}
+
+
+@NatsClient
+public interface ${className} {
+
+    @Subject("${topic}")
+    public void send(${Message} message);
+
+}
