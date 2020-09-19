@@ -1,0 +1,22 @@
+package ${pack};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import io.micronaut.messaging.annotation.Body;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+${importMessage}
+
+@NatsListener
+public class ${className} {
+
+    private static final Logger log= LoggerFactory.getLogger(${className}.class);
+
+    @Subject("${topic}")
+    public void receive(@Body ${Message} message)
+    {
+        log.info("Received {}", message);
+    }
+}
