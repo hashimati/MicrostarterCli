@@ -102,6 +102,32 @@ public class MicronautComponentGenerator {
 
     }
 
+
+    public String generateNatsClient(String classPackage,String className, String topic, Entity entity,String lang){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("topic", topic);
+        map.put("Message", entity == null?"String": entity.getName());
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+
+        return generate(TemplatesService.NATS_CLIENT, map, lang);
+
+    }
+
+    public String generateNatsConsumer(String classPackage,String className, String topic, Entity entity,String lang){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("topic", topic);
+        map.put("Message", entity == null?"String": entity.getName());
+
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+
+        return generate(TemplatesService.NATS_LISTENER, map, lang);
+
+    }
+
     public String generateRabbitMQClient(String classPackage, String className, String queueName, Entity entity, String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
