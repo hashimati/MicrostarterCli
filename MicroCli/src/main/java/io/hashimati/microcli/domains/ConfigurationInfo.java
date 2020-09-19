@@ -26,7 +26,8 @@ public class ConfigurationInfo {
             databaseName,
             databaseType, // H2, MariaDB, MySQL, Oracle, Postgres, MS_SQL, or Mongo
             dataBackendRun, // JPA, JDBC or none
-            dataMigrationTool; //liquibase, Flyway
+            dataMigrationTool, //liquibase, Flyway
+            messaging;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
