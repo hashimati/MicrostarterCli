@@ -18,7 +18,8 @@ public class Feature {
     testGradleAnnotation,
     versionProperties,
     testContainerGradle,
-    depndencyManagement;
+    depndencyManagement,
+    ymlConfig;
 
     public Feature visit(Visitor<Feature> visitor)
     {
