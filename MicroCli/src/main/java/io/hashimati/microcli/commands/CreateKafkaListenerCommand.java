@@ -21,7 +21,7 @@ import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
-@Command(name="create-kafka-listener", aliases = {"kafka-listener", "kafkaListener"}, description = "Creating Kafak Listener componenet")
+@Command(name="create-kafka-listener", aliases = {"kafka-listener", "kafkaListener"}, description = "Creating Kafka Listener componenet")
 public class CreateKafkaListenerCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-e", "--entity"})
     String entityName;
@@ -47,7 +47,7 @@ public class CreateKafkaListenerCommand implements Callable<Integer> {
 
         String className = PromptGui.inputText("className", "Enter the class name: ", "KafkaListener").getInput();
 
-        String groupId = PromptGui.inputText("groupId", "Enter the group ID: ", "RabbitMQClient").getInput();
+        String groupId = PromptGui.inputText("groupId", "Enter the group ID: ", "KafkaListener").getInput();
 
 
         String topic = PromptGui.inputText("topic", "Enter the topic name", className).getInput();
