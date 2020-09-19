@@ -1,0 +1,15 @@
+package ${pack}
+
+
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.messaging.annotation.Body
+${importMessage}
+
+
+@NatsClient
+interface ${className} {
+
+    @Subject("${topic}")
+    fun send(message:${Message})
+}
