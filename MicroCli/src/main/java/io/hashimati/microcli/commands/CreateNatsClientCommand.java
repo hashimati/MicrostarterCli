@@ -42,7 +42,7 @@ public class CreateNatsClientCommand implements Callable<Integer> {
         }
 
         String packageName = PromptGui.inputText("pack", "Enter the class's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
-        String className = PromptGui.inputText("className", "Enter the class name: ", "NatsListener").getInput();
+        String className = PromptGui.inputText("className", "Enter the class name: ", "NatsClient").getInput();
         String topic = PromptGui.inputText("topic", "Enter the subject name", className).getInput();
         if(entityName == null)
         {
