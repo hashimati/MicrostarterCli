@@ -311,8 +311,38 @@ public class FeaturesFactory {
 
         }});
 
+        features.put("rabbitmq", new Feature(){{
+            setName("rabbitmq");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rabbitmq</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rabbitmq</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>\n");
 
+            setGradle("    implementation(\"io.micronaut.rabbitmq:micronaut-rabbitmq\")\n");
+        }});
 
+        features.put("kafka", new Feature(){{
+            setName("kafka");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.kafka</groupId>\n" +
+                    "\t\t<artifactId>micronaut-kafka</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>\n");
+
+            setGradle("    implementation(\"io.micronaut.kafka:micronaut-kafka\")\n");
+        }});
+
+        features.put("nats", new Feature(){{
+            setName("nats");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.nats</groupId>\n" +
+                    "\t\t<artifactId>micronaut-nats</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "t</dependency\n");
+
+            setGradle("    implementation(\"io.micronaut.nats:micronaut-nats\")\n");
+        }});
         return features;
     }
 
