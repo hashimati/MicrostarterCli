@@ -1,0 +1,29 @@
+package ${pack};
+
+import com.coxautodev.graphql.tools.SchemaParser;
+import com.coxautodev.graphql.tools.SchemaParserBuilder;
+import graphql.GraphQL;
+import graphql.schema.GraphQLSchema;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.Factory;
+
+import javax.inject.Singleton;
+
+@Factory
+public class ${className}Factory {
+
+
+
+    @Bean
+    @Singleton
+    public GraphQL graphQL(${className}QueryResolver resolver)
+    {
+        SchemaParserBuilder builder = SchemaParser.newParser()
+                .file("${entityName}.graphqls")
+                .resolvers(resolver);
+
+        GraphQLSchema graphQLSchema = builder.build().makeExecutableSchema();
+        return GraphQL.newGraphQL(graphQLSchema).build();
+
+    }
+}
