@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: rabbitMqNatsKafka
+rabbitmq.uri: amqp://localhost:5672
+nats.addresses:
+- nats://localhost:4222
+kafka.bootstrap.servers: localhost:9092
