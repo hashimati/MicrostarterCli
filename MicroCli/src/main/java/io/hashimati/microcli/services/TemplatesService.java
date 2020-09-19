@@ -55,7 +55,9 @@ public class TemplatesService {
             RABBITMQ_CLIENT = "rabbitMQ_client",
             RABBITMQ_LISTENER = "rabbitMQ_listener",
             KAFKA_CLIENT = "kafka_client",
-            KAFKA_LISTENER = "kafaka_listener";
+            KAFKA_LISTENER = "kafaka_listener",
+            NATS_CLIENT = "nats_client",
+            NATS_LISTENER = "nats_listener";
 
 
 
@@ -120,6 +122,8 @@ public class TemplatesService {
         javaTemplates.put(RABBITMQ_LISTENER,"micronaut/components/java/rabbitmqConsumer.txt");
         javaTemplates.put(KAFKA_CLIENT,"micronaut/components/java/kafkaClient.txt");
         javaTemplates.put(KAFKA_LISTENER,"micronaut/components/java/kafkaConsumer.txt");
+        javaTemplates.put(NATS_CLIENT,"micronaut/components/java/natsClient.txt");
+        javaTemplates.put(NATS_LISTENER,"micronaut/components/java/natsConsumer.txt");
 
 
 
@@ -153,6 +157,8 @@ public class TemplatesService {
         groovyTemplates.put(COMP_REPOSITORY,"micronaut/components/groovy/repository.txt");
         groovyTemplates.put(COMP_WEBSOCKET,"micronaut/components/groovy/websocket.txt");
         groovyTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/groovy/websocketClient.txt");
+        groovyTemplates.put(NATS_CLIENT,"micronaut/components/groovy/natsClient.txt");
+        groovyTemplates.put(NATS_LISTENER,"micronaut/components/groovy/natsConsumer.txt");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -184,6 +190,8 @@ public class TemplatesService {
         kotlinTemplates.put(COMP_REPOSITORY,"micronaut/components/kotlin/repository.txt");
         kotlinTemplates.put(COMP_WEBSOCKET,"micronaut/components/kotlin/websocket.txt");
         kotlinTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/kotlin/websocketClient.txt");
+        kotlinTemplates.put(NATS_CLIENT,"micronaut/components/kotlin/natsClient.txt");
+        kotlinTemplates.put(NATS_LISTENER,"micronaut/components/kotlin/natsConsumer.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
