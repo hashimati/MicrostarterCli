@@ -83,7 +83,10 @@ public class TemplatesService {
             JPA_yml = "jpa",
     MONGODB_yml = "MONGODB",
     CASSANDRA_yml = "CASSANDRA",
-    NEO4J_yml = "NEO4J";
+    NEO4J_yml = "NEO4J",
+    KAFKA_yml = "KAFKA",
+    RABBITMQ_yml = "RABBITMQ",
+    NATS_yml = "NATS";
 
 
 
@@ -220,6 +223,10 @@ public class TemplatesService {
         properties.put(MONGODB_yml, "micronaut/entityTemplates/mongodb_properties.txt");
         properties.put(CASSANDRA_yml, "micronaut/entityTemplates/cassandra_properties.txt");
         properties.put(NEO4J_yml, "micronaut/entityTemplates/neo4j_properties.txt");
+        properties.put(KAFKA_yml, "micronaut/entityTemplates/kafka_properties.txt");
+        properties.put(RABBITMQ_yml, "micronaut/entityTemplates/rabbtmq_properties.txt");
+        properties.put(NATS_yml, "micronaut/entityTemplates/nats_properties.txt");
+
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
