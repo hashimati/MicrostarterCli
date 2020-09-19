@@ -82,7 +82,7 @@ public class MicronautComponentGenerator {
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
         return generate(TemplatesService.KAFKA_CLIENT, map, lang);
 
@@ -96,7 +96,7 @@ public class MicronautComponentGenerator {
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
         return generate(TemplatesService.KAFKA_LISTENER, map, lang);
 
@@ -109,7 +109,7 @@ public class MicronautComponentGenerator {
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
         return generate(TemplatesService.NATS_CLIENT, map, lang);
 
@@ -122,7 +122,7 @@ public class MicronautComponentGenerator {
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
         return generate(TemplatesService.NATS_LISTENER, map, lang);
 
@@ -135,7 +135,7 @@ public class MicronautComponentGenerator {
         map.put("queueName", queueName);
         map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
         return generate(TemplatesService.RABBITMQ_CLIENT, map, lang);
 
     }
@@ -147,7 +147,7 @@ public class MicronautComponentGenerator {
         map.put("queueName", queueName);
         map.put("Message", entity == null?"String": entity.getName());
 
-        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + ";"));
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
         return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
     }
 
