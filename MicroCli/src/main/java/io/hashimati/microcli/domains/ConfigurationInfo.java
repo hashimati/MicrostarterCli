@@ -4,6 +4,7 @@ package io.hashimati.microcli.domains;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.PromptGui;
 import io.hashimati.microcli.utils.Visitor;
 import lombok.Data;
 
@@ -61,6 +62,7 @@ public class ConfigurationInfo {
             else
                 printlnSuccess("Configuration file has been created!");
 
+            PromptGui.setToDefault();
 
             return true;
         } catch (FileNotFoundException e) {
