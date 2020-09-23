@@ -162,9 +162,12 @@ public class EntityAttribute {
         }
         return "";
     }
-    public String getGraphQLDeclaration()
+    public String graphQLDeclaration()
     {
-        return new StringBuilder().append(name).append(" : ").append(DataTypeMapper.graphqlMapper.get("type")).append(",\n").toString();
+        String t = type;
+        if(DataTypeMapper.graphqlMapper.containsKey(type))
+            t = DataTypeMapper.graphqlMapper.get(type);
+            return new StringBuilder().append(name).append(" : ").append(t).append(",\n").toString();
     }
     public String getPackageSyntax(String lang)
     {
