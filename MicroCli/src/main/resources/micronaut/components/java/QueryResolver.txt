@@ -15,4 +15,9 @@ public class ${className}QueryResolver implements GraphQLQueryResolver {
     {
         return ${entityName}Repository.findById(id).get();
     }
+
+    public Iterable<${className}> findAll()
+    {
+        return ${entityName}Repository.findAll();
+    }
 }
