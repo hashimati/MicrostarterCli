@@ -30,6 +30,7 @@ public class Entity
 
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
 
+    private boolean isGraphQl;
 
     public String getName() {
         return name;
@@ -214,5 +215,14 @@ public class Entity
 
     public void setGraphqlpackage(String graphqlpackage) {
         this.graphqlpackage = graphqlpackage;
+    }
+
+    public boolean isGraphQl() {
+        return isGraphQl;
+    }
+
+
+    public void setGraphQl(boolean graphQl) {
+        isGraphQl = graphQl;
     }
 }
