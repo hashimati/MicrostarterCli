@@ -2,7 +2,7 @@ package ${pack}
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
-import ${repoPackage}.repositories.${className}Repository
+import ${repoPackage}.${className}Repository
 
 import javax.inject.Inject
 import javax.inject.Singleton
