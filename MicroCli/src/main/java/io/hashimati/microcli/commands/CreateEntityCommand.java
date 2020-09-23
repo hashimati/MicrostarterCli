@@ -341,6 +341,11 @@ extension, serviceFileContent);
                 String resolverFileContent = micronautEntityGenerator.generateGraphQLResolver(entity, lang);
                 GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
 
+
+                String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
+                String graphQLSchema =micronautEntityGenerator.generateGraphQLSchema(entity);
+                GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
+
             }
 
 
