@@ -426,6 +426,8 @@ public class ProjectConstants {
                     REPOSITORY_PATH = "/src/main/${lang}/${defaultPackage}/repositories",
             SERVICES_PATH = "/src/main/${lang}/${defaultPackage}/services",
             CONTROLLER_PATH= "/src/main/${lang}/${defaultPackage}/controllers",
+                    GRAPHQL_PATH= "/src/main/${lang}/${defaultPackage}/graphqls",
+
             GENERAL_PATH = "/src/main/${lang}/${defaultPackage}",
             EXCEPTION_HANDLER_PATH = "/src/main/${lang}/${defaultPackage}/exceptions/handlers",
             GENERAL_EXCEPTION = "/src/main/${lang}/${defaultPackage}/exceptions",
