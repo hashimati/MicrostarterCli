@@ -93,6 +93,15 @@ public class CreateEnumCommand implements Callable<Integer> {
                 if(!isExist)
                     configurationInfo.getEnums().add(enumClass);
                 configurationInfo.writeToFile();
+
+
+                //if graphql is supported
+            if(configurationInfo.isGraphQlSupport())
+            {
+                String enumGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(name).append(".graphqls").toString();
+                String enumContent =micronautEntityGenerator.generateEnumGraphQL(enumClass);
+                GeneratorUtils.createFile(enumGraphQlFilename, micronautEntityGenerator.generateEnumGraphQL(enumClass));
+            }
         }
         else {
             System.out.println(":- micronaut-cli.yml file is not found in the current directory. Please, try to create the enum class from the project's root directory");
