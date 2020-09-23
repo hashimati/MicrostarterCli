@@ -11,12 +11,12 @@ import javax.inject.Singleton
 public class ${className}QueryResolver implements GraphQLQueryResolver {
     @Inject
     private ${className}Repository ${entityName}Repository
-    public ${className} find(long id)
+    public ${className} find${className}ById(long id)
     {
         return ${entityName}Repository.findById(id).get()
     }
 
-    public Iterable<${className}> findAll()
+    public Iterable<${className}> findAll${className}()
     {
         return ${entityName}Repository.findAll();
     }
