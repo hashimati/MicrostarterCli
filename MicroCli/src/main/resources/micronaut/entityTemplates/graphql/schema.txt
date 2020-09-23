@@ -1,0 +1,7 @@
+type Query{
+    find(id:Int):${entityName}!
+}
+type ${entityName}{
+    id:Int,
+    ${attributes}
+}
