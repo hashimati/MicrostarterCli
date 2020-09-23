@@ -10,17 +10,18 @@ import io.micronaut.context.annotation.Factory;
 import javax.inject.Singleton;
 
 @Factory
-public class ${className}Factory {
+public class QueryFactory {
 
 
 
     @Bean
     @Singleton
-    public GraphQL graphQL(${className}QueryResolver resolver)
+    public GraphQL graphQL(${QueryResolvers})
     {
         SchemaParserBuilder builder = SchemaParser.newParser()
-                .file("${entityName}.graphqls")
-                .resolvers(resolver);
+                .files("queries.graphqls" ${schemafiles})
+                .resolvers(${resolverObject});
+
 
         GraphQLSchema graphQLSchema = builder.build().makeExecutableSchema();
         return GraphQL.newGraphQL(graphQLSchema).build();
