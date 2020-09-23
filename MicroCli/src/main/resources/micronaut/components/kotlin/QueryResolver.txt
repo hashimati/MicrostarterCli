@@ -1,0 +1,17 @@
+package ${pack};
+
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import ${pack}.domains.${className};
+import ${pack}.repositories.${className}Repository;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+class ${className}QueryResolver implements GraphQLQueryResolver(private val ${entityName}Repository :${className}Repository) {
+
+    fun  find(var id: Long): ${className}
+    {
+        return ${entityName}Repository.findById(id).get();
+    }
+}
