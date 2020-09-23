@@ -10,8 +10,13 @@ import javax.inject.Singleton;
 @Singleton
 class ${className}QueryResolver implements GraphQLQueryResolver(private val ${entityName}Repository :${className}Repository) {
 
-    fun  find(var id: Long): ${className}
+    fun find(var id: Long): ${className}
     {
         return ${entityName}Repository.findById(id).get();
+    }
+
+    fun findAll() : Iterable<${className}>
+    {
+            return ${entityName}Repository.findAll();
     }
 }
