@@ -1,7 +1,7 @@
 type Query{
-    find(id:Int):${entityName}!
+    find(id:Int):${className}!
 }
-type ${entityName}{
+type ${className}{
     id:Int,
     ${attributes}
 }
