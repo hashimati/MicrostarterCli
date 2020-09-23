@@ -19,7 +19,8 @@ public class TemplatesService {
     private HashMap<String, String> javaTemplates = new HashMap<>(), groovyTemplates = new HashMap<>(),
             kotlinTemplates = new HashMap<>(),
             sqlEntityTemplates = new HashMap<>(),
-            properties = new HashMap<>();
+            properties = new HashMap<>(),
+            graphqlTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -59,7 +60,14 @@ public class TemplatesService {
             KAFKA_CLIENT = "kafka_client",
             KAFKA_LISTENER = "kafaka_listener",
             NATS_CLIENT = "nats_client",
-            NATS_LISTENER = "nats_listener";
+            NATS_LISTENER = "nats_listener",
+                    GRAPHQL_ENUM = "graphql_enum",
+                    GRAPHQL_SCHEMA = "graphql_schema",
+                    GRAPHQL_TYPE = "graphql_type",
+                    GRAPHQL_QUERY = "graphql_query",
+                    GRAPHQL_DATA = "graphql_query",
+                    GRAPHQL_MUTATION = "graphql_query";
+
 
 
 
@@ -238,7 +246,12 @@ public class TemplatesService {
         properties.put(NATS_yml, "micronaut/entityTemplates/nats_properties.txt");
         properties.put(GRAPHQL_yml, "micronaut/entityTemplates/graphql_properties.txt");
 
-
+        graphqlTemplates.put(GRAPHQL_ENUM, "/micronaut/entityTemplates/graphql/enum.txt");
+        graphqlTemplates.put(GRAPHQL_SCHEMA, "/micronaut/entityTemplates/graphql/schema.txt");
+        graphqlTemplates.put(GRAPHQL_TYPE, "/micronaut/entityTemplates/graphql/type.txt");
+        graphqlTemplates.put(GRAPHQL_DATA, "/micronaut/entityTemplates/graphql/data.txt");
+        graphqlTemplates.put(GRAPHQL_MUTATION, "/micronaut/entityTemplates/graphql/mutation.txt");
+        graphqlTemplates.put(GRAPHQL_QUERY, "/micronaut/entityTemplates/graphql/query.txt");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -301,6 +314,7 @@ public class TemplatesService {
         return kotlinTemplates;
     }
 
+    public HashMap<String, String> getGraphqlTemplates(){return graphqlTemplates;}
     public HashMap<String, String> getProperties(){return properties; }
     public HashMap<String, String> getSqlEntityTemplates() {
         return sqlEntityTemplates;
