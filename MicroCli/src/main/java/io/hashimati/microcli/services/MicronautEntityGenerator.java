@@ -10,15 +10,12 @@ import io.hashimati.microcli.utils.DataTypeMapper;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
-import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_ENUM;
-import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_SCHEMA;
+import static io.hashimati.microcli.services.TemplatesService.*;
 
 
 /**
@@ -455,14 +452,32 @@ public class MicronautEntityGenerator
     }
 
 
-    public String generateGraphQLFactory(Entity entity, String language) throws IOException, ClassNotFoundException {
+    public String generateGraphQLFactory(HashSet<Entity> entities, String language) throws IOException, ClassNotFoundException {
+
+       List<Entity > gqEntities = entities.stream().filter(x-> x.isGraphQl()).collect(Collectors.toList());
+
+        String QueryResolvers =(!language.equalsIgnoreCase(KOTLIN_LANG))? gqEntities.stream().map(x-> x.getName()+"QueryResolver" + " " +x.getName().toLowerCase()+"QueryResolver")
+                .reduce("" ,(x, y) -> x+", " +y).replaceFirst(",", "")
+                //else
+                :gqEntities.stream().map(x->  "var " +x.getName().toLowerCase()+"QueryResolver " + ":" + x.getName()+"QueryResolver")
+                .reduce("" ,(x, y) -> x+", " +y).replaceFirst(",", "")
+                ;
+
+        String schemafiles = gqEntities.stream().map(x-> "\""+x.getName() + ".graphqls\"")
+                .reduce("", (x,y) -> x+ "," + y);
+        String resolverObject = gqEntities.stream().map(x->x.getName().toLowerCase()+"QueryResolver")
+                .reduce("", (x,y) -> x + ","+ y).replaceFirst(",", "");;
+
+
         HashMap<String, String> binder = new HashMap<>();
-        binder.put("pack", entity.getGraphqlpackage() );
-        binder.put("entityName", entity.getName().toLowerCase());
-        binder.put("className",  entity.getName());
+        binder.put("pack", gqEntities.get(0).getGraphqlpackage() );
+
+
+        binder.put("QueryResolvers", QueryResolvers);
+        binder.put("schemafiles",  schemafiles);
+        binder.put("resolverObject", resolverObject);
 
         String key = TemplatesService.GRAPHQL_QUERY_FACOTRY;
-
         String templatePath= getTemplatPath(key, language.toLowerCase());
 
         String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
@@ -724,6 +739,41 @@ public class MicronautEntityGenerator
 
         return new SimpleTemplateEngine()
                 .createTemplate(template).make(map).toString();
+    }
+    public String generateGraphQLQuery(HashSet<Entity> entities) throws IOException, ClassNotFoundException {
+
+        List<Entity> gqEntities = entities.stream().filter(x -> x.isGraphQl()).collect(Collectors.toList());
+
+
+        String methodTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_QUERY_METHOD));
+        String methods = gqEntities.stream().map(x->{
+
+            HashMap<String, String> map = new HashMap<>();
+            map.put("className", x.getName());
+            try {
+                return new SimpleTemplateEngine()
+                        .createTemplate(methodTemplate).make(map).toString();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }).reduce("", (x,y)->x+ "\n" + y);
+
+
+        String queryTemplates =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_QUERY));
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("methods", methods);
+        return new SimpleTemplateEngine()
+                .createTemplate(queryTemplates).make(map).toString();
+
+
+
+
     }
 //    @Inject
 //    private GeneratorUtils generatorUtils;
