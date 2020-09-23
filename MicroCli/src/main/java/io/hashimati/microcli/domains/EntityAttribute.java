@@ -162,6 +162,10 @@ public class EntityAttribute {
         }
         return "";
     }
+    public String getGraphQLDeclaration()
+    {
+        return new StringBuilder().append(name).append(" : ").append(DataTypeMapper.graphqlMapper.get("type")).append(",\n").toString();
+    }
     public String getPackageSyntax(String lang)
     {
         if(this.getType().equalsIgnoreCase(BIG_DECIMAL))
