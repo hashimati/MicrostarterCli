@@ -16,6 +16,7 @@ import java.util.Objects;
 public class Entity
 {
     private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
+    graphqlpackage,
 
 
 
@@ -182,11 +183,12 @@ public class Entity
 
     public void setPackages(String defaultPackage) {
 
-        this.setEntityPackage(defaultPackage+".domains");
-        this.setRepoPackage(defaultPackage+".repositories");
-        this.setServicePackage(defaultPackage+".services");
-        this.setRestPackage(defaultPackage+".controllers");
-        this.setClientPackage(defaultPackage+".clients");
+        this.setEntityPackage(new StringBuilder().append(defaultPackage).append(".domains").toString());
+        this.setRepoPackage(new StringBuilder().append(defaultPackage).append(".repositories").toString());
+        this.setServicePackage(new StringBuilder().append(defaultPackage).append(".services").toString());
+        this.setRestPackage(new StringBuilder().append(defaultPackage).append(".controllers").toString());
+        this.setClientPackage(new StringBuilder().append(defaultPackage).append(".clients").toString());
+        this.setGraphqlpackage(new StringBuilder().append(defaultPackage).append(".graphqls").toString());
 
     }
     @JsonIgnore
@@ -200,10 +202,17 @@ public class Entity
 
                 x->{
                     if(x.isEnumuration())
-                return     "import "+ defaultPackage+".enums." +x.getType()+ ";";
+                return new StringBuilder().append("import ").append(defaultPackage).append(".enums.").append(x.getType()).append(";").toString();
                     else return "";
                 }
         ).reduce((x, y) -> x + "\n"+y).get();
     }
 
+    public String getGraphqlpackage() {
+        return graphqlpackage;
+    }
+
+    public void setGraphqlpackage(String graphqlpackage) {
+        this.graphqlpackage = graphqlpackage;
+    }
 }
