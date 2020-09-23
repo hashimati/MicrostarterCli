@@ -29,6 +29,7 @@ public class ConfigurationInfo {
             dataBackendRun, // JPA, JDBC or none
             dataMigrationTool, //liquibase, Flyway
             messaging;
+    boolean graphQlSupport;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
