@@ -452,7 +452,63 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
 
+    public String generateGraphQLSchema(Entity entity) throws IOException, ClassNotFoundException {
 
+        return null;
+
+
+//        HashMap<String, String> binder = new HashMap<>();
+//        binder.put("clientPackage", entity.getClientPackage() );
+//        binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
+//        binder.put("entityName", entity.getName().toLowerCase());
+//        binder.put("entities", entity.getName().toLowerCase());
+//
+//        binder.put("className",  entity.getName());
+//        binder.put("classNameA", entity.getName());
+//        String key = TemplatesService.CLIENT;
+//        if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()))
+//            key = TemplatesService.MONGO_CLIENT;
+//        String templatePath= getTemplatPath(key, language.toLowerCase());
+//
+//
+//        String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
+//
+//
+//        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
+    }
+
+    public String generateGraphQLFactory(Entity entity, String language) throws IOException, ClassNotFoundException {
+        HashMap<String, String> binder = new HashMap<>();
+        binder.put("pack", entity.getGraphqlpackage() );
+        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("className",  entity.getName());
+
+        String key = TemplatesService.GRAPHQL_QUERY_FACOTRY;
+
+        String templatePath= getTemplatPath(key, language.toLowerCase());
+
+        String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
+
+        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
+    }
+
+    public String generateGraphQLResolver(Entity entity, String language) throws IOException, ClassNotFoundException {
+        HashMap<String, String> binder = new HashMap<>();
+        binder.put("pack", entity.getGraphqlpackage() );
+        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("className",  entity.getName());
+        binder.put("domainPackage", entity.getEntityPackage());
+        binder.put("repoPackage", entity.getRepoPackage());
+
+
+        String key = TemplatesService.GRAPHQL_QUERY_RESOLVER;
+
+        String templatePath= getTemplatPath(key, language.toLowerCase());
+
+        String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
+
+        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
+    }
     public String generateEnum(EnumClass enumClass, String language) throws IOException, ClassNotFoundException {
 
 
