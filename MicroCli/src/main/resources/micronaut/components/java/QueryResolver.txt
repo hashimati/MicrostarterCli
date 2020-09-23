@@ -1,8 +1,8 @@
 package ${pack};
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import ${pack}.domains.${className};
-import ${pack}.repositories.${className}Repository;
+import ${domainPackage}.${className};
+import ${repoPackage}.${className}Repository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
