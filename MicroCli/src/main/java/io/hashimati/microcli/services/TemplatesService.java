@@ -246,12 +246,12 @@ public class TemplatesService {
         properties.put(NATS_yml, "micronaut/entityTemplates/nats_properties.txt");
         properties.put(GRAPHQL_yml, "micronaut/entityTemplates/graphql_properties.txt");
 
-        graphqlTemplates.put(GRAPHQL_ENUM, "/micronaut/entityTemplates/graphql/enum.txt");
-        graphqlTemplates.put(GRAPHQL_SCHEMA, "/micronaut/entityTemplates/graphql/schema.txt");
-        graphqlTemplates.put(GRAPHQL_TYPE, "/micronaut/entityTemplates/graphql/type.txt");
-        graphqlTemplates.put(GRAPHQL_DATA, "/micronaut/entityTemplates/graphql/data.txt");
-        graphqlTemplates.put(GRAPHQL_MUTATION, "/micronaut/entityTemplates/graphql/mutation.txt");
-        graphqlTemplates.put(GRAPHQL_QUERY, "/micronaut/entityTemplates/graphql/query.txt");
+        graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
+        graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
+        graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");
+        graphqlTemplates.put(GRAPHQL_DATA, "micronaut/entityTemplates/graphql/data.txt");
+        graphqlTemplates.put(GRAPHQL_MUTATION, "micronaut/entityTemplates/graphql/mutation.txt");
+        graphqlTemplates.put(GRAPHQL_QUERY, "micronaut/entityTemplates/graphql/query.txt");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -265,6 +265,7 @@ public class TemplatesService {
     public String loadTemplateContent(String path){
         ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
        StringBuilder template = new StringBuilder();
+
         try {
          //   System.out.println(path + " " + loader.getResource("classpath:"+path).get() == null);
             Scanner scanner = new Scanner(loader.getResource("classpath:"+path).get().openStream());
