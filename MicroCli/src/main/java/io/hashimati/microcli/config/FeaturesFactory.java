@@ -339,10 +339,32 @@ public class FeaturesFactory {
                     "\t\t<groupId>io.micronaut.nats</groupId>\n" +
                     "\t\t<artifactId>micronaut-nats</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
-                    "t</dependency\n");
+                    "\tt</dependency\n");
 
             setGradle("    implementation(\"io.micronaut.nats:micronaut-nats\")\n");
         }});
+
+        features.put("graphql", new Feature(){{
+            setName("graphql");
+            setGradle("    implementation(\"io.micronaut.graphql:micronaut-graphql\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.graphql</groupId>\n" +
+                    "\t\t<artifactId>micronaut-graphql</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        //	compile 'com.graphql-java:graphql-java-tools:5.2.4'
+        features.put("graphql-tool", new Feature(){{
+            setName("qraphql-tool");
+            setGradle("    compile 'com.graphql-java:graphql-java-tools:5.2.4'");
+            setMaven("\t<dependency>\n"+
+                    "\t\t<groupId>>com.graphql-java</groupId>\n" +
+                    "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
+                    "\t\t<scope>compile</scope>\n"+
+                    "\t\t<version>5.2.4</version>\n"+
+                    "\t</dependency>");
+        }});
+
         return features;
     }
 
