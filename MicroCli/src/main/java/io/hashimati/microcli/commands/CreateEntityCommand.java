@@ -326,6 +326,23 @@ extension, serviceFileContent);
             }});
             GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/"+configurationInfo.getProjectInfo().getSourceLanguage()+"/"+GeneratorUtils.packageToPath(entity.getClientPackage()) + "/"+entity.getName()+"Client"+extension, clientFileContent);
 
+            if(graphql)
+            {
+                String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(entity, lang);
+
+                String factoryPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GRAPHQL_PATH, new HashMap<String, String>() {{
+                    put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                    put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                }});
+                GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "Factory" + extension, factoyFileContent);
+
+
+
+                String resolverFileContent = micronautEntityGenerator.generateGraphQLResolver(entity, lang);
+                GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
+
+            }
+
 
 
             ///====== Generate Randomizer
