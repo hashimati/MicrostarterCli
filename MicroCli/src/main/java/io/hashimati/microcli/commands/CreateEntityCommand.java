@@ -325,16 +325,17 @@ extension, serviceFileContent);
                 put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
             }});
             GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/main/"+configurationInfo.getProjectInfo().getSourceLanguage()+"/"+GeneratorUtils.packageToPath(entity.getClientPackage()) + "/"+entity.getName()+"Client"+extension, clientFileContent);
-
+            configurationInfo.getEntities().add(entity);
             if(graphql)
             {
-                String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(entity, lang);
+                entity.setGraphQl(true);
+                String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(configurationInfo.getEntities(), lang);
 
                 String factoryPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GRAPHQL_PATH, new HashMap<String, String>() {{
                     put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                 }});
-                GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "Factory" + extension, factoyFileContent);
+                GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/QueryFactory" + extension, factoyFileContent);
 
 
 
@@ -345,6 +346,11 @@ extension, serviceFileContent);
                 String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
                 String graphQLSchema =micronautEntityGenerator.generateGraphQLSchema(entity);
                 GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
+
+
+                String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
+                String graphQLQuery =micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
+                GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
 
             }
 
@@ -376,7 +382,7 @@ extension, serviceFileContent);
 
 
 
-            configurationInfo.getEntities().add(entity);
+//            configurationInfo.getEntities().add(entity);
             configurationInfo.writeToFile();
 
 
