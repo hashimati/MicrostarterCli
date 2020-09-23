@@ -65,8 +65,9 @@ public class TemplatesService {
                     GRAPHQL_SCHEMA = "graphql_schema",
                     GRAPHQL_TYPE = "graphql_type",
                     GRAPHQL_QUERY = "graphql_query",
-                    GRAPHQL_DATA = "graphql_query",
-                    GRAPHQL_MUTATION = "graphql_query";
+                    GRAPHQL_DATA = "graphql_data",
+                    GRAPHQL_MUTATION = "graphql_mutation",
+                    GRAPHQL_QUERY_METHOD= "graphql_query_method";
 
 
 
@@ -252,6 +253,8 @@ public class TemplatesService {
         graphqlTemplates.put(GRAPHQL_DATA, "micronaut/entityTemplates/graphql/data.txt");
         graphqlTemplates.put(GRAPHQL_MUTATION, "micronaut/entityTemplates/graphql/mutation.txt");
         graphqlTemplates.put(GRAPHQL_QUERY, "micronaut/entityTemplates/graphql/query.txt");
+        graphqlTemplates.put(GRAPHQL_QUERY_METHOD, "micronaut/entityTemplates/graphql/queryMethods.txt");
+
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
