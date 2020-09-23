@@ -100,7 +100,7 @@ public class CreateEnumCommand implements Callable<Integer> {
             {
                 String enumGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(name).append(".graphqls").toString();
                 String enumContent =micronautEntityGenerator.generateEnumGraphQL(enumClass);
-                GeneratorUtils.createFile(enumGraphQlFilename, micronautEntityGenerator.generateEnumGraphQL(enumClass));
+                GeneratorUtils.createFile(enumGraphQlFilename, enumContent);
             }
         }
         else {
