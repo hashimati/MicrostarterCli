@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
 import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_ENUM;
+import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_SCHEMA;
 
 
 /**
@@ -453,30 +454,6 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
 
-    public String generateGraphQLSchema(Entity entity) throws IOException, ClassNotFoundException {
-
-        return null;
-
-
-//        HashMap<String, String> binder = new HashMap<>();
-//        binder.put("clientPackage", entity.getClientPackage() );
-//        binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
-//        binder.put("entityName", entity.getName().toLowerCase());
-//        binder.put("entities", entity.getName().toLowerCase());
-//
-//        binder.put("className",  entity.getName());
-//        binder.put("classNameA", entity.getName());
-//        String key = TemplatesService.CLIENT;
-//        if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()))
-//            key = TemplatesService.MONGO_CLIENT;
-//        String templatePath= getTemplatPath(key, language.toLowerCase());
-//
-//
-//        String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
-//
-//
-//        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
-    }
 
     public String generateGraphQLFactory(Entity entity, String language) throws IOException, ClassNotFoundException {
         HashMap<String, String> binder = new HashMap<>();
@@ -712,9 +689,7 @@ public class MicronautEntityGenerator
     public String generateEnumGraphQL(EnumClass enumClass) throws IOException, ClassNotFoundException {
 
         HashMap<String, String> map = new HashMap<>();
-        map.put(
-                "enumPackage", enumClass.getEnumPackage()
-        );
+
         map.put("className", enumClass.getName());
         StringBuilder options = new StringBuilder("");
         for (String value : enumClass.getValues()) {
@@ -726,6 +701,28 @@ public class MicronautEntityGenerator
 
 
        return new SimpleTemplateEngine()
+                .createTemplate(template).make(map).toString();
+    }
+
+
+    public String generateGraphQLSchema(Entity entity) throws IOException, ClassNotFoundException
+    {
+
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("className", entity.getName());
+       String attributesDeclaration = "";
+       if(!entity.getAttributes().isEmpty()) {
+           attributesDeclaration=  entity.getAttributes().stream()
+                   .map(x->x.graphQLDeclaration())
+                   .reduce("" , (x, y) ->x+y);
+           attributesDeclaration = attributesDeclaration.substring(0, attributesDeclaration.lastIndexOf(","));
+       }
+        map.put("attributes", attributesDeclaration);
+        String template =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_SCHEMA));
+
+
+        return new SimpleTemplateEngine()
                 .createTemplate(template).make(map).toString();
     }
 //    @Inject
