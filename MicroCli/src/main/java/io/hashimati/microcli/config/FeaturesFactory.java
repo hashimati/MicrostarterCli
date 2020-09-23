@@ -356,7 +356,7 @@ public class FeaturesFactory {
         //	compile 'com.graphql-java:graphql-java-tools:5.2.4'
         features.put("graphql-tool", new Feature(){{
             setName("qraphql-tool");
-            setGradle("    compile 'com.graphql-java:graphql-java-tools:5.2.4'");
+            setGradle("    implementation(\"com.graphql-java:graphql-java-tools:5.2.4\")");
             setMaven("\t<dependency>\n"+
                     "\t\t<groupId>>com.graphql-java</groupId>\n" +
                     "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
