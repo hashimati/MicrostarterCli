@@ -14,15 +14,17 @@ class ${className}Factory {
 
 
 
+
     @Bean
     @Singleton
-    fun graphQL(resolver: ${className}QueryResolver ): GraphQL
+    fun graphQL(${QueryResolvers}): GraphQL
     {
-        var builder: SchemaParserBuilder  = SchemaParser.newParser()
-                .file("${entityName}.graphqls")
-                .resolvers(resolver)
+        var builder :SchemaParserBuilder = SchemaParser.newParser()
+                .files("queries.graphqls" ${schemafiles})
+                .resolvers(${resolverObject});
 
-        var graphQLSchema :GraphQLSchema= builder.build().makeExecutableSchema();
+
+        var graphQLSchema :GraphQLSchema= builder.build().makeExecutableSchema()
         return GraphQL.newGraphQL(graphQLSchema).build();
 
     }
