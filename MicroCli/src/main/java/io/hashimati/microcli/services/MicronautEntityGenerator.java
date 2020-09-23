@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
+import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_ENUM;
 
 
 /**
@@ -706,6 +707,26 @@ public class MicronautEntityGenerator
                 keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         }
         return generateFromTemplate(entity, language, binder, keyTemplate);
+    }
+
+    public String generateEnumGraphQL(EnumClass enumClass) throws IOException, ClassNotFoundException {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put(
+                "enumPackage", enumClass.getEnumPackage()
+        );
+        map.put("className", enumClass.getName());
+        StringBuilder options = new StringBuilder("");
+        for (String value : enumClass.getValues()) {
+            options.append(value).append(", ");
+        }
+        options.deleteCharAt(options.lastIndexOf(","));
+        map.put("options", options.toString());
+       String template =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_ENUM));
+
+
+       return new SimpleTemplateEngine()
+                .createTemplate(template).make(map).toString();
     }
 //    @Inject
 //    private GeneratorUtils generatorUtils;
