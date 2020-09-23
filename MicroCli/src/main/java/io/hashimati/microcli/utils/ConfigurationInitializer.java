@@ -1,5 +1,7 @@
 package io.hashimati.microcli.utils;
 
+import de.codeshelf.consoleui.elements.ConfirmChoice;
+import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.config.Feature;
@@ -8,8 +10,6 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.TemplatesService;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
 import static io.hashimati.microcli.services.TemplatesService.OPENAPI_yml;
 import static io.hashimati.microcli.utils.PromptGui.*;
-import static org.fusesource.jansi.Ansi.Color.*;
 
 
 @Singleton
@@ -229,6 +229,26 @@ public class ConfigurationInitializer {
                         (templatesService.getProperties().get(configurationInfo.getMessaging().toUpperCase())); /// The index == to featureName.toUppercase
                 MicronautProjectValidator.appendToProperties(messagingProperties);
                 // End adding Yaml
+            }
+        }
+        if(!projectInfo.getFeatures().contains("graphql"))
+        {
+            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");
+
+
+            if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+
+                projectInfo.getFeatures().add("graphql");
+                configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
+                MicronautProjectValidator.addDependency(features.get("graphql"));
+                MicronautProjectValidator.addDependency(features.get("graphql-tool"));
+                projectInfo.dumpToFile();
+
+
+                templatesService.loadTemplates(null);
+                String graphQLproperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(GRAPHQL_yml));
+                MicronautProjectValidator.appendToProperties(graphQLproperties);
             }
         }
 
