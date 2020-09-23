@@ -40,6 +40,8 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+            GRAPHQL_QUERY_FACOTRY = "graphql_query_factory",
+            GRAPHQL_QUERY_RESOLVER = "graphql_query_resolver",
             CONTROLLER_UNIT_TEST = "controller_unit",
             CONTROLLER_SPOCK_TEST = "controller_spock",
             CONTROLLER_KOTLIN_TEST = "controller_kotlintest",
@@ -86,7 +88,8 @@ public class TemplatesService {
     NEO4J_yml = "NEO4J",
     KAFKA_yml = "KAFKA",
     RABBITMQ_yml = "RABBITMQ",
-    NATS_yml = "NATS";
+    NATS_yml = "NATS",
+            GRAPHQL_yml = "GRAPHQL";
 
 
 
@@ -127,6 +130,8 @@ public class TemplatesService {
         javaTemplates.put(KAFKA_LISTENER,"micronaut/components/java/kafkaConsumer.txt");
         javaTemplates.put(NATS_CLIENT,"micronaut/components/java/natsClient.txt");
         javaTemplates.put(NATS_LISTENER,"micronaut/components/java/natsConsumer.txt");
+        javaTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/java/QueryFactory.txt");
+        javaTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/java/QueryResolver.txt");
 
 
 
@@ -162,6 +167,9 @@ public class TemplatesService {
         groovyTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/groovy/websocketClient.txt");
         groovyTemplates.put(NATS_CLIENT,"micronaut/components/groovy/natsClient.txt");
         groovyTemplates.put(NATS_LISTENER,"micronaut/components/groovy/natsConsumer.txt");
+        groovyTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/groovy/QueryFactory.txt");
+        groovyTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/groovy/QueryResolver.txt");
+
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -195,6 +203,8 @@ public class TemplatesService {
         kotlinTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/kotlin/websocketClient.txt");
         kotlinTemplates.put(NATS_CLIENT,"micronaut/components/kotlin/natsClient.txt");
         kotlinTemplates.put(NATS_LISTENER,"micronaut/components/kotlin/natsConsumer.txt");
+        kotlinTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/kotlin/QueryFactory.txt");
+        kotlinTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/kotlin/QueryResolver.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
@@ -226,6 +236,8 @@ public class TemplatesService {
         properties.put(KAFKA_yml, "micronaut/entityTemplates/kafka_properties.txt");
         properties.put(RABBITMQ_yml, "micronaut/entityTemplates/rabbtmq_properties.txt");
         properties.put(NATS_yml, "micronaut/entityTemplates/nats_properties.txt");
+        properties.put(GRAPHQL_yml, "micronaut/entityTemplates/graphql_properties.txt");
+
 
     }
 
