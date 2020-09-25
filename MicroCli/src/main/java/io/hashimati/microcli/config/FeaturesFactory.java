@@ -354,17 +354,27 @@ public class FeaturesFactory {
                     "\t</dependency>");
         }});
         //	compile 'com.graphql-java:graphql-java-tools:5.2.4'
-        features.put("graphql-tool", new Feature(){{
-            setName("qraphql-tool");
-            setGradle("    implementation(\"com.graphql-java:graphql-java-tools:5.2.4\")");
+        features.put("graphql-java-tools", new Feature(){{
+            setName("qraphql-java-tools");
+            setGradle("    implementation(\"com.graphql-java:graphql-java-tools:6.2.0\")");
             setMaven("\t<dependency>\n"+
                     "\t\t<groupId>>com.graphql-java</groupId>\n" +
                     "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
                     "\t\t<scope>compile</scope>\n"+
-                    "\t\t<version>5.2.4</version>\n"+
+                    "\t\t<version>6.2.0</version>\n"+
                     "\t</dependency>");
         }});
 
+
+        features.put("graphql-spqr", new Feature(){{
+            setName("graphql-spqr");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.leangen.graphql</groupId>\n" +
+                    "\t\t<artifactId>spqr</artifactId>\n" +
+                    "\t\t<version>0.10.0</version>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.leangen.graphql:spqr:0.10.0\")");
+        }});
         return features;
     }
 
