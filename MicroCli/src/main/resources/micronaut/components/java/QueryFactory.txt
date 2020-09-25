@@ -1,7 +1,7 @@
 package ${pack};
 
-import com.coxautodev.graphql.tools.SchemaParser;
-import com.coxautodev.graphql.tools.SchemaParserBuilder;
+import graphql.kickstart.tools.SchemaParser;
+import graphql.kickstart.tools.SchemaParserBuilder;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import io.micronaut.context.annotation.Bean;
