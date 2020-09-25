@@ -2,3 +2,7 @@ type ${className}{
     id:Int,
     ${attributes}
 }
+input ${className}Input{
+    id:Int,
+    ${attributes}
+}
