@@ -2,7 +2,7 @@ package ${pack};
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import ${domainPackage}.${className};
-import ${repoPackage}.${className}Repository;
+import ${servicePackage}.${className}Service;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,14 +10,27 @@ import javax.inject.Singleton;
 @Singleton
 public class ${className}QueryResolver implements GraphQLQueryResolver {
     @Inject
-    private ${className}Repository ${entityName}Repository;
+    private ${className}Service ${entityName}Service;
     public ${className} find${className}ById(long id)
     {
-        return ${entityName}Repository.findById(id).get();
+        return ${entityName}Service.findById(id).get();
     }
 
     public Iterable<${className}> findAll${className}()
     {
-        return ${entityName}Repository.findAll();
+        return ${entityName}Service.findAll();
     }
+
+    public ${className} save${className}(${className} ${entityName}){
+        return ${entityName}Service.save(${entityName});
+    }
+    public ${className} update${className}(${className} ${entityName})}
+    {
+        return  ${entityName}Service.update(${entityName});
+
+    }
+    public boolean delete${className}(long id){
+      return ${entityName}Service.deleteById(id);
+    }
+
 }
