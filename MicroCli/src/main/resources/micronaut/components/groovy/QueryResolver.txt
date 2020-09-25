@@ -1,23 +1,24 @@
 package ${pack}
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver
+import graphql.kickstart.tools.GraphQLMutationResolver
+import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
-import ${repoPackage}.${className}Repository
+import ${servicePackage}.${className}Repository
 
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-public class ${className}QueryResolver implements GraphQLQueryResolver {
+public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
     @Inject
-    private ${className}Repository ${entityName}Repository
+    private ${className}Repository ${entityName}Service
     public ${className} find${className}ById(long id)
     {
-        return ${entityName}Repository.findById(id).get()
+        return ${entityName}Service.findById(id)
     }
 
     public Iterable<${className}> findAll${className}()
     {
-        return ${entityName}Repository.findAll();
+        return ${entityName}Service.findAll();
     }
 }
