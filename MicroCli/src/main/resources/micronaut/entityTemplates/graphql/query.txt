@@ -1,3 +1,7 @@
 type Query{
     ${methods}
 }
+
+type Mutation {
+    ${mutationMethods}
+}
