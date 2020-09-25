@@ -1,6 +1,7 @@
 package io.hashimati.microcli.utils;
 
 import de.codeshelf.consoleui.elements.ConfirmChoice;
+import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
@@ -231,17 +232,31 @@ public class ConfigurationInitializer {
                 // End adding Yaml
             }
         }
-        if(!projectInfo.getFeatures().contains("graphql"))
+       // if(!projectInfo.getFeatures().contains("graphql"))
         {
             ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");
 
 
             if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
 
+
                 projectInfo.getFeatures().add("graphql");
                 configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
                 MicronautProjectValidator.addDependency(features.get("graphql"));
-                MicronautProjectValidator.addDependency(features.get("graphql-tool"));
+
+
+                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQl Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
+                switch(graphqlLib){
+
+                    case "graphql-java-tools":
+                        MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
+                        configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
+                        break;
+                    case "graphql-spqr":
+                        MicronautProjectValidator.addDependency(features.get("graphql-spqr"));
+                        configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
+                        break;
+                }
                 projectInfo.dumpToFile();
 
 
