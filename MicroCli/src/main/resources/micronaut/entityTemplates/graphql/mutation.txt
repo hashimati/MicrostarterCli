@@ -1,0 +1,3 @@
+    save${className}(${entityName} : ${className}):${className}
+    update${className}(${entityName} : ${className}):${className}
+    delete${className}(id : Int):boolean
