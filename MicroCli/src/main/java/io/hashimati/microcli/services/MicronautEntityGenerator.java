@@ -491,7 +491,7 @@ public class MicronautEntityGenerator
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className",  entity.getName());
         binder.put("domainPackage", entity.getEntityPackage());
-        binder.put("repoPackage", entity.getRepoPackage());
+        binder.put("servicePackage", entity.getServicePackage());
 
 
         String key = TemplatesService.GRAPHQL_QUERY_RESOLVER;
@@ -768,6 +768,32 @@ public class MicronautEntityGenerator
         HashMap<String, String> map = new HashMap<>();
 
         map.put("methods", methods);
+
+
+        String mutationMethodTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_MUTATION));
+
+        String mutationMethods = gqEntities.stream().map(x->{
+
+            HashMap<String, String> map2 = new HashMap<>();
+            map.put("className", x.getName());
+            map.put("entityName", x.getName().toLowerCase());
+            try {
+                return new SimpleTemplateEngine()
+                        .createTemplate(mutationMethodTemplate).make(map2).toString();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }).reduce("", (x,y)->x+ "\n" + y);
+
+        map.put("mutationMethods", mutationMethods);
+
+
+
+
         return new SimpleTemplateEngine()
                 .createTemplate(queryTemplates).make(map).toString();
 
