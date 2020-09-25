@@ -775,8 +775,8 @@ public class MicronautEntityGenerator
         String mutationMethods = gqEntities.stream().map(x->{
 
             HashMap<String, String> map2 = new HashMap<>();
-            map.put("className", x.getName());
-            map.put("entityName", x.getName().toLowerCase());
+            map2.put("className", x.getName());
+            map2.put("entityName", x.getName().toLowerCase());
             try {
                 return new SimpleTemplateEngine()
                         .createTemplate(mutationMethodTemplate).make(map2).toString();
