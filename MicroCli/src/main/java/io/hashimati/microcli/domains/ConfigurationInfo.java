@@ -28,7 +28,8 @@ public class ConfigurationInfo {
             databaseType, // H2, MariaDB, MySQL, Oracle, Postgres, MS_SQL, or Mongo
             dataBackendRun, // JPA, JDBC or none
             dataMigrationTool, //liquibase, Flyway
-            messaging;
+            messaging,
+            graphQLIntegrationLib;
     boolean graphQlSupport;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
