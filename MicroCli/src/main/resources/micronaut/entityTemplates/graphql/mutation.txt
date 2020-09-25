@@ -1,4 +1,4 @@
     # ${className}
-    save${className}(${entityName} : ${className}):${className}
-    update${className}(${entityName} : ${className}):${className}
-    delete${className}(id : Int):boolean
+    save${className}(${entityName} : ${className}Input):${className}
+    update${className}(${entityName} : ${className}Input):${className}
+    delete${className}(id : Int):Boolean
