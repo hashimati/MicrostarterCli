@@ -20,7 +20,7 @@ public interface ${classNameA}Client {
     public Single<${className}> findById(@Parameter("id") long id);
 
     @Delete("/delete/{id}")
-    public boolean deleteById(@PathVariable("id") long id);
+    public boolean deleteById(@PathVariable("id") String id);
 
     @Get("/findAll")
     public Flowable<${className}> findAll();
