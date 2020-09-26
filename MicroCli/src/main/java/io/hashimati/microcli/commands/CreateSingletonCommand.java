@@ -44,7 +44,7 @@ public class CreateSingletonCommand implements Callable<Integer> {
 
         createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
 
-        printlnSuccess(className + " is create successfully!");
+        printlnSuccess(className + " is created successfully!");
         setToDefault();
 
         return 0;
