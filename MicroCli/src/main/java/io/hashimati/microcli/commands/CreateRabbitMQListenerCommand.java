@@ -1,10 +1,14 @@
 package io.hashimati.microcli.commands;
 
+import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
+import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
+import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -41,6 +45,28 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
             configurationInfo = ConfigurationInfo.fromFile(configurationFile);
         }
 
+        ProjectInfo projectInfo = configurationInfo.getProjectInfo();
+        //add RabbitMQ Dependencies
+        if(!configurationInfo
+                .getProjectInfo().getFeatures().contains("rabbitmq")){
+
+            TemplatesService templatesService = new TemplatesService();
+            projectInfo.getFeatures().add("rabbitmq");
+            MicronautProjectValidator.addDependency(FeaturesFactory.features().get("rabbitmq"));
+
+            projectInfo.dumpToFile();
+
+
+            //AddingYaml
+            templatesService.loadTemplates(null);
+            String messagingProperties = templatesService.loadTemplateContent
+                    (templatesService.getProperties().get("rabbitmq"));
+            MicronautProjectValidator.appendToProperties(messagingProperties);
+
+            configurationInfo.writeToFile();
+            // End adding Yaml
+
+        }
         String packageName = PromptGui.inputText("pack", "Enter the class's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
 
