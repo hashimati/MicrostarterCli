@@ -392,7 +392,7 @@ extension, serviceFileContent);
         catch(Exception ex)
         {
             ex.printStackTrace();
-            println("Failed to create entity!", RED);
+            println("Failed to create an entity!", RED);
 
             return (-1);
         }
