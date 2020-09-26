@@ -251,11 +251,11 @@ public class ConfigurationInitializer {
                     case "graphql-java-tools":
                         MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
                         configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
-                        break;
+                        break; 
                     case "graphql-spqr":
                         MicronautProjectValidator.addDependency(features.get("graphql-spqr"));
                         configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
-                        break;
+                        break; 
                 }
                 projectInfo.dumpToFile();
 
