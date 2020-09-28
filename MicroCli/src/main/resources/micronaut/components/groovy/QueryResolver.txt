@@ -23,8 +23,6 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
         return ${entityName}Service.findAll();
     }
 
-
-
     ${className} save${className}(${className} ${entityName}){
         return ${entityName}Service.save(${entityName});
     }
