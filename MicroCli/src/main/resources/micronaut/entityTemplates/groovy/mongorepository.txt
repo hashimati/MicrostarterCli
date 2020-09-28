@@ -53,6 +53,11 @@ class ${entityClass}Repository {
     {
 
         log.info("saving ${entityClass}", object);
+        if(object.getId() == null)
+        {
+            return Single.just(object)
+                .onErrorReturn({fail-> object})
+        }
         return Single.fromPublisher(getCollection().insertOne(object))
         .map({success -> object})
     }
