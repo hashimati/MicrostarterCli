@@ -47,7 +47,7 @@ public class CreateClientCommand implements Callable<Integer> {
 
         printlnSuccess(className + " is create successfully!");
         setToDefault();
-
+        System.gc();
         return 0;
     }
 }
