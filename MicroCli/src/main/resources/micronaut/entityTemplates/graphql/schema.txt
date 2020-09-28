@@ -1,8 +1,8 @@
 type ${className}{
-    id:Int,
+    id:${idType},
     ${attributes}
 }
 input ${className}Input{
-    id:Int,
+    id:${idType},
     ${attributes}
 }
