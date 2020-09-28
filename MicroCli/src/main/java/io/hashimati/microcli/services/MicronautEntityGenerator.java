@@ -781,7 +781,13 @@ public class MicronautEntityGenerator
             HashMap<String, String> map2 = new HashMap<>();
             map2.put("className", x.getName());
             map2.put("entityName", x.getName().toLowerCase());
+            if(x.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
+                map2.put("idType", "String");
+            else
+                map2.put("idType", "Int");
             try {
+
+
                 return new SimpleTemplateEngine()
                         .createTemplate(mutationMethodTemplate).make(map2).toString();
             } catch (ClassNotFoundException e) {
