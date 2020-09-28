@@ -165,9 +165,9 @@ public class EntityAttribute {
     public String graphQLDeclaration()
     {
         String t = type;
-        if(DataTypeMapper.graphqlMapper.containsKey(type))
-            t = DataTypeMapper.graphqlMapper.get(type);
-            return new StringBuilder().append(name).append(" : ").append(t).append(",\n").toString();
+        //return String in case of enum. 
+        t = DataTypeMapper.graphqlMapper.containsKey(type) ? DataTypeMapper.graphqlMapper.get(type) : "String";
+        return new StringBuilder().append(name).append(" : ").append(t).append(",\n").toString();
     }
     public String getPackageSyntax(String lang)
     {
