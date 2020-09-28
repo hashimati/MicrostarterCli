@@ -22,6 +22,8 @@ import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstant
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
+import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
+import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
 @Command(name = "create-relation", aliases = {"relation"}, description = "To create a new entity")
@@ -132,7 +134,9 @@ public class CreateRelationCommand implements Callable<Integer> {
 
         configurationInfo.getRelations().add(entityRelation);
         configurationInfo.writeToFile();
-        System.out.println("done!");
+        printlnSuccess("The relationship has been created successfully!");
+        setToDefault();
+        System.gc();
         return 0;
     }
 }
