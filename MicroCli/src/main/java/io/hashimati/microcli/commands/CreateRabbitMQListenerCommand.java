@@ -97,6 +97,7 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();
-        return null;
+        System.gc();
+        return 0;
     }
 }
