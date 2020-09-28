@@ -120,6 +120,7 @@ public class CreateEnumCommand implements Callable<Integer> {
 //        System.out.println(micronautEntityGenerator.generateEnum(enumClass, "java"));
 //        System.out.println(micronautEntityGenerator.generateEnum(enumClass, "groovy"));
 //        System.out.println(micronautEntityGenerator.generateEnum(enumClass, "kotlin"));
+        System.gc();
         return 0;
     }
 }
