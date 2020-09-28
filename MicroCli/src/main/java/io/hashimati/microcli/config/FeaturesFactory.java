@@ -58,7 +58,7 @@ public class FeaturesFactory {
            }
            else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
            {
-               setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-processor\")");
+               setAnnotationGradle("    kapt(\"io.micronaut.data:micronaut-data-processor\")");
 
            }
 
@@ -97,7 +97,7 @@ public class FeaturesFactory {
                 setAnnotationGradle("    compileOnly(\"io.micronaut.data:micronaut-data-processor\")");
 
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
-                setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-processor\")");
+                setAnnotationGradle("    kapt(\"io.micronaut.data:micronaut-data-processor\")");
 
             setAnnotationMaven("                <path>\n" +
                     "                  <groupId>io.micronaut.data</groupId>\n" +
