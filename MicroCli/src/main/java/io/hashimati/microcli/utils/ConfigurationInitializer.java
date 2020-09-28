@@ -206,6 +206,11 @@ public class ConfigurationInitializer {
                 projectInfo.getFeatures().add("mongo-reactive");
                 MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
                 //todo add dependencies to build files;
+                templatesService.loadTemplates(null);
+                String mongoProperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
+                MicronautProjectValidator.appendToProperties(mongoProperties);
+
                 projectInfo.dumpToFile();
             }
 
