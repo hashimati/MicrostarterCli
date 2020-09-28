@@ -167,7 +167,7 @@ public class EntityAttribute {
         String t = type;
         //return String in case of enum. 
         t = DataTypeMapper.graphqlMapper.containsKey(type) ? DataTypeMapper.graphqlMapper.get(type) : "String";
-        return new StringBuilder().append(name).append(" : ").append(t).append(",\n").toString();
+        return new StringBuilder().append("\t").append(name).append(" : ").append(t).append(",\n").toString();
     }
     public String getPackageSyntax(String lang)
     {
