@@ -1,0 +1,37 @@
+package ${pack};
+
+import graphql.kickstart.tools.GraphQLMutationResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
+import ${domainPackage}.${className};
+import ${servicePackage}.${className}Service;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
+    @Inject
+    private ${className}Service ${entityName}Service;
+    public ${className} find${className}ById(long id)
+    {
+        return ${entityName}Service.findById(id).blockingGet();
+    }
+
+    public Iterable<${className}> findAll${className}()
+    {
+        return ${entityName}Service.findAll().blockingIterable();
+    }
+
+    public ${className} save${className}(${className} ${entityName}){
+        return ${entityName}Service.save(${entityName}).blockingGet();
+    }
+    public ${className} update${className}(${className} ${entityName})
+    {
+        return  ${entityName}Service.update(${entityName}).blockingGet();
+
+    }
+    public boolean delete${className}(long id){
+      return ${entityName}Service.deleteById(id).blockingGet();
+    }
+
+}
