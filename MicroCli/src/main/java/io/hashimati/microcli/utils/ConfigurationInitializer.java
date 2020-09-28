@@ -297,6 +297,7 @@ public class ConfigurationInitializer {
 
 
         setToDefault();
+        System.gc();
     }
 
 }
