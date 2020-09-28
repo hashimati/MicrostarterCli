@@ -46,6 +46,11 @@ class ${entityClass}Repository(private val mongoClient:MongoClient) {
     {
 
         log.info("Saving ${entityClass}: {}",o )
+        if(object.getId() == null)
+        {
+            return Single.just(object)
+                .onErrorReturn{_-> o}
+        }
         return Single.fromPublisher(getCollection().insertOne(o)
         ).map{_ ->o}
     }
