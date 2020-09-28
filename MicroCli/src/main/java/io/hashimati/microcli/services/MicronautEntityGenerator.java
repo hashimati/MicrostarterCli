@@ -459,7 +459,7 @@ public class MicronautEntityGenerator
         String QueryResolvers =(!language.equalsIgnoreCase(KOTLIN_LANG))? gqEntities.stream().map(x-> x.getName()+"QueryResolver" + " " +x.getName().toLowerCase()+"QueryResolver")
                 .reduce("" ,(x, y) -> x+", " +y).replaceFirst(",", "")
                 //else
-                :gqEntities.stream().map(x->  "var " +x.getName().toLowerCase()+"QueryResolver " + ":" + x.getName()+"QueryResolver")
+                :gqEntities.stream().map(x->  "" +x.getName().toLowerCase()+"QueryResolver " + ":" + x.getName()+"QueryResolver")
                 .reduce("" ,(x, y) -> x+", " +y).replaceFirst(",", "")
                 ;
 
@@ -494,7 +494,7 @@ public class MicronautEntityGenerator
         binder.put("servicePackage", entity.getServicePackage());
 
 
-        String key = TemplatesService.GRAPHQL_QUERY_RESOLVER;
+        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml))? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 
         String templatePath= getTemplatPath(key, language.toLowerCase());
 
@@ -726,6 +726,10 @@ public class MicronautEntityGenerator
 
         HashMap<String, String> map = new HashMap<>();
         map.put("className", entity.getName());
+        if(entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
+            map.put("idType", "String");
+        else
+            map.put("idType", "Int");
        String attributesDeclaration = "";
        if(!entity.getAttributes().isEmpty()) {
            attributesDeclaration=  entity.getAttributes().stream()
