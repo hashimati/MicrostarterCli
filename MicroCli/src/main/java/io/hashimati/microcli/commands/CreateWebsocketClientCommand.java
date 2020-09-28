@@ -54,7 +54,7 @@ public class CreateWebsocketClientCommand implements Callable<Integer> {
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();
-
+        System.gc();
         return 0;
     }
 }
