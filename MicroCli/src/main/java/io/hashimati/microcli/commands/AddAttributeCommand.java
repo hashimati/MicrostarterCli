@@ -197,6 +197,7 @@ public class AddAttributeCommand implements Callable<Integer> {
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
         configurationInfo.writeToFile();
+        System.gc();
         return 0;
     }
 }
