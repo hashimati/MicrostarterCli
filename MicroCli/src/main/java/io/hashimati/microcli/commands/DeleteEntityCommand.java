@@ -3,12 +3,15 @@ package io.hashimati.microcli.commands;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+
+import static io.hashimati.microcli.utils.PromptGui.*;
 
 @Command(name = "delete-entity", aliases ={"delEntity", "delentity"}, description = "To delete existing entity")
 public class DeleteEntityCommand implements Callable<Integer> {
@@ -53,11 +56,14 @@ public class DeleteEntityCommand implements Callable<Integer> {
             configurationInfo.getEntities().remove(entity);
 
             configurationInfo.writeToFile();
-            System.out.println("The job is completed");
+            printlnSuccess("The job is completed");
+            setToDefault();
         }
         else {
-            System.out.println(entityName+ " isn't exist!");
+            printlnErr(entityName+ " isn't exist!");
+            setToDefault();
         }
+        System.gc();
         return 0;
     }
 }
