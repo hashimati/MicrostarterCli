@@ -43,7 +43,9 @@ public class TemplatesService {
             SERVICE = "service",
             GRAPHQL_QUERY_FACOTRY = "graphql_query_factory",
             GRAPHQL_QUERY_RESOLVER = "graphql_query_resolver",
-            CONTROLLER_UNIT_TEST = "controller_unit",
+            GRAPHQL_REACTIVE_QUERY_RESOLVER = "graphql_reactive_query_resolver",
+
+             CONTROLLER_UNIT_TEST = "controller_unit",
             CONTROLLER_SPOCK_TEST = "controller_spock",
             CONTROLLER_KOTLIN_TEST = "controller_kotlintest",
             //COMP is stands for Component.
@@ -141,6 +143,7 @@ public class TemplatesService {
         javaTemplates.put(NATS_LISTENER,"micronaut/components/java/natsConsumer.txt");
         javaTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/java/QueryFactory.txt");
         javaTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/java/QueryResolver.txt");
+        javaTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/java/Reactive_QueryResolver.txt");
 
 
 
@@ -178,6 +181,7 @@ public class TemplatesService {
         groovyTemplates.put(NATS_LISTENER,"micronaut/components/groovy/natsConsumer.txt");
         groovyTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/groovy/QueryFactory.txt");
         groovyTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/groovy/QueryResolver.txt");
+        groovyTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/groovy/Reactive_QueryResolver.txt");
 
 
 
@@ -215,6 +219,8 @@ public class TemplatesService {
         kotlinTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/kotlin/QueryFactory.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/kotlin/QueryResolver.txt");
 
+
+        kotlinTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/kotlin/Reactive_QueryResolver.txt");
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
         sqlEntityTemplates.put(CONSTRAINT, "micronaut/entityTemplates/sql/constraint_template.sql");
