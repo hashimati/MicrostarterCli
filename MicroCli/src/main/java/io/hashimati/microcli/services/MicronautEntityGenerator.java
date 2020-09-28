@@ -754,6 +754,10 @@ public class MicronautEntityGenerator
 
             HashMap<String, String> map = new HashMap<>();
             map.put("className", x.getName());
+            if(x.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
+                map.put("idType", "String");
+            else
+                map.put("idType", "Int");
             try {
                 return new SimpleTemplateEngine()
                         .createTemplate(methodTemplate).make(map).toString();
