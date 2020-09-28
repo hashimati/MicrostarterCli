@@ -17,6 +17,7 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
+import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 
 
 @Command(name = "delete-attribute",aliases = {"delAttr", "delattr"}, description = "to delete attribute from an entity")
@@ -69,6 +70,8 @@ public class DeleteAttributeCommand implements Callable<Integer>
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
         configurationInfo.writeToFile();
+        printlnSuccess("The job is completed");
+        System.gc();
         return 0;
     }
 }
