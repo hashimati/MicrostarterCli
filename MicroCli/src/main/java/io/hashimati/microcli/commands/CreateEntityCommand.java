@@ -396,7 +396,7 @@ extension, serviceFileContent);
 
             return (-1);
         }
-
+        System.gc();
         return 1;
     }
 }
