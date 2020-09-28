@@ -47,6 +47,7 @@ public class CreateSingletonCommand implements Callable<Integer> {
         printlnSuccess(className + " is created successfully!");
         setToDefault();
 
+        System.gc();
         return 0;
     }
 }
