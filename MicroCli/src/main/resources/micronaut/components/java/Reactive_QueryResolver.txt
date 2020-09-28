@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
     @Inject
     private ${className}Service ${entityName}Service;
-    public ${className} find${className}ById(long id)
+    public ${className} find${className}ById(String id)
     {
         return ${entityName}Service.findById(id).blockingGet();
     }
@@ -30,7 +30,7 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
         return  ${entityName}Service.update(${entityName}).blockingGet();
 
     }
-    public boolean delete${className}(long id){
+    public boolean delete${className}(String id){
       return ${entityName}Service.deleteById(id).blockingGet();
     }
 
