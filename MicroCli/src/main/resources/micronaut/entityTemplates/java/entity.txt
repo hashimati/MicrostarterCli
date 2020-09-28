@@ -30,7 +30,7 @@ public class ${className}{
     <% if(jdbc) out.print '@GeneratedValue(GeneratedValue.Type.AUTO) ' %>
     <% if(jdbc) out.print '@EqualsAndHashCode.Exclude ' %>
     <% if(jdbc) out.println 'private Long id;'%>
-    <% if(normal) out.println 'private String id;' %>
+    <% if(normal) out.println 'private Long id;' %>
     ${instances}
     <% if(jdbc) out.print '@DateCreated ' %>
     <% if(jdbc) out.println 'private Date dateCreated;' %>
