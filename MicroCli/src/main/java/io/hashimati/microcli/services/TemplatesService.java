@@ -216,6 +216,12 @@ public class TemplatesService {
         groovyTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/groovy/reactive/AuthenictationProviderUserPassword.txt");
         groovyTemplates.put(SECURITY_ROLES, "micronaut/security/groovy/Roles.txt");
         groovyTemplates.put(SECURITY_USER, "micronaut/security/groovy/User.txt");
+        groovyTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/groovy/UserRepository.txt");
+        groovyTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/groovy/UserService.txt");
+        groovyTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/groovy/UserController.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/groovy/reactive/UserRepository.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/groovy/reactive/UserService.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/groovy/reactive/UserController.txt");
 
 
 
@@ -260,6 +266,12 @@ public class TemplatesService {
         kotlinTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/kotlin/reactive/AuthenictationProviderUserPassword.txt");
         kotlinTemplates.put(SECURITY_ROLES, "micronaut/security/kotlin/Roles.txt");
         kotlinTemplates.put(SECURITY_USER, "micronaut/security/kotlin/User.txt");
+        kotlinTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/kotlin/UserRepository.txt");
+        kotlinTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/kotlin/UserService.txt");
+        kotlinTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/kotlin/UserController.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/kotlin/reactive/UserRepository.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/kotlin/reactive/UserService.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/kotlin/reactive/UserController.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
