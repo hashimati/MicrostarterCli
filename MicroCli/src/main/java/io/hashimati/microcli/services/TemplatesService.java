@@ -44,6 +44,13 @@ public class TemplatesService {
             GRAPHQL_QUERY_FACOTRY = "graphql_query_factory",
             GRAPHQL_QUERY_RESOLVER = "graphql_query_resolver",
             GRAPHQL_REACTIVE_QUERY_RESOLVER = "graphql_reactive_query_resolver",
+            SECURITY_AUTHENTICATION_PROVIDER = "authentication_provider_user_password",
+            SECURITY_REACTIVE_AUTHENTICATION_PROVIDER = "reactive_authentication_provider_user_password",
+            SECURITY_LOGIN_EVENT= "login_event",
+            SECURITY_LOGIN_STATUS = "login_status",
+            SECURITY_PASSWORD_ENCODER = "password_encoder",
+            SECURITY_ROLES = "sec_roles",
+            SECURITY_USER= "sec_user",
 
              CONTROLLER_UNIT_TEST = "controller_unit",
             CONTROLLER_SPOCK_TEST = "controller_spock",
@@ -144,7 +151,13 @@ public class TemplatesService {
         javaTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/java/QueryFactory.txt");
         javaTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/java/QueryResolver.txt");
         javaTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/java/Reactive_QueryResolver.txt");
-
+        javaTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/java/AuthenictationProviderUserPassword.txt");
+        javaTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/java/LoginEvent.txt");
+        javaTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/java/LoginStatus.txt");
+        javaTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/java/PasswordEncoder.txt");
+        javaTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/java/reactive/AuthenictationProviderUserPassword.txt");
+        javaTemplates.put(SECURITY_ROLES, "micronaut/security/java/Roles.txt");
+        javaTemplates.put(SECURITY_USER, "micronaut/security/java/User.txt");
 
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
@@ -182,6 +195,13 @@ public class TemplatesService {
         groovyTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/groovy/QueryFactory.txt");
         groovyTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/groovy/QueryResolver.txt");
         groovyTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/groovy/Reactive_QueryResolver.txt");
+        groovyTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/groovy/AuthenictationProviderUserPassword.txt");
+        groovyTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/groovy/LoginEvent.txt");
+        groovyTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/groovy/LoginStatus.txt");
+        groovyTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/groovy/PasswordEncoder.txt");
+        groovyTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/groovy/reactive/AuthenictationProviderUserPassword.txt");
+        groovyTemplates.put(SECURITY_ROLES, "micronaut/security/groovy/Roles.txt");
+        groovyTemplates.put(SECURITY_USER, "micronaut/security/groovy/User.txt");
 
 
 
@@ -218,9 +238,15 @@ public class TemplatesService {
         kotlinTemplates.put(NATS_LISTENER,"micronaut/components/kotlin/natsConsumer.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/kotlin/QueryFactory.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/kotlin/QueryResolver.txt");
-
-
         kotlinTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/kotlin/Reactive_QueryResolver.txt");
+        kotlinTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/kotlin/AuthenictationProviderUserPassword.txt");
+        kotlinTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/kotlin/LoginEvent.txt");
+        kotlinTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/kotlin/LoginStatus.txt");
+        kotlinTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/kotlin/PasswordEncoder.txt");
+        kotlinTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/kotlin/reactive/AuthenictationProviderUserPassword.txt");
+        kotlinTemplates.put(SECURITY_ROLES, "micronaut/security/kotlin/Roles.txt");
+        kotlinTemplates.put(SECURITY_USER, "micronaut/security/kotlin/User.txt");
+
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
         sqlEntityTemplates.put(CONSTRAINT, "micronaut/entityTemplates/sql/constraint_template.sql");
