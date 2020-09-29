@@ -369,7 +369,7 @@ extension, serviceFileContent);
                     extension = ".groovy";
                     langDir = "groovy";
                     break;
-                case "kotlintest":
+                case "kotest":
                     extension = ".kt";
                     langDir = "kotlin";
                     break;
