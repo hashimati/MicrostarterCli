@@ -10,44 +10,44 @@ public class MicronautJWTSecurityGenerator {
     @Inject
     private TemplatesService templatesService;
 
-    public String generateUserEntity()
+    public String generateUserEntity(String language)
     {
 
         return "";
     }
-    public String generateUserRepository()
+    public String generateUserRepository(String language)
     {
 
         return "";
     }
-    public String generateUserService()
+    public String generateUserService(String language)
     {
 
         return "";
     }
-    public String generateUserController()
+    public String generateUserController(String language)
     {
 
         return "";
     }
-    public String generatePasswrodEncoder(){
+    public String generatePasswrodEncoder(String language){
         return "";
 
     }
-    public String generateAuthenticationProvider()
+    public String generateAuthenticationProvider(String language)
     {
         return "";
     }
-    public String generateLoginEvent(){
+    public String generateLoginEvent(String language){
         return "";
     }
-    public String generateLoginStatus(){
+    public String generateLoginStatus(String language){
         return "";
     }
-    public String generateRoles(String... roles){
-        return generateRoles(Arrays.asList(roles));
+    public String generateRoles( String language, String... roles){
+        return generateRoles(language ,Arrays.asList(roles));
     }
-    public String generateRoles(List<String> roles){
+    public String generateRoles(String language,List<String> roles){
         return "";
     }
 
