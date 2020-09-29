@@ -51,8 +51,15 @@ public class TemplatesService {
             SECURITY_PASSWORD_ENCODER = "password_encoder",
             SECURITY_ROLES = "sec_roles",
             SECURITY_USER= "sec_user",
+            SECURITY_USER_REPOSITORY= "sec_user_repository",
+            SECURITY_USER_SERVICE= "sec_user_service",
+            SECURITY_USER_CONTROLLER= "sec_user_controller",
+            SECURITY_USER_MONGO_REPOSITORY= "sec_user_mongo_repository",
+            SECURITY_USER_MONGO_SERVICE= "sec_user_mongo_service",
+            SECURITY_USER_MONGO_CONTROLLER= "sec_user_mongo_controller",
 
-             CONTROLLER_UNIT_TEST = "controller_unit",
+
+    CONTROLLER_UNIT_TEST = "controller_unit",
             CONTROLLER_SPOCK_TEST = "controller_spock",
             CONTROLLER_KOTLIN_TEST = "controller_kotlintest",
             //COMP is stands for Component.
@@ -159,6 +166,12 @@ public class TemplatesService {
         javaTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/java/reactive/AuthenictationProviderUserPassword.txt");
         javaTemplates.put(SECURITY_ROLES, "micronaut/security/java/Roles.txt");
         javaTemplates.put(SECURITY_USER, "micronaut/security/java/User.txt");
+        javaTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/java/UserRepository.txt");
+        javaTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/java/UserService.txt");
+        javaTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/java/UserController.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/java/reactive/UserRepository.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/java/reactive/UserService.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/java/reactive/UserController.txt");
 
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
