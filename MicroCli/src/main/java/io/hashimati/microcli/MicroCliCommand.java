@@ -6,7 +6,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "MicroCli", description = "...",
-        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class, CreateKafkaClientCommand.class, CreateKafkaListenerCommand.class, CreateRabbitMQClientCommand.class, CreateRabbitMQListenerCommand.class, CreateWebsocketClientCommand.class, CreateWebsocketServerCommand.class, CreateNatsClientCommand.class, CreateNatsListenerCommand.class})
+        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class, CreateKafkaClientCommand.class, CreateKafkaListenerCommand.class, CreateRabbitMQClientCommand.class, CreateRabbitMQListenerCommand.class, CreateWebsocketClientCommand.class, CreateWebsocketServerCommand.class, CreateNatsClientCommand.class, CreateNatsListenerCommand.class, EnableJWTSecurityCommand.class})
 public class MicroCliCommand implements Runnable {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
