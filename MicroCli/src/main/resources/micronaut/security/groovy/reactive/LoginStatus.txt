@@ -1,4 +1,4 @@
-package ${domainPackage};
+package ${securityPackage};
 
 
 public enum LoginStatus {
