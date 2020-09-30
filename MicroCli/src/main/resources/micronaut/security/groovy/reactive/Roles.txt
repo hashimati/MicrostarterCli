@@ -1,4 +1,4 @@
-package ${domainPackage}.security;
+package ${securityPackage};
 
 
 public class Roles {
