@@ -2,6 +2,8 @@ package ${entitypackage}
 ${importedPackages}
 ${jpa?'import javax.persistence.*':''}
 ${jdbc?'import io.micronaut.data.annotation.*;' :''}
+${jpa?'import io.micronaut.data.annotation.DateCreated' :''}
+${jpa?'import io.micronaut.data.annotation.DateUpdated' :''}
 import javax.validation.constraints.*
 ${containDate?'import java.util.Date':''}
 import java.util.List
