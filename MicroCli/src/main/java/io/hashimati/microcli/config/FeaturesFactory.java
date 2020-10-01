@@ -375,6 +375,79 @@ public class FeaturesFactory {
                     "\t</dependency>");
             setGradle("    implementation(\"io.leangen.graphql:spqr:0.10.0\")");
         }});
+        features.put("jasypt", new Feature(){{
+            setName("jasypt");
+            setGradle("     implementation(\"org.jasypt:jasypt:1.9.3\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>org.jasypt</groupId>\n" +
+                    "\t\t<artifactId>jasypt</artifactId>\n" +
+                    "\t\t<version>1.9.3</version>\n" +
+                    "\t</dependency>\n");
+        }});
+        features.put("security-jwt", new Feature(){{
+            setName("security-jwt");
+            setGradle("    implementation(\"io.micronaut.security:micronaut-security-jwt\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security-jwt</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("security", new Feature(){{
+            setName("security");
+            setGradle("    implementation(\"io.micronaut.security:micronaut-security\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+        features.put("security-session", new Feature(){{
+            setName("security-session");
+            setGradle("    implementation(\"io.micronaut.security:micronaut-security-session\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security-session</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("security-oauth2", new Feature(){{
+            setName("security-oauth2");
+            setGradle("    implementation(\"io.micronaut.security:micronaut-security-oauth2\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security-oauth2</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("security-ldap", new Feature(){{
+            setName("security-ldap");
+            setGradle("    implementation(\"io.micronaut.security:micronaut-security-ldap\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security-ldap</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+
+        features.put("security-annotations", new Feature(){{
+
+            if(projectInfo.getSourceLanguage().equalsIgnoreCase(JAVA_LANG))
+
+                setAnnotationGradle("    annotationProcessor(\"io.micronaut.security:micronaut-security-annotations\")");
+            else if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
+                setAnnotationGradle("    compileOnly(\"io.micronaut.security:micronaut-security-annotations\")");
+            else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
+                setAnnotationGradle("    kapt(\"io.micronaut.security:micronaut-security-annotations\")");
+            setAnnotationMaven("\t\t\t<path>\n" +
+                    "\t\t\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t\t\t<artifactId>micronaut-security-annotations</artifactId>\n" +
+                    "\t\t\t\t<version>${micronaut.security.version}</version>\n" +
+                    "\t\t\t</path>");
+        }});
         return features;
     }
 
