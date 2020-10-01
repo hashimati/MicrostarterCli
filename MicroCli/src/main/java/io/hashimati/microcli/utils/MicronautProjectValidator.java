@@ -235,8 +235,8 @@ public class MicronautProjectValidator {
         }
         else if(gradleContent.contains(prefix)) {
             int lastIndexOfPrefix = gradleContent.lastIndexOf(prefix);
-            System.out.println(prefix);
-            System.out.println(lastIndexOfPrefix);
+//            System.out.println(prefix);
+//            System.out.println(lastIndexOfPrefix);
             String replaceString =      gradleContent.substring(lastIndexOfPrefix,
                     gradleContent.indexOf("\n", lastIndexOfPrefix));
 
