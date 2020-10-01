@@ -2,9 +2,11 @@ package ${entitypackage};
 
 ${importedPackages}
 ${jpa?'import javax.persistence.*;' :''}
-${jpa?'import javax.persistence.*;' :''}
+
 ${jdbc?'import io.micronaut.data.annotation.*;' :''}
-${jpa?'import io.micronaut.data.annotation.*;' :''}
+${jpa?'import io.micronaut.data.annotation.DateCreated;' :''}
+${jpa?'import io.micronaut.data.annotation.DateUpdated;' :''}
+
 
 import lombok.*;
 import javax.validation.constraints.*;
