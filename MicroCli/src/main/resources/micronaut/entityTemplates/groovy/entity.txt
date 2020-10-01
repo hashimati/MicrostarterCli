@@ -6,7 +6,8 @@ import groovy.transform.Canonical;
 import groovy.transform.CompileStatic;
 ${jpa?'import javax.persistence.*':''};
 ${jdbc?'import io.micronaut.data.annotation.*;' :''}
-${jpa?'import io.micronaut.data.annotation.*;' :''}
+${jpa?'import io.micronaut.data.annotation.DateCreated' :''}
+${jpa?'import io.micronaut.data.annotation.DateUpdated' :''}
 import io.swagger.v3.oas.annotations.media.Schema
 
 ${containDate?'import java.util.Date':''}
