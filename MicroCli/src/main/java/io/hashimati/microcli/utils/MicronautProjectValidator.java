@@ -1,5 +1,6 @@
 package io.hashimati.microcli.utils;
 
+import groovy.text.Template;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ProjectInfo;
@@ -529,10 +530,11 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean appendJPAToProperties(String database, boolean main)
-    {
+    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2) throws FileNotFoundException {
         //todo
-        return false;
+      return appendJDBCToProperties(database, main, testWithH2)&&
+        appendToProperties(templatesService.getProperties().get(TemplatesService.JPA_yml));
+
     }
     public static boolean appendToProperties(String properties) throws FileNotFoundException {
         //todo
