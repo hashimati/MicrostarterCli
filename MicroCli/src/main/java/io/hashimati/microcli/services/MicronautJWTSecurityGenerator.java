@@ -100,7 +100,7 @@ public class MicronautJWTSecurityGenerator {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("securityPackage", new StringBuilder().append(defaultPackage).append(".security").toString());
-
+        map.put("roles", formatRules(roles));
         return generate(key, map, language );
     }
 
@@ -126,5 +126,15 @@ public class MicronautJWTSecurityGenerator {
         return GeneratorUtils.generateFromTemplate(templatesService.loadTemplateContent(templatePath), map);
     }
 
+
+
+    public String formatRules(List<String> rules)
+    {
+        String declaration = rules.stream().map(x-> x+ " = \""+ x+", ").reduce(
+                "", (x, y )-> x+y
+        );
+        declaration = new StringBuilder().append(declaration, 0, declaration.lastIndexOf(",")).toString();
+        return declaration;
+    }
 }
 
