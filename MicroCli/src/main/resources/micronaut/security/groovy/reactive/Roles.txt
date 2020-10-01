@@ -4,6 +4,6 @@ package ${securityPackage};
 public class Roles {
 
     private final String
-            ADMIN = "admin",
+            ADMIN = "ADMIN",
             ${roles};
 }
