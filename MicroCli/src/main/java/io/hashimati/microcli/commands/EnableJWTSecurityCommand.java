@@ -3,9 +3,14 @@ package io.hashimati.microcli.commands;
 
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.prompt.PromtResultItemIF;
+import io.hashimati.microcli.config.Feature;
+import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.MicronautJWTSecurityGenerator;
+import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -13,10 +18,13 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
+import static io.hashimati.microcli.services.TemplatesService.JWT_yml;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
 @Command(name = "enable-security-jwt", aliases = {"jwt", "JWT", "security-jwt"}, description = "To secure the application with JWT")
@@ -30,12 +38,38 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
 
 
     private ConfigurationInfo configurationInfo;
+    private TemplatesService templatesService = new TemplatesService();
+
     @Override
     public Integer call() throws Exception {
 
         configurationInfo = new ConfigureCommand().call();
 
         AnsiConsole.systemInstall();
+
+        ProjectInfo  projectInfo = configurationInfo.getProjectInfo();
+        //security-annotations, security-jwt, security-session, security, security-ldap, security-oauth2
+
+        HashMap<String, Feature> features = FeaturesFactory.features();
+        if(!projectInfo.getFeatures().contains("security-jwt")){
+            if(!projectInfo.getFeatures().contains("security-annotations")){
+
+                MicronautProjectValidator.addDependency(features.get("security-annotations"));
+                projectInfo.getFeatures().add("security-annotations");
+
+            }
+            MicronautProjectValidator.addDependency(features.get("security-jwt"));
+            projectInfo.getFeatures().add("security-jwt");
+            projectInfo.dumpToFile();
+            configurationInfo.writeToFile();
+            MicronautProjectValidator.addDependency(features.get("jasypt")); 
+            templatesService.loadTemplates(null);
+            String jwtProperties = templatesService.loadTemplateContent
+                    (templatesService.getProperties().get(JWT_yml));
+            MicronautProjectValidator.appendToProperties(jwtProperties);
+
+        }
+
         if(rules == null)
             rules = new HashSet<>();
         if(rules.isEmpty()) {
@@ -51,7 +85,6 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
                 read = createConfirmResult("more", "Do you want to add another security rule?").getConfirmed() != ConfirmChoice.ConfirmationValue.NO;
             }
         }
-
         String rootPath = new StringBuilder().append(System.getProperty("user.dir")).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).toString();
         //todo generate  Roles
 
@@ -101,6 +134,8 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
         GeneratorUtils.createFile(authProviderPath,authProviderContent);
 
 
+        printlnSuccess("JWT-Security is configured successfully!");
+        setToDefault();
         return 0;
     }
 }
