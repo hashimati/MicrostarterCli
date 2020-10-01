@@ -150,6 +150,7 @@ public class ConfigurationInitializer {
 
 
 
+
                 //adding database:
                 String databasetype = configurationInfo.getDatabaseType().toLowerCase();
                 if(!projectInfo.getFeatures().contains(databasetype) )
@@ -179,7 +180,11 @@ public class ConfigurationInitializer {
                             }
                         }
                     }
-                    MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2);
+
+                    if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
+                         MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2);
+                    else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa"))
+                        MicronautProjectValidator.appendJPAToProperties(databasetype, true, testWithH2);
                     if(!databasetype.equalsIgnoreCase("h2"))
                         MicronautProjectValidator.appendJDBCToProperties(databasetype+"_test", false, testWithH2);
 
