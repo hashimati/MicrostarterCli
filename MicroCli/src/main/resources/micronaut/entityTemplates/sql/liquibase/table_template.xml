@@ -1,5 +1,5 @@
 <createTable tableName="${tableName}"
-             remarks="A table to contain all ${tableName}">
+             remarks="A table to store all ${tableName} records">
 
    ${columns}
 </createTable>
