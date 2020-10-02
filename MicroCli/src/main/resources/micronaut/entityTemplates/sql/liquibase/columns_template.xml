@@ -1,5 +1,4 @@
 <column name="${columnName}" type="${type}">
-
-
+    ${constraints}
 
 </column>
