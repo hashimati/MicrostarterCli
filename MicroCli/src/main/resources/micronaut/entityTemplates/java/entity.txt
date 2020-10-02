@@ -28,6 +28,7 @@ public class ${className}{
     <% if(jpa) out.print '@Id '%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE) ' %>
     <% if(jpa) out.print '@EqualsAndHashCode.Exclude ' %>
+    <% if(jpa) out.println 'private Long id;'%>
     <% if(jdbc) out.print '@Id '%>
     <% if(jdbc) out.print '@GeneratedValue(GeneratedValue.Type.AUTO) ' %>
     <% if(jdbc) out.print '@EqualsAndHashCode.Exclude ' %>
