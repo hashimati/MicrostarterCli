@@ -1,8 +1,8 @@
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driverClassName: org.postgresql.Driver
-    username: postgres
+    url: jdbc:mariadb://localhost:3306/db
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
     password: ''
     schema-generate: CREATE_DROP
-    dialect: POSTGRES
+    dialect: MYSQL
