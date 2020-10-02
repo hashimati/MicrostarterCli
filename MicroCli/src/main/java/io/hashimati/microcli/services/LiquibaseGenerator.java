@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 
 @Singleton
-public class XmlSchemaGenerator  {
+public class LiquibaseGenerator {
 
 
     @Inject
