@@ -20,7 +20,8 @@ public class TemplatesService {
             kotlinTemplates = new HashMap<>(),
             sqlEntityTemplates = new HashMap<>(),
             properties = new HashMap<>(),
-            graphqlTemplates = new HashMap<>();
+            graphqlTemplates = new HashMap<>(),
+            liquibaseTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -83,7 +84,17 @@ public class TemplatesService {
                     GRAPHQL_QUERY = "graphql_query",
                     GRAPHQL_DATA = "graphql_data",
                     GRAPHQL_MUTATION = "graphql_mutation",
-                    GRAPHQL_QUERY_METHOD= "graphql_query_method";
+                    GRAPHQL_QUERY_METHOD= "graphql_query_method",
+
+            ///liquiBase
+            LIQUIBASE_CATALOG = "catalog",
+                    LIQUIBASE_COLUMN = "column",
+                    LIQUIBASE_constrain = "constrain",
+                    LIQUIBASE_FOREIGNKEY= "foreign_key",
+                    LIQUIBASE_INCLUDE= "include",
+                    LIQUIBASE_SCHEMA = "schema",
+                    LIQUIBASE_TABLE="table";
+    ;
 
 
 
@@ -313,6 +324,15 @@ public class TemplatesService {
         graphqlTemplates.put(GRAPHQL_QUERY, "micronaut/entityTemplates/graphql/query.txt");
         graphqlTemplates.put(GRAPHQL_QUERY_METHOD, "micronaut/entityTemplates/graphql/queryMethods.txt");
 
+
+        liquibaseTemplates.put(LIQUIBASE_FOREIGNKEY,"micronaut/entityTemplates/sql/liquibase/foreignKey_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_CATALOG,"micronaut/entityTemplates/sql/liquibase/catalog_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_COLUMN,"micronaut/entityTemplates/sql/liquibase/columns_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_constrain,"micronaut/entityTemplates/sql/liquibase/constraint_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_INCLUDE,"micronaut/entityTemplates/sql/liquibase/include_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_SCHEMA,"micronaut/entityTemplates/sql/liquibase/schema_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_TABLE,"micronaut/entityTemplates/sql/liquibase/table_template.xml");
+
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -380,6 +400,10 @@ public class TemplatesService {
     public HashMap<String, String> getProperties(){return properties; }
     public HashMap<String, String> getSqlEntityTemplates() {
         return sqlEntityTemplates;
+    }
+
+    public HashMap<String, String> getLiquibaseTemplates() {
+        return liquibaseTemplates;
     }
 }
 
