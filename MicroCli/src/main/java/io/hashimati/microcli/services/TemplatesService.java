@@ -296,7 +296,7 @@ public class TemplatesService {
 
 
 
-        properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.txt");
+        properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.yml");
         properties.put(MONGODB_yml, "micronaut/entityTemplates/mongodb_properties.txt");
         properties.put(CASSANDRA_yml, "micronaut/entityTemplates/cassandra_properties.txt");
         properties.put(NEO4J_yml, "micronaut/entityTemplates/neo4j_properties.txt");
