@@ -533,7 +533,7 @@ public class MicronautProjectValidator {
     public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2) throws FileNotFoundException {
         //todo
       return appendJDBCToProperties(database, main, testWithH2)&&
-        appendToProperties(templatesService.getProperties().get(TemplatesService.JPA_yml));
+        appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
 
     }
     public static boolean appendToProperties(String properties) throws FileNotFoundException {
