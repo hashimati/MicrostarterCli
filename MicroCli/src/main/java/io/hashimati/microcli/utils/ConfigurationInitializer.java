@@ -242,7 +242,7 @@ public class ConfigurationInitializer {
                 // End adding Yaml
             }
         }
-       // if(!projectInfo.getFeatures().contains("graphql"))
+        if(!projectInfo.getFeatures().contains("graphql"))
         {
             ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");
 
