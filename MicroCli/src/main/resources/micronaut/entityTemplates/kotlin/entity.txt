@@ -8,9 +8,10 @@ import javax.validation.constraints.*
 ${containDate?'import java.util.Date':''}
 import java.util.List
 import io.swagger.v3.oas.annotations.media.Schema
+${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
 
 @Schema(name="${className}", description="${className} Description")
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
-<% if(jdbc) out.print "@MappedEntity(\"${collectionName}\")"%>
+<% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 data class ${className}(<% if(jpa) out.print '@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long'%> <% if(normal) out.println 'var id:String'%> <% if(jdbc) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO) var id: Long'%>
 ${instances})
