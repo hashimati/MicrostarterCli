@@ -7,5 +7,6 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="${id}" author="yourname">
         ${tables}
+        ${foreignKey}
     </changeSet>
 </databaseChangeLog>
