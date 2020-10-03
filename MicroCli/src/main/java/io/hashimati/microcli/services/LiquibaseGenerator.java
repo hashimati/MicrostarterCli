@@ -7,12 +7,14 @@ import io.hashimati.microcli.domains.EntityAttribute;
 import io.hashimati.microcli.domains.EntityConstraints;
 import io.hashimati.microcli.domains.EntityRelation;
 import io.hashimati.microcli.utils.DataTypeMapper;
+import io.hashimati.microcli.utils.GeneratorUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Singleton
@@ -91,12 +93,47 @@ public class LiquibaseGenerator {
         return null;
     }
 
+    public String generateTable(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws IOException, ClassNotFoundException {
+        //todo
+        String entityColumns = generateAttribute(entity);
+
+        String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_TABLE));
+
+        return GeneratorUtils.generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
+            put("columns", entityColumns);
+        }});
+    }
+
+    public String generateChangeSet(List<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMappper) throws  IOException, ClassNotFoundException{
+
+        String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
+
+        StringBuilder content = new StringBuilder("").append(
+        entityList.stream().map(x-> {
+            try {
+                return generateTable(x, relations, erMappper);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            }
+
+        }).reduce("", (x, y) -> new StringBuilder().append(x).append("\n").append(y).toString()));
+
+        //todo add foreign key
+
+                
+        return GeneratorUtils.generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
+            put("tables", content.toString());
+            put("foreignKey", "");
+        }});
+    }
     public String generateConstraints(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> collectionMapper) {
        return "";
     }
 
 
-    public String generateTable(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) {
-        return null;
-    }
+    
 }
