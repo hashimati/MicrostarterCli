@@ -1,5 +1,6 @@
 package io.hashimati.microcli.services;
 
+import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.domains.Entity;
@@ -12,9 +13,12 @@ import io.hashimati.microcli.utils.GeneratorUtils;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.logging.XMLFormatter;
 
 
 @Singleton
@@ -38,10 +42,16 @@ public class LiquibaseGenerator {
 
         SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
 
+
+        StringBuilder idConstraintsBuilder = new StringBuilder()
+                .append("unique=\"true\" ")
+                .append("nullable=\"false\" ")
+                .append("primaryKey=\"true\" ");
         StringBuilder declaration = new StringBuilder(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
             put("columnName", "id");
             put("type", mapper.get("long"));
-            put("constraints", "");
+            put("constraints", templateEngine.createTemplate(constraintTemplate).make(new HashMap<String, String>(){{
+                put("constraints", idConstraintsBuilder.toString());}}).toString());
         }}).toString()+"\n");
         declaration.append(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
             put("columnName", "date_created");
@@ -62,18 +72,22 @@ public class LiquibaseGenerator {
             String mappedDataType = mapper.get(attributeType);
 
             EntityConstraints constraints = attribute.getConstraints();
+            String max ="";
+            System.out.println(constraints == null);
+            if(constraints != null && constraints.getMax() != null)
+             max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
 
-            String max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
-
-            String maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
+            String maxLength = "(255)";
+            if(constraints != null && constraints.getMaxSize() != null)
+             maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
            String maxx = attributeType.equalsIgnoreCase("string")?maxLength:max;
             maxx = maxx.contains("-")?"":maxx;
             String dec =mappedDataType +maxx;
 
             StringBuilder constraintsBuilder = new StringBuilder();
-            if(constraints.isUnique())
+            if(constraints != null && constraints.isUnique())
                 constraintsBuilder.append("unique=\"true\" ");
-            if(constraints.isNullable())
+            if(constraints != null && constraints.isNullable())
                 constraintsBuilder.append("nullable=\"true\" ");
 
             declaration.append(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
@@ -101,17 +115,20 @@ public class LiquibaseGenerator {
 
         return GeneratorUtils.generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
             put("columns", entityColumns);
+            put("tableName", entity.getCollectionName());
         }});
     }
 
-    public String generateChangeSet(List<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMappper) throws  IOException, ClassNotFoundException{
+    public String generateChangeSet(HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws  IOException, ClassNotFoundException{
 
         String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
+
 
         StringBuilder content = new StringBuilder("").append(
         entityList.stream().map(x-> {
             try {
-                return generateTable(x, relations, erMappper);
+
+                return generateTable(x, relations, erMapper);
             } catch (IOException e) {
                 e.printStackTrace();
                 return "";
@@ -132,6 +149,24 @@ public class LiquibaseGenerator {
     }
     public String generateConstraints(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> collectionMapper) {
        return "";
+    }
+
+    public Tuple2<String, String> generateCatalog()
+    {
+
+
+        return Tuple.tuple(System.getProperty("user.dir") +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
+
+
+    }
+    public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws IOException, ClassNotFoundException {
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        String date = "01-create-schema.xml"; //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
+        String content = generateChangeSet(entities, relations, erMapper);
+
+        return Tuple.tuple(filePath.append(date).toString(), content);
+
+
     }
 
 
