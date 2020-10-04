@@ -10,6 +10,7 @@ import io.hashimati.microcli.domains.EntityRelation;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.XMLFormatter;
+import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -144,6 +145,7 @@ public class LiquibaseGenerator {
             put("tables", content.toString());
             put("foreignKey", "");
             put("id", "0"+changeSetId);
+            put("username", NameUtils.capitalize(System.getProperty("user.name")));
         }});
     }
     public String generateConstraints(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> collectionMapper) {
