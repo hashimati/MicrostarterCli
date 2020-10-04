@@ -15,6 +15,7 @@ import java.util.Objects;
 
 public class Entity
 {
+
     private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
     graphqlpackage,
 
@@ -29,6 +30,7 @@ public class Entity
     private String frameworkType;
 
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
+    private int liquibaseSequence;
 
     private boolean isGraphQl;
 
@@ -224,5 +226,13 @@ public class Entity
 
     public void setGraphQl(boolean graphQl) {
         isGraphQl = graphQl;
+    }
+
+    public int getLiquibaseSequence() {
+        return liquibaseSequence;
+    }
+
+    public void setLiquibaseSequence(int liquibaseSequence) {
+        this.liquibaseSequence = liquibaseSequence;
     }
 }
