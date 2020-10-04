@@ -126,7 +126,8 @@ public class TemplatesService {
     RABBITMQ_yml = "RABBITMQ",
     NATS_yml = "NATS",
             GRAPHQL_yml = "GRAPHQL",
-            JWT_yml = "JWT";
+            JWT_yml = "JWT",
+    LIQUIBASE_yml= "liquibase";
 
 
 
@@ -316,6 +317,7 @@ public class TemplatesService {
         properties.put(NATS_yml, "micronaut/entityTemplates/nats_properties.txt");
         properties.put(GRAPHQL_yml, "micronaut/entityTemplates/graphql_properties.txt");
         properties.put(JWT_yml, "micronaut/security/jwt_properties.yml");
+        properties.put(LIQUIBASE_yml, "micronaut/entityTemplates/sql/liquibase/liquibase_properties.yml");
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
         graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");
