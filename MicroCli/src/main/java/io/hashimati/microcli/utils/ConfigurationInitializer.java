@@ -44,6 +44,7 @@ public class ConfigurationInitializer {
 
     public void init() throws IOException, XmlPullParserException {
 
+        templatesService.loadTemplates(null);
 
 
       //  Runtime.getRuntime().addShutdownHook(new Thread(()->{}));
@@ -106,8 +107,8 @@ public class ConfigurationInitializer {
                 ListResult databaseTypeResult = PromptGui.createListPrompt("databaseType", "Select Database Type: ", "MongoDB", "H2", "MySql", "MariaDB", "Postgres", "Oracle", "Sqlserver");
                 configurationInfo.setDatabaseType(databaseTypeResult.getSelectedId());
 
-                if(Arrays.asList("oracle", "sqlserver", "mysql", "postgres").contains(configurationInfo.getDatabaseType().toLowerCase())) {
-                    ListResult testWithH2Input = PromptGui.createListPrompt("h2Option", "What do you want to use for testing: ", "Testcontainers (recommended, check https://www.testcontainers.org/)", "H2");
+                if(Arrays.asList("oracle", "sqlserver", "mysql", "postgres", "mariadb").contains(configurationInfo.getDatabaseType().toLowerCase())) {
+                    ListResult testWithH2Input = PromptGui.createListPrompt("h2Option", "What do you want to use for testing? ", "Testcontainers (recommended, check https://www.testcontainers.org/)", "H2");
                     if(testWithH2Input.getSelectedId().equalsIgnoreCase("h2"))
                     {
                         testWithH2 = true;
@@ -199,6 +200,7 @@ public class ConfigurationInitializer {
                 {
                     projectInfo.getFeatures().add("liquibase");
                     MicronautProjectValidator.addDependency(features.get("liquibase"));
+                    MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.LIQUIBASE_yml)));
                 }
                 else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")){
                     projectInfo.getFeatures().add("flyway");
@@ -211,7 +213,6 @@ public class ConfigurationInitializer {
                 projectInfo.getFeatures().add("mongo-reactive");
                 MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
                 //todo add dependencies to build files;
-                templatesService.loadTemplates(null);
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
                 MicronautProjectValidator.appendToProperties(mongoProperties);
