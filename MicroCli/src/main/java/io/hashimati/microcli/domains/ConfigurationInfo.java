@@ -22,7 +22,11 @@ import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 @Data
 public class ConfigurationInfo {
 
+
+
     private ProjectInfo projectInfo;
+    //this is an incremental liquibase files
+    private int liquibaseSequence;
     private String appName,
             databaseName,
             databaseType, // H2, MariaDB, MySQL, Oracle, Postgres, MS_SQL, or Mongo
