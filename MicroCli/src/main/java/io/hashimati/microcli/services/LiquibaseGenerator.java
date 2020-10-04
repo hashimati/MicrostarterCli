@@ -9,16 +9,14 @@ import io.hashimati.microcli.domains.EntityConstraints;
 import io.hashimati.microcli.domains.EntityRelation;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.XMLFormatter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.logging.XMLFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 @Singleton
@@ -119,13 +117,13 @@ public class LiquibaseGenerator {
         }});
     }
 
-    public String generateChangeSet(HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws  IOException, ClassNotFoundException{
+    public String generateChangeSet(HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws  IOException, ClassNotFoundException{
 
         String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
 
 
         StringBuilder content = new StringBuilder("").append(
-        entityList.stream().map(x-> {
+        entityList.stream().filter(x->x.getLiquibaseSequence()== changeSetId).map(x-> {
             try {
 
                 return generateTable(x, relations, erMapper);
@@ -145,6 +143,7 @@ public class LiquibaseGenerator {
         return GeneratorUtils.generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
             put("tables", content.toString());
             put("foreignKey", "");
+            put("id", "0"+changeSetId);
         }});
     }
     public String generateConstraints(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> collectionMapper) {
@@ -159,12 +158,13 @@ public class LiquibaseGenerator {
 
 
     }
-    public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws IOException, ClassNotFoundException {
+    public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws Exception {
         StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
-        String date = "01-create-schema.xml"; //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
-        String content = generateChangeSet(entities, relations, erMapper);
+        String date ="0"+ changeSetId+"-create-schema.xml"; //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
+        String content = generateChangeSet(entities, relations, erMapper, changeSetId);
 
-        return Tuple.tuple(filePath.append(date).toString(), content);
+        //todo XML FORMATTER
+        return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
 
 
     }
