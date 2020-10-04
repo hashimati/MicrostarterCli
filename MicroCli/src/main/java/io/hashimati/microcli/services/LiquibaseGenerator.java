@@ -144,7 +144,7 @@ public class LiquibaseGenerator {
         return GeneratorUtils.generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
             put("tables", content.toString());
             put("foreignKey", "");
-            put("id", "0"+changeSetId);
+            put("id", String.valueOf(changeSetId));
             put("username", NameUtils.capitalize(System.getProperty("user.name")));
         }});
     }
@@ -162,7 +162,7 @@ public class LiquibaseGenerator {
     }
     public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws Exception {
         StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
-        String date ="0"+ changeSetId+"-create-schema.xml"; //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
+        String date = new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
         String content = generateChangeSet(entities, relations, erMapper, changeSetId);
 
         //todo XML FORMATTER
