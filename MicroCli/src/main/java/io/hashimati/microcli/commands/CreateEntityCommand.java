@@ -422,7 +422,9 @@ extension, serviceFileContent);
 
                     }
 
-                    Tuple2<String, String> schema = liquibaseGenerator.generateSchema(configurationInfo.getEntities(), configurationInfo.getRelations(), mapper);
+                    configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
+                    entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                    Tuple2<String, String> schema = liquibaseGenerator.generateSchema(configurationInfo.getEntities(), configurationInfo.getRelations(), mapper, configurationInfo.getLiquibaseSequence());
                     GeneratorUtils.createFile(schema.getV1(), schema.getV2());
                 }
             }
