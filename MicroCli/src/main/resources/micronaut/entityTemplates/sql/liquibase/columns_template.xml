@@ -1,4 +1,4 @@
-<column name="${columnName}" type="${type}">
-    ${constraints}
+        <column name="${columnName}" type="${type}">
+            ${constraints}
 
-</column>
+        </column>
