@@ -5,11 +5,15 @@ import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.ExpandableChoiceResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
+import groovy.lang.Tuple;
+import groovy.lang.Tuple2;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
+import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
+import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
@@ -22,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -59,6 +64,8 @@ public class CreateEntityCommand implements Callable<Integer> {
     private MicronautEntityGenerator micronautEntityGenerator;
 
 
+    @Inject
+    private LiquibaseGenerator liquibaseGenerator;
 
 
     private final HashMap<String, Feature> features = FeaturesFactory.features();
@@ -380,6 +387,45 @@ extension, serviceFileContent);
             GeneratorUtils.createFile(System.getProperty("user.dir")+"/src/test/"+langDir+"/"+GeneratorUtils.packageToPath(entity.getRestPackage()) +"/"+ entity.getName()+"ControllerTest"+extension, controllertest);
 
 
+
+            if(Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase()))
+            {
+                if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
+
+                   Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                    GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
+
+
+                    HashMap<String, String> mapper;
+                    switch (configurationInfo.getDatabaseType())
+                    {
+                        case "oracle":
+                            mapper = DataTypeMapper.oracleMapper;
+                            break;
+                        case "sqlserver":
+                            mapper = DataTypeMapper.mssqlMapper;
+                            break;
+                        case "mysql":
+                        case "mariadb":
+                            mapper = DataTypeMapper.mysqlMapper;
+                            break;
+                        case "h2":
+                            mapper= DataTypeMapper.dialectMapper;
+                            break;
+                        case "postgres":
+                        case "postgressql":
+                            mapper = DataTypeMapper.postgresMapper;
+                            break;
+                        default:
+                            mapper = DataTypeMapper.mysqlMapper;
+                            break;
+
+                    }
+
+                    Tuple2<String, String> schema = liquibaseGenerator.generateSchema(configurationInfo.getEntities(), configurationInfo.getRelations(), mapper);
+                    GeneratorUtils.createFile(schema.getV1(), schema.getV2());
+                }
+            }
 
 
 //            configurationInfo.getEntities().add(entity);
