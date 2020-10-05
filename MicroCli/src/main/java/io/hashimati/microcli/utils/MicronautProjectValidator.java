@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.services.TemplatesService.H2_JDBC_yml;
@@ -506,7 +507,7 @@ public class MicronautProjectValidator {
         templatesService = new TemplatesService();
         templatesService.loadTemplates(null);
     }
-    public static boolean appendJDBCToProperties(String database, boolean main, boolean testWithH2) throws FileNotFoundException {
+    public static boolean appendJDBCToProperties(String database, boolean main, boolean testWithH2, String databaseName) throws FileNotFoundException {
         //todo
 
         String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
@@ -524,15 +525,18 @@ public class MicronautProjectValidator {
             }
             if(template.isEmpty())
                 return true;
+            String content = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+                put("databaseName", databaseName);
+            }});
 
-            return GeneratorUtils.dumpContentToFile(propertiesPath, propertiesContent + (propertiesContent.isEmpty()?"":"\n---\n") + template);
+            return GeneratorUtils.dumpContentToFile(propertiesPath, new StringBuilder().append(propertiesContent).append(propertiesContent.isEmpty() ? "" : "\n---\n").append(content).toString());
             //return GeneratorUtils.appendContentToFile(propertiesPath,propertiesContent);
         }
         return false;
     }
-    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2) throws FileNotFoundException {
+    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName) throws FileNotFoundException {
         //todo
-      return appendJDBCToProperties(database, main, testWithH2)&&
+      return appendJDBCToProperties(database, main, testWithH2, databaseName)&&
         appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
 
     }
