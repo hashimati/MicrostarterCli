@@ -59,7 +59,7 @@ dependencies {
     compile group: 'org.atteo', name: 'xml-combiner', version: '2.2'
 // https://mvnrepository.com/artifact/com.github.bmoliveira/snake-yaml
 //	compile group: 'com.github.bmoliveira', name: 'snake-yaml', version: 'v1.18-android'
-
+    compile group: 'com.querydsl', name: 'querydsl-collections', version: '4.4.0'
 
     implementation "org.fusesource.jansi:jansi:1.18"
     implementation "org.yaml:snakeyaml:1.26"
