@@ -48,9 +48,9 @@ public class MavenProjectUtils {
         if( feature.getTestMaven() == null|| feature.getTestMaven().isEmpty()) return true;
         Model model = readPom(path);
         Dependency dependency = feature.getMavenDependency(feature.getTestMaven());
-        System.out.println(feature.getMaven());
-        System.out.println(dependency.getGroupId());
-        System.out.println(dependency.getArtifactId());
+//        System.out.println(feature.getMaven());
+//        System.out.println(dependency.getGroupId());
+//        System.out.println(dependency.getArtifactId());
 
         model.addDependency(dependency);
         return writeModelToPom(path, model);
