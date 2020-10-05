@@ -1,6 +1,6 @@
 datasources:
   default:
-    url: jdbc:mariadb://localhost:3306/db
+    url: jdbc:mariadb://localhost:3306/${databaseName}
     driverClassName: org.mariadb.jdbc.Driver
     username: root
     password: ''
