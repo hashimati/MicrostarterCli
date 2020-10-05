@@ -183,11 +183,11 @@ public class ConfigurationInitializer {
                     }
 
                     if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
-                         MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2);
+                         MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2, configurationInfo.getDatabaseName());
                     else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa"))
-                        MicronautProjectValidator.appendJPAToProperties(databasetype, true, testWithH2);
+                        MicronautProjectValidator.appendJPAToProperties(databasetype, true, testWithH2, configurationInfo.getDatabaseName());
                     if(!databasetype.equalsIgnoreCase("h2"))
-                        MicronautProjectValidator.appendJDBCToProperties(databasetype+"_test", false, testWithH2);
+                        MicronautProjectValidator.appendJDBCToProperties(databasetype+"_test", false, testWithH2, configurationInfo.getDatabaseName());
 
                 }
 
