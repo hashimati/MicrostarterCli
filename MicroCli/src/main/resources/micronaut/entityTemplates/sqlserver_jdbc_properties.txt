@@ -1,6 +1,6 @@
 datasources:
   default:
-    url: jdbc:sqlserver://localhost:1433;databaseName=tempdb
+    url: jdbc:sqlserver://localhost:1433;databaseName=${databaseName}
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: sa
     password: ''
