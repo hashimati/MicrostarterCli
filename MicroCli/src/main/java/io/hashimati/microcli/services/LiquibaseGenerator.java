@@ -74,7 +74,6 @@ public class LiquibaseGenerator {
             String max ="";
             if(constraints != null && constraints.getMax() != null)
              max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
-
             String maxLength = "(255)";
             if(constraints != null && constraints.getMaxSize() != null)
              maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
