@@ -72,7 +72,6 @@ public class LiquibaseGenerator {
 
             EntityConstraints constraints = attribute.getConstraints();
             String max ="";
-            System.out.println(constraints == null);
             if(constraints != null && constraints.getMax() != null)
              max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
 
