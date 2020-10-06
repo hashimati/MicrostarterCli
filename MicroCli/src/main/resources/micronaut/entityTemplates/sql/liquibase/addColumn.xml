@@ -1,0 +1,5 @@
+    <addColumn catalogName="cat"
+               schemaName= "${tableName}"
+               tableName="${tableName}" >
+        ${columns}
+    </addColumn>
