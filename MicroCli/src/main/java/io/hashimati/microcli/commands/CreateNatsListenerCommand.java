@@ -25,7 +25,7 @@ import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
-@Command(name="create-nats-listener", aliases = {"nats-listener", "natsListener"}, description = "Creating Nats Listener componenet")
+@Command(name="create-nats-listener", aliases = {"nats-listener", "natsListener"}, description = "Creating Nats Listener component")
 public class CreateNatsListenerCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-e", "--entity"})
     String entityName;
