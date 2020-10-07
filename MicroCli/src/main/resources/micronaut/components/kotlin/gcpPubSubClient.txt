@@ -1,0 +1,15 @@
+package ${pack}
+
+
+import io.micronaut.gcp.pubsub.annotation.Topic;
+import io.micronaut.gcp.pubsub.annotation.PubSubClient;
+import io.micronaut.messaging.annotation.Body
+${importMessage}
+
+
+@PubSubClient
+interface ${className} {
+
+    @Topic("${topic}")
+    fun send(message:${Message})
+}
