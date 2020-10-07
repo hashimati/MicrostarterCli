@@ -128,6 +128,32 @@ public class MicronautComponentGenerator {
 
     }
 
+
+    public String generateGcpPubSubClient(String classPackage,String className, String topic, Entity entity,String lang){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("topic", topic);
+        map.put("Message", entity == null?"String": entity.getName());
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+
+        return generate(TemplatesService.GCP_PUB_SUB_CLIENT, map, lang);
+
+    }
+
+    public String generateGcpPubSubConsumer(String classPackage,String className, String topic, Entity entity,String lang){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("topic", topic);
+        map.put("Message", entity == null?"String": entity.getName());
+
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+
+        return generate(TemplatesService.GCP_PUB_SUB_LISTENER, map, lang);
+
+    }
+
     public String generateRabbitMQClient(String classPackage, String className, String queueName, Entity entity, String lang){
         HashMap<String, String> map = new HashMap<>();
         map.put("pack", classPackage);
