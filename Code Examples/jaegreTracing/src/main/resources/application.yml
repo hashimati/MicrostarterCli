@@ -1,0 +1,8 @@
+micronaut:
+  application:
+    name: jaegerTracing
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
