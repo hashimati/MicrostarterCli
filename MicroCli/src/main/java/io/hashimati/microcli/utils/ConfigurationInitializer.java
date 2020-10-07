@@ -224,9 +224,10 @@ public class ConfigurationInitializer {
 
         if(!projectInfo.getFeatures().contains("rabbitmq") &&
                 !projectInfo.getFeatures().contains("kafka") &&
-                !projectInfo.getFeatures().contains("nats"))
+                !projectInfo.getFeatures().contains("nats") &&
+                !projectInfo.getFeatures().contains("gcp-pubsub"))
         {
-            ListResult messagingTypeResult = PromptGui.createListPrompt("databaseType", "Select Messaging type: ", "Nats", "RabbitMQ", "Kafka", "none");
+            ListResult messagingTypeResult = PromptGui.createListPrompt("databaseType", "Select Messaging type: ", "Nats", "RabbitMQ", "Kafka","GCP-PubSub", "none");
             configurationInfo.setMessaging(messagingTypeResult.getSelectedId().toLowerCase());
             if(!messagingTypeResult.getSelectedId().equalsIgnoreCase("none")){
 
@@ -236,10 +237,13 @@ public class ConfigurationInitializer {
 
 
                 //AddingYaml
-                templatesService.loadTemplates(null);
-                String messagingProperties = templatesService.loadTemplateContent
-                        (templatesService.getProperties().get(configurationInfo.getMessaging().toUpperCase())); /// The index == to featureName.toUppercase
-                MicronautProjectValidator.appendToProperties(messagingProperties);
+                if(!configurationInfo.getMessaging().equalsIgnoreCase("gcp-pubsub")) // current the properties is not added, to be added in the future.
+                {
+                    templatesService.loadTemplates(null);
+                    String messagingProperties = templatesService.loadTemplateContent
+                            (templatesService.getProperties().get(configurationInfo.getMessaging().toUpperCase())); /// The index == to featureName.toUppercase
+                    MicronautProjectValidator.appendToProperties(messagingProperties);
+                }
                 // End adding Yaml
             }
         }
@@ -256,7 +260,7 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.addDependency(features.get("graphql"));
 
 
-                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQl Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
+                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQL Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
                 switch(graphqlLib){
 
                     case "graphql-java-tools":
