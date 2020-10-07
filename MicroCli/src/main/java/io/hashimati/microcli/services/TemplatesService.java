@@ -78,6 +78,8 @@ public class TemplatesService {
             KAFKA_LISTENER = "kafaka_listener",
             NATS_CLIENT = "nats_client",
             NATS_LISTENER = "nats_listener",
+            GCP_PUB_SUB_CLIENT = "gcpPubSub_client",
+            GCP_PUB_SUB_LISTENER = "gcpPubSub_listener",
                     GRAPHQL_ENUM = "graphql_enum",
                     GRAPHQL_SCHEMA = "graphql_schema",
                     GRAPHQL_TYPE = "graphql_type",
@@ -168,6 +170,8 @@ public class TemplatesService {
         javaTemplates.put(KAFKA_LISTENER,"micronaut/components/java/kafkaConsumer.txt");
         javaTemplates.put(NATS_CLIENT,"micronaut/components/java/natsClient.txt");
         javaTemplates.put(NATS_LISTENER,"micronaut/components/java/natsConsumer.txt");
+        javaTemplates.put(GCP_PUB_SUB_CLIENT,"micronaut/components/java/gcpPubSubClient.txt");
+        javaTemplates.put(GCP_PUB_SUB_LISTENER,"micronaut/components/java/gcpPubSubConsumer.txt");
         javaTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/java/QueryFactory.txt");
         javaTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/java/QueryResolver.txt");
         javaTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/java/Reactive_QueryResolver.txt");
@@ -218,6 +222,8 @@ public class TemplatesService {
         groovyTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/groovy/websocketClient.txt");
         groovyTemplates.put(NATS_CLIENT,"micronaut/components/groovy/natsClient.txt");
         groovyTemplates.put(NATS_LISTENER,"micronaut/components/groovy/natsConsumer.txt");
+        groovyTemplates.put(GCP_PUB_SUB_CLIENT,"micronaut/components/groovy/gcpPubSubClient.txt");
+        groovyTemplates.put(GCP_PUB_SUB_LISTENER,"micronaut/components/groovy/gcpPubSubConsumer.txt");
         groovyTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/groovy/QueryFactory.txt");
         groovyTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/groovy/QueryResolver.txt");
         groovyTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/groovy/Reactive_QueryResolver.txt");
@@ -268,6 +274,8 @@ public class TemplatesService {
         kotlinTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/kotlin/websocketClient.txt");
         kotlinTemplates.put(NATS_CLIENT,"micronaut/components/kotlin/natsClient.txt");
         kotlinTemplates.put(NATS_LISTENER,"micronaut/components/kotlin/natsConsumer.txt");
+        kotlinTemplates.put(GCP_PUB_SUB_CLIENT,"micronaut/components/kotlin/gcpPubSubClient.txt");
+        kotlinTemplates.put(GCP_PUB_SUB_LISTENER,"micronaut/components/kotlin/gcpPubSubConsumer.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/kotlin/QueryFactory.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/kotlin/QueryResolver.txt");
         kotlinTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/kotlin/Reactive_QueryResolver.txt");
