@@ -448,6 +448,28 @@ public class FeaturesFactory {
                     "\t\t\t\t<version>${micronaut.security.version}</version>\n" +
                     "\t\t\t</path>");
         }});
+
+
+
+        features.put("aws-sdk-v2", new Feature(){{
+            setName("aws-sdk-v2");
+            setGradle("    implementation(\"io.micronaut.aws:micronaut-aws-sdk-v2\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.aws</groupId>\n" +
+                    "\t\t<artifactId>micronaut-aws-sdk-v2</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("gcp-pubsub", new Feature(){{
+            setName("gcp-pubsub");
+            setGradle("    implementation(\"io.micronaut.gcp:micronaut-gcp-pubsub\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.gcp</groupId>\n" +
+                    "\t\t<artifactId>micronaut-gcp-pubsub</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
         return features;
     }
 
