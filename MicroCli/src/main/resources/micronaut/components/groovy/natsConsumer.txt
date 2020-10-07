@@ -8,7 +8,7 @@ import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 ${importMessage}
 
-@NatsListener (groupId = "${groupId}")
+@NatsListener
 class ${className} {
 
     static final Logger log= LoggerFactory.getLogger(${className}.class);
