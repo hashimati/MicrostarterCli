@@ -1,0 +1,16 @@
+package ${pack};
+
+
+import io.micronaut.gcp.pubsub.annotation.Topic;
+import io.micronaut.gcp.pubsub.annotation.PubSubClient;
+import io.micronaut.messaging.annotation.Body;
+${importMessage}
+
+
+@PubSubClient
+public interface ${className} {
+
+    @Topic("${topic}")
+    public void send(${Message} message);
+
+}
