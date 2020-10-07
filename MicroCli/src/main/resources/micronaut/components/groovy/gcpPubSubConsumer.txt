@@ -1,0 +1,21 @@
+package ${pack}
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import io.micronaut.messaging.annotation.Body
+import io.micronaut.gcp.pubsub.annotation.PubSubListener
+import io.micronaut.gcp.pubsub.annotation.Subscription
+${importMessage}
+
+@PubSubListener
+class ${className} {
+
+    static final Logger log= LoggerFactory.getLogger(${className}.class);
+
+    @Subscription("${topic}")
+    void receive(@Body ${Message} message)
+    {
+        log.info("Received {}", message);
+    }
+}
