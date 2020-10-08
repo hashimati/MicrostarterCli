@@ -1,9 +1,11 @@
 package io.hashimati.microcli.commands;
 
+import groovy.lang.Tuple2;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.domains.EntityRelation;
+import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
@@ -22,8 +24,7 @@ import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstant
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
-import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
-import static io.hashimati.microcli.utils.PromptGui.setToDefault;
+import static io.hashimati.microcli.utils.PromptGui.*;
 
 
 @Command(name = "create-relation", aliases = {"relation"}, description = "To create a new entity")
@@ -33,6 +34,9 @@ public class CreateRelationCommand implements Callable<Integer> {
 
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
+
+    @Inject
+    private LiquibaseGenerator liquibaseGenerator;
 
 
     @Override
@@ -51,7 +55,8 @@ public class CreateRelationCommand implements Callable<Integer> {
 
         if(entities.isEmpty()) {
 
-            System.out.println("Please, define entities first.");
+            printlnWarning("Please, define entities first.");
+            setToDefault();
             return 0;
 
         }
@@ -132,6 +137,20 @@ public class CreateRelationCommand implements Callable<Integer> {
         }});
         GeneratorUtils.createFile(System.getProperty("user.dir")+entity2Path+ "/"+e2.getName()+extension, entity2FileContent);
 
+
+
+        if(configurationInfo.getDataMigrationTool() != null)
+        {
+            if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
+            {
+                configurationInfo.setLiquibaseSequence(1 + configurationInfo.getLiquibaseSequence());
+                e1.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                e2.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+
+                Tuple2< String, String> content = liquibaseGenerator.generateForeignKey(e1, e2, entityRelation, configurationInfo.getLiquibaseSequence());
+                GeneratorUtils.createFile(content.getV1(), content.getV2());
+            }
+        }
         configurationInfo.getRelations().add(entityRelation);
         configurationInfo.writeToFile();
         printlnSuccess("The relationship has been created successfully!");
