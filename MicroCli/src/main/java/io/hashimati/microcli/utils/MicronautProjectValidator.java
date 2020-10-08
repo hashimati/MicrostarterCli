@@ -225,7 +225,7 @@ public class MicronautProjectValidator {
         {
             String from  = "dependencies {", to ="}\n" +
                     "\n" +
-                    "test.classpath";
+                    "mainClassName";
             int fromIndex = gradleContent.indexOf(from )+ from.length();
             int toIndex = gradleContent.indexOf(to);
             String dependencies= gradleContent.substring(fromIndex, toIndex);
@@ -390,30 +390,33 @@ public class MicronautProjectValidator {
     public  static boolean addExposingSwaggerUIToGradle() throws FileNotFoundException {
 
         if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")) {
-            String gradleContent = getGradleFileContent().replace("options.encoding = \"UTF-8\"",
-                    "options.encoding = \"UTF-8\"\n" +
-                            "    options.fork = true\n" +
-                            "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n");
-
+            String gradleContent = getGradleFileContent()+ "\n" + "tasks.withType(JavaCompile) {\n" +
+                    "    options.fork = true\n" +
+                    "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
+                    "}";
             GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
             return true;
         }
         else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
         {
-            String gradleContent = getGradleFileContent().replace("arguments {",
+            String gradleContent = getGradleFileContent()
+                    + "\n"
+                    + "kapt {\n" +
                     "    arguments {\n" +
-                            "        arg(\"micronaut.openapi.views.spec\", \"redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop\")\n");
-            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+                    "        arg(\"micronaut.openapi.views.spec\", \"redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop\")\n" +
+                    "    }\n" +
+                    "}";
 
             return true;
         }
         else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("groovy")){
 
-            String gradleContent = getGradleFileContent().replace("tasks.withType(GroovyCompile) {", "tasks.withType(GroovyCompile) {\n" +
-                    "    options.encoding = \"UTF-8\"\n" +
-                    "    options.fork = true\n" +
-                    "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n");
-
+            String gradleContent = getGradleFileContent()+ "\n"
+                    +"tasks.withType(GroovyCompile) {\n" +
+                    "    groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')\n" +
+                    "    groovyOptions.forkOptions.jvmArgs.add('-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop')\n" +
+                    "   \n" +
+                    "}";
             GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
             return true;
         }
