@@ -239,7 +239,7 @@ public class EntityRelation {
         }
         if(backend.equalsIgnoreCase("jdbc")) {
 //            private final String jdbcE1AnnotationTemplate =  "    @Relation(mappedBy = \"${e2attribute}\", value = Relation.Kind.${relation})\n";
-            String e2Attri = (getRelationType() == EntityRelationType.OneToOne)? "id" :e1.toLowerCase();
+            String e2Attri = (getRelationType() == EntityRelationType.OneToOne)? e1.toLowerCase() :e1.toLowerCase();
             if(e1.toLowerCase().equalsIgnoreCase(e2.toLowerCase()) && e1Package.toLowerCase().equals(e2Package.toLowerCase()))
             {
                 e2Attri = e1.toLowerCase()+"2";
