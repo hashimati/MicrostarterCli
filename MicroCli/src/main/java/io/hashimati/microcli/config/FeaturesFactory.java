@@ -434,7 +434,7 @@ public class FeaturesFactory {
 
 
         features.put("security-annotations", new Feature(){{
-
+            setName("security-annotations");
             if(projectInfo.getSourceLanguage().equalsIgnoreCase(JAVA_LANG))
 
                 setAnnotationGradle("    annotationProcessor(\"io.micronaut.security:micronaut-security-annotations\")");
