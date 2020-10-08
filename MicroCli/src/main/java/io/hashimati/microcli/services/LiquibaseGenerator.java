@@ -15,9 +15,12 @@ import io.micronaut.core.naming.NameUtils;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import static io.hashimati.microcli.utils.GeneratorUtils.generateFromTemplate;
 
 
 @Singleton
@@ -110,7 +113,7 @@ public class LiquibaseGenerator {
 
         String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_TABLE));
 
-        return GeneratorUtils.generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
+        return generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
             put("columns", entityColumns);
             put("tableName", entity.getCollectionName());
         }});
@@ -139,7 +142,7 @@ public class LiquibaseGenerator {
         //todo add foreign key
 
                 
-        return GeneratorUtils.generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
+        return generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
             put("tables", content.toString());
             put("foreignKey", "");
             put("id", String.valueOf(changeSetId));
@@ -165,9 +168,40 @@ public class LiquibaseGenerator {
 
         //todo XML FORMATTER
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
-
-
     }
+
+    public Tuple2<String, String> generateForeignKey(Entity e1, Entity e2, EntityRelation relation, int changeSetId) throws Exception {
+
+        String template = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_FOREIGNKEY));
+        HashMap<String, String> map = new HashMap<>()
+        {{
+
+            put("baseColumnName", relation.getE1().toLowerCase());
+            put("baseTable",relation.getE2Table() );
+            put("constraintName", MessageFormat.format("{0}_{1}", relation.getE1().toLowerCase(), relation.getE2().toLowerCase()));
+            put("referencedTable", relation.getE1Table());
+
+        }};
+        String foreignKey = generateFromTemplate(template, map);
+
+
+
+        String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
+
+        String content = generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
+            put("tables","");
+            put("foreignKey", foreignKey);
+            put("id", String.valueOf(changeSetId));
+            put("username", NameUtils.capitalize(System.getProperty("user.name")));
+        }});
+
+
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        String date = new StringBuilder().append(changeSetId).append("-create-schema.xml").toString();
+        return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
+    }
+
+
 
 
     
