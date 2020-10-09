@@ -16,9 +16,7 @@ import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -140,7 +138,6 @@ public class CreateRelationCommand implements Callable<Integer> {
         GeneratorUtils.createFile(System.getProperty("user.dir")+entity2Path+ "/"+e2.getName()+extension, entity2FileContent);
 
 
-
         if(configurationInfo.getDataMigrationTool() != null)
         {
             if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
@@ -154,6 +151,24 @@ public class CreateRelationCommand implements Callable<Integer> {
             }
         }
         configurationInfo.getRelations().add(entityRelation);
+        //==== regenerate entity1's Repository
+
+        List<EntityRelation> relations1 = configurationInfo.getRelations().stream().filter(x->x.getE1().equals(e1Input)).collect(Collectors.toList());
+
+        String repositoryFileContent = micronautEntityGenerator.generateRepository(e1, lang, relations1);
+
+
+        String repoPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>(){{
+            put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+            put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+        }});
+
+
+
+        GeneratorUtils.createFile(System.getProperty("user.dir")+"/"+repoPath+ "/"+e1.getName()+"Repository"+extension, repositoryFileContent);
+
+        ///=====
+
         configurationInfo.writeToFile();
         printlnSuccess("The relationship has been created successfully!");
         setToDefault();
