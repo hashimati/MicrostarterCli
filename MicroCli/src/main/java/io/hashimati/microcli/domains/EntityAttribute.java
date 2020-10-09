@@ -1,6 +1,8 @@
 package io.hashimati.microcli.domains;
 
-
+/**
+ * @author Ahmed Al Hashmi
+ */
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.Visitor;
