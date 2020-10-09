@@ -5,4 +5,4 @@ datasources:
     username: ${username}
     password: '${password}'
     dialect: POSTGRES
-    schema-generate: create
+    schema-generate: ${schemaGenerate}
