@@ -4,5 +4,5 @@ datasources:
     driverClassName: oracle.jdbc.OracleDriver
     username: system
     password: oracle
-    schema-generate: CREATE_DROP
+    schema-generate: ${schemaGenerate}
     dialect: ORACLE
