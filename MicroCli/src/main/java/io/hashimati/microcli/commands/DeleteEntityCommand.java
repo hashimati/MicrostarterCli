@@ -16,7 +16,6 @@ import static io.hashimati.microcli.utils.PromptGui.*;
 @Command(name = "delete-entity", aliases ={"delEntity", "delentity"}, description = "To delete existing entity")
 public class DeleteEntityCommand implements Callable<Integer> {
 
-
     @CommandLine.Option(names={"-e", "--entity"})
     private String entityName;
 
