@@ -1,5 +1,7 @@
 package io.hashimati.microcli.utils;
-
+/**
+ * @author Ahmed Al Hashmi
+ */
 import java.util.HashMap;
 
 
