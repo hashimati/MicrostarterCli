@@ -3,10 +3,7 @@ package io.hashimati.microcli.services;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
-import io.hashimati.microcli.domains.Entity;
-import io.hashimati.microcli.domains.EntityAttribute;
-import io.hashimati.microcli.domains.EntityConstraints;
-import io.hashimati.microcli.domains.EntityRelation;
+import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.XMLFormatter;
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
 import static io.hashimati.microcli.utils.GeneratorUtils.generateFromTemplate;
 
 
@@ -56,13 +54,13 @@ public class LiquibaseGenerator {
                 put("constraints", idConstraintsBuilder.toString());}}).toString());
         }}).toString()+"\n");
         declaration.append(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
-            put("columnName", "date_created");
+            put("columnName", "dateCreated");
             put("type", mapper.get("date"));
             put("constraints", "");
         }}).toString()+"\n");
 
         declaration.append(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
-            put("columnName", "date_updated");
+            put("columnName", "dateUpdated");
             put("type", mapper.get("date"));
             put("constraints", "");
         }}).toString()+"\n");
@@ -163,7 +161,7 @@ public class LiquibaseGenerator {
     }
     public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws Exception {
         StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
-        String date = new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
+        String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
         String content = generateChangeSet(entities, relations, erMapper, changeSetId);
 
         //todo XML FORMATTER
@@ -171,6 +169,7 @@ public class LiquibaseGenerator {
     }
 
     public Tuple2<String, String> generateForeignKey(Entity e1, Entity e2, EntityRelation relation, int changeSetId) throws Exception {
+
 
         String template = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_FOREIGNKEY));
         HashMap<String, String> map = new HashMap<>()
@@ -180,6 +179,7 @@ public class LiquibaseGenerator {
             put("baseTable",relation.getE2Table() );
             put("constraintName", MessageFormat.format("{0}_{1}", relation.getE1().toLowerCase(), relation.getE2().toLowerCase()));
             put("referencedTable", relation.getE1Table());
+            put("unique", relation.getRelationType()== OneToOne?"true":"false");
 
         }};
         String foreignKey = generateFromTemplate(template, map);
@@ -193,11 +193,12 @@ public class LiquibaseGenerator {
             put("foreignKey", foreignKey);
             put("id", String.valueOf(changeSetId));
             put("username", NameUtils.capitalize(System.getProperty("user.name")));
+
         }});
 
 
         StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
-        String date = new StringBuilder().append(changeSetId).append("-create-schema.xml").toString();
+        String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId);
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
     }
 
