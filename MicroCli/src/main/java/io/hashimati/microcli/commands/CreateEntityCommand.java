@@ -285,7 +285,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             //===============
-            String repositoryFileContent = micronautEntityGenerator.generateRepository(entity, lang);
+            String repositoryFileContent = micronautEntityGenerator.generateRepository(entity, lang, null);
 
 
 
