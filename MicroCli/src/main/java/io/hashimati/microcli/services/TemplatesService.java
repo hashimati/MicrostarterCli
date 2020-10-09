@@ -29,6 +29,8 @@ public class TemplatesService {
             CLIENT = "client",
             CONTROLLER = "controller",
             JDBC_REPOSITORY = "jdbcRepository",
+            JOIN_ANNOTATION = "joinAnnotation",
+            JOIN_METHODS = "joinMethods",
             ENTITY = "entity",
             EXCEPTION_HANDLER = "entityExceptionHandler",
             GENERAL_EXCEPTION = "entityGeneralException",
@@ -147,6 +149,8 @@ public class TemplatesService {
         javaTemplates.put(GENERAL_EXCEPTION, "micronaut/entityTemplates/java/entityGeneralException.txt");
         javaTemplates.put(ENUM, "micronaut/entityTemplates/java/enum.txt");
         javaTemplates.put(JDBC_REPOSITORY, "micronaut/entityTemplates/java/jdbcRepository.txt");
+        javaTemplates.put(JOIN_ANNOTATION, "micronaut/entityTemplates/java/JdbcJoinAnnotation.txt");
+        javaTemplates.put(JOIN_METHODS, "micronaut/entityTemplates/java/JoinRepoMethods.txt");
         javaTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/java/mongocontroller.txt");
         javaTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/java/mongorepository.txt");
         javaTemplates.put(MONGO_CLIENT, "micronaut/entityTemplates/java/mongoclient.txt");
@@ -199,6 +203,8 @@ public class TemplatesService {
         groovyTemplates.put(GENERAL_EXCEPTION, "micronaut/entityTemplates/groovy/entityGeneralException.txt");
         groovyTemplates.put(ENUM, "micronaut/entityTemplates/groovy/enum.txt");
         groovyTemplates.put(JDBC_REPOSITORY, "micronaut/entityTemplates/groovy/jdbcRepository.txt");
+        groovyTemplates.put(JOIN_ANNOTATION, "micronaut/entityTemplates/groovy/JdbcJoinAnnotation.txt");
+        groovyTemplates.put(JOIN_METHODS, "micronaut/entityTemplates/groovy/JoinRepoMethods.txt");
         groovyTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/groovy/mongocontroller.txt");
         groovyTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/groovy/mongorepository.txt");
         groovyTemplates.put(MONGO_SERVICE, "micronaut/entityTemplates/groovy/mongoservice.txt");
@@ -252,6 +258,8 @@ public class TemplatesService {
         kotlinTemplates.put(GENERAL_EXCEPTION, "micronaut/entityTemplates/kotlin/entityGeneralException.txt");
         kotlinTemplates.put(ENUM, "micronaut/entityTemplates/kotlin/enum.txt");
         kotlinTemplates.put(JDBC_REPOSITORY, "micronaut/entityTemplates/kotlin/jdbcRepository.txt");
+        kotlinTemplates.put(JOIN_ANNOTATION, "micronaut/entityTemplates/kotlin/JdbcJoinAnnotation.txt");
+        kotlinTemplates.put(JOIN_METHODS, "micronaut/entityTemplates/kotlin/JoinRepoMethods.txt");
         kotlinTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/kotlin/mongocontroller.txt");
         kotlinTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/kotlin/mongorepository.txt");
         kotlinTemplates.put(MONGO_SERVICE, "micronaut/entityTemplates/kotlin/mongoservice.txt");
