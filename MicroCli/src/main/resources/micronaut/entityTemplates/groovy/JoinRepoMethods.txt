@@ -1,0 +1,6 @@
+        ${joinAnnotation}
+        List<${className}> findAll();
+
+        ${joinAnnotation}
+        @Override
+        Optional<${className}> findById(Long id);
