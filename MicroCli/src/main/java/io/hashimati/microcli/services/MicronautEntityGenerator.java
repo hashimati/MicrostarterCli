@@ -6,6 +6,7 @@ import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
+import io.hashimati.microcli.utils.GeneratorUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,6 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
+import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
 import static io.hashimati.microcli.services.TemplatesService.*;
 
@@ -69,7 +71,7 @@ public class MicronautEntityGenerator
 
         System.out.println(generateEntity(entity, relations, "java"));
         System.out.println("***");
-        System.out.println(generateRepository(entity, "java"));
+        System.out.println(generateRepository(entity, "java", null));
         System.out.println("***");
         System.out.println(generateService(entity, "java"));
         System.out.println("***");
@@ -77,7 +79,7 @@ public class MicronautEntityGenerator
         System.out.println("-----------------groovy-------");
         System.out.println(generateEntity(entity, relations ,GROOVY_LANG));
         System.out.println("***");
-        System.out.println(generateRepository(entity, "groovy"));
+        System.out.println(generateRepository(entity, "groovy", null));
         System.out.println("***");
         System.out.println(generateService(entity, "groovy"));
         System.out.println("***");
@@ -86,7 +88,7 @@ public class MicronautEntityGenerator
         System.out.println("--------------kotlin----------");
         System.out.println(generateEntity(entity,relations ,"kotlin"));
         System.out.println("***");
-        System.out.println(generateRepository(entity, "kotlin"));
+        System.out.println(generateRepository(entity, "kotlin", null));
         System.out.println("***");
         System.out.println(generateService(entity, "kotlin"));
         System.out.println("***");
@@ -263,10 +265,45 @@ public class MicronautEntityGenerator
 
         return result;//.replaceAll("(?m)^[ \t]*\r?\n", "");
     }
-    public String generateRepository(Entity entity, String language) throws IOException, ClassNotFoundException {
+    public String generateRepository(Entity entity, String language, List<EntityRelation> relations) throws IOException, ClassNotFoundException {
 
         HashMap<String, String> binder = new HashMap<>();
 
+        String methods = "";
+        if(relations != null)
+        {
+
+
+            String annotationTemplate = templatesService.loadTemplateContent(getTemplatPath(JOIN_ANNOTATION, language));
+            String joinMethodsTemplate = templatesService.loadTemplateContent(getTemplatPath(JOIN_METHODS, language));
+
+
+
+            String annotations = relations.stream().map(x->{
+                if(x.getRelationType() == OneToOne){
+                    return GeneratorUtils.generateFromTemplate(annotationTemplate, new HashMap<String, String>(){{
+                        put("attribute", x.getE2().toLowerCase());
+                    }});
+
+                }
+                else if(x.getRelationType() == OneToMany)
+                {
+                    return GeneratorUtils.generateFromTemplate(annotationTemplate, new HashMap<String, String>(){{
+                        put("attribute", x.getE2().toLowerCase()+ "s");
+                    }});
+
+                }
+                else
+                    return "";
+            }).reduce("", (x, y)-> x + "\n" + y);
+
+            methods = GeneratorUtils.generateFromTemplate(joinMethodsTemplate, new HashMap<String, String>(){{
+                put("joinAnnotation", annotations);
+                put("className", entity.getName());
+            }});
+
+
+        }
         if(!entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb")){
             String repositoryTemplate ="";
 
@@ -274,7 +311,7 @@ public class MicronautEntityGenerator
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
-                binder.put("methods", "");
+                binder.put("methods", methods);
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -286,7 +323,7 @@ public class MicronautEntityGenerator
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
-                binder.put("methods", "");
+                binder.put("methods", methods);
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
 
 
@@ -629,7 +666,7 @@ public class MicronautEntityGenerator
         result.add(Tuple2.tuple(rootPath+entity.getRepoPackage().replace(".", "/")+ "/"+entity.getName()+
                         "Repository" + fileExtension,
                 generateRepository(entity,
-                language)));
+                language, null)));
         result.add(Tuple2.tuple(rootPath+entity.getServicePackage().replace(".", "/")+ "/"+ entity.getName() +"Service" + fileExtension, generateService(entity,
                 language )));
         result.add(Tuple2.tuple(rootPath+entity.getRestPackage().replace(".", "/")+ "/"+ entity.getName() +"Controller" +fileExtension,
