@@ -510,7 +510,7 @@ public class MicronautProjectValidator {
         templatesService = new TemplatesService();
         templatesService.loadTemplates(null);
     }
-    public static boolean appendJDBCToProperties(String database, boolean main, boolean testWithH2, String databaseName) throws FileNotFoundException {
+    public static boolean appendJDBCToProperties(String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
         //todo
 
         String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
@@ -528,8 +528,13 @@ public class MicronautProjectValidator {
             }
             if(template.isEmpty())
                 return true;
+
+            String schemaGenerate = migrationTool.equalsIgnoreCase("none")?"CREATE_DROP":"none";
+
             String content = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+                
                 put("databaseName", databaseName);
+                put("schemaGenerate", schemaGenerate);
             }});
 
             return GeneratorUtils.dumpContentToFile(propertiesPath, new StringBuilder().append(propertiesContent).append(propertiesContent.isEmpty() ? "" : "\n---\n").append(content).toString());
@@ -537,11 +542,10 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName) throws FileNotFoundException {
+    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws FileNotFoundException {
         //todo
-      return appendJDBCToProperties(database, main, testWithH2, databaseName)&&
+      return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool)&&
         appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
-
     }
     public static boolean appendToProperties(String properties) throws FileNotFoundException {
         //todo
