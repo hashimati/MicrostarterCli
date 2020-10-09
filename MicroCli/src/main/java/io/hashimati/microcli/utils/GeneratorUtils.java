@@ -1,5 +1,7 @@
 package io.hashimati.microcli.utils;
-
+/**
+ * @author Ahmed Al Hashmi
+ */
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
