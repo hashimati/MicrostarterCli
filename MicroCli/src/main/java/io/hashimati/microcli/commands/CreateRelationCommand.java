@@ -2,6 +2,7 @@ package io.hashimati.microcli.commands;
 /**
  * @author Ahmed Al Hashmi
  */
+import de.codeshelf.consoleui.elements.ConfirmChoice;
 import groovy.lang.Tuple2;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
@@ -16,6 +17,7 @@ import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
@@ -51,6 +53,7 @@ public class CreateRelationCommand implements Callable<Integer> {
                 .stream()
                 .map(x->x.getName())
                 .collect(Collectors.toList());
+
 
 
         if(entities.isEmpty()) {
@@ -96,6 +99,29 @@ public class CreateRelationCommand implements Callable<Integer> {
                 break;
         }
 
+        if(configurationInfo.getRelations().stream().filter(x->x.getE1().equals(entityRelation.getE1())
+         && x.getE2().equals(entityRelation.getE2())).findFirst().isPresent())
+        {
+            printlnWarning("There is already an exist relationship between these two entities!");
+            setToDefault();
+            if(PromptGui.createConfirmResult("tellMe","Do you want to override it?").getConfirmed() ==  ConfirmChoice.ConfirmationValue.YES){
+                int index = 0;
+                for(int i = 0;i < configurationInfo.getRelations().size(); i++) {
+                    if(entityRelation.getE2().equals(configurationInfo.getRelations().get(i).getE2())
+                    && entityRelation.getE1().equals(configurationInfo.getRelations().get(i).getE1()))
+                    {
+                        index = i;
+                    }
+                }
+                if(index >= 0 && index < configurationInfo.getRelations().size())
+                {
+                    configurationInfo.getRelations().remove(index);
+                }
+            }
+            else {
+                return 0;
+            }
+        }
         ArrayList relations = new ArrayList(){{
             add(entityRelation);
         }};
