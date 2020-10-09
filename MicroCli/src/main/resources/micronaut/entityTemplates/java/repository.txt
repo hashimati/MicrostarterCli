@@ -1,11 +1,11 @@
 package ${entityRepositoryPackage};
 
 import ${importEntity};
-import java.util.Optional;
 import io.micronaut.data.annotation.*;
 import io.micronaut.data.model.*;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
+import java.util.*;
 
 @Repository
 public interface ${className}Repository extends CrudRepository<${className}, Long> {
