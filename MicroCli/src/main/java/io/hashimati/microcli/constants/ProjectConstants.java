@@ -1,5 +1,7 @@
 package io.hashimati.microcli.constants;
-
+/**
+ * @author Ahmed Al Hashmi
+ */
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
