@@ -76,7 +76,7 @@ public class AddAttributeCommand implements Callable<Integer> {
                 EntityAttribute entityAttribute = new EntityAttribute();
                 //todo Enter attribute Name.
 
-                InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter attribute name", "attrbute");
+                InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter attribute name", "attribute");
                 entityAttribute.setName(attrNameResult.getInput());
 
                 //todo Enter attribute Type:
