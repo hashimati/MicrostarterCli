@@ -2,18 +2,16 @@ package ${entitypackage};
 
 ${importedPackages}
 ${jpa?'import javax.persistence.*;' :''}
-
 ${jdbc?'import io.micronaut.data.annotation.*;' :''}
 ${jpa?'import io.micronaut.data.annotation.DateCreated;' :''}
 ${jpa?'import io.micronaut.data.annotation.DateUpdated;' :''}
-
-
 import lombok.*;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 ${containDate?'import java.util.Date;':''}
 import java.util.*;
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*;' :''}
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @ToString
@@ -26,8 +24,8 @@ ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*;' :''}
 <% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 public class ${className}{
     <% if(jpa) out.print '@Id '%>
-    <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE) ' %>
-    <% if(jpa) out.print '@EqualsAndHashCode.Exclude ' %>
+    <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE) '%>
+    <% if(jpa) out.print '@EqualsAndHashCode.Exclude '%>
     <% if(jpa) out.println 'private Long id;'%>
     <% if(jdbc) out.print '@Id '%>
     <% if(jdbc) out.print '@GeneratedValue(GeneratedValue.Type.AUTO) ' %>
