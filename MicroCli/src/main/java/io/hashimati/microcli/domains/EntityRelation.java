@@ -81,7 +81,7 @@ public class EntityRelation {
             relationOneToOne ="ONE_TO_ONE",
             relationManyToMany = "MANY_TO_MANY";
     private final String jdbcE1AnnotationTemplate =  "    @Relation(mappedBy = \"${e2attribute}\", value = Relation.Kind.${relation})\n";
-    private final String jdbcE2AnnotationTemplate =  "    @MappedProperty(\"${mappedColumn}\")";
+    private final String jdbcE2AnnotationTemplate =  "    @JsonIgnore @MappedProperty(\"${mappedColumn}\")";
     private final String joinTemplate = "@Join(\"${mappedColumn}\"";
 
     public String generateE1OneToManyTemplate(String language, String backend){
