@@ -3,14 +3,17 @@ package io.hashimati.microcli.services;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
+import groovy.text.XmlTemplateEngine;
 import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.XMLFormatter;
 import io.micronaut.core.naming.NameUtils;
+import org.xml.sax.SAXException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -207,5 +210,8 @@ public class LiquibaseGenerator {
 
 
 
+    public String generateXMLTemplate(String template, HashMap<String, String> map) throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
+        return new XmlTemplateEngine().createTemplate(template).make(map).toString();
+    }
     
 }
