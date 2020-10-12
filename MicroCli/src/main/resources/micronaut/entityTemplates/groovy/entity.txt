@@ -1,5 +1,6 @@
 package ${entitypackage}
 
+import com.fasterxml.jackson.annotation.JsonProperty
 ${importedPackages};
 import javax.validation.constraints.*;
 import groovy.transform.Canonical;
