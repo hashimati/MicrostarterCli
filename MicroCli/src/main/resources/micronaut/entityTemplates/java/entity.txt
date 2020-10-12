@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 ${containDate?'import java.util.Date;':''}
 import java.util.*;
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*;' :''}
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @ToString
