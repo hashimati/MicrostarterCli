@@ -9,7 +9,7 @@ ${containDate?'import java.util.Date':''}
 import java.util.List
 import io.swagger.v3.oas.annotations.media.Schema
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 
 @Schema(name="${className}", description="${className} Description")
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
