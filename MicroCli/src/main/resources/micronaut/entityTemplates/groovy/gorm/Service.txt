@@ -1,0 +1,36 @@
+package ${servicePackage}
+
+${importDomain}
+${importService}
+import javax.inject.Inject
+import javax.inject.Singleton
+
+
+@Singleton
+class ${className}Service {
+
+    @Inject
+    ${className}Repository ${entityName}Repository
+
+
+    ${className} save(${className} ${entityName}){
+        return ${entityName}Repository.save(${entityName})
+    }
+    ${className} findById(Serializable id){
+
+        return ${entityName}Repository.findById(id)
+    }
+    List<${className}> findAll(){
+        return ${entityName}Repository.list()
+    }
+    Long count(){
+        return ${entityName}Repository.count()
+
+    }
+
+    void delete(Serializable id)
+    {
+        return ${entityName}Repository.delete(id)
+    }
+
+}
