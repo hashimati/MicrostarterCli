@@ -1,6 +1,6 @@
 package io.hashimati.microcli.commands;
 
-/**
+/*
  * @author Ahmed Al Hashmi
  */
 import io.hashimati.microcli.config.FeaturesFactory;

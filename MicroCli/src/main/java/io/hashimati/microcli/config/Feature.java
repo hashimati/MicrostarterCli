@@ -1,5 +1,5 @@
 package io.hashimati.microcli.config;
-/**
+/*
  * @author Ahmed Al Hashmi
  */
 import io.hashimati.microcli.utils.GeneratorUtils;

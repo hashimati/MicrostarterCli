@@ -1,5 +1,5 @@
 package io.hashimati.microcli.commands;
-/**
+/*
  * @author Ahmed Al Hashmi
  */
 import io.hashimati.microcli.config.FeaturesFactory;
@@ -78,7 +78,7 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
         if(entityName == null)
         {
             entityName = PromptGui.createListPrompt("entity", "Select Message Type: ",
-                    configurationInfo.getEntities().stream().map(x->x.getName()).collect(Collectors.toList())
+                    configurationInfo.getEntities().stream().map(Entity::getName).collect(Collectors.toList())
                             .toArray(new String[configurationInfo.getEntities().size()])).getSelectedId();
         }
 

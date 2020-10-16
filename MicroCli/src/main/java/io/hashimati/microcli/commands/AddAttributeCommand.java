@@ -1,5 +1,5 @@
 package io.hashimati.microcli.commands;
-/**
+/*
  * @author Ahmed Al Hashmi
  */
 
@@ -14,8 +14,6 @@ import io.hashimati.microcli.domains.EntityConstraints;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
-import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.control.CompilationUnit;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -24,7 +22,6 @@ import javax.inject.Inject;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -60,7 +57,7 @@ public class AddAttributeCommand implements Callable<Integer> {
         if(entityName == null)
         {
             entityName = PromptGui.createListPrompt("entity", "Select Entity: ",
-                    configurationInfo.getEntities().stream().map(x->x.getName()).collect(Collectors.toList())
+                    configurationInfo.getEntities().stream().map(Entity::getName).collect(Collectors.toList())
                             .toArray(new String[configurationInfo.getEntities().size()])).getSelectedId();
         }
 
@@ -70,11 +67,9 @@ public class AddAttributeCommand implements Callable<Integer> {
         attributeLoop: for(;;) {
             ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add attribute?");
 
-            if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
-            {
+            if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO) {
                 break attributeLoop;
-            }
-            else{
+            } else{
                 EntityAttribute entityAttribute = new EntityAttribute();
                 //todo Enter attribute Name.
 
@@ -183,7 +178,7 @@ public class AddAttributeCommand implements Callable<Integer> {
                     entityAttribute.setConstraints(entityConstraints);
                 }
                 //todo take validation
-                entity.getAttributes().add(entityAttribute);
+                boolean add = entity.getAttributes().add(entityAttribute);
 
             }
         }
@@ -192,7 +187,7 @@ public class AddAttributeCommand implements Callable<Integer> {
         String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang);
 
 
-        String entityPath = GeneratorUtils.generateFromTemplate(ENTITY_PATH, new HashMap<String, String>(){{
+        String entityPath = GeneratorUtils.generateFromTemplate(ENTITY_PATH, new HashMap<>() {{
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});

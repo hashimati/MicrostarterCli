@@ -1,7 +1,8 @@
 package io.hashimati.microcli.commands;
-/**
- * @author Ahmed Al Hashmi
+/*
+  @author Ahmed Al Hashmi
  */
+
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import groovy.lang.Tuple2;
 import io.hashimati.microcli.constants.ProjectConstants;
@@ -17,8 +18,9 @@ import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -51,7 +53,7 @@ public class CreateRelationCommand implements Callable<Integer> {
         List<String> entities = configurationInfo
                 .getEntities()
                 .stream()
-                .map(x->x.getName())
+                .map(Entity::getName)
                 .collect(Collectors.toList());
 
 
@@ -99,8 +101,8 @@ public class CreateRelationCommand implements Callable<Integer> {
                 break;
         }
 
-        if(configurationInfo.getRelations().stream().filter(x->x.getE1().equals(entityRelation.getE1())
-         && x.getE2().equals(entityRelation.getE2())).findFirst().isPresent())
+        if(configurationInfo.getRelations().stream().anyMatch(x->x.getE1().equals(entityRelation.getE1())
+         && x.getE2().equals(entityRelation.getE2())))
         {
             printlnWarning("There is already an exist relationship between these two entities!");
             setToDefault();
@@ -113,7 +115,7 @@ public class CreateRelationCommand implements Callable<Integer> {
                         index = i;
                     }
                 }
-                if(index >= 0 && index < configurationInfo.getRelations().size())
+                if(index < configurationInfo.getRelations().size())
                 {
                     configurationInfo.getRelations().remove(index);
                 }
@@ -184,7 +186,7 @@ public class CreateRelationCommand implements Callable<Integer> {
         String repositoryFileContent = micronautEntityGenerator.generateRepository(e1, lang, relations1);
 
 
-        String repoPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>(){{
+        String repoPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<>() {{
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
