@@ -1,0 +1,11 @@
+package ${domainPackage}
+
+import grails.gorm.annotation.Entity
+
+@Entity
+class ${className} {
+    ${instances}
+    static constraints = {
+        ${constraints}
+    }
+}
