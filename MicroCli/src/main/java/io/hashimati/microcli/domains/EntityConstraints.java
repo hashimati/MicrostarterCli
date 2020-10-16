@@ -27,6 +27,8 @@ public class EntityConstraints
     private boolean unique;
     private boolean email;
     private boolean future;
+    private boolean url;
+    private boolean creditCard;
 //    private String dateVaildation;
     private boolean notempty;
 
@@ -181,6 +183,20 @@ public class EntityConstraints
     public String getFutureExpression(){
         return isFuture()?"\t@Future\n":"";
     }
+
+    @JsonIgnore
+    public String getUrlGorm()
+    {
+        return url? "url: true":"";
+    }
+
+    @JsonIgnore
+    public String creditCardGorm()
+    {
+        return creditCard? "creditCard:true":"";
+
+    }
+
     @JsonIgnore
     public String getSizeExpression()
     {
@@ -191,6 +207,19 @@ public class EntityConstraints
             return "";
 
         return "\t@Size("+((max != null && max >= 0)?" max="+max.longValue() + "," : "")+((min != null && min >= 0)?" min ="+ min.longValue():"")+")\n";
+    }
+
+
+    @JsonIgnore
+    public String getSizeExpressionGorm()
+    {
+
+
+
+        if((min != null && min <0) && ((max != null && max < 0)))
+            return "";
+
+        return ((min != null && min >= 0)? min.longValue():0)+ ".."+ ((max != null && max >= 0)?max.longValue() : min.longValue()+1);
     }
     @JsonIgnore
     public String getCollectionSizeExpression()
@@ -206,14 +235,32 @@ public class EntityConstraints
         return required ?"\t@NotNull\n": "";
     }
     @JsonIgnore
+    public String getNotNullExpressionGorm()
+    {
+
+        return required ?"nullable:false": "nullable:true";
+    }
+    @JsonIgnore
     public String getEmailExpression()
     {
         return email? "\t@Email\n":"";
     }
+
+    @JsonIgnore
+    public String getEmailExpressionGorm()
+    {
+        return email? "email:true":"";
+    }
+
     @JsonIgnore
     public String getPatternExpression()
     {
         return pattern== null|| pattern.isEmpty()  ?"":"\t@Pattern(regexp = \""+pattern+"\")\n";
+    }
+    @JsonIgnore
+    public String getPatternExpressionGorm()
+    {
+        return pattern== null|| pattern.isEmpty()  ?"": new StringBuilder().append("matches:\"").append(pattern).append("\"").toString();
     }
     @JsonIgnore
     public String getNotBlankExpression()
@@ -222,11 +269,20 @@ public class EntityConstraints
     }
 
     @JsonIgnore
+    public String getNotBlankExpressionGorm()
+    {
+        return notEmpty? "blank:true": "blank:false";
+    }
+    @JsonIgnore
     public String getUniqueExperession()
     {
 
         return unique? "\t@Column(unique = true)\n": "";
 
+    }
+    @JsonIgnore
+    public String getUniqueExperessionGorm(){
+        return unique? "unique:true": "unique:false";
     }
 
     public boolean isEnabled() {
@@ -302,5 +358,21 @@ public class EntityConstraints
     public EntityConstraints visit(Visitor<EntityConstraints> visitor)
     {
         return visitor.visit(this);
+    }
+
+    public boolean isUrl() {
+        return url;
+    }
+
+    public void setUrl(boolean url) {
+        this.url = url;
+    }
+
+    public boolean isCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(boolean creditCard) {
+        this.creditCard = creditCard;
     }
 }
