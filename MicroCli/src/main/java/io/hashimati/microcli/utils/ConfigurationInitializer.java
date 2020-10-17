@@ -12,6 +12,7 @@ import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.TemplatesService;
+import io.micronaut.runtime.Micronaut;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import javax.inject.Inject;
@@ -136,7 +137,8 @@ public class ConfigurationInitializer {
                 Feature databaseFeature = null;
                 switch (databaseBackend.getSelectedId())
                 {
-                    case "JPA":
+                    case "JPA" :
+
                         if(!projectInfo.getFeatures().contains("data-jpa")) {
                             projectInfo.getFeatures().add("data-jpa");
                             databaseFeature = features.get("data-jpa");
@@ -221,7 +223,12 @@ public class ConfigurationInitializer {
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
                 MicronautProjectValidator.appendToProperties(mongoProperties);
 
-
+                if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
+                {
+                    configurationInfo.setGorm(true);
+                    MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
+                    projectInfo.getFeatures().add("mongo-gorm");
+                }
                 projectInfo.dumpToFile();
             }
 
