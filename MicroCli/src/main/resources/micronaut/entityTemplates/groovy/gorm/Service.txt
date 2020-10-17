@@ -1,7 +1,7 @@
 package ${servicePackage}
 
-${importDomain}
-${importService}
+import ${entityPackage}
+import ${repoPackage}
 import javax.inject.Inject
 import javax.inject.Singleton
 
