@@ -94,7 +94,9 @@ public class CreateEntityCommand implements Callable<Integer> {
                 entityName = PromptGui.inputText("entity", "Enter the entity's Name:", "MyEntity").getInput();
 
             }
+
             Entity entity = new Entity();
+
             entity.setName(entityName);
 
 
@@ -130,7 +132,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             entity.setFrameworkType(configurationInfo.getDataBackendRun());
-          //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
+            entity.setGorm(configurationInfo.isGorm());
+            //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
 
 
