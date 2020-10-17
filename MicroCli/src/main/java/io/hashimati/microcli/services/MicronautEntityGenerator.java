@@ -7,6 +7,7 @@ import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -97,9 +98,98 @@ public class MicronautEntityGenerator
         System.out.println("--------------------end entity test----");
     }
 
-    public String generateEntity(Entity entity, ArrayList<EntityRelation> relations, String language) throws IOException,
-            ClassNotFoundException, FormatterException {
 
+    private String generateEntityGorm(Entity entity, ArrayList<EntityRelation> relations, String language)  throws IOException,
+            ClassNotFoundException
+    {
+        String attributesDeclaration ="";
+
+        String importedPackages = entity.getEntitiesImport(entity.getEntityPackage().replace(".domains", ""));
+        boolean containDate = false;
+
+        StringBuilder contraints = new StringBuilder("");
+        if(entity.getAttributes()!= null && !entity.getAttributes().isEmpty())
+            for(EntityAttribute eA: entity.getAttributes())
+            {
+
+                if(eA.isDate())
+                {
+                    containDate = true;
+                }
+
+                String attributeDeclaration = "";
+
+
+
+
+                if(eA.getConstraints() != null)
+                    if(eA.getConstraints().isEnabled()) {
+
+                        StringBuilder attrContraint = new StringBuilder(eA.getName()).append(" ");
+                        if(eA.isArray() == false){
+                            if (eA.isString()) {
+                                attrContraint.append(eA.getConstraints().getSizeExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getNotBlankExpressionGorm()).append(", ");
+                                attrContraint.append( eA.getConstraints().getNotNullExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getPatternExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getEmailExpressionGorm()).append(", ");
+                                attrContraint.append( eA.getConstraints().getUniqueExperessionGorm()).append(", ");
+
+                            } else if (eA.isInteger() || eA.isByte() || eA.isShort() || eA.isLong()) {
+                                attrContraint.append( eA.getConstraints().getSizeExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getUniqueExperessionGorm()).append(", ");
+
+                            } else if (eA.isDouble() || eA.isFloat()) {
+                                attrContraint.append(eA.getConstraints().getDecimalSizeExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getUniqueExperessionGorm()).append(", ");
+
+                            } else if (eA.isDate()) {
+                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm()).append(", ");
+
+                                //      attributeDeclaration += eA.getConstraints().getDateValidationExepression();
+                            } else if (eA.isClass()) {
+                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm()).append(", ");
+                            }
+                        }
+                        else if(eA.isArray()) {
+//                            attributeDeclaration += eA.getConstraints().getCollectionSizeExpression();
+                            attrContraint.append(eA.getConstraints().getNotBlankExpressionGorm()).append(", ");
+
+                        }
+                        attrContraint.trimToSize();
+                        attrContraint.replace(attrContraint.lastIndexOf(","), attrContraint.lastIndexOf(","), "").append("\n");
+                        contraints.append(attrContraint.toString());
+                    }
+                attributeDeclaration +=eA.getDeclaration(language);
+                if(!eA.isPremetive() && eA.getTypePackage()!= null )
+                {
+                    importedPackages += eA.getPackageSyntax(language)+"\n";
+                }
+
+                attributesDeclaration +=   attributeDeclaration +"\n";
+
+            }
+
+        HashMap<String, String> binder = new HashMap<>();
+            binder.put("entitypackage", entity.getEntityPackage());
+            binder.put("className", entity.getName());
+            binder.put("instances", attributesDeclaration);
+            binder.put("constraints", contraints.toString());
+        String templatePath= getTemplatPath(GORM_ENTITY, language.toLowerCase());
+
+
+        String entityTemplate  =templatesService.loadTemplateContent(templatePath);
+
+
+        String result = new SimpleTemplateEngine().createTemplate(entityTemplate).make(binder).toString();
+
+        return result;
+    }
+    public String generateEntity(Entity entity, ArrayList<EntityRelation> relations, String language) throws IOException,
+            ClassNotFoundException {
+
+        if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
+            return generateEntityGorm(entity, relations, language);
         String declarrationSperator = language.equalsIgnoreCase(KOTLIN_LANG)? ",": "\n";
         Set<EntityRelation> entityRelations = getRelations(entity, relations);
         String attributesDeclaration ="";
@@ -331,17 +421,32 @@ public class MicronautEntityGenerator
             }
             return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
         }
-        else if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb"))
-        {
-            binder.put("entityRepositoryPackage", entity.getRepoPackage());
-            binder.put("entityPackage", entity.getEntityPackage());
-            binder.put("entityClass", entity.getName());
-            binder.put("databaseName", entity.getDatabaseName());
-            binder.put("collectionName", entity.getCollectionName());
-            String templatePath= getTemplatPath(TemplatesService.MONGO_REPOSITORY, language.toLowerCase());
+        else if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb")) {
 
-            String repositoryTemplate =templatesService.loadTemplateContent( templatePath);
-            return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+            if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()){
+
+                String templatePath = getTemplatPath(GORM_REPOSITORY, language.toLowerCase());
+
+                binder.put("importDomains", entity.getRepoPackage());
+                binder.put("entityPackage", entity.getEntityPackage());
+                binder.put("entityClass", entity.getName());
+                binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
+                String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+                return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+
+            }
+            else
+            {
+                binder.put("entityRepositoryPackage", entity.getRepoPackage());
+                binder.put("entityPackage", entity.getEntityPackage());
+                binder.put("entityClass", entity.getName());
+                binder.put("databaseName", entity.getDatabaseName());
+                binder.put("collectionName", entity.getCollectionName());
+                String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
+
+                String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+                return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+            }
         }
         return "";
     }
