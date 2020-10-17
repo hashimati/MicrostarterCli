@@ -2,14 +2,14 @@ package ${repositoryPackage}
 
 import grails.gorm.services.Service
 import groovy.transform.CompileStatic
-${importDomains}
+import ${entityPackage}.${entityClass}
 
-@Service(${className})
+@Service(${entityClass})
 @CompileStatic
-interface ${className}Repository {
-    ${className} save(${className} ${entityName})
-    ${className} findById(Serializable id)
-    List<${className}> list()
+interface ${entityClass}Repository {
+    ${entityClass} save(${entityClass} ${entityName})
+    ${entityClass} findById(Serializable id)
+    List<${entityClass}> list()
     Long count()
     void delete(Serializable id)
 }
