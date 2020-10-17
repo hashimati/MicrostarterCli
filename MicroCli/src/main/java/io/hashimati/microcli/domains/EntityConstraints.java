@@ -175,6 +175,12 @@ public class EntityConstraints
     public String getDecimalMaxExpression(){
         return max != null?"\t@DecimalMax("+decimalMax.doubleValue()+")\n":"";
     }
+    public String getDecimalSizeExpressionGorm()
+    {
+        if((decimalMin != null && decimalMin <0) && ((decimalMax != null && decimalMax < 0)))
+            return "";
+        return ((min != null && decimalMin >= 0)? decimalMin.longValue():0)+ ".."+ ((decimalMax != null && max >= 0)?decimalMax.longValue() : decimalMin.longValue()+1);
+    }
     @JsonIgnore
     public String getDecimalMinExpression(){
         return min != null?"\t@DecimalMin("+decimalMin.doubleValue()+")\n":"";
