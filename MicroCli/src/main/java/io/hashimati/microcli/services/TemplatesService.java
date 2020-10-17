@@ -46,6 +46,11 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+            GORM_ENTITY="gorm_entity",
+            GORM_REPOSITORY = "gorm_repository",
+            GORM_SERVICE = "gorm_service",
+            GORM_CONTROLLER = "gorm_controller",
+            GORM_CLIENT = "gorm_client",
             GRAPHQL_QUERY_FACOTRY = "graphql_query_factory",
             GRAPHQL_QUERY_RESOLVER = "graphql_query_resolver",
             GRAPHQL_REACTIVE_QUERY_RESOLVER = "graphql_reactive_query_resolver",
@@ -248,8 +253,11 @@ public class TemplatesService {
         groovyTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/groovy/reactive/UserRepository.txt");
         groovyTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/groovy/reactive/UserService.txt");
         groovyTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/groovy/reactive/UserController.txt");
-
-
+        groovyTemplates.put(GORM_ENTITY, "micronaut/entityTemplates/groovy/gorm/Entity.txt");
+        groovyTemplates.put(GORM_REPOSITORY, "micronaut/entityTemplates/groovy/gorm/Repository.txt");
+        groovyTemplates.put(GORM_SERVICE, "micronaut/entityTemplates/groovy/gorm/Service.txt");
+        groovyTemplates.put(GORM_CONTROLLER, "micronaut/entityTemplates/groovy/gorm/Controller.txt");
+        groovyTemplates.put(GORM_CLIENT, "micronaut/entityTemplates/groovy/gorm/Client.txt");
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
