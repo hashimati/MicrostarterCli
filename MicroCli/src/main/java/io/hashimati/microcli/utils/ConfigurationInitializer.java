@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
 import static io.hashimati.microcli.services.TemplatesService.OPENAPI_yml;
 import static io.hashimati.microcli.utils.PromptGui.*;
@@ -223,12 +224,13 @@ public class ConfigurationInitializer {
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
                 MicronautProjectValidator.appendToProperties(mongoProperties);
 
-                if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
-                {
-                    configurationInfo.setGorm(true);
-                    MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
-                    projectInfo.getFeatures().add("mongo-gorm");
-                }
+                if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
+                    if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
+                    {
+                        configurationInfo.setGorm(true);
+                        MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
+                        projectInfo.getFeatures().add("mongo-gorm");
+                    }
                 projectInfo.dumpToFile();
             }
 
