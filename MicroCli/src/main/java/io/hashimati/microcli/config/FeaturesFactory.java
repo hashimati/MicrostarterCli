@@ -472,6 +472,68 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
         }});
+
+        features.put("mongo-gorm",
+                new Feature(){{
+
+                    setName("mongo-gorm");
+                    setGradle("    implementation(\"io.micronaut.groovy:micronaut-mongo-gorm\")");
+                    setMaven("    <dependency>\n" +
+                            "      <groupId>io.micronaut.groovy</groupId>\n" +
+                            "      <artifactId>micronaut-mongo-gorm</artifactId>\n" +
+                            "      <scope>compile</scope>\n" +
+                            "    </dependency>");
+
+
+        }});
+
+        features.put("neo4j-bolt",new Feature(){{
+            setName("neo4j-bolt");
+            setGradle("    implementation(\"io.micronaut.neo4j:micronaut-neo4j-bolt\")");
+            setMaven("    <dependency>\n" +
+                    "      <groupId>io.micronaut.neo4j</groupId>\n" +
+                    "      <artifactId>micronaut-neo4j-bolt</artifactId>\n" +
+                    "      <scope>compile</scope>\n" +
+                    "    </dependency>");
+        }} );
+        features.put("neo4j-gorm", new Feature(){{
+            setName("neo4j-gorm");
+            setGradle("    implementation(\"io.micronaut.groovy:micronaut-neo4j-gorm\")");
+            setMaven("    <dependency>\n" +
+                    "      <groupId>io.micronaut.groovy</groupId>\n" +
+                    "      <artifactId>micronaut-neo4j-gorm</artifactId>\n" +
+                    "      <scope>compile</scope>\n" +
+                    "    </dependency>");
+        }});
+
+        features.put("tomcat-jdbc", new Feature(){{
+            setName("tomcat-jdbc");
+            setMaven(" <dependency>\n" +
+                    "      <groupId>org.apache.tomcat</groupId>\n" +
+                    "      <artifactId>tomcat-jdbc</artifactId>\n" +
+                    "      <scope>runtime</scope>\n" +
+                    "    </dependency>");
+            setGradle("    runtimeOnly(\"org.apache.tomcat:tomcat-jdbc\")");
+        }});
+        features.put("hibernate-gorm",new Feature(){{
+            setName("hibernate-gorm");
+            setGradle("        implementation(\"io.micronaut.groovy:micronaut-hibernate-gorm\")");
+            setMaven(" <dependency>\n" +
+                    "      <groupId>io.micronaut.groovy</groupId>\n" +
+                    "      <artifactId>micronaut-hibernate-gorm</artifactId>\n" +
+                    "      <scope>compile</scope>\n" +
+                    "    </dependency>");
+        }} );
+        features.put("hibernate-validator", new Feature(){{
+            setName("hibernate-validator");
+            setGradle("    implementation(\"io.micronaut.beanvalidation:micronaut-hibernate-validator\")");
+            setMaven("  <dependency>\n" +
+                    "      <groupId>io.micronaut.beanvalidation</groupId>\n" +
+                    "      <artifactId>micronaut-hibernate-validator</artifactId>\n" +
+                    "      <scope>compile</scope>\n" +
+                    "    </dependency>" );
+        }});
+
         return features;
     }
 
