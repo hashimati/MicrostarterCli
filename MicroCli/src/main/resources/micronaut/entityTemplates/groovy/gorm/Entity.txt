@@ -1,4 +1,4 @@
-package ${domainPackage}
+package ${entitypackage}
 
 import grails.gorm.annotation.Entity
 
