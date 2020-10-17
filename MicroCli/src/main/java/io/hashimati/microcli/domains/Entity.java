@@ -26,7 +26,7 @@ public class Entity
     //database type refer to the database
     //collectionname is refering to tht table name, entity name or collection name.
     databaseType, collectionName, databaseName; // SQL, Mongo, Cassandra, Neo4J;
-
+    private boolean gorm;
     private String dialect;
     //possiblevalue = [jpa, jdbc, normal].
     private String frameworkType;
@@ -236,5 +236,13 @@ public class Entity
 
     public void setLiquibaseSequence(int liquibaseSequence) {
         this.liquibaseSequence = liquibaseSequence;
+    }
+
+    public boolean isGorm() {
+        return gorm;
+    }
+
+    public void setGorm(boolean gorm) {
+        this.gorm = gorm;
     }
 }
