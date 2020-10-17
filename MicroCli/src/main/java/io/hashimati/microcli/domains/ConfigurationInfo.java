@@ -35,6 +35,7 @@ public class ConfigurationInfo {
             messaging,
             graphQLIntegrationLib;
     boolean graphQlSupport;
+    boolean gorm;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
