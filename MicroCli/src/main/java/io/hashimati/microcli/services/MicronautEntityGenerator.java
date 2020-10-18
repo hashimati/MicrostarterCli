@@ -36,6 +36,7 @@ public class MicronautEntityGenerator
     private TemplatesService templatesService;
 
   // @PostConstruct
+    @Deprecated
     public void test() throws IOException, ClassNotFoundException, FormatterException {
 
 
@@ -518,7 +519,26 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(exceptionTemplate).make(binder).toString();
     }
 
+
+
+    private String generateServiceGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
+        //Todo maybe to be deleted
+       String templatePath= getTemplatPath(TemplatesService.MONGO_SERVICE, language.toLowerCase());
+
+       String serviceTemplate = templatesService.loadTemplateContent(templatePath);
+        HashMap<String, String> binder = new HashMap<>();
+        binder.put("servicePackage", entity.getServicePackage() );
+        binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
+        binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
+        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("className", entity.getName());
+        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
+    }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
+
+        if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
+            return generateServiceGorm(entity, language);
+
         HashMap<String, String> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
