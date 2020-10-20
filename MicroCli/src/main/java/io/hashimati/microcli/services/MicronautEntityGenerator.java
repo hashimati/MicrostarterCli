@@ -428,7 +428,8 @@ public class MicronautEntityGenerator
 
                 String templatePath = getTemplatPath(GORM_REPOSITORY, language.toLowerCase());
 
-                binder.put("importDomains", entity.getRepoPackage());
+//                binder.put("importDomains", entity.getEntityPackage()+"."+ entity.getName());
+                binder.put("repositoryPackage",entity.getRepoPackage() );
                 binder.put("entityPackage", entity.getEntityPackage());
                 binder.put("entityClass", entity.getName());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
@@ -523,7 +524,7 @@ public class MicronautEntityGenerator
 
     private String generateServiceGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
         //Todo maybe to be deleted
-       String templatePath= getTemplatPath(TemplatesService.MONGO_SERVICE, language.toLowerCase());
+       String templatePath= getTemplatPath(GORM_SERVICE, language.toLowerCase());
 
        String serviceTemplate = templatesService.loadTemplateContent(templatePath);
         HashMap<String, String> binder = new HashMap<>();
@@ -536,9 +537,9 @@ public class MicronautEntityGenerator
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
 
-        if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
+        if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()) {
             return generateServiceGorm(entity, language);
-
+        }
         HashMap<String, String> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
@@ -565,7 +566,30 @@ public class MicronautEntityGenerator
 
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
+
+    public String generateControllerGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
+        HashMap<String, String> binder = new HashMap<>();
+        binder.put("controllerPackage", entity.getRestPackage() );
+        binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
+        binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
+        binder.put("entityName", entity.getName().toLowerCase());
+        String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
+
+        String controllerTemplate = templatesService.loadTemplateContent(templatePath);
+
+        return new SimpleTemplateEngine().createTemplate(controllerTemplate).make(binder).toString();
+
+
+    }
+
     public String generateController(Entity entity, String language) throws IOException, ClassNotFoundException {
+        if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
+        {
+            return generateControllerGorm(entity, language);
+
+        }
+
+
         HashMap<String, String> binder = new HashMap<>();
         binder.put("controllerPackage", entity.getRestPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
