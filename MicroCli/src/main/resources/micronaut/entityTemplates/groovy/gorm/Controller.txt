@@ -1,8 +1,8 @@
-package ${domain}
+package ${controllerPackage}
 
 import com.sun.org.slf4j.internal.LoggerFactory
-${importDomain}
-${importService}
+import ${entityPackage}
+import ${servicePackage}
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -10,7 +10,7 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.reactivex.Flowable
 import io.reactivex.Single
-
+import java.util.List
 import javax.inject.Inject
 import java.util.logging.Logger
 
@@ -18,11 +18,11 @@ import java.util.logging.Logger
 class ${className}Controller {
     @Inject
     ${className}Service countryService
-    static final Logger log = LoggerFactory.getLogger(CountryController.class);
+    static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
 
 
     @Post("/save")
-    Single<${className}> save(@Body ${className} ${entityName})
+    ${className} save(@Body ${className} ${entityName})
     {
         log.info("Saving  ${className} : {}", ${entityName});
 
@@ -31,16 +31,16 @@ class ${className}Controller {
     }
 
 
-    @Get("/find")
-    Single<${className}> findById(@Parameter("id") String id)
+    @Get("/get")
+    ${className} findById(@Parameter("id") String id)
     {
         log.info("Finding ${className} By Id: {}", id);
 
         return ${entityName}Service.findById(id)
     }
 
-    @Get("/find/all")
-    Flowable<${className}> findAll()
+    @Get("/findAll")
+    List<${className}> findAll()
     {
         log.info("Finding all ${className}");
         return ${entityName}Service.findAll()
