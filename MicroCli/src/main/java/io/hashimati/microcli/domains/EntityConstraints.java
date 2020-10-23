@@ -179,7 +179,7 @@ public class EntityConstraints
     {
         if((decimalMin != null && decimalMin <0) && ((decimalMax != null && decimalMax < 0)))
             return "";
-        return ((min != null && decimalMin >= 0)? decimalMin.longValue():0)+ ".."+ ((decimalMax != null && max >= 0)?decimalMax.longValue() : decimalMin.longValue()+1);
+        return ((decimalMin != null && decimalMin >= 0)? decimalMin.longValue():0)+ ".."+ ((decimalMax != null && max >= 0)?decimalMax.longValue() : (decimalMin!=null?decimalMin.longValue():0)+1);
     }
     @JsonIgnore
     public String getDecimalMinExpression(){
@@ -225,7 +225,7 @@ public class EntityConstraints
         if((min != null && min <0) && ((max != null && max < 0)))
             return "";
 
-        return ((min != null && min >= 0)? min.longValue():0)+ ".."+ ((max != null && max >= 0)?max.longValue() : min.longValue()+1);
+        return "size: "+ ((min != null && min >= 0)? min.longValue():0)+ ".."+ ((max != null && max >= 0)?max.longValue() : (min!= null?min.longValue():1000)+1);
     }
     @JsonIgnore
     public String getCollectionSizeExpression()
@@ -381,4 +381,35 @@ public class EntityConstraints
     public void setCreditCard(boolean creditCard) {
         this.creditCard = creditCard;
     }
+
+
+    @JsonIgnore
+    public String getMinExpressionGorm() {
+
+        if(min != null)
+            return "min= "+ min.longValue();
+        return "";
+    }
+    @JsonIgnore
+    public String getMaxExpressionGorm() {
+
+        if(max != null)
+            return "max= "+ max.longValue();
+        return "";
+    }
+    @JsonIgnore
+    public String getMinDecimalExpressionGorm() {
+
+        if(decimalMin != null)
+            return "min= "+ decimalMin.longValue();
+        return "";
+    }
+    @JsonIgnore
+    public String getMaxDecimalExpressionGorm() {
+
+        if(decimalMax != null)
+            return "max= "+ decimalMax.longValue();
+        return "";
+    }
 }
+
