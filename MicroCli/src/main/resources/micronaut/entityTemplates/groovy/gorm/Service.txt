@@ -4,6 +4,7 @@ import ${entityPackage}
 import ${repoPackage}
 import javax.inject.Inject
 import javax.inject.Singleton
+import java.util.List
 
 
 @Singleton
