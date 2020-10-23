@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.services.TemplatesService.H2_JDBC_yml;
 
@@ -492,7 +493,7 @@ public class MicronautProjectValidator {
         }
         String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo().getSourceLanguage().toLowerCase();
         String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
-        String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":"import io.micronaut.runtime.Micronaut;";
+        String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG)?"import groovy.transform.CompileStatic":"import io.micronaut.runtime.Micronaut;");
         if(!projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
         {
            annotations = annotations.replace(";","");
