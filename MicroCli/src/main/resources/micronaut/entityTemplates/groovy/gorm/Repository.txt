@@ -3,6 +3,7 @@ package ${repositoryPackage}
 import grails.gorm.services.Service
 import groovy.transform.CompileStatic
 import ${entityPackage}.${entityClass}
+import java.util.List
 
 @Service(${entityClass})
 @CompileStatic
