@@ -8,4 +8,9 @@ class ${className} {
     static constraints = {
         ${constraints}
     }
+    static mapping = {
+        collection "${collection}"
+        database "${db}"
+    }
+
 }
