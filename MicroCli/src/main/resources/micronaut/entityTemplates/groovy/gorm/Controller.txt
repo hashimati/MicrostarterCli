@@ -12,14 +12,16 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.List
 import javax.inject.Inject
-import java.util.logging.Logger
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller("/")
 class ${className}Controller {
-    @Inject
-    ${className}Service countryService
+
     static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
 
+    @Inject
+    ${className}Service ${entityName}Service
 
     @Post("/save")
     ${className} save(@Body ${className} ${entityName})
@@ -27,7 +29,7 @@ class ${className}Controller {
         log.info("Saving  ${className} : {}", ${entityName});
 
         //TODO: enter your logic here before saving.
-        return ${entityname}Service.save(${entityName})
+        return ${entityName}Service.save(${entityName})
     }
 
 
