@@ -627,9 +627,25 @@ public class MicronautEntityGenerator
         }
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
+
+    public String generateClientGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
+        HashMap<String, String> binder = new HashMap<>();
+        binder.put("clientPackage", entity.getClientPackage() );
+        binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
+        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("className",  entity.getName());
+
+
+        String templatePath= getTemplatPath(GORM_CLIENT, language.toLowerCase());
+        String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
+        return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
+
+    }
     public String generateClient(Entity entity, String language) throws IOException, ClassNotFoundException {
 
 
+        if(entity.isGorm() && language.equalsIgnoreCase(GROOVY_LANG))
+            return generateClientGorm(entity, language);
         HashMap<String, String> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
