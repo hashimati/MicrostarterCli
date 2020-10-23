@@ -132,33 +132,42 @@ public class MicronautEntityGenerator
                                 attrContraint.append(eA.getConstraints().getSizeExpressionGorm()).append(", ");
                                 attrContraint.append(eA.getConstraints().getNotBlankExpressionGorm()).append(", ");
                                 attrContraint.append( eA.getConstraints().getNotNullExpressionGorm()).append(", ");
-                                attrContraint.append(eA.getConstraints().getPatternExpressionGorm()).append(", ");
-                                attrContraint.append(eA.getConstraints().getEmailExpressionGorm()).append(", ");
-                                attrContraint.append( eA.getConstraints().getUniqueExperessionGorm()).append(", ");
+                                if(!eA.getConstraints().getPatternExpressionGorm().trim().isEmpty())
+                                    attrContraint.append(eA.getConstraints().getPatternExpressionGorm()).append(", ");
+                                if(!eA.getConstraints().getEmailExpressionGorm().trim().isEmpty())
+                                    attrContraint.append(eA.getConstraints().getEmailExpressionGorm()).append(", ");
+                                attrContraint.append( eA.getConstraints().getUniqueExperessionGorm());
 
                             } else if (eA.isInteger() || eA.isByte() || eA.isShort() || eA.isLong()) {
-                                attrContraint.append( eA.getConstraints().getSizeExpressionGorm()).append(", ");
-                                attrContraint.append(eA.getConstraints().getUniqueExperessionGorm()).append(", ");
+                                if(! eA.getConstraints().getMinExpressionGorm().trim().isEmpty())
+                                    attrContraint.append( eA.getConstraints().getMinExpressionGorm()).append(", ");
+                                if(! eA.getConstraints().getMaxExpressionGorm().trim().isEmpty())
+                                    attrContraint.append( eA.getConstraints().getMaxExpressionGorm()).append(", ");
+
+                                attrContraint.append(eA.getConstraints().getUniqueExperessionGorm());
 
                             } else if (eA.isDouble() || eA.isFloat()) {
-                                attrContraint.append(eA.getConstraints().getDecimalSizeExpressionGorm()).append(", ");
+                                if(! eA.getConstraints().getMinDecimalExpressionGorm().trim().isEmpty())
+                                    attrContraint.append( eA.getConstraints().getMinDecimalExpressionGorm()).append(", ");
+                                if(! eA.getConstraints().getMaxDecimalExpressionGorm().trim().isEmpty())
+                                    attrContraint.append( eA.getConstraints().getMaxDecimalExpressionGorm()).append(", ");
                                 attrContraint.append(eA.getConstraints().getUniqueExperessionGorm()).append(", ");
 
                             } else if (eA.isDate()) {
-                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm());
 
                                 //      attributeDeclaration += eA.getConstraints().getDateValidationExepression();
                             } else if (eA.isClass()) {
-                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm()).append(", ");
+                                attrContraint.append(eA.getConstraints().getNotNullExpressionGorm());
                             }
                         }
                         else if(eA.isArray()) {
 //                            attributeDeclaration += eA.getConstraints().getCollectionSizeExpression();
-                            attrContraint.append(eA.getConstraints().getNotBlankExpressionGorm()).append(", ");
+                            attrContraint.append(eA.getConstraints().getNotBlankExpressionGorm());
 
                         }
                         attrContraint.trimToSize();
-                        attrContraint.replace(attrContraint.lastIndexOf(","), attrContraint.lastIndexOf(","), "").append("\n");
+                     //   attrContraint.replace(attrContraint.lastIndexOf(","), attrContraint.lastIndexOf(","), "").append("\n");
                         contraints.append(attrContraint.toString());
                     }
                 attributeDeclaration +=eA.getDeclaration(language);
@@ -176,6 +185,8 @@ public class MicronautEntityGenerator
             binder.put("className", entity.getName());
             binder.put("instances", attributesDeclaration);
             binder.put("constraints", contraints.toString());
+            binder.put("db", entity.getDatabaseName());
+            binder.put("collection", entity.getCollectionName());
         String templatePath= getTemplatPath(GORM_ENTITY, language.toLowerCase());
 
 
@@ -573,6 +584,8 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
         binder.put("entityName", entity.getName().toLowerCase());
+        
+        binder.put("className", entity.getName());
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
         String controllerTemplate = templatesService.loadTemplateContent(templatePath);
