@@ -30,7 +30,7 @@ class ${className}Service {
 
     void delete(Serializable id)
     {
-        return ${entityName}Repository.delete(id)
+         ${entityName}Repository.delete(id)
     }
 
 }
