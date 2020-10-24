@@ -5,33 +5,50 @@ import ${repoPackage}
 import javax.inject.Inject
 import javax.inject.Singleton
 import java.util.List
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class ${className}Service {
 
+    Logger log = LoggerFactory.getLogger(${className}Service.class)
+
     @Inject
     ${className}Repository ${entityName}Repository
 
-
     ${className} save(${className} ${entityName}){
+
+        log.info("Saving  ${className} : {}", ${entityName})
         return ${entityName}Repository.save(${entityName})
     }
     ${className} findById(Serializable id){
-
+        log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id)
     }
     List<${className}> findAll(){
+        log.info("Find All")
         return ${entityName}Repository.list()
     }
     Long count(){
+        log.info("counting ${className} objects.")
         return ${entityName}Repository.count()
 
     }
 
-    void delete(Serializable id)
-    {
-         ${entityName}Repository.delete(id)
+
+    boolean deleteById(Serializable id){
+        try
+        {
+            ${entityName}Repository.delete(id);
+            log.info("Deleting ${className} by Id: {}", id);
+            return true;
+        }
+        catch(Exception ex)
+        {
+            log.info("Failed to delete ${className} by Id: {}", id);
+            ex.printStackTrace();
+            return false;
+        }
     }
 
 }
