@@ -11,6 +11,9 @@ import java.util.List
 import javax.inject.Inject
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 
 @Controller("/api/${entityName}")
 class ${className}Controller {
@@ -21,6 +24,15 @@ class ${className}Controller {
     ${className}Service ${entityName}Service
 
     @Post("/save")
+    @Operation(summary = "Creating a ${entityName} and Storing in the database",
+            description = "A REST service, which saves ${className} objects to the database.",
+            operationId = "Save${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not stored")
     ${className} save(@Body ${className} ${entityName})
     {
         log.info("Saving  ${className} : {}", ${entityName});
@@ -31,6 +43,15 @@ class ${className}Controller {
 
 
     @Get("/get")
+    @Operation(summary = "Getting a ${entityName} by Id",
+        description = "A REST service, which retrieves a ${className} object by Id.",
+        operationId = "FindById${className}"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
     ${className} findById(@Parameter("id") String id)
     {
         log.info("Finding ${className} By Id: {}", id);
@@ -39,11 +60,31 @@ class ${className}Controller {
     }
 
     @Get("/findAll")
+    @Operation(summary = "Retrieving all ${entityName} objects as Json",
+            description = "A REST service, which returns all ${className} objects from the database.",
+            operationId = "FindAll${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
     List<${className}> findAll()
     {
         log.info("Finding all ${className}");
         return ${entityName}Service.findAll()
     }
 
-
+    @Delete("/delete/{id}")
+    @Operation(summary = "Deleting a ${entityName} by ID",
+            description = "A REST service, which deletes ${className} object from the database.",
+            operationId = "DeleteById${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "boolean")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    Boolean deleteById(@PathVariable("id") long id){
+        log.info("Deleting ${className} by Id: {}", id);
+        return  ${entityName}Service.deleteById(id);
+    }
 }
