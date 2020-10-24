@@ -6,20 +6,23 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
+import java.util.List
 
 @Client("/api/${entityName}")
 interface ${className}Client {
 
-
-
     @Post("/save")
-    ${className} save(@Body ${className} ${entityName})
-
+    ${className} save(@Body ${classNameA} ${entityName})
 
     @Get("/get")
-    ${className} findById(@Parameter("id") String id)
+    ${className} findById(@Parameter("id") long id)
 
+    @Delete("/delete/{id}")
+    boolean deleteById(@PathVariable("id") long id)
 
     @Get("/findAll")
     List<${className}> findAll()
+
+    @Put("/update")
+    ${className} update(@Body ${className} ${entityName})
 }
