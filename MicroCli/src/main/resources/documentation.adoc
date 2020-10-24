@@ -1,0 +1,28 @@
+= Quick Guide
+:author: Ahmed Al Hashmi
+:email: hashimati.ahmed@gmail.com
+:revnumber: 0.0.1
+:revdate: 2020-10-24
+:toc: left
+:numbered:
+:toclevels: 1 // show little detail in the TOC, to make this document less intimidating
+:toc-title: Features
+:source-highlighter: coderay
+:icons: font
+:imagesdir: images
+:linkattrs:
+:sectanchors:
+:docinfo: shared-head,private-head
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :heavy_exclamation_mark:
+:note-caption: :information_source:
+endif::[]
+
+This is the Quick Guide. For more detail, see the full user manual at https://www.microstarter.io/microcli[https://www.microstarter.io/microcli].
+
+== What is MicroCli
+Microcli is a rapid development to generate source code components and files. Currently, it is available for Micronaut.
+
+
+== Generate
