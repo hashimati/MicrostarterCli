@@ -51,4 +51,26 @@ class ${className}Service {
         }
     }
 
+
+    ${className} update(${className} ${entityName})
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Repository.save(${entityName})
+
+    }
+
+    @Put("/update")
+    @Operation(summary = "Updating a ${entityName}.",
+        description = "A REST service, which update a ${className} objects to the database.",
+        operationId = "update${className}"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    ${className} update(@Body ${className} ${entityName})
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Service.update(${entityName})
+    }
 }
