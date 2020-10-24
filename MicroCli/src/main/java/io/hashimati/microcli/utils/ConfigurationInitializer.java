@@ -140,10 +140,20 @@ public class ConfigurationInitializer {
                 {
                     case "JPA" :
 
-                        if(!projectInfo.getFeatures().contains("data-jpa")) {
-                            projectInfo.getFeatures().add("data-jpa");
-                            databaseFeature = features.get("data-jpa");
+                        if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG)) {
+                            if (PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+                                configurationInfo.setGorm(true);
+                                MicronautProjectValidator.addDependency(features.get("tomcat-jdbc"));
+                                projectInfo.getFeatures().add("tomcat-jdbc");
+                                MicronautProjectValidator.addDependency(features.get("hibernate-gorm"));
+                                projectInfo.getFeatures().add("hibernate-gorm");
+                            }
                         }
+                        else
+                            if(!projectInfo.getFeatures().contains("data-jpa")) {
+                                projectInfo.getFeatures().add("data-jpa");
+                                databaseFeature = features.get("data-jpa");
+                            }
                         break;
                     case "JDBC":
                         if(!projectInfo.getFeatures().contains("data-jdbc")) {
