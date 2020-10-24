@@ -709,7 +709,7 @@ public class MicronautEntityGenerator
         binder.put("servicePackage", entity.getServicePackage());
 
 
-        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml))? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
+        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 
         String templatePath= getTemplatPath(key, language.toLowerCase());
 
