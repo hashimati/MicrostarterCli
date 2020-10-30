@@ -1,0 +1,14 @@
+dataSource:
+  url: jdbc:oracle:thin:@localhost:1521/${databaseName}
+  driverClassName: oracle.jdbc.OracleDriver
+  username: system
+  password: oracle
+  pooled: true
+  jmxExport: true
+hibernate:
+  hbm2ddl:
+    auto: update
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false
