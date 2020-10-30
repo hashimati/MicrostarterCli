@@ -426,8 +426,10 @@ public class MicronautProjectValidator {
             return false;
     }
     public static boolean addDependency(Feature... feature) throws IOException {
+
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
+
             return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
@@ -547,6 +549,8 @@ public class MicronautProjectValidator {
     }
     public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws FileNotFoundException {
         //todo
+        if(database.contains("gorm"))
+            return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool);
       return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool)&&
         appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
     }
