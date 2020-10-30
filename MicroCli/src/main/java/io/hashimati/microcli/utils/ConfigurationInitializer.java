@@ -145,7 +145,7 @@ public class ConfigurationInitializer {
                                 configurationInfo.setGorm(true);
                                 MicronautProjectValidator.addDependency(features.get("tomcat-jdbc"));
                                 projectInfo.getFeatures().add("tomcat-jdbc");
-                                MicronautProjectValidator.addDependency(features.get("hibernate-gorm"));
+                                databaseFeature = features.get("hibernate-gorm");
                                 projectInfo.getFeatures().add("hibernate-gorm");
                             }
                         }
@@ -199,8 +199,10 @@ public class ConfigurationInitializer {
 
                     if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
                          MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                    else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa"))
-                        MicronautProjectValidator.appendJPAToProperties(databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa")) {
+
+                        MicronautProjectValidator.appendJPAToProperties(configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    }
                     if(!databasetype.equalsIgnoreCase("h2"))
                         MicronautProjectValidator.appendJDBCToProperties(databasetype+"_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
 
