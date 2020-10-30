@@ -2,6 +2,7 @@ package io.hashimati.microcli.domains;
 /**
  * @author Ahmed Al Hashmi
  */
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.Visitor;
 
 import javax.validation.constraints.NotEmpty;
@@ -348,5 +349,17 @@ public class EntityRelation {
     public EntityRelation visit(Visitor<EntityRelation> visitor)
     {
         return visitor.visit(this);
+    }
+
+    @JsonIgnore
+    public String getE1ToE2RelationGorm()
+    {
+        return e2.toLowerCase() + ":" + e2;
+    }
+
+    @JsonIgnore
+    public String getE2ToE1RelationGorm()
+    {
+        return e1.toLowerCase() + ":" + e1;
     }
 }
