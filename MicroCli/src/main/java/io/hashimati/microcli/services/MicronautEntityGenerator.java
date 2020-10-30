@@ -187,6 +187,7 @@ public class MicronautEntityGenerator
             binder.put("constraints", contraints.toString());
             binder.put("db", entity.getDatabaseName());
             binder.put("collection", entity.getCollectionName());
+            binder.put("storeType", entity.getDatabaseType().equalsIgnoreCase("mongodb")?"collection":"table");
         String templatePath= getTemplatPath(GORM_ENTITY, language.toLowerCase());
 
 
