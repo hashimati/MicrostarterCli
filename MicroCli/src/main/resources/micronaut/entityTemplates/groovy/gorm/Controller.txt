@@ -3,10 +3,7 @@ package ${controllerPackage}
 import ${entityPackage}
 import ${servicePackage}
 import io.micronaut.context.annotation.Parameter
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.*
 import java.util.List
 import javax.inject.Inject
 import org.slf4j.Logger;
@@ -86,5 +83,21 @@ class ${className}Controller {
     Boolean deleteById(@PathVariable("id") long id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id);
+    }
+
+
+    @Put("/update")
+    @Operation(summary = "Updating a ${entityName}.",
+        description = "A REST service, which update a ${className} objects to the database.",
+        operationId = "update${className}"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    ${className} update(@Body ${className} ${entityName})
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Service.update(${entityName})
     }
 }
