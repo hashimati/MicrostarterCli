@@ -9,7 +9,7 @@ class ${className} {
         ${constraints}
     }
     static mapping = {
-        collection "${collection}"
+        ${storeType} "${collection}"
         database "${db}"
     }
 
