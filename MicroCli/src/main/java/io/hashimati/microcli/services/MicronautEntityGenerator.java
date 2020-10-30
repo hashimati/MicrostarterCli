@@ -538,12 +538,18 @@ public class MicronautEntityGenerator
        String templatePath= getTemplatPath(GORM_SERVICE, language.toLowerCase());
 
        String serviceTemplate = templatesService.loadTemplateContent(templatePath);
+
+       String updates = entity.getAttributes().stream()
+                .map(x->
+                        new StringBuilder().append("\t\tobj.").append(x.getName()).append("=").append(entity.getName().toLowerCase()).append(".").append(x.getName()).toString()
+                ).reduce("", (x, y)-> new StringBuilder(x).append("\n").append(y).toString());
         HashMap<String, String> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className", entity.getName());
+        binder.put("updates", updates);
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
