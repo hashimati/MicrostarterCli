@@ -410,6 +410,19 @@ public class MicronautEntityGenerator
             String repositoryTemplate ="";
 
             if(entity.getFrameworkType().equalsIgnoreCase("jpa")) {
+                if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()){
+
+                    String templatePath = getTemplatPath(GORM_REPOSITORY, language.toLowerCase());
+
+                    binder.put("repositoryPackage",entity.getRepoPackage() );
+                    binder.put("entityPackage", entity.getEntityPackage());
+                    binder.put("entityClass", entity.getName());
+                    binder.put("storeType", "table");
+                    binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
+                    repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+                    return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+
+                }
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
@@ -417,6 +430,8 @@ public class MicronautEntityGenerator
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+
+
 
             }
             else if(entity.getFrameworkType().equalsIgnoreCase("jdbc"))
@@ -443,6 +458,7 @@ public class MicronautEntityGenerator
                 binder.put("repositoryPackage",entity.getRepoPackage() );
                 binder.put("entityPackage", entity.getEntityPackage());
                 binder.put("entityClass", entity.getName());
+                binder.put("storeType", "collection");
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
