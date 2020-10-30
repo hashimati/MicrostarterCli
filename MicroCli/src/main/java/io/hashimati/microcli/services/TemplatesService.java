@@ -124,6 +124,12 @@ public class TemplatesService {
             MARIADB_JDBC_yml = "mariadb",
             MYSQL_JDBC_yml = "mysql",
             SQLSERVER_JDBC_yml = "sqlserver",
+            H2_GORM_yml = "h2_gorm",
+            ORACLE_GORM_yml = "oracle_gorm",
+            POSTGRES_GORM_yml = "postgres_gorm",
+            MARIADB_GORM_yml = "mariadb_gorm",
+            MYSQL_GORM_yml = "mysql_gorm",
+            SQLSERVER_GORM_yml = "sqlserver_gorm",
             ORACLE_JDBC_TEST_yml = "oracle_test",
             POSTGRES_JDBC_TEST_yml = "postgres_test",
             MARIADB_JDBC_TEST_yml = "mariadb_test",
@@ -325,6 +331,13 @@ public class TemplatesService {
         properties.put(POSTGRES_JDBC_yml, "micronaut/entityTemplates/postgres_jdbc_proper_TESTties.txt");
         properties.put(MYSQL_JDBC_yml, "micronaut/entityTemplates/mysql_jdbc_properties.txt");
         properties.put(SQLSERVER_JDBC_yml, "micronaut/entityTemplates/sqlserver_jdbc_properties.txt");
+
+        properties.put(ORACLE_GORM_yml, "micronaut/entityTemplates/oracle_gormproperties.txt");
+        properties.put(H2_GORM_yml, "micronaut/entityTemplates/h2_gorm_properties.txt");
+        properties.put(MARIADB_GORM_yml, "micronaut/entityTemplates/mariadb_gorm_properties.txt");
+        properties.put(POSTGRES_GORM_yml, "micronaut/entityTemplates/postgres_gorm_proper_TESTties.txt");
+        properties.put(MYSQL_GORM_yml, "micronaut/entityTemplates/mysql_gorm_properties.txt");
+        properties.put(SQLSERVER_GORM_yml, "micronaut/entityTemplates/sqlserver_gorm_properties.txt");
 
         properties.put(ORACLE_JDBC_TEST_yml, "micronaut/entityTemplates/oracle_jdbc_test_properties.txt");
         properties.put(MARIADB_JDBC_TEST_yml, "micronaut/entityTemplates/mariadb_jdbc_test_properties.txt");
