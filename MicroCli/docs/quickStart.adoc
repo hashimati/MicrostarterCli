@@ -6,7 +6,7 @@
 :toc: left
 :numbered:
 :toclevels: 1 // show little detail in the TOC, to make this document less intimidating
-:toc-title: Features
+:toc-title: Table Of Contents
 :source-highlighter: coderay
 :icons: font
 :imagesdir: images
@@ -19,13 +19,30 @@ ifdef::env-github[]
 :note-caption: :information_source:
 endif::[]
 
-This is the Quick Guide. For more detail, see the full user manual at https://www.microstarter.io/microcli[https://www.microstarter.io/microcli].
+This is a Quick Start. For more detail, see the full user manual at https://www.microstarter.io/microcli[https://www.microstarter.io/microcli].
 
 == What is MicroCli
 Microcli is a rapid development to generate source code components and files. Currently, it is available for Micronaut.
 
 
-== Generate
+== Quick Start
+
+<todo>
+
+=== Generate A Micronaut Project.
+Generate a Micronaut project of type "Application" using Micronaut Launch.
+
+=== Configure The Project
+
+<todo>
+
+=== Generate an Entity
+
+<todo>
+
+=== Clean, Test, Build, Run
+
+<todo>
 
 
 
