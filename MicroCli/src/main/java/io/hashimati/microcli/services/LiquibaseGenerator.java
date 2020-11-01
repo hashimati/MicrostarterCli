@@ -116,12 +116,43 @@ public class LiquibaseGenerator {
 
         String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_TABLE));
 
+
         return generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
             put("columns", entityColumns);
             put("tableName", entity.getCollectionName());
         }});
     }
 
+    public Tuple2<String, String> generateAddColumnChangeSet(Entity entity, ArrayList<EntityAttribute> attributes, HashMap<String, String> erMapper, int changeSetId) throws Exception {
+        //todo
+        Entity e = new Entity();
+        e.setName(entity.getName());
+        e.setAttributes(attributes);
+        String entityColumns = generateAttribute(entity);
+
+        String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_ADD_COLUMN));
+
+
+        String columnsChangeSet = generateFromTemplate(tableTemplate, new HashMap<String, String>(){{
+            put("columns", entityColumns);
+            put("tableName", entity.getCollectionName());
+        }});
+
+        String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
+
+        String content = generateFromTemplate(changeSetTemplate, new HashMap<String, String>(){{
+            put("tables","");
+            put("foreignKey", columnsChangeSet);
+            put("id", String.valueOf(changeSetId));
+            put("username", NameUtils.capitalize(System.getProperty("user.name")));
+
+        }});
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
+
+        //todo XML FORMATTER
+        return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
+    }
     public String generateChangeSet(HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws  IOException, ClassNotFoundException{
 
         String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
