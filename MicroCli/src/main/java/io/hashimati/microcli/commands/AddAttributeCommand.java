@@ -7,11 +7,15 @@ import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
+import groovy.lang.Tuple2;
+import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.domains.EntityAttribute;
 import io.hashimati.microcli.domains.EntityConstraints;
+import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
+import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
@@ -20,6 +24,7 @@ import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
@@ -38,6 +43,8 @@ public class AddAttributeCommand implements Callable<Integer> {
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
+    @Inject
+    private LiquibaseGenerator liquibaseGenerator;
 
     @Override
     public Integer call() throws Exception {
@@ -63,6 +70,8 @@ public class AddAttributeCommand implements Callable<Integer> {
 
         Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
 
+        ArrayList<EntityAttribute> newAttributes = new ArrayList<EntityAttribute> ();
+
 
         attributeLoop: for(;;) {
             ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add attribute?");
@@ -71,6 +80,7 @@ public class AddAttributeCommand implements Callable<Integer> {
                 break attributeLoop;
             } else{
                 EntityAttribute entityAttribute = new EntityAttribute();
+                newAttributes.add(entityAttribute);
                 //todo Enter attribute Name.
 
                 InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter attribute name", "attribute");
@@ -193,6 +203,60 @@ public class AddAttributeCommand implements Callable<Integer> {
         }});
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
+
+        if(entity.isGraphQl())
+        {
+            String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
+            String graphQLSchema =micronautEntityGenerator.generateGraphQLSchema(entity);
+            GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
+
+
+            String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
+            String graphQLQuery =micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
+            GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
+
+        }
+
+        if(Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase()))
+        {
+            if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
+
+                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
+
+
+                HashMap<String, String> mapper;
+                switch (configurationInfo.getDatabaseType())
+                {
+                    case "oracle":
+                        mapper = DataTypeMapper.oracleMapper;
+                        break;
+                    case "sqlserver":
+                        mapper = DataTypeMapper.mssqlMapper;
+                        break;
+                    case "mysql":
+                    case "mariadb":
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
+                    case "h2":
+                        mapper= DataTypeMapper.dialectMapper;
+                        break;
+                    case "postgres":
+                    case "postgressql":
+                        mapper = DataTypeMapper.postgresMapper;
+                        break;
+                    default:
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
+
+                }
+
+                configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
+                entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                Tuple2<String, String> addColumns = liquibaseGenerator.generateAddColumnChangeSet(entity,newAttributes, mapper, configurationInfo.getLiquibaseSequence() );
+                GeneratorUtils.createFile(addColumns.getV1(), addColumns.getV2());
+            }
+        }
         configurationInfo.writeToFile();
         System.gc();
         return 0;
