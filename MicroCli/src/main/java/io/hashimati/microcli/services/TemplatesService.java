@@ -100,6 +100,7 @@ public class TemplatesService {
             ///liquiBase
             LIQUIBASE_CATALOG = "catalog",
                     LIQUIBASE_COLUMN = "column",
+                    LIQUIBASE_ADD_COLUMN = "add_column",
                     LIQUIBASE_constrain = "constrain",
                     LIQUIBASE_FOREIGNKEY= "foreign_key",
                     LIQUIBASE_INCLUDE= "include",
@@ -369,6 +370,8 @@ public class TemplatesService {
         liquibaseTemplates.put(LIQUIBASE_FOREIGNKEY,"micronaut/entityTemplates/sql/liquibase/foreignKey_template.xml");
         liquibaseTemplates.put(LIQUIBASE_CATALOG,"micronaut/entityTemplates/sql/liquibase/catalog_template.xml");
         liquibaseTemplates.put(LIQUIBASE_COLUMN,"micronaut/entityTemplates/sql/liquibase/columns_template.xml");
+        liquibaseTemplates.put(LIQUIBASE_COLUMN,"micronaut/entityTemplates/sql/liquibase/addColumn.xml");
+
         liquibaseTemplates.put(LIQUIBASE_constrain,"micronaut/entityTemplates/sql/liquibase/constraint_template.xml");
         liquibaseTemplates.put(LIQUIBASE_INCLUDE,"micronaut/entityTemplates/sql/liquibase/include_template.xml");
         liquibaseTemplates.put(LIQUIBASE_SCHEMA,"micronaut/entityTemplates/sql/liquibase/schema_template.xml");
