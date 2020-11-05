@@ -1,0 +1,6 @@
+    <dropColumn  catalogName="cat"
+                 columnName="id"
+                 schemaName="public"
+                 tableName="${tableName}">
+        <column  name="${columnName}"/>
+    </dropColumn>
