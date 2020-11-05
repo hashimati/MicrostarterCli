@@ -1,0 +1,4 @@
+    <dropTable  cascadeConstraints="true"
+                catalogName="cat"
+                schemaName="public"
+                tableName="${tableName}"/>
