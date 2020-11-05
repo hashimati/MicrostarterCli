@@ -2,9 +2,12 @@ package io.hashimati.microcli.commands;
 /*
  * @author Ahmed Al Hashmi
  */
+import groovy.lang.Tuple2;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
+import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
+import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
@@ -13,6 +16,7 @@ import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
@@ -31,7 +35,8 @@ public class DeleteAttributeCommand implements Callable<Integer>
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
-
+    @Inject
+    private LiquibaseGenerator liquibaseGenerator;
     @Override
     public Integer call() throws Exception {
 
@@ -69,6 +74,47 @@ public class DeleteAttributeCommand implements Callable<Integer>
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
+
+        if(Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase()))
+        {
+            if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
+
+                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
+
+
+                HashMap<String, String> mapper;
+                switch (configurationInfo.getDatabaseType())
+                {
+                    case "oracle":
+                        mapper = DataTypeMapper.oracleMapper;
+                        break;
+                    case "sqlserver":
+                        mapper = DataTypeMapper.mssqlMapper;
+                        break;
+                    case "mysql":
+                    case "mariadb":
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
+                    case "h2":
+                        mapper= DataTypeMapper.dialectMapper;
+                        break;
+                    case "postgres":
+                    case "postgressql":
+                        mapper = DataTypeMapper.postgresMapper;
+                        break;
+                    default:
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
+
+                }
+
+                configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
+                entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                Tuple2<String, String> addColumns = liquibaseGenerator.generateDeleteColumnChangeSet(entity,selected, mapper, configurationInfo.getLiquibaseSequence() );
+                GeneratorUtils.createFile(addColumns.getV1(), addColumns.getV2());
+            }
+        }
 
         GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
         configurationInfo.writeToFile();
