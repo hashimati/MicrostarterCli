@@ -28,7 +28,7 @@ import static io.hashimati.microcli.utils.GeneratorUtils.generateFromTemplate;
 
 
 @Singleton
-public class LiquibaseGenerator {
+public class LiquibaseGenerator implements IDataMigrationGenerator{
 
 
     @Inject
