@@ -1,0 +1,7 @@
+flyway:
+  datasources:
+    default:
+      enabled: true
+      locations:
+        - classpath:databasemigrations
+        - classpath:sqls
