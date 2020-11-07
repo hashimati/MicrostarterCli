@@ -118,20 +118,60 @@ public class FlyWayGenerator
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
         return Tuple.tuple(fileName, content);
     }
+
+
     public Tuple2<String, String> addColumns(Entity entity, HashSet<EntityAttribute> attributes , int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_ADD_COLUMN));
+        StringBuilder content = new StringBuilder();
 
-        return null;
+        String databaseType = entity.getDatabaseType();
+        HashMap<String, String> mapper = getDatabaseDataMapper(databaseType);
+
+        for (EntityAttribute attribute : attributes) {
+            if(attribute.isArray()) continue;;
+            String attributeName = attribute.getName().toLowerCase();
+            String attributeType = attribute.getType().toLowerCase();
+            String mappedDataType = mapper.get(attributeType);
+
+            EntityConstraints constraints = attribute.getConstraints();
+
+            String notNull =  constraints.isEnabled()? (constraints.isRequired() || constraints.isNotBlank() || constraints.isNotEmpty() || constraints.isNotempty()?"NOT NULL":""):"";
+            String unique =  constraints.isEnabled()? (constraints.isUnique()? "UNIQUE":""):"";
+            String max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
+
+            String maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
+            String maxx = attributeType.equalsIgnoreCase("string")?maxLength:max;
+            maxx = maxx.contains("-")?"":maxx;
+            String dec = "\t" +attributeName + " " + mappedDataType +maxx+" " +notNull + " " + unique;
+            content.append(GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+                //ALTER TABLE ${tableName} ADD ${columnName};
+                put("tableName", entity.getCollectionName());
+                put("columnName", dec);
+            }})).append("\n");
+        }
+        String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
+        return Tuple.tuple(fileName, content.toString());
     }
     public Tuple2<String, String> addRelationship(Entity entity, EntityRelation relation, int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_TABLE));
 
-        return null;
+        String content = new String();
+
+        String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
+        return Tuple.tuple(fileName, content.toString());
     }
     public Tuple2<String, String> dropColumn(String entity, HashSet<String> attributes, int changeSetId ){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_DROP_COLUMN));
-
-        return null;
+        StringBuilder content = new StringBuilder();
+        for (String attribute : attributes) {
+            content.append(GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+                //ALTER TABLE ${tableName} DROP ${columnName};
+                put("tableName", entity);
+                put("columnName", attribute);
+            }}));
+        }
+        String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
+        return Tuple.tuple(fileName, content.toString());
     }
 
     private HashMap<String, String> getDatabaseDataMapper(String databaseType) {
