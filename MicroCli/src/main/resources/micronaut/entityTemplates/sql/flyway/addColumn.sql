@@ -1,1 +1,1 @@
-ALTER TABLE ${tableName} ADD ${columnName} VARCHAR;
+ALTER TABLE ${tableName} ADD ${columnName};
