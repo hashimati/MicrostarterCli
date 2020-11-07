@@ -1,6 +1,7 @@
 package io.hashimati.microcli.services;
 
 
+import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.Template;
 import io.hashimati.microcli.domains.Entity;
@@ -8,6 +9,7 @@ import io.hashimati.microcli.domains.EntityAttribute;
 import io.hashimati.microcli.domains.EntityConstraints;
 import io.hashimati.microcli.domains.EntityRelation;
 import io.hashimati.microcli.utils.DataTypeMapper;
+import io.hashimati.microcli.utils.GeneratorUtils;
 import org.xml.sax.SAXException;
 
 import javax.inject.Inject;
@@ -93,15 +95,28 @@ public class FlyWayGenerator
     public Tuple2<String, String> createTable(Entity entity,int changeSetId){
 
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_TABLE));
-
         String attributes = generateAttribute(entity);
+        String content = GeneratorUtils.generateFromTemplate(template,
+                new HashMap<String, String>(){
+                    {
+                        put("talbeName", entity.getCollectionName());
+                        put("attributes", attributes);
 
-        return null;
+                    }});
+        String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
+        return Tuple.tuple(fileName, content);
     }
     public Tuple2<String, String> dropTable(String entity, int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_DROP_TABLE));
 
-        return null;
+        String content = GeneratorUtils.generateFromTemplate(template,
+                new HashMap<String, String>(){
+                    {
+                        put("talbeName", entity);
+
+                    }});
+        String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
+        return Tuple.tuple(fileName, content);
     }
     public Tuple2<String, String> addColumns(Entity entity, HashSet<EntityAttribute> attributes , int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_ADD_COLUMN));
