@@ -23,7 +23,8 @@ public class TemplatesService {
             sqlEntityTemplates = new HashMap<>(),
             properties = new HashMap<>(),
             graphqlTemplates = new HashMap<>(),
-            liquibaseTemplates = new HashMap<>();
+            liquibaseTemplates = new HashMap<>(),
+            flywayTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -107,8 +108,17 @@ public class TemplatesService {
                     LIQUIBASE_INCLUDE= "include",
                     LIQUIBASE_SCHEMA = "schema",
                     LIQUIBASE_TABLE="table",
-                    LIQUIBASE_DROP_TABLE = "drop_table";
-    ;
+                    LIQUIBASE_DROP_TABLE = "drop_table",
+            //Flyway
+            FLYWAY_CATALOG = "catalog",
+            FLYWAY_COLUMN = "column",
+            FLYWAY_ADD_COLUMN = "add_column",
+            FLYWAY_DROP_COLUMN = "drop_column",
+            FLYWAY_constrain = "constrain",
+            FLYWAY_FOREIGNKEY= "foreign_key",
+            FLYWAY_TABLE="table",
+            FLYWAY_DROP_TABLE = "drop_table";
+
 
 
 
@@ -379,6 +389,17 @@ public class TemplatesService {
         liquibaseTemplates.put(LIQUIBASE_SCHEMA,"micronaut/entityTemplates/sql/liquibase/schema_template.xml");
         liquibaseTemplates.put(LIQUIBASE_TABLE,"micronaut/entityTemplates/sql/liquibase/table_template.xml");
         liquibaseTemplates.put(LIQUIBASE_DROP_TABLE, "micronaut/entityTemplates/sql/liquibase/dropTable.xml");
+
+
+//        flywayTemplates.put(FLYWAY_CATALOG,"micronaut/entityTemplates/sql/flyway/" );
+//        flywayTemplates.put(FLYWAY_COLUMN ,"micronaut/entityTemplates/sql/flyway/");
+        flywayTemplates.put(FLYWAY_ADD_COLUMN ,"micronaut/entityTemplates/sql/flyway/addColumn.sql");
+        flywayTemplates.put(FLYWAY_DROP_COLUMN ,"micronaut/entityTemplates/sql/flyway/dropColumn.sql");
+        flywayTemplates.put(FLYWAY_constrain, "micronaut/entityTemplates/sql/constraint_template.sql");
+        flywayTemplates.put(FLYWAY_FOREIGNKEY, "micronaut/entityTemplates/sql/flyway/constraint_template.sql");
+        flywayTemplates.put(FLYWAY_TABLE,"micronaut/entityTemplates/sql/flyway/create_template.sql");
+        flywayTemplates.put(FLYWAY_DROP_TABLE, "micronaut/entityTemplates/sql/flyway/dropTable.sql");
+
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -451,5 +472,9 @@ public class TemplatesService {
     public HashMap<String, String> getLiquibaseTemplates() {
         return liquibaseTemplates;
     }
+    public HashMap<String, String> getFlywayTemplates() {
+        return flywayTemplates;
+    }
+
 }
 
