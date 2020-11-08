@@ -117,7 +117,8 @@ public class TemplatesService {
             FLYWAY_constrain = "constrain",
             FLYWAY_FOREIGNKEY= "foreign_key",
             FLYWAY_TABLE="table",
-            FLYWAY_DROP_TABLE = "drop_table";
+            FLYWAY_DROP_TABLE = "drop_table",
+            FLYAWAY_YML = "flyway_yml";
 
 
 
@@ -399,6 +400,7 @@ public class TemplatesService {
         flywayTemplates.put(FLYWAY_FOREIGNKEY, "micronaut/entityTemplates/sql/flyway/constraint_template.sql");
         flywayTemplates.put(FLYWAY_TABLE,"micronaut/entityTemplates/sql/flyway/create_template.sql");
         flywayTemplates.put(FLYWAY_DROP_TABLE, "micronaut/entityTemplates/sql/flyway/dropTable.sql");
+        flywayTemplates.put(FLYAWAY_YML, "micronaut/entityTemplates/sql/flyway/FlyWay_properties.yml");
 
     }
 
