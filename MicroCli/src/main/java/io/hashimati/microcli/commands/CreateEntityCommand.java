@@ -13,6 +13,7 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
+import io.hashimati.microcli.services.FlyWayGenerator;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.DataTypeMapper;
@@ -68,6 +69,10 @@ public class CreateEntityCommand implements Callable<Integer> {
 
     @Inject
     private LiquibaseGenerator liquibaseGenerator;
+
+    @Inject
+    private FlyWayGenerator flyWayGenerator;
+
 
 
     private final HashMap<String, Feature> features = FeaturesFactory.features();
@@ -393,47 +398,53 @@ extension, serviceFileContent);
 
 
 
-            if(Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase()))
-            {
-                if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
+            if(Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase())) {
+                HashMap<String, String> mapper;
+                switch (configurationInfo.getDatabaseType()) {
+                    case "oracle":
+                        mapper = DataTypeMapper.oracleMapper;
+                        break;
+                    case "sqlserver":
+                        mapper = DataTypeMapper.mssqlMapper;
+                        break;
+                    case "mysql":
+                    case "mariadb":
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
+                    case "h2":
+                        mapper = DataTypeMapper.dialectMapper;
+                        break;
+                    case "postgres":
+                    case "postgressql":
+                        mapper = DataTypeMapper.postgresMapper;
+                        break;
+                    default:
+                        mapper = DataTypeMapper.mysqlMapper;
+                        break;
 
-                   Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                }
+
+                if (configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")) {
+
+                    Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
                     GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
 
 
-                    HashMap<String, String> mapper;
-                    switch (configurationInfo.getDatabaseType())
-                    {
-                        case "oracle":
-                            mapper = DataTypeMapper.oracleMapper;
-                            break;
-                        case "sqlserver":
-                            mapper = DataTypeMapper.mssqlMapper;
-                            break;
-                        case "mysql":
-                        case "mariadb":
-                            mapper = DataTypeMapper.mysqlMapper;
-                            break;
-                        case "h2":
-                            mapper= DataTypeMapper.dialectMapper;
-                            break;
-                        case "postgres":
-                        case "postgressql":
-                            mapper = DataTypeMapper.postgresMapper;
-                            break;
-                        default:
-                            mapper = DataTypeMapper.mysqlMapper;
-                            break;
-
-                    }
-
-                    configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
+                    configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence() + 1);
                     entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
                     Tuple2<String, String> schema = liquibaseGenerator.generateSchema(configurationInfo.getEntities(), configurationInfo.getRelations(), mapper, configurationInfo.getLiquibaseSequence());
                     GeneratorUtils.createFile(schema.getV1(), schema.getV2());
                 }
-            }
+                if (configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")) {
 
+//
+
+                    configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence() + 1);
+                    entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                    Tuple2<String, String> schema = flyWayGenerator.createTable(entity, configurationInfo.getLiquibaseSequence());
+                    GeneratorUtils.createFile(schema.getV1(), schema.getV2());
+                }
+            }
 
 //            configurationInfo.getEntities().add(entity);
             configurationInfo.writeToFile();
