@@ -416,6 +416,7 @@ public class TemplatesService {
         ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
        StringBuilder template = new StringBuilder();
 
+
         try {
          //   System.out.println(path + " " + loader.getResource("classpath:"+path).get() == null);
             Scanner scanner = new Scanner(loader.getResource("classpath:"+path).get().openStream());
