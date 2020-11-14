@@ -222,7 +222,7 @@ public class ConfigurationInitializer {
                 else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")){
                     projectInfo.getFeatures().add("flyway");
                     MicronautProjectValidator.addDependency(features.get("flyway"));
-                    MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.FLYAWAY_YML)));
+                    MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYAWAY_YML)));
                 }
                 projectInfo.dumpToFile();
             }
