@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati.ahmed
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, asciidoctor, aws-v2-sdk, gradle, http-client, java, java-application, jdbc-hikari, junit, logback, mariadb, mongo-sync, netty-server, readme, shade, sql-jdbi, testcontainers, yaml]

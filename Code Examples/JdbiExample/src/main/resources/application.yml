@@ -1,0 +1,18 @@
+micronaut:
+  application:
+    name: jdbiExample
+#datasources:
+#  default:
+#    url: jdbc:mariadb://localhost:3306/db
+#    driverClassName: org.mariadb.jdbc.Driver
+#    username: root
+#    password: ''
+
+datasources:
+  default:
+    url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+    schema: create
+mongodb.uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}
