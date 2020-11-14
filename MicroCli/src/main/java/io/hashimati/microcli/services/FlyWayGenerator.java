@@ -75,22 +75,24 @@ public class FlyWayGenerator
             String attributeType = attribute.getType().toLowerCase();
             String mappedDataType = mapper.get(attributeType);
 
-            EntityConstraints constraints = attribute.getConstraints();
+            EntityConstraints constraints = attribute.getConstraints() != null?attribute.getConstraints(): new EntityConstraints();
 
-            String notNull =  constraints.isEnabled()? (constraints.isRequired() || constraints.isNotBlank() || constraints.isNotEmpty() || constraints.isNotempty()?"NOT NULL":""):"";
-            String unique =  constraints.isEnabled()? (constraints.isUnique()? "UNIQUE":""):"";
-            String max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
 
-            String maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
-            String maxx = attributeType.equalsIgnoreCase("string")?maxLength:max;
-            maxx = maxx.contains("-")?"":maxx;
-            String dec = "\t" +attributeName + " " + mappedDataType +maxx+" " +notNull + " " + unique+ " ,\n";
-            declaration.append((dec));
+                String notNull = constraints.isEnabled() ? (constraints.isRequired() || constraints.isNotBlank() || constraints.isNotEmpty() || constraints.isNotempty() ? "NOT NULL" : "") : "";
+                String unique = constraints.isEnabled() ? (constraints.isUnique() ? "UNIQUE" : "") : "";
+                String max = !attributeType.equalsIgnoreCase("date") ? (constraints.isEnabled() ? "(" + constraints.getMax() + ")" : "") : "";
+
+                String maxLength = !attributeType.equalsIgnoreCase("date") ? (constraints.isEnabled() ? ((constraints.getMaxSize() > 0) ? "(" + constraints.getMaxSize() + ")" : "") : "") : "";
+                String maxx = attributeType.equalsIgnoreCase("string") ? maxLength : max;
+                maxx = maxx.contains("-") ? "" : maxx;
+                String dec = "\t" + attributeName + " " + mappedDataType + maxx + " " + notNull + " " + unique + " ,\n";
+                declaration.append((dec));
+
 
         }
         System.gc();
 //        declaration.deleteCharAt(declaration.lastIndexOf(","));
-        return declaration.toString();
+        return declaration.toString().trim().substring(0, declaration.lastIndexOf(","));
     }
     public Tuple2<String, String> createTable(Entity entity,int changeSetId){
 
@@ -103,8 +105,10 @@ public class FlyWayGenerator
                         put("attributes", attributes);
 
                     }});
+
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
-        return Tuple.tuple(fileName, content);
+        return Tuple.tuple(filePath.append(fileName).toString(), content);
     }
     public Tuple2<String, String> dropTable(String entity, int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_DROP_TABLE));
@@ -115,8 +119,9 @@ public class FlyWayGenerator
                         put("talbeName", entity);
 
                     }});
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
-        return Tuple.tuple(fileName, content);
+        return Tuple.tuple(filePath.append(fileName).toString(), content);
     }
 
 
@@ -133,24 +138,27 @@ public class FlyWayGenerator
             String attributeType = attribute.getType().toLowerCase();
             String mappedDataType = mapper.get(attributeType);
 
-            EntityConstraints constraints = attribute.getConstraints();
+            EntityConstraints constraints = attribute.getConstraints() != null?attribute.getConstraints(): new EntityConstraints();
 
-            String notNull =  constraints.isEnabled()? (constraints.isRequired() || constraints.isNotBlank() || constraints.isNotEmpty() || constraints.isNotempty()?"NOT NULL":""):"";
-            String unique =  constraints.isEnabled()? (constraints.isUnique()? "UNIQUE":""):"";
-            String max = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? "(" +constraints.getMax() +")":""):"";
+                String notNull = constraints.isEnabled() ? (constraints.isRequired() || constraints.isNotBlank() || constraints.isNotEmpty() || constraints.isNotempty() ? "NOT NULL" : "") : "";
+                String unique = constraints.isEnabled() ? (constraints.isUnique() ? "UNIQUE" : "") : "";
+                String max = !attributeType.equalsIgnoreCase("date") ? (constraints.isEnabled() ? "(" + constraints.getMax() + ")" : "") : "";
 
-            String maxLength = !attributeType.equalsIgnoreCase("date")?(constraints.isEnabled()? ((constraints.getMaxSize() >0)?"(" + constraints.getMaxSize() + ")":""):""):"";
-            String maxx = attributeType.equalsIgnoreCase("string")?maxLength:max;
-            maxx = maxx.contains("-")?"":maxx;
-            String dec = "\t" +attributeName + " " + mappedDataType +maxx+" " +notNull + " " + unique;
-            content.append(GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
-                //ALTER TABLE ${tableName} ADD ${columnName};
-                put("tableName", entity.getCollectionName());
-                put("columnName", dec);
-            }})).append("\n");
+                String maxLength = !attributeType.equalsIgnoreCase("date") ? (constraints.isEnabled() ? ((constraints.getMaxSize() > 0) ? "(" + constraints.getMaxSize() + ")" : "") : "") : "";
+                String maxx = attributeType.equalsIgnoreCase("string") ? maxLength : max;
+                maxx = maxx.contains("-") ? "" : maxx;
+                String dec = "\t" + attributeName + " " + mappedDataType + maxx + " " + notNull + " " + unique;
+                content.append(GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>() {{
+                    //ALTER TABLE ${tableName} ADD ${columnName};
+                    put("tableName", entity.getCollectionName());
+                    put("columnName", dec);
+                }})).append("\n");
+
         }
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
-        return Tuple.tuple(fileName, content.toString());
+        return Tuple.tuple(filePath.append(fileName).toString(), content.toString());
     }
     public Tuple2<String, String> addRelationship(Entity entity, EntityRelation relation, int changeSetId){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_TABLE));
@@ -170,8 +178,10 @@ public class FlyWayGenerator
                 put("columnName", attribute);
             }}));
         }
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
-        return Tuple.tuple(fileName, content.toString());
+        return Tuple.tuple(filePath.append(fileName).toString(), content.toString());
     }
 
     private HashMap<String, String> getDatabaseDataMapper(String databaseType) {
@@ -198,7 +208,9 @@ public class FlyWayGenerator
                 mapper = DataTypeMapper.mssqlMapper;
 
                 break;
-
+            default:
+                mapper = DataTypeMapper.mysqlMapper;
+                break;
         }
         return mapper;
     }
