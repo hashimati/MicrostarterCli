@@ -46,7 +46,7 @@ public class ConfigurationInitializer {
     public ConfigurationInitializer() throws FileNotFoundException {
     }
 
-    public void init() throws IOException, XmlPullParserException {
+    public void init() throws IOException, XmlPullParserException, GradleReaderException {
 
         templatesService.loadTemplates(null);
 

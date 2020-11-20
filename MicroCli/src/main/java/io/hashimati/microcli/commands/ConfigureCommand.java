@@ -5,6 +5,7 @@ package io.hashimati.microcli.commands;
 
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.utils.ConfigurationInitializer;
+import io.hashimati.microcli.utils.GradleReaderException;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
 
@@ -39,7 +40,11 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
         
 //        String prompt2 = "What's your name? ";
 //        String name = lineReader.readLine(prompt2);
-       new  ConfigurationInitializer().init();
+        try {
+            new  ConfigurationInitializer().init();
+        } catch (GradleReaderException e) {
+            e.printStackTrace();
+        }
         return ConfigurationInitializer.configurationInfo;
     }
 }

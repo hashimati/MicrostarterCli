@@ -2,6 +2,7 @@ package io.hashimati.microcli.utils;
 /**
  * @author Ahmed Al Hashmi
  */
+import groovy.lang.Tuple3;
 import groovy.text.Template;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
@@ -25,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
@@ -185,7 +187,43 @@ public class MicronautProjectValidator {
         GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
         return true;
     }
-    public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException
+
+
+    public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException, GradleReaderException {
+        GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
+
+        String gradleContent = getGradleFileContent();
+
+        if(gradleContent.contains(newDependencies.trim()))
+            return true;
+
+        LinkedList<String> gradleContentAsList =    new LinkedList<String>()
+        {{
+            addAll(Arrays.asList(gradleContent.split("\n")));
+        }};
+        Tuple3<LinkedList<String>, Integer, Integer> dependencies = gradleProjectUtils.getDependencies(
+             gradleContentAsList
+        );
+
+        if(index < 0)
+            gradleContentAsList.add(dependencies.getV2() + 1, newDependencies);
+        else
+            gradleContentAsList.add(dependencies.getV3() -1, newDependencies);
+
+        String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
+                new StringBuilder().append(x).append("\n").append(y).toString());
+
+        try {
+            GeneratorUtils.dumpContentToFile("build.gradle", newGradleContent.trim());
+            return true;
+        }catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
+    @Deprecated
+    public static boolean updateGradlewDependenciesOld(String newDependencies, int index) throws IOException
     {
         String gradleContent = getGradleFileContent();
 
@@ -290,7 +328,7 @@ public class MicronautProjectValidator {
         return getProjectInfo().getDefaultPackage();
     }
 
-    public static boolean addLombok() throws IOException, XmlPullParserException {
+    public static boolean addLombok() throws IOException, XmlPullParserException, GradleReaderException {
         if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java"))
         {
             Feature lombok = FeaturesFactory.features().get("lombok");
@@ -314,7 +352,7 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean addOpenapi() throws IOException, XmlPullParserException {
+    public static boolean addOpenapi() throws IOException, XmlPullParserException, GradleReaderException {
 
         if(getProjectInfo().getApplicationType().equalsIgnoreCase("default"))
         {
@@ -423,7 +461,7 @@ public class MicronautProjectValidator {
         }
             return false;
     }
-    public static boolean addDependency(Feature... feature) throws IOException {
+    public static boolean addDependency(Feature... feature) throws IOException, GradleReaderException {
 
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {

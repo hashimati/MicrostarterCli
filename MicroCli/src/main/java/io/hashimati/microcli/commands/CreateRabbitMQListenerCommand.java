@@ -10,6 +10,7 @@ import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
@@ -54,7 +55,11 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
 
             TemplatesService templatesService = new TemplatesService();
             projectInfo.getFeatures().add("rabbitmq");
-            MicronautProjectValidator.addDependency(FeaturesFactory.features().get("rabbitmq"));
+            try {
+                MicronautProjectValidator.addDependency(FeaturesFactory.features().get("rabbitmq"));
+            } catch (GradleReaderException e) {
+                e.printStackTrace();
+            }
 
             projectInfo.dumpToFile();
 

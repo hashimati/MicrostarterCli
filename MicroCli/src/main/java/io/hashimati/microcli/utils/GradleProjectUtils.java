@@ -84,10 +84,14 @@ public class GradleProjectUtils{
             throw new GradleReaderException("Couldn't read dependencies!");
        return Tuple.tuple(result, indexOfDependencies, indexOfBound);
     }
-
-    public void appendDependencies(String dependencey, String command)
+    public void appendDependencies(LinkedList<String> list, String dependency)
     {
-        return;
+        list.addLast(dependency);
     }
+    public void appendLombokAnnotation(LinkedList<String> list , String dependcy){
+        list.addFirst(dependcy);
+    }
+
+
 
 }

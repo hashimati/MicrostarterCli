@@ -14,6 +14,7 @@ import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
+import lombok.SneakyThrows;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -42,6 +43,7 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
     private ConfigurationInfo configurationInfo;
     private TemplatesService templatesService = new TemplatesService();
 
+    @SneakyThrows
     @Override
     public Integer call() throws Exception {
 

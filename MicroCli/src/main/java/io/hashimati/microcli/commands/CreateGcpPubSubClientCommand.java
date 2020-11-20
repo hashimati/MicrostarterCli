@@ -10,6 +10,7 @@ import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
@@ -53,9 +54,13 @@ public class CreateGcpPubSubClientCommand implements Callable<Integer> {
 
             TemplatesService templatesService = new TemplatesService();
             projectInfo.getFeatures().add("gcp-pubsub");
-            MicronautProjectValidator.addDependency(FeaturesFactory.features().get("gcp-pubsub"));
+            try {
+                MicronautProjectValidator.addDependency(FeaturesFactory.features().get("gcp-pubsub"));
+            } catch (GradleReaderException e) {
+                e.printStackTrace();
+            }
 
-           projectInfo.dumpToFile();
+            projectInfo.dumpToFile();
 
 
            //todo properties to be add
