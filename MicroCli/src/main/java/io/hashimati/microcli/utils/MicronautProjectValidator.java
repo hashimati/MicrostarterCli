@@ -226,9 +226,7 @@ public class MicronautProjectValidator {
 
         if(index<0 || !gradleContent.contains(prefix) || prefix.isEmpty())
         {
-            String from  = "dependencies {", to ="}\n" +
-                    "\n" +
-                    "mainClassName";
+            String from  = "dependencies {", to ="application {";
             int fromIndex = gradleContent.indexOf(from )+ from.length();
             int toIndex = gradleContent.indexOf(to);
             String dependencies= gradleContent.substring(fromIndex, toIndex);
