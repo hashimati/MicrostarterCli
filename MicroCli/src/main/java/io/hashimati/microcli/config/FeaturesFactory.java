@@ -91,6 +91,12 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
             setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-processor\")");
+            setAnnotationMaven(
+                    "                <path>\n" +
+                            "                  <groupId>io.micronaut.data</groupId>\n" +
+                            "                  <artifactId>micronaut-data-processor</artifactId>\n" +
+                            "                  <version>${micronaut.data.version}</version>\n" +
+                            "                </path>");
         }});
 
         //rdbc-core
@@ -599,6 +605,17 @@ public class FeaturesFactory {
                     "      <artifactId>micronaut-hibernate-validator</artifactId>\n" +
                     "      <scope>compile</scope>\n" +
                     "    </dependency>" );
+        }});
+
+        features.put("mqttv5", new Feature(){{
+            setName("mqttv5");
+            setGradle("    implementation(\"io.micronaut.mqtt:micronaut-mqttv5\")");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.mqtt</groupId>\n" +
+                    "\t\t<artifactId>micronaut-mqttv5</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
         }});
 
         return features;
