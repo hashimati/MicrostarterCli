@@ -1,0 +1,13 @@
+package ${pack};
+
+
+${importMessage}
+import io.micronaut.mqtt.annotation.Topic;
+import io.micronaut.mqtt.v5.annotation.MqttPublisher;
+
+@MqttPublisher
+interface ${className} {
+
+    @Topic("${queueName}")
+    fun sendOrder(message:${Message});
+}

@@ -1,0 +1,15 @@
+package ${pack}
+
+
+import io.micronaut.mqtt.annotation.Topic;
+import io.micronaut.mqtt.v5.annotation.MqttPublisher;
+${importMessage}
+
+
+@MqttPublisher
+interface ${className} {
+
+    @Topic("${queueName}")
+    void send(${Message} message)
+
+}

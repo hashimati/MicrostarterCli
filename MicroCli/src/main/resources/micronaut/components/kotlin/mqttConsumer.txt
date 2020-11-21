@@ -1,0 +1,16 @@
+package ${pack};
+
+
+${importMessage}
+import io.micronaut.mqtt.annotation.MqttSubscriber;
+import io.micronaut.mqtt.annotation.Topic;
+
+@MqttSubscriber
+class ${className} {
+
+    @Topic("${queueName}")
+    fun receive(message: ${Message})
+    {
+        System.out.println(message);
+    }
+}

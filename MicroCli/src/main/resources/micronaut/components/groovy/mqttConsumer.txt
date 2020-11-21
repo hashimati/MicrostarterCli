@@ -1,0 +1,20 @@
+package ${pack}
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import io.micronaut.mqtt.annotation.MqttSubscriber;
+import io.micronaut.mqtt.annotation.Topic;
+${importMessage}
+
+@MqttSubscriber
+class ${className} {
+
+    static final Logger log= LoggerFactory.getLogger(${className}.class);
+
+    @Topic("${queueName}")
+    void receive(${Message} message)
+    {
+        log.info("Received {}", message);
+    }
+}

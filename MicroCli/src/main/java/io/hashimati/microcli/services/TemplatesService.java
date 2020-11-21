@@ -88,6 +88,8 @@ public class TemplatesService {
             KAFKA_LISTENER = "kafaka_listener",
             NATS_CLIENT = "nats_client",
             NATS_LISTENER = "nats_listener",
+                    MQTT_CLIENT = "mqtt_client",
+                    MQTT_LISTENER = "mqtt_listener",
             GCP_PUB_SUB_CLIENT = "gcpPubSub_client",
             GCP_PUB_SUB_LISTENER = "gcpPubSub_listener",
                     GRAPHQL_ENUM = "graphql_enum",
@@ -154,6 +156,8 @@ public class TemplatesService {
     CASSANDRA_yml = "CASSANDRA",
     NEO4J_yml = "NEO4J",
     KAFKA_yml = "KAFKA",
+            MQTT_yml = "mqtt",
+
     RABBITMQ_yml = "RABBITMQ",
     NATS_yml = "NATS",
             GRAPHQL_yml = "GRAPHQL",
@@ -199,6 +203,8 @@ public class TemplatesService {
         javaTemplates.put(RABBITMQ_LISTENER,"micronaut/components/java/rabbitmqConsumer.txt");
         javaTemplates.put(KAFKA_CLIENT,"micronaut/components/java/kafkaClient.txt");
         javaTemplates.put(KAFKA_LISTENER,"micronaut/components/java/kafkaConsumer.txt");
+        javaTemplates.put(MQTT_CLIENT,"micronaut/components/java/mqttClient.txt");
+        javaTemplates.put(MQTT_LISTENER,"micronaut/components/java/mqttConsumer.txt");
         javaTemplates.put(NATS_CLIENT,"micronaut/components/java/natsClient.txt");
         javaTemplates.put(NATS_LISTENER,"micronaut/components/java/natsConsumer.txt");
         javaTemplates.put(GCP_PUB_SUB_CLIENT,"micronaut/components/java/gcpPubSubClient.txt");
@@ -250,6 +256,8 @@ public class TemplatesService {
         groovyTemplates.put(RABBITMQ_LISTENER,"micronaut/components/groovy/rabbitmqConsumer.txt");
         groovyTemplates.put(KAFKA_CLIENT,"micronaut/components/groovy/kafkaClient.txt");
         groovyTemplates.put(KAFKA_LISTENER,"micronaut/components/groovy/kafkaConsumer.txt");
+        groovyTemplates.put(MQTT_CLIENT,"micronaut/components/groovy/mqttClient.txt");
+        groovyTemplates.put(MQTT_LISTENER,"micronaut/components/groovy/mqttConsumer.txt");
         groovyTemplates.put(COMP_REPOSITORY,"micronaut/components/groovy/repository.txt");
         groovyTemplates.put(COMP_WEBSOCKET,"micronaut/components/groovy/websocket.txt");
         groovyTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/groovy/websocketClient.txt");
@@ -307,6 +315,8 @@ public class TemplatesService {
         kotlinTemplates.put(RABBITMQ_LISTENER,"micronaut/components/kotlin/rabbitmqConsumer.txt");
         kotlinTemplates.put(KAFKA_CLIENT,"micronaut/components/kotlin/kafkaClient.txt");
         kotlinTemplates.put(KAFKA_LISTENER,"micronaut/components/kotlin/kafkaConsumer.txt");
+        kotlinTemplates.put(MQTT_CLIENT,"micronaut/components/kotlin/mqttClient.txt");
+        kotlinTemplates.put(MQTT_LISTENER,"micronaut/components/kotlin/mqttConsumer.txt");
         kotlinTemplates.put(COMP_REPOSITORY,"micronaut/components/kotlin/repository.txt");
         kotlinTemplates.put(COMP_WEBSOCKET,"micronaut/components/kotlin/websocket.txt");
         kotlinTemplates.put(COMP_WEBSOCKET_CLIENT,"micronaut/components/kotlin/websocketClient.txt");
@@ -371,6 +381,7 @@ public class TemplatesService {
         properties.put(GRAPHQL_yml, "micronaut/entityTemplates/graphql_properties.txt");
         properties.put(JWT_yml, "micronaut/security/jwt_properties.yml");
         properties.put(LIQUIBASE_yml, "micronaut/entityTemplates/sql/liquibase/liquibase_properties.yml");
+        properties.put(MQTT_yml, "micronaut/entityTemplates/mqtt_properties.txt");
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
         graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");
