@@ -1,0 +1,35 @@
+package ${clientPackage}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client;
+import javax.inject.Inject
+import io.reactivex.Flowable
+import io.reactivex.Single
+
+import ${entityPackage}
+
+
+@Client("/api/${entities}")
+interface ${classNameA}Client {
+
+    @Post("/save")
+    ${className} save(@Body ${classNameA} ${entityName})
+
+    @Get("/get")
+    ${className} findById(@Parameter("id") long id)
+
+    @Delete("/delete/{id}")
+    boolean deleteById(@PathVariable("id") long id)
+
+    @Get("/findAll")
+    Iterable<${className}> findAll()
+
+
+    @Put("/update")
+    ${className} update(@Body ${className} ${entityName})
+
+}
+

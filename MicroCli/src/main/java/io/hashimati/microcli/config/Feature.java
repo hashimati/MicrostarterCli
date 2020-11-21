@@ -21,7 +21,9 @@ public class Feature {
     versionProperties,
     testContainerGradle,
     depndencyManagement,
-    ymlConfig;
+    ymlConfig,
+    rdbcGradle, // for database relational dbs only
+    rdbcMaven;  // for relational dbs only
 
     public Feature visit(Visitor<Feature> visitor)
     {

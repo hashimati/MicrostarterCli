@@ -43,6 +43,9 @@ public class FeaturesFactory {
             setGradle("    implementation(\"io.micronaut.sql:micronaut-jdbc-hikari\")");
         }});
 
+
+
+
         features.put("data-jdbc", new Feature(){{
             setName("data-jdbc");
             setMaven("\t<dependency>\n" +
@@ -73,6 +76,35 @@ public class FeaturesFactory {
             setVersionProperties("<micronaut.data.version>1.1.3</micronaut.data.version>");
         }});
 
+
+        //rdbc-core
+        features.put("data-r2dbc", new Feature(){{
+
+
+            setName("data-r2dbc");
+            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-data-r2dbc\")\n");
+
+
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>micronaut-data-r2dbc</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-processor\")");
+        }});
+
+        //rdbc-core
+        features.put("r2dbc", new Feature(){{
+            setName("r2dbc");
+            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-r2dbc-core\")\n");
+
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>micronaut-r2dbc-core</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
         features.put("mongo-reactive", new Feature(){{
             setName("mongo-reactive");
             setMaven("\t<dependency>\n" +
@@ -156,6 +188,13 @@ public class FeaturesFactory {
                     "\t</dependency>\n");
             setGradle("    runtimeOnly(\"com.h2database:h2\")");
             setTestGradle("    testRuntimeOnly(\"com.h2database:h2\")");
+
+            setRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-h2</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
+            setRdbcGradle("    runtimeOnly(\"io.r2dbc:r2dbc-h2\")");
         }});
 
 
@@ -173,6 +212,14 @@ public class FeaturesFactory {
                     "      <artifactId>mysql</artifactId>\n" +
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
+
+
+            setRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>dev.miku</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-mysql</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
+            setRdbcGradle("    runtimeOnly(\"dev.miku:r2dbc-mysql\")");
         }});
 
         features.put("testcontainers", new Feature(){{
@@ -204,7 +251,12 @@ public class FeaturesFactory {
             setGradle("    runtimeOnly(\"org.postgresql:postgresql\")\n");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:postgresql\")");
 
-
+            setRdbcGradle("    runtimeOnly(\"io.r2dbc:r2dbc-postgresql\")");
+            setRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-postgresql</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
         }});
 
         features.put("mariadb", new Feature(){{
@@ -221,8 +273,16 @@ public class FeaturesFactory {
                     "    </dependency>");
             setGradle("    runtimeOnly(\"org.mariadb.jdbc:mariadb-java-client\")\n");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:mariadb\")\n");
+            setRdbcGradle("    runtimeOnly(\"org.mariadb:r2dbc-mariadb\")");
+            setRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>org.mariadb</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-mariadb</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
         }});
 
+
+        //rdbc not supported
         features.put("oracle", new Feature(){{
             setName("oracle");
             setMaven("<dependency>\n" +
@@ -254,6 +314,13 @@ public class FeaturesFactory {
                     "      <artifactId>mssqlserver</artifactId>\n" +
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
+
+            setRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-mssql</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
+            setRdbcGradle("    runtimeOnly(\"io.r2dbc:r2dbc-mssql\")");
         }});
 
         features.put("graphql", new Feature(){{

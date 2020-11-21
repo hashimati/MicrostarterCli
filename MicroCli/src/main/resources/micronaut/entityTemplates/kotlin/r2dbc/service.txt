@@ -1,0 +1,58 @@
+package ${servicePackage}
+
+
+import javax.inject.Inject
+import javax.inject.Singleton
+import javax.transaction.Transactional
+import ${entityPackage}
+import ${repoPackage}
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+@Singleton
+@Transactional
+class ${className}Service(private val ${entityName}Repository: ${className}Repository)  {
+
+
+    fun save(${entityName}: ${className}):  ${className} {
+        log.info("Saving ${className} :{}", ${entityName})
+        ${entityName}Repository.save(${entityName})
+        return ${entityName}
+    }
+    fun findById(id:Long): ${className} {
+        log.info("Finding ${className} by id:{}", id)
+        return ${entityName}Repository.findById(id).orElse(null)
+    }
+    fun deleteById(id:Long): Boolean {
+        try{
+
+            ${entityName}Repository.deleteById(id)
+            log.info("Deleting ${className} by id:{}", id)
+            return true;
+        }
+        catch(e: Exception)
+        {
+            log.error("Failed to delete ${className} by id:{}", id)
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    fun  findAll():Iterable<${className}> {
+        log.info("Find All")
+      return  ${entityName}Repository.findAll()
+    }
+
+    fun update( ${entityName}:${className}):${className}
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Repository.update(${entityName})
+
+    }
+
+
+      companion object {
+            val log :Logger = LoggerFactory.getLogger(${className}Service::class.java)
+        }
+ }
