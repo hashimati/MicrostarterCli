@@ -106,7 +106,7 @@ public class FlyWayGenerator
 
                     }});
 
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/sqls");
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
         return Tuple.tuple(filePath.append(fileName).toString(), content);
     }
