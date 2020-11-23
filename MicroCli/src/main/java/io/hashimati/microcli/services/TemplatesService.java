@@ -151,17 +151,32 @@ public class TemplatesService {
             MARIADB_JDBC_TEST_yml = "mariadb_test",
             MYSQL_JDBC_TEST_yml = "mysql_test",
             SQLSERVER_TEST_JDBC_yml = "sqlserver_test",
+            H2_R2DBC_yml = "h2_r2dbc",
+            POSTGRES_R2DBC_yml = "postgres_r2dbc",
+            MARIADB_R2DBC_yml = "mariadb_r2dbc",
+            MYSQL_R2DBC_yml = "mysql_r2dbc",
+            SQLSERVER_R2DBC_yml = "sqlserver_r2dbc",
+
+            H2_R2DBC_TEST_yml = "h2_r2dbc_test",
+            POSTGRES_R2DBC_TEST_yml = "postgres_r2dbc_test",
+            MARIADB_R2DBC_TEST_yml = "mariadb_r2dbc_test",
+            MYSQL_R2DBC_TEST_yml = "mysql_r2dbc_test",
+            SQLSERVER_R2DBC_TEST_yml = "sqlserver_r2dbc_test",
             JPA_yml = "jpa",
+
+
+
+
     MONGODB_yml = "MONGODB",
     CASSANDRA_yml = "CASSANDRA",
     NEO4J_yml = "NEO4J",
     KAFKA_yml = "KAFKA",
-            MQTT_yml = "mqtt",
+    MQTT_yml = "mqtt",
 
     RABBITMQ_yml = "RABBITMQ",
     NATS_yml = "NATS",
-            GRAPHQL_yml = "GRAPHQL",
-            JWT_yml = "JWT",
+    GRAPHQL_yml = "GRAPHQL",
+    JWT_yml = "JWT",
     LIQUIBASE_yml= "liquibase";
 
 
@@ -369,6 +384,16 @@ public class TemplatesService {
         properties.put(MYSQL_JDBC_TEST_yml, "micronaut/entityTemplates/mysql_jdbc_test_properties.txt");
         properties.put(SQLSERVER_TEST_JDBC_yml, "micronaut/entityTemplates/sqlserver_jdbc_test_properties.txt");
 
+        properties.put(H2_R2DBC_yml, "micronaut/entityTemplates/h2_rdbc_properties.yml");
+        properties.put(MARIADB_R2DBC_yml, "micronaut/entityTemplates/mariadb_rdbc_properties.yml");
+        properties.put(POSTGRES_R2DBC_yml, "micronaut/entityTemplates/postgres_rdbc_properties.yml");
+        properties.put(MYSQL_R2DBC_yml, "micronaut/entityTemplates/mysql_rdbc_properties.yml");
+        properties.put(SQLSERVER_R2DBC_yml, "micronaut/entityTemplates/sqlserver_rdbc_properties.yml");
+
+        properties.put(MARIADB_R2DBC_TEST_yml, "micronaut/entityTemplates/maria_r2dbc_test.yml");
+        properties.put(POSTGRES_R2DBC_TEST_yml, "micronaut/entityTemplates/postgres_r2dbc_test.yml");
+        properties.put(MYSQL_R2DBC_TEST_yml, "micronaut/entityTemplates/mysql_r2db_test.yml");
+        properties.put(SQLSERVER_R2DBC_yml, "micronaut/entityTemplates/sqlserver_r2dbc_test.yml");
 
 
         properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.yml");
