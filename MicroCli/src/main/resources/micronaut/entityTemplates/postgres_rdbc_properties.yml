@@ -1,8 +1,8 @@
 r2dbc:
   datasources:
     default:
-      schema-generate: CREATE_DROP
+      schema-generate: ${schemaGenerate}
       dialect: POSTGRES
-      url: r2dbc:postgresql://localhost:5432/postgres
+      url: r2dbc:postgresql://localhost:5432/${databaseName}
       username: postgres
       password: ''

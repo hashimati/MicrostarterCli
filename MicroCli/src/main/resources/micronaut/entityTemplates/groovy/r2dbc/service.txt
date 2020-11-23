@@ -5,7 +5,8 @@ import javax.inject.Singleton
 import javax.transaction.Transactional
 import ${entityPackage}
 import ${repoPackage}
-
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ class ${className}Service {
      Logger log = LoggerFactory.getLogger(${className}Service.class)
     @Inject ${className}Repository ${entityName}Repository
 
-    ${className} save(${className} ${entityName}){
+    Mono<${className}> save(${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName})
          //TODO insert your logic here!
          //saving Object
@@ -23,12 +24,12 @@ class ${className}Service {
          return ${entityName}Repository.save(${entityName})
      }
 
-    ${className} findById(long id){
+    Mono<${className}> findById(long id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
-    boolean deleteById(long id){
+    Mono<Boolean> deleteById(long id){
         try
         {
             ${entityName}Repository.deleteById(id);
@@ -44,12 +45,12 @@ class ${className}Service {
     }
 
 
-    Iterable<${className}> findAll() {
+    Flux<${className}> findAll() {
         log.info("Find All")
       return  ${entityName}Repository.findAll();
     }
 
-    ${className} update(${className} ${entityName})
+    Mono<${className}> update(${className} ${entityName})
     {
         log.info("update {}", ${entityName})
         return ${entityName}Repository.update(${entityName})

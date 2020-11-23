@@ -618,6 +618,38 @@ public class MicronautProjectValidator {
         }
         return true;
     }
+
+    public static boolean appendR2DBCToProperties(String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
+
+        String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
+
+        String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath));
+        if(!propertiesContent.contains(database.replace("-test", "").toLowerCase())){
+
+
+            String template = templatesService.loadTemplateContent(templatesService.getProperties().get(database));
+
+            //this scope will be invoked if the user choose to test with H2 instead of TestContainer.
+            if(testWithH2 && !main)
+            {
+                template = templatesService.loadTemplateContent(templatesService.getProperties().get(H2_JDBC_yml));
+            }
+            if(template.isEmpty())
+                return true;
+
+            String schemaGenerate = migrationTool.equalsIgnoreCase("none")?"CREATE_DROP":"none";
+
+            String content = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+
+                put("databaseName", databaseName);
+                put("schemaGenerate", schemaGenerate);
+            }});
+
+            return GeneratorUtils.dumpContentToFile(propertiesPath, new StringBuilder().append(propertiesContent).append(propertiesContent.isEmpty() ? "" : "\n---\n").append(content).toString());
+            //return GeneratorUtils.appendContentToFile(propertiesPath,propertiesContent);
+        }
+        return false;
+    }
 }
 
 

@@ -6,27 +6,26 @@ import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client;
 import javax.inject.Inject
-import io.reactivex.Flowable
-import io.reactivex.Single
 import ${entityPackage}
-
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Client("/api/${entities}")
 interface ${classNameA}Client {
 
     @Post("/save")
-    fun save(${entityName}:${classNameA}): ${className}
+    fun save(${entityName}:${classNameA}): Mono<${className}>
 
     @Get("/get")
-    fun findById(@Parameter("id") id:Long): ${className}
+    fun findById(@Parameter("id") id:Long): Mono<${className}>
 
     @Delete("/delete/{id}")
-    fun deleteById(@PathVariable("id") id: Long): Boolean
+    fun deleteById(@PathVariable("id") id: Long): Mono<Boolean>
 
     @Get("/findAll")
-    fun findAll():Iterable<${className}>
+    fun findAll():Flux<${className}>
 
     @Put("/update")
-    fun update(@Body ${entityName}: ${className}):${className}
+    fun update(@Body ${entityName}: ${className}):Mono<${className}>
 }
 

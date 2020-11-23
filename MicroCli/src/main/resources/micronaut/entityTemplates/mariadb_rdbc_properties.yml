@@ -1,8 +1,8 @@
 r2dbc:
   datasources:
     default:
-      schema-generate: CREATE_DROP
+      schema-generate: ${schemaGenerate}
       dialect: SQL_SERVER
-      url: r2dbc:mssql://localhost:1433/tempdb
+      url: r2dbc:mssql://localhost:1433/${databaseName}
       username: sa
       password: ''

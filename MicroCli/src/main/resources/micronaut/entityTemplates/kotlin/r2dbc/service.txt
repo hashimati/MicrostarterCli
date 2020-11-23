@@ -6,7 +6,8 @@ import javax.inject.Singleton
 import javax.transaction.Transactional
 import ${entityPackage}
 import ${repoPackage}
-
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @Singleton
@@ -14,16 +15,16 @@ import org.slf4j.LoggerFactory;
 class ${className}Service(private val ${entityName}Repository: ${className}Repository)  {
 
 
-    fun save(${entityName}: ${className}):  ${className} {
+    fun save(${entityName}: ${className}):  Mono<${className}> {
         log.info("Saving ${className} :{}", ${entityName})
         ${entityName}Repository.save(${entityName})
         return ${entityName}
     }
-    fun findById(id:Long): ${className} {
+    fun findById(id:Long): Mono<${className}> {
         log.info("Finding ${className} by id:{}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
-    fun deleteById(id:Long): Boolean {
+    fun deleteById(id:Long): Mono<Boolean> {
         try{
 
             ${entityName}Repository.deleteById(id)
@@ -39,12 +40,12 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
     }
 
 
-    fun  findAll():Iterable<${className}> {
+    fun  findAll():Flux<${className}> {
         log.info("Find All")
       return  ${entityName}Repository.findAll()
     }
 
-    fun update( ${entityName}:${className}):${className}
+    fun update( ${entityName}:${className}):Mono<${className}>
     {
         log.info("update {}", ${entityName})
         return ${entityName}Repository.update(${entityName})

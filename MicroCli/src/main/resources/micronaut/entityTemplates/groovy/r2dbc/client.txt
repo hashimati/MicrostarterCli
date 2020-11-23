@@ -8,7 +8,8 @@ import io.micronaut.http.client.annotation.Client;
 import javax.inject.Inject
 import io.reactivex.Flowable
 import io.reactivex.Single
-
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import ${entityPackage}
 
 
@@ -16,20 +17,20 @@ import ${entityPackage}
 interface ${classNameA}Client {
 
     @Post("/save")
-    ${className} save(@Body ${classNameA} ${entityName})
+    Mono<${className}> save(@Body ${classNameA} ${entityName})
 
     @Get("/get")
-    ${className} findById(@Parameter("id") long id)
+    Mono<${className}> findById(@Parameter("id") long id)
 
     @Delete("/delete/{id}")
-    boolean deleteById(@PathVariable("id") long id)
+    Mono<Boolean> deleteById(@PathVariable("id") long id)
 
     @Get("/findAll")
-    Iterable<${className}> findAll()
+    Flux<${className}> findAll()
 
 
     @Put("/update")
-    ${className} update(@Body ${className} ${entityName})
+    Mono<${className}> update(@Body ${className} ${entityName})
 
 }
 

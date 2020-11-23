@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 @Controller("/api/${entities}")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
@@ -21,7 +23,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun save(@Body ${entityName}: ${className}):  ${className} {
+    fun save(@Body ${entityName}: ${className}):  Mono<${className}> {
 
         log.info("Saving ${className} :{}", ${entityName})
         return ${entityName}Service.save(${entityName})
@@ -36,7 +38,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
         content = [Content(mediaType = "application/json")]
     )
 
-    fun findById(id:Long): ${className} {
+    fun findById(id:Long): Mono<${className}> {
         log.info("Finding ${className}: {}", id )
         return ${entityName}Service.findById(id)
     }
@@ -49,7 +51,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
             content = [Content(mediaType = "boolean")]
     )
 
-    fun deleteById(id:Long): Boolean {
+    fun deleteById(id:Long): Mono<Boolean> {
         log.info("Deleting ${className}: {}", id)
         return  ${entityName}Service.deleteById(id)
     }
@@ -61,7 +63,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun findAll():Iterable<${className}>{
+    fun findAll():Flux<${className}>{
         log.info("find All")
         return ${entityName}Service.findAll()
     }
@@ -73,7 +75,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun update(@Body ${entityName}: ${className}):${className}
+    fun update(@Body ${entityName}: ${className}):Mono<${className}>
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName})

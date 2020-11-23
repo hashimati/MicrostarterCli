@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @Controller("/api/${entities}")
 class ${className}Controller {
 
@@ -27,7 +30,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    ${className} save(@Body ${className} ${entityName}){
+    Mono<${className}> save(@Body ${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
@@ -45,7 +48,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${className} findById(@Parameter("id") long id){
+    Mono<${className}> findById(@Parameter("id") long id){
 
         log.info("Finding ${className} By Id: {}", id);
         return ${entityName}Service.findById(id)
@@ -61,7 +64,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    Boolean deleteById(@PathVariable("id") long id){
+    Mono<Boolean> deleteById(@PathVariable("id") long id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id);
     }
@@ -75,7 +78,7 @@ class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
-    Iterable<${className}> findAll(){
+    Flux<${className}> findAll(){
         log.info("find All")
         return ${entityName}Service.findAll()
     }
@@ -89,7 +92,7 @@ class ${className}Controller {
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${className} update(@Body ${className} ${entityName})
+    Mono<${className}> update(@Body ${className} ${entityName})
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName})

@@ -618,6 +618,18 @@ public class FeaturesFactory {
 
         }});
 
+
+
+        features.put("reactor", new Feature(){{
+
+            setName("reactor");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.reactor</groupId>\n" +
+                    "\t\t<artifactId>micronaut-reactor</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.reactor:micronaut-reactor\")");
+        }});
         return features;
     }
 

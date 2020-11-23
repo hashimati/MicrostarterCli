@@ -3,14 +3,14 @@ package ${entityRepositoryPackage}
 
 import ${importEntity}
 import java.util.*
-import io.micronaut.data.annotation.*
-import io.micronaut.data.jdbc.annotation.JdbcRepository
-import io.micronaut.data.model.query.builder.sql.Dialect
-import io.micronaut.data.model.*
-import io.micronaut.data.repository.CrudRepository
+import io.micronaut.data.model.query.builder.sql.Dialect;
+import io.micronaut.data.r2dbc.annotation.R2dbcRepository;
+import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-@Repository
+@R2dbcRepository
 @JdbcRepository(dialect = Dialect.${dialect})
-interface ${className}Repository extends CrudRepository<${className}, Long> {
+interface ${className}Repository extends ReactiveStreamsCrudRepository<${className}, Long> {
     ${methods}
 }

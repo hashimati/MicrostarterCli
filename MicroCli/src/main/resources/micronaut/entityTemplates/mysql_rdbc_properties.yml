@@ -1,8 +1,8 @@
 r2dbc:
   datasources:
     default:
-      schema-generate: CREATE_DROP
+      schema-generate: ${schemaGenerate}
       dialect: MYSQL
-      url: r2dbc:mysql://localhost:3306/db
+      url: r2dbc:mysql://localhost:3306/${databaseName}
       username: root
       password: ''
