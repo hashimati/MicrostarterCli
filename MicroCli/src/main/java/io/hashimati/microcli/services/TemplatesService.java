@@ -47,6 +47,12 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+
+            R2DBC_CONTROLLER = "r2dbc_controller",
+            R2DBC_SERVICE = "r2dbc_service",
+            R2DBC_REPOSITORY = "r2dbc_repository",
+            R2DBC_CLIENT = "r2dbc_client",
+
             GORM_ENTITY="gorm_entity",
             GORM_REPOSITORY = "gorm_repository",
             GORM_SERVICE = "gorm_service",
@@ -240,7 +246,10 @@ public class TemplatesService {
         javaTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/java/reactive/UserRepository.txt");
         javaTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/java/reactive/UserService.txt");
         javaTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/java/reactive/UserController.txt");
-
+        javaTemplates.put(R2DBC_CONTROLLER, "micronaut/entityTemplates/java/r2dbc/controller.txt");
+        javaTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/java/r2dbc/service.txt");
+        javaTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/java/r2dbc/jdbcRepository.txt");
+        javaTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/java/r2dbc/client.txt");
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -301,6 +310,10 @@ public class TemplatesService {
         groovyTemplates.put(GORM_SERVICE, "micronaut/entityTemplates/groovy/gorm/Service.txt");
         groovyTemplates.put(GORM_CONTROLLER, "micronaut/entityTemplates/groovy/gorm/Controller.txt");
         groovyTemplates.put(GORM_CLIENT, "micronaut/entityTemplates/groovy/gorm/Client.txt");
+        groovyTemplates.put(R2DBC_CONTROLLER, "micronaut/entityTemplates/groovy/r2dbc/controller.txt");
+        groovyTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/groovy/r2dbc/service.txt");
+        groovyTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/groovy/r2dbc/jdbcRepository.txt");
+        groovyTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/groovy/r2dbc/client.txt");
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
@@ -355,6 +368,10 @@ public class TemplatesService {
         kotlinTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/kotlin/reactive/UserRepository.txt");
         kotlinTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/kotlin/reactive/UserService.txt");
         kotlinTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/kotlin/reactive/UserController.txt");
+        kotlinTemplates.put(R2DBC_CONTROLLER, "micronaut/entityTemplates/kotlin/r2dbc/controller.txt");
+        kotlinTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/kotlin/r2dbc/service.txt");
+        kotlinTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/kotlin/r2dbc/jdbcRepository.txt");
+        kotlinTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/kotlin/r2dbc/client.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");

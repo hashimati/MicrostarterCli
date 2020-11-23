@@ -411,7 +411,22 @@ public class MicronautEntityGenerator
             String repositoryTemplate ="";
 
             if(entity.getFrameworkType().equalsIgnoreCase("jpa")) {
-                if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()){
+
+                binder.put("entityRepositoryPackage", entity.getRepoPackage());
+                binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
+                binder.put("className", entity.getName());
+                binder.put("methods", methods);
+                String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
+
+
+                repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+
+
+
+            }
+            else if(entity.getFrameworkType().equalsIgnoreCase("gorm")) {
+
+                //   if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()){
 
                     String templatePath = getTemplatPath(GORM_REPOSITORY, language.toLowerCase());
 
@@ -423,17 +438,7 @@ public class MicronautEntityGenerator
                     repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                     return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
 
-                }
-                binder.put("entityRepositoryPackage", entity.getRepoPackage());
-                binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
-                binder.put("className", entity.getName());
-                binder.put("methods", methods);
-                String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
-
-                repositoryTemplate = templatesService.loadTemplateContent(templatePath);
-
-
-
+              //  }
             }
             else if(entity.getFrameworkType().equalsIgnoreCase("jdbc"))
             {
@@ -443,6 +448,18 @@ public class MicronautEntityGenerator
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
+
+
+                repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+            }
+            else if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
+            {
+                binder.put("entityRepositoryPackage", entity.getRepoPackage());
+                binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
+                binder.put("className", entity.getName());
+                binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
+                binder.put("methods", methods);
+                String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
 
 
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -592,8 +609,9 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
+                String templateKey = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_SERVICE : SERVICE;
 
-                templatePath= getTemplatPath(TemplatesService.SERVICE, language.toLowerCase());
+                templatePath= getTemplatPath(templateKey, language.toLowerCase());
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
         }
@@ -643,7 +661,10 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
-                templatePath= getTemplatPath(TemplatesService.CONTROLLER, language.toLowerCase());
+                String templateKey = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CONTROLLER :TemplatesService.CONTROLLER;
+
+
+                templatePath= getTemplatPath(templateKey, language.toLowerCase());
 
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
@@ -677,7 +698,8 @@ public class MicronautEntityGenerator
 
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
-        String key = TemplatesService.CLIENT;
+        String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
+
         if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()))
             key = TemplatesService.MONGO_CLIENT;
         String templatePath= getTemplatPath(key, language.toLowerCase());

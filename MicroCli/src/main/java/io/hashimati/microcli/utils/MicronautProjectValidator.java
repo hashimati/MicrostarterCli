@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 import static io.hashimati.microcli.services.TemplatesService.H2_JDBC_yml;
+import static io.hashimati.microcli.services.TemplatesService.H2_R2DBC_yml;
 
 public class MicronautProjectValidator {
 
@@ -627,12 +628,13 @@ public class MicronautProjectValidator {
         if(!propertiesContent.contains(database.replace("-test", "").toLowerCase())){
 
 
-            String template = templatesService.loadTemplateContent(templatesService.getProperties().get(database));
+
+            String template = templatesService.loadTemplateContent(templatesService.getProperties().get(database+"_r2dbc"));
 
             //this scope will be invoked if the user choose to test with H2 instead of TestContainer.
             if(testWithH2 && !main)
             {
-                template = templatesService.loadTemplateContent(templatesService.getProperties().get(H2_JDBC_yml));
+                template = templatesService.loadTemplateContent(templatesService.getProperties().get(H2_R2DBC_yml));
             }
             if(template.isEmpty())
                 return true;
