@@ -172,7 +172,7 @@ public class ConfigurationInitializer {
                         MicronautProjectValidator.addDependency(features.get("reactor"));
                         projectInfo.getFeatures().add("r2dbc");
                         projectInfo.getFeatures().add("reactor");
-                        databaseFeature = features.get("r2dbc-data");
+                        databaseFeature = features.get("data-r2dbc");
                         projectInfo.getFeatures().add("r2dbc-data");
                         break;
                 }
@@ -188,6 +188,7 @@ public class ConfigurationInitializer {
 
 
                     projectInfo.getFeatures().add(databasetype);
+
                     if(testWithH2){
                         Feature dbFeature = features.get(databasetype);
                         dbFeature.setTestGradle("");
@@ -196,7 +197,16 @@ public class ConfigurationInitializer {
 
                         MicronautProjectValidator.addDependency(new Feature(){{
                             setGradle(features.get("h2").getTestGradle());
+                            setMaven(features.get("h2").getTestMaven());
                         }});
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
+                        {
+                            MicronautProjectValidator.addDependency(new Feature(){{
+                                setGradle(features.get("h2").getTestRdbcGradle());
+                                setMaven(features.get("h2").getTestRdbcMaven());
+
+                            }});
+                        }
                     }
                     else {
                         MicronautProjectValidator.addDependency(
@@ -218,11 +228,15 @@ public class ConfigurationInitializer {
                         MicronautProjectValidator.appendJPAToProperties(configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
                     else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc")){
-                        MicronautProjectValidator.appendR2DBCToProperties(configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                        MicronautProjectValidator.appendR2DBCToProperties(databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
-                    if(!databasetype.equalsIgnoreCase("h2"))
-                        MicronautProjectValidator.appendJDBCToProperties(databasetype+"_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    if(!databasetype.equalsIgnoreCase("h2")) {
 
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
+                            MicronautProjectValidator.appendR2DBCToProperties(databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                        else
+                            MicronautProjectValidator.appendJDBCToProperties(databasetype + "_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    }
                 }
 
 

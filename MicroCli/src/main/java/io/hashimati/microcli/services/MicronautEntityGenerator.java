@@ -360,6 +360,14 @@ public class MicronautEntityGenerator
 
         String entityTemplate  =templatesService.loadTemplateContent(templatePath);
 
+        //This is temp resolution for R2DBC, The complete if statement should be deleted after finding the resolution.
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
+        {
+            entityTemplate = entityTemplate.replaceAll("Date dateCreated", "String dateCreated");
+
+            entityTemplate = entityTemplate.replaceAll("Date dateUpdated", "String dateUpdated");
+
+        }
         String result = new SimpleTemplateEngine().createTemplate(entityTemplate).make(binder).toString();
         if(!language.equalsIgnoreCase(JAVA_LANG))
             result = result.replace(";", "");

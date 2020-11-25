@@ -475,7 +475,13 @@ public class MicronautProjectValidator {
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestGradleAnnotation() !=null? x.getTestGradleAnnotation():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestContainerGradle() !=null? x.getTestContainerGradle():"").reduce("", (x, y)->x+"\n"+ y),2);
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestContainerGradle() !=null? x.getTestContainerGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    &&
+                   updateGradlewDependencies(Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    &&
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2);
+
+
         }
         else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
         {
@@ -483,6 +489,8 @@ public class MicronautProjectValidator {
             return Arrays.stream(feature).map(
                     x->{
                         try {
+
+                            // todo it is not completed
                             return MavenProjectUtils.addDependency(x, "pom.xml") &&
                                     MavenProjectUtils.addAnnotation(x, "pom.xml")
                                     && MavenProjectUtils.addDependencyToDependecyMgmt(x, "pom.xml")
@@ -629,7 +637,7 @@ public class MicronautProjectValidator {
 
 
 
-            String template = templatesService.loadTemplateContent(templatesService.getProperties().get(database+"_r2dbc"));
+            String template = templatesService.loadTemplateContent(templatesService.getProperties().get(database));
 
             //this scope will be invoked if the user choose to test with H2 instead of TestContainer.
             if(testWithH2 && !main)

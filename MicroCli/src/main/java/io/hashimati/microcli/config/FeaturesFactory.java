@@ -201,6 +201,12 @@ public class FeaturesFactory {
                     "\t\t<scope>runtime</scope>\n" +
                     "\t</dependency>");
             setRdbcGradle("    runtimeOnly(\"io.r2dbc:r2dbc-h2\")");
+            setTestRdbcGradle("    testRuntimeOnly(\"io.r2dbc:r2dbc-h2\")");
+            setTestRdbcMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.r2dbc</groupId>\n" +
+                    "\t\t<artifactId>r2dbc-h2</artifactId>\n" +
+                    "\t\t<scope>test</scope>\n" +
+                    "\t</dependency>");
         }});
 
 

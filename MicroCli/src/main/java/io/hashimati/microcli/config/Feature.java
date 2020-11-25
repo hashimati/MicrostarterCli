@@ -23,7 +23,9 @@ public class Feature {
     depndencyManagement,
     ymlConfig,
     rdbcGradle, // for database relational dbs only
-    rdbcMaven;  // for relational dbs only
+    rdbcMaven,  // for relational dbs only
+    testRdbcGradle,
+    testRdbcMaven;
 
     public Feature visit(Visitor<Feature> visitor)
     {

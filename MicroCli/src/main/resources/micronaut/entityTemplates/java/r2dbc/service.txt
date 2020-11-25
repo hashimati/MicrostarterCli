@@ -23,13 +23,13 @@ public class ${className}Service {
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
-        ${entityName}Repository.save(${entityName});
-        return ${entityName};
+        return Mono.from(${entityName}Repository.save(${entityName}));
+
     }
 
     public Mono<${className}> findById(long id){
         log.info("Finding ${className} By Id: {}", id);
-        return ${entityName}Repository.findById(id).orElse(null);
+        return Mono.from(${entityName}Repository.findById(id));
     }
 
 
@@ -38,31 +38,31 @@ public class ${className}Service {
         try{
             ${entityName}Repository.deleteById(id);
             log.info("Deleted ${className} by Id: {}", id);
-            return true;
+            return Mono.just(Boolean.TRUE);
         }
         catch(Exception ex)
         {
             log.info("Failed to delete ${className} by Id: {}", id);
             ex.printStackTrace();
-            return false;
+            return Mono.just(Boolean.FALSE);
         }
     }
 
     public Flux<${className}> findAll() {
         log.info("Find All");
-      return  ${entityName}Repository.findAll();
+      return Flux.from(${entityName}Repository.findAll());
     }
 
     public Mono<Boolean> existsById(Long id)
     {
         log.info("Check if id exists: {}", id);
-        return  ${entityName}Repository.existsById(id);
+        return  Mono.from(${entityName}Repository.existsById(id));
 
     }
     public Mono<${className}> update(${className} ${entityName})
     {
         log.info("update {}", ${entityName});
-        return ${entityName}Repository.update(${entityName});
+        return Mono.from(${entityName}Repository.update(${entityName}));
 
     }
 

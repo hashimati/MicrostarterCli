@@ -410,7 +410,7 @@ public class TemplatesService {
         properties.put(MARIADB_R2DBC_TEST_yml, "micronaut/entityTemplates/maria_r2dbc_test.yml");
         properties.put(POSTGRES_R2DBC_TEST_yml, "micronaut/entityTemplates/postgres_r2dbc_test.yml");
         properties.put(MYSQL_R2DBC_TEST_yml, "micronaut/entityTemplates/mysql_r2db_test.yml");
-        properties.put(SQLSERVER_R2DBC_yml, "micronaut/entityTemplates/sqlserver_r2dbc_test.yml");
+        properties.put(SQLSERVER_R2DBC_TEST_yml, "micronaut/entityTemplates/sqlserver_r2dbc_test.yml");
 
 
         properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.yml");

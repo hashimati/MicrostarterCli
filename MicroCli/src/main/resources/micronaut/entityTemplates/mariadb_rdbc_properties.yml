@@ -2,7 +2,7 @@ r2dbc:
   datasources:
     default:
       schema-generate: ${schemaGenerate}
-      dialect: SQL_SERVER
-      url: r2dbc:mssql://localhost:1433/${databaseName}
-      username: sa
+      dialect: MYSQL
+      url: r2dbc:mariadb://localhost:3306/${databaseName}
+      username: root
       password: ''

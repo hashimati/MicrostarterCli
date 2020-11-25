@@ -7,8 +7,7 @@ import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@R2dbcRepository
-@JdbcRepository(dialect = Dialect.${dialect})
+@R2dbcRepository(dialect = Dialect.${dialect})
 public interface ${className}Repository extends ReactiveStreamsCrudRepository<${className}, Long> {
     ${methods}
 }
