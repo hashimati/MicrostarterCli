@@ -8,7 +8,32 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "MicroCli", description = "A simple tool to generate Micronaut Components",
-        mixinStandardHelpOptions = true, subcommands = {ConfigureCommand.class, CreateEntityCommand.class, CreateEnumCommand.class, CreateRelationCommand.class, DeleteEntityCommand.class, DeleteAttributeCommand.class,AddAttributeCommand.class, CreateControllerCommand.class, CreateSingletonCommand.class, CreateJobCommand.class, CreateClientCommand.class, CreateKafkaClientCommand.class, CreateKafkaListenerCommand.class, CreateRabbitMQClientCommand.class, CreateRabbitMQListenerCommand.class, CreateWebsocketClientCommand.class, CreateWebsocketServerCommand.class, CreateNatsClientCommand.class, CreateNatsListenerCommand.class, EnableJWTSecurityCommand.class, CreateGcpPubSubClientCommand.class, CreateGcpPubSubListenerCommand.class})
+        mixinStandardHelpOptions = true, subcommands = {
+            ConfigureCommand.class,
+            CreateEntityCommand.class,
+            CreateEnumCommand.class,
+            CreateRelationCommand.class,
+            DeleteEntityCommand.class,
+            DeleteAttributeCommand.class,
+            AddAttributeCommand.class,
+            CreateControllerCommand.class,
+            CreateSingletonCommand.class,
+            CreateJobCommand.class,
+            CreateClientCommand.class,
+            CreateKafkaClientCommand.class,
+            CreateKafkaListenerCommand.class,
+            CreateRabbitMQClientCommand.class,
+            CreateRabbitMQListenerCommand.class,
+            CreateWebsocketClientCommand.class,
+            CreateWebsocketServerCommand.class,
+            CreateNatsClientCommand.class,
+            CreateNatsListenerCommand.class,
+            EnableJWTSecurityCommand.class,
+            CreateGcpPubSubClientCommand.class,
+            CreateGcpPubSubListenerCommand.class,
+            CreateMQTTListenerCommand.class,
+            CreateMQTTClientCommand.class
+})
 public class MicroCliCommand implements Runnable {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
@@ -21,7 +46,7 @@ public class MicroCliCommand implements Runnable {
     public void run() {
         // business logic here
         if (verbose) {
-            System.out.println("Hi!");
+            System.out.println("Hi!, MicroCli is a rapid development tool for Micronaut framework");
         }
     }
 }
