@@ -215,7 +215,10 @@ public class MicronautProjectValidator {
                 new StringBuilder().append(x).append("\n").append(y).toString());
 
         try {
-            GeneratorUtils.dumpContentToFile("build.gradle", newGradleContent.trim());
+            String kts = "";
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+                kts = ".kts";
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
             return true;
         }catch(Exception ex)
         {
@@ -262,7 +265,9 @@ public class MicronautProjectValidator {
         }else if(newDependencies.trim().startsWith("testRuntime")){
             prefix = "testRuntime";
         }
-
+        String kts = "";
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+            kts = ".kts";
         if(index<0 || !gradleContent.contains(prefix) || prefix.isEmpty())
         {
             String from  = "dependencies {", to ="application {";
@@ -271,7 +276,8 @@ public class MicronautProjectValidator {
             String dependencies= gradleContent.substring(fromIndex, toIndex);
             String newDep = index <= 0? newDependencies + "\n" + dependencies :dependencies+"\n"+newDependencies;
             gradleContent = gradleContent.replace(dependencies, newDep);
-            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, gradleContent);
 
             return true;
         }
@@ -283,8 +289,9 @@ public class MicronautProjectValidator {
                     gradleContent.indexOf("\n", lastIndexOfPrefix));
 
 
+
             gradleContent = gradleContent.replace(replaceString, replaceString+"\n" + newDependencies);
-            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, gradleContent);
 
             return true;
         }
@@ -306,7 +313,11 @@ public class MicronautProjectValidator {
 
     private static String getGradleFileContent() throws FileNotFoundException {
         String cwd = System.getProperty("user.dir");
-        File  build = new File(cwd + "/build.gradle");
+        String kts = "";
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+            kts = ".kts";
+
+        File  build = new File(cwd + "/build.gradle"+kts);
         return GeneratorUtils.getFileContent(build);
     }
 
@@ -434,7 +445,10 @@ public class MicronautProjectValidator {
                     "    options.fork = true\n" +
                     "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
                     "}";
-            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+            String kts = "";
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+                kts = ".kts";
+            GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
             return true;
         }
         else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
@@ -457,7 +471,10 @@ public class MicronautProjectValidator {
                     "    groovyOptions.forkOptions.jvmArgs.add('-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop')\n" +
                     "   \n" +
                     "}";
-            GeneratorUtils.dumpContentToFile("build.gradle", gradleContent);
+            String kts = "";
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+                kts = ".kts";
+            GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
             return true;
         }
             return false;
