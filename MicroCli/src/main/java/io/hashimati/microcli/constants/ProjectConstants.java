@@ -31,6 +31,7 @@ public class ProjectConstants {
                 KOTLIN="kt",
                 GROOVY ="groovy",
                 gradle = ".gradle",
+                gradle_kotlin=".gradle_kts",
                 XML = ".xml";
     }
 
