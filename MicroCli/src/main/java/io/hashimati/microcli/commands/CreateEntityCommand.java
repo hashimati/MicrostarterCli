@@ -48,7 +48,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 //    @Option(names = {"--multiple", "-m"}, defaultValue = "1", description = "The number of the entities that you want to define")
 //    private String multiple;
 
-    @Option(names = {"--entity-name", "-e"},  description = "First Entity's Name")
+    @Option(names = {"--entity-name", "-e", "-n"},  description = "Entity's Name")
     private String entityName;
 
     @Option(names = {"--collection-name", "-c"}, description = "Entity's collection/table name")
