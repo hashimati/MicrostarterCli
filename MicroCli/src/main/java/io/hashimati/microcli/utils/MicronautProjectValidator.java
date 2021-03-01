@@ -340,19 +340,23 @@ public class MicronautProjectValidator {
         return getProjectInfo().getDefaultPackage();
     }
 
-    public static boolean addLombok() throws IOException, XmlPullParserException, GradleReaderException {
-        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java"))
+    public static boolean addLombok(ProjectInfo projectInfo) throws IOException, XmlPullParserException, GradleReaderException {
+       if(projectInfo.getFeatures().contains("lombok"))
+           return true;
+        if(projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
         {
             Feature lombok = FeaturesFactory.features().get("lombok");
-            if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
+            projectInfo.getFeatures().add("lombok");
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
             {
                 updateGradlewDependencies(lombok.getAnnotationGradle(), -2);
                 updateGradlewDependencies(lombok.getGradle(), 3);
                 updateGradlewDependencies(lombok.getTestGradleAnnotation(), 2);
                 updateGradlewDependencies(lombok.getTestGradle(),2);
+
                 return true;
             }
-            else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
+            else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
             {
                 MavenProjectUtils.addDependency(lombok, "pom.xml");
                 MavenProjectUtils.addAnnotation(lombok, "pom.xml");

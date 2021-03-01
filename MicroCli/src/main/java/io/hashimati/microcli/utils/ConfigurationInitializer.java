@@ -60,7 +60,7 @@ public class ConfigurationInitializer {
 
         if(!MicronautProjectValidator.isValidProject())
         {
-            printlnErr("The current directory is not a directory of Micronaut proejct");
+            printlnErr("The current directory is not a directory of a Micronaut project");
             System.exit(0);
         }
         File file = new File("MicroCliConfig.json");
@@ -356,11 +356,13 @@ public class ConfigurationInitializer {
 
 
       }
+
+        MicronautProjectValidator.addLombok(projectInfo);
     //MicronautProjectValidator.addDependency(features.get("openapi"));
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
-        MicronautProjectValidator.addLombok();
+
         configurationInfo.setProjectInfo(projectInfo);
         printlnSuccess("micronaut-cli.yml file has been updated");
 
