@@ -11,6 +11,7 @@ import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -360,6 +361,64 @@ public class MicronautEntityGenerator
 
         String entityTemplate  =templatesService.loadTemplateContent(templatePath);
 
+        if(language.equalsIgnoreCase(JAVA_LANG))
+        {
+            entityTemplate = entityTemplate.replace(" <% if(jpa) out.print '@Id '%>\n" +
+                    "    <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE) '%>\n" +
+                    "    <% if(jpa) out.print '@EqualsAndHashCode.Exclude '%>\n" +
+                    "    <% if(jpa) out.println 'private Long id;'%>\n" +
+                    "    <% if(jdbc) out.print '@Id '%>\n" +
+                    "    <% if(jdbc) out.print '@GeneratedValue(GeneratedValue.Type.AUTO) ' %>\n" +
+                    "    <% if(jdbc) out.print '@EqualsAndHashCode.Exclude ' %>\n" +
+                    "    <% if(jdbc) out.println 'private Long id;'%>\n" +
+                    "    <% if(normal) out.println 'private String id;' %>\n" +
+                    "    ${instances}\n" +
+                    "    <% if(jdbc) out.print '@DateCreated ' %>\n" +
+                    "    <% if(jdbc) out.println 'private Date dateCreated;' %>\n" +
+                    "    <% if(jdbc) out.print  '@DateUpdated ' %>\n" +
+                    "    <% if(jdbc) out.println 'private Date dateUpdated;' %>\n" +
+                    "    <% if(jpa) out.print '@DateCreated ' %>\n" +
+                    "    <% if(jpa) out.println 'private Date dateCreated;' %>\n" +
+                    "    <% if(jpa) out.print '@DateUpdated ' %>\n" +
+                    "    <% if(jpa) out.println 'private Date dateUpdated;' %>\n" +
+                    "}", " <% if(jpa) out.print '@Id '%>\n" +
+                    "    ${instances}\n" +
+
+                    "}").replace("<% if(jpa) out.print \"@Entity(name =\\\"${collectionName}\\\")\"%>\n" +
+                    "<% if(jdbc) out.print \"@MappedEntity(value = \\\"${collectionName}\\\", namingStrategy = Raw.class)\"%>", "")
+                    ;
+        }
+        else if(language.equalsIgnoreCase(GROOVY_LANG))
+        {
+
+            entityTemplate = entityTemplate.replace("    <% if(jpa) out.print '@Id'%>\n" +
+                    "    <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE)' %>\n" +
+                    "    <% if(jpa) out.print 'long id'%>\n" +
+                    "    <% if(jdbc) out.print '@Id'%>\n" +
+                    "    <% if(jdbc) out.print '@GeneratedValue(GeneratedValue.Type.AUTO)' %>\n" +
+                    "    <% if(jdbc) out.print 'long id'%>\n" +
+                    "    <% if(normal) out.print 'String id;'%>\n" +
+                    "    ${instances}\n" +
+                    "    <% if(jdbc) out.print '@DateCreated' %>\n" +
+                    "    <% if(jdbc) out.print 'Date dateCreated;' %>\n" +
+                    "\n" +
+                    "    <% if(jdbc) out.print '@DateUpdated' %>\n" +
+                    "    <% if(jdbc) out.print 'Date dateUpdated;' %>\n" +
+                    "    <% if(jpa) out.print '@DateCreated' %>\n" +
+                    "    <% if(jpa) out.print 'Date dateCreated;' %>\n" +
+                    "\n" +
+                    "    <% if(jpa) out.print '@DateUpdated' %>\n" +
+                    "    <% if(jpa) out.print 'Date dateUpdated;' %>\n" +
+                    "}",
+                    "    ${instances}\n" +
+                    "}").replace("<% if(jpa) out.print \"@Entity(name=\\\"${collectionName}\\\")\"%>\n" +
+                    "<% if(jdbc) out.print \"@MappedEntity(value = \\\"${collectionName}\\\", namingStrategy = Raw.class)\"%>\n", "");
+        }
+        else if(language.equalsIgnoreCase(KOTLIN_LANG)){
+            entityTemplate.replace("<% if(jpa) out.print \"@Entity(name=\\\"${collectionName}\\\")\"%>\n" +
+                    "<% if(jdbc) out.print \"@MappedEntity(value = \\\"${collectionName}\\\", namingStrategy = Raw.class)\"%>\n","");
+
+        }
         //This is temp resolution for R2DBC, The complete if statement should be deleted after finding the resolution.
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
         {
