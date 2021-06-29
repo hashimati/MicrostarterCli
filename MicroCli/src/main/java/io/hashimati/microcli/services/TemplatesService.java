@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Singleton
@@ -132,7 +133,7 @@ public class TemplatesService {
 
 
 
-    public static String ATTRIBUTE = "attribute",
+    public static String ATTRIBUTE ="attribute",
     CONSTRAINT  ="constraint",
    CREATE= "create";
 
@@ -190,7 +191,6 @@ public class TemplatesService {
 
     @EventListener
     public void loadTemplates(StartupEvent event) {
-
 
         javaTemplates.put(CLIENT, "micronaut/entityTemplates/java/client.txt");
         javaTemplates.put(CONTROLLER, "micronaut/entityTemplates/java/controller.txt");

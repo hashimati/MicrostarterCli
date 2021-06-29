@@ -385,6 +385,7 @@ public class MicronautEntityGenerator
                         "    <% if(jpa) out.print '@DateUpdated ' %>\n" +
                         "    <% if(jpa) out.println 'private Date dateUpdated;' %>\n" +
                         "}", " <% if(jpa) out.print '@Id '%>\n" +
+                        "    <% if(normal) out.println 'private String id;' %>\n" +
                         "    ${instances}\n" +
 
                         "}").replace("<% if(jpa) out.print \"@Entity(name =\\\"${collectionName}\\\")\"%>\n" +

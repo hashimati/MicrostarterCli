@@ -65,11 +65,11 @@ public class GradleProjectUtils{
         for(int i = indexOfDependencies+1;i < fileContent.size() ; i++)
         {
             String line = fileContent.get(i);
-            if(!line.equalsIgnoreCase("}"))
+            if(!line.equalsIgnoreCase(boundIndex))
             {
                 if(!line.trim().isEmpty()) result.add(line);
                 if(line.contains("{")) braceCounter++;
-                else if(line.contains("}")) braceCounter--;
+                if(line.contains("}")) braceCounter--;
             }
             else if (line.equalsIgnoreCase(boundIndex)){
                 braceCounter--;
