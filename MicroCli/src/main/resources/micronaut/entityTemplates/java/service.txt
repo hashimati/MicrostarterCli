@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import ${entityPackage};
 import ${repoPackage};
 
-<% if(cached) out.print '@CacheConfig("${tableName}")' %>
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 @Transactional
 public class ${className}Service {

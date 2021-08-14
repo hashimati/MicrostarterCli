@@ -669,7 +669,8 @@ public class MicronautEntityGenerator
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className", entity.getName());
-        binder.put("cache", entity.isCached());
+        binder.put("cached", entity.isCached());
+        binder.put("tableName", entity.getCollectionName()) ;
         String serviceTemplate = "";
         String templatePath="";
 

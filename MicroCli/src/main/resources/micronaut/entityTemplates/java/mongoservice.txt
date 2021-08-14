@@ -1,5 +1,6 @@
 package ${servicePackage};
 
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*;' %>
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import ${entityPackage};
@@ -12,6 +13,7 @@ import org.bson.BsonString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 public class ${className}Service {
 
@@ -28,6 +30,7 @@ public class ${className}Service {
         return ${entityName}Repository.save(${entityName});
     }
 
+    <% if(cached) out.print '@Cacheable' %>
     public Single<${className}> findById(String id){
 
           log.info("Finding ${className} By Id: {}", id);

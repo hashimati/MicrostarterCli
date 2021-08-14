@@ -10,7 +10,7 @@ import ${repoPackage}
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-<% if(cached) out.print '@CacheConfig("${tableName}")' %>
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 @Transactional
 class ${className}Service {

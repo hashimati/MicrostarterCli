@@ -1,5 +1,6 @@
 package ${servicePackage}
 
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
 import ${entityPackage}
 import ${repoPackage}
 import javax.inject.Inject
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils
 import grails.gorm.transactions.Transactional
 
-
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 class ${className}Service {
 
@@ -24,6 +25,8 @@ class ${className}Service {
         log.info("Saving  ${className} : {}", ${entityName})
         return ${entityName}Repository.save(${entityName})
     }
+
+    <% if(cached) out.print '@Cacheable' %>
     ${className} findById(Serializable id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id)

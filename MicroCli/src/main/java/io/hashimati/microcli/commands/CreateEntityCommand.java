@@ -152,6 +152,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
+
+
             /*
             todo 1. Set package. (done)
                  2. write to a file (done)
@@ -165,6 +167,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                  10. prompt for validations.
                  11. Configure openAPI.(done)
              */
+
 
             attributeLoop: for(;;) {
                 ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add an attribute?");
@@ -287,6 +290,19 @@ public class CreateEntityCommand implements Callable<Integer> {
                 }
             }
 
+            if(caffeine)
+            {
+                entity.setCached(true);
+
+                templatesService.loadTemplates(null);
+                String caffineTepmlate = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(CAFFEINE_YML));
+                HashMap<String, String> binder  = new HashMap<>();
+                binder.putIfAbsent("tableName", entity.getCollectionName());
+                MicronautProjectValidator.appendToProperties( new SimpleTemplateEngine().createTemplate(caffineTepmlate).make(binder).toString());
+            }
+
+
             String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
             String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang);
 
@@ -350,18 +366,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                 }});
                 GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
                 configurationInfo.getEntities().add(entity);
-                if(caffeine)
-                {
-                    entity.setCached(caffeine);
 
-                    templatesService.loadTemplates(null);
-                    String caffineTepmlate = templatesService.loadTemplateContent
-                            (templatesService.getProperties().get(CAFFEINE_YML));
-                    HashMap<String, String> binder  = new HashMap<>();
-                    binder.putIfAbsent("tableName", entity.getCollectionName());
-                    new SimpleTemplateEngine().createTemplate(caffineTepmlate).make(binder).toString();
-                    MicronautProjectValidator.appendToProperties(caffineTepmlate);
-                }
                 if (graphql) {
                     entity.setGraphQl(true);
                     String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(configurationInfo.getEntities(), lang);

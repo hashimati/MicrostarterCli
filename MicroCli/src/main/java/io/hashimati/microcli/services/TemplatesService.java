@@ -459,7 +459,7 @@ public class TemplatesService {
         flywayTemplates.put(FLYWAY_DROP_TABLE, "micronaut/entityTemplates/sql/flyway/dropTable.sql");
         flywayTemplates.put(FLYAWAY_YML, "micronaut/entityTemplates/sql/flyway/FlyWay_properties.yml");
 
-//        cacheTemplates.put(CAFFEINE_YML , "micronaut/entityTemplates/caffine_properties.yml");
+//        cacheTemplates.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
