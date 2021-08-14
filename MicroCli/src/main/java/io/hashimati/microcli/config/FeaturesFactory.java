@@ -437,12 +437,12 @@ public class FeaturesFactory {
         //	compile 'com.graphql-java:graphql-java-tools:5.2.4'
         features.put("graphql-java-tools", new Feature(){{
             setName("qraphql-java-tools");
-            setGradle("    implementation(\"com.graphql-java-kickstart:graphql-java-tools:6.2.0\")");
+            setGradle("    implementation(\"com.graphql-java-kickstart:graphql-java-tools:11.0.1\")");
             setMaven("\t<dependency>\n"+
                     "\t\t<groupId>>com.graphql-java-kickstart</groupId>\n" +
                     "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
                     "\t\t<scope>compile</scope>\n"+
-                    "\t\t<version>6.2.0</version>\n"+
+                    "\t\t<version>11.0.1</version>\n"+
                     "\t</dependency>");
         }});
 
@@ -636,7 +636,19 @@ public class FeaturesFactory {
                     "\t</dependency>");
             setGradle("    implementation(\"io.micronaut.reactor:micronaut-reactor\")");
         }});
+
+        features.put("cache-caffeine", new Feature(){{
+            setName("cache-caffeine");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.cache</groupId>\n" +
+                    "\t\t<artifactId>micronaut-cache-caffeine</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.cache:micronaut-cache-caffeine\")");
+        }});
+
         return features;
     }
+
 
 }

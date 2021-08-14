@@ -627,7 +627,6 @@ public class MicronautProjectValidator {
 
         if(!propertiesContent.contains(properties))
         {
-
             return GeneratorUtils.appendContentToFile(propertiesPath, propertiesContent + "\n---\n"+properties);
 
         }

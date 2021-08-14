@@ -25,7 +25,9 @@ public class TemplatesService {
             properties = new HashMap<>(),
             graphqlTemplates = new HashMap<>(),
             liquibaseTemplates = new HashMap<>(),
-            flywayTemplates = new HashMap<>();
+            flywayTemplates = new HashMap<>(),
+
+            cacheTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -127,8 +129,9 @@ public class TemplatesService {
             FLYWAY_FOREIGNKEY= "foreign_key",
             FLYWAY_TABLE="table",
             FLYWAY_DROP_TABLE = "drop_table",
-            FLYAWAY_YML = "flyway_yml";
+            FLYAWAY_YML = "flyway_yml",
 
+            CAFFEINE_YML ="caffeine_yml";
 
 
 
@@ -424,6 +427,7 @@ public class TemplatesService {
         properties.put(JWT_yml, "micronaut/security/jwt_properties.yml");
         properties.put(LIQUIBASE_yml, "micronaut/entityTemplates/sql/liquibase/liquibase_properties.yml");
         properties.put(MQTT_yml, "micronaut/entityTemplates/mqtt_properties.txt");
+        properties.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
         graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");
@@ -455,6 +459,7 @@ public class TemplatesService {
         flywayTemplates.put(FLYWAY_DROP_TABLE, "micronaut/entityTemplates/sql/flyway/dropTable.sql");
         flywayTemplates.put(FLYAWAY_YML, "micronaut/entityTemplates/sql/flyway/FlyWay_properties.yml");
 
+//        cacheTemplates.put(CAFFEINE_YML , "micronaut/entityTemplates/caffine_properties.yml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)

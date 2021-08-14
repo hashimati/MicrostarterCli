@@ -663,12 +663,13 @@ public class MicronautEntityGenerator
         if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()) {
             return generateServiceGorm(entity, language);
         }
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className", entity.getName());
+        binder.put("cache", entity.isCached());
         String serviceTemplate = "";
         String templatePath="";
 

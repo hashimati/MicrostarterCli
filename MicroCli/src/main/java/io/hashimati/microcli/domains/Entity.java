@@ -35,7 +35,7 @@ public class Entity
     private int liquibaseSequence;
 
     private boolean isGraphQl;
-
+    private boolean cached;
     public String getName() {
         return name;
 
@@ -244,5 +244,13 @@ public class Entity
 
     public void setGorm(boolean gorm) {
         this.gorm = gorm;
+    }
+
+    public boolean isCached() {
+        return cached;
+    }
+
+    public void setCached(boolean cached) {
+        this.cached = cached;
     }
 }

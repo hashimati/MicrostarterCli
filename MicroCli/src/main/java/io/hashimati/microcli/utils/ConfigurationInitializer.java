@@ -305,6 +305,18 @@ public class ConfigurationInitializer {
                 // End adding Yaml
             }
         }
+
+        if(!projectInfo.getFeatures().contains("cache-caffeine")){
+            ConfirmResult caffeineSupport = createConfirmResult("caffeine", "Do you want to add cache-caffeine support?");
+
+            if(caffeineSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES){
+                projectInfo.getFeatures().add("cache-caffeine");
+                configurationInfo.setCaffeine(true);
+                MicronautProjectValidator.addDependency(features.get("cache-caffeine"));
+
+                projectInfo.dumpToFile();
+            }
+        }
         if(!projectInfo.getFeatures().contains("graphql"))
         {
             ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");

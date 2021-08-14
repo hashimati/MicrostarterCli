@@ -1,0 +1,5 @@
+micronaut:
+  caches:
+    ${tableName}:
+      charset: 'UTF-8'
+      maximum-size: 100
