@@ -43,7 +43,6 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
         }
     }
 
-
     fun  findAll():Iterable<${className}> {
         log.info("Find All")
       return  ${entityName}Repository.findAll()

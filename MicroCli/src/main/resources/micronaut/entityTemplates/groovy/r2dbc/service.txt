@@ -1,5 +1,6 @@
 package ${servicePackage}
 
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
 import javax.inject.Inject
 import javax.inject.Singleton
 import javax.transaction.Transactional
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 @Transactional
 class ${className}Service {
@@ -24,6 +26,7 @@ class ${className}Service {
          return ${entityName}Repository.save(${entityName})
      }
 
+    <% if(cached) out.print '@Cacheable' %>
     Mono<${className}> findById(long id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id).orElse(null)
