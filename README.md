@@ -1,2 +1,2 @@
 # MicroCli
-A Simple tool to generate Micronaut Components
+MicroCli is a rapid development command line interface tool for Micronaut application. 
