@@ -48,7 +48,7 @@ public class MicronautProjectValidator {
     }
 
     public static boolean isValidProject() throws FileNotFoundException {
-        return getProjectInfo() != null;
+        return getProjectInfo() != null && getProjectInfo().getApplicationType().equalsIgnoreCase("default");
     }
 
 
@@ -333,7 +333,15 @@ public class MicronautProjectValidator {
         if(!micronautCli.exists()) return null;
         Yaml yaml = new Yaml();
         String content = GeneratorUtils.getFileContent(micronautCli);
-        return (projectInfo = yaml.loadAs(content, ProjectInfo.class));
+
+//        return (projectInfo = yaml.loadAs(content, ProjectInfo.class));
+//        projectInfo = yaml.loadAs(content, ProjectInfo.class);
+//        if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
+//            return (projectInfo = null);
+//        return projectInfo;
+
+        return (projectInfo = yaml.loadAs(content, ProjectInfo.class))
+                .getApplicationType().equalsIgnoreCase("default")?projectInfo:null;
     }
 
     public static String getMainPackage() throws IOException {

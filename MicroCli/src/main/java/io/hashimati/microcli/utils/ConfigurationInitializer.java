@@ -47,7 +47,7 @@ public class ConfigurationInitializer {
     public ConfigurationInitializer() throws FileNotFoundException {
     }
 
-    public void init() throws IOException, XmlPullParserException, GradleReaderException {
+    public void  init() throws IOException, XmlPullParserException, GradleReaderException {
 
         templatesService.loadTemplates(null);
 
@@ -57,10 +57,9 @@ public class ConfigurationInitializer {
                 =  projectValidator.getProjectInfo();
 
 
-
-        if(!MicronautProjectValidator.isValidProject())
+        if(projectInfo == null || !MicronautProjectValidator.isValidProject())
         {
-            printlnErr("The current directory is not a directory of a Micronaut project");
+            printlnErr("The current directory is not a directory of a Micronaut Application project");
             System.exit(0);
         }
         File file = new File("MicroCliConfig.json");

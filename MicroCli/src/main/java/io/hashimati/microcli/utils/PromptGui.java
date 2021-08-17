@@ -140,17 +140,23 @@ public class PromptGui {
     {
         AnsiConsole.systemInstall();
         System.out.println(ansi().fg(color).a(message));
+        setToDefault();
+
     }
     public static void printlnErr(String message)
     {
         AnsiConsole.systemInstall();
         System.out.println(ansi().bold().fgBrightRed().a(message));
+        setToDefault();
+
 
     }
     public static void printlnSuccess(String message)
     {
         AnsiConsole.systemInstall();
         System.out.println(ansi().bold().fgBrightGreen().a(message));
+        setToDefault();
+
     }
     public static void setToDefault()
     {
@@ -161,5 +167,7 @@ public class PromptGui {
     public static void printlnWarning(String message) {
         AnsiConsole.systemInstall();
         System.out.println(ansi().bold().fgBrightYellow().a(message));
+        setToDefault();
+
     }
 }

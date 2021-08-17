@@ -21,6 +21,7 @@ public class FeaturesFactory {
     public static HashMap<String, Feature> features() throws FileNotFoundException {
 
         ProjectInfo projectInfo = MicronautProjectValidator.getProjectInfo();
+        if(projectInfo == null) return null;
         HashMap<String, Feature> features = new HashMap<>();
         features.putIfAbsent("flyway", new Feature(){{
             setName("flyway");
@@ -54,6 +55,7 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
             setGradle("    implementation(\"io.micronaut.data:micronaut-data-jdbc\")");
+
            if(projectInfo.getSourceLanguage().equalsIgnoreCase(JAVA_LANG))
             setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-processor\")");
            else if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
