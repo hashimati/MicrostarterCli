@@ -62,6 +62,10 @@ public class ConfigurationInitializer {
             printlnErr("The current directory is not a directory of a Micronaut Application project");
             System.exit(0);
         }
+        else if(projectInfo.getFeatures().contains("properties")){
+            printlnErr("Microcli doesn't support configuration with \".properties\" files.");
+            System.exit(0);
+        }
         File file = new File("MicroCliConfig.json");
 
 
