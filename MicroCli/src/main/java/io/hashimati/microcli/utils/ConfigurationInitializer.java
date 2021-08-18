@@ -264,8 +264,9 @@ public class ConfigurationInitializer {
                 configurationInfo.setDataBackendRun("none");
                 projectInfo.getFeatures().add("mongo-reactive");
                 MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
-                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
-
+//                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
+                projectInfo.getFeatures().add("testcontainers");
+                MicronautProjectValidator.addDependency(features.get("testcontainers"));
                 //todo add dependencies to build files;
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));

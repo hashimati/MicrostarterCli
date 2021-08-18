@@ -157,6 +157,12 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>\n");
             setGradle("    implementation(\"io.micronaut.mongodb:micronaut-mongo-sync\")");
+            setTestGradle("    testImplementation(\"org.testcontainers:mongodb\")");
+            setTestMaven("\t<dependency>\n" +
+                    "\t\t<groupId>org.testcontainers</groupId>\n" +
+                    "\t\t<artifactId>mongodb</artifactId>\n" +
+                    "\t\t<scope>test</scope>\n" +
+                    "\t</dependency>");
         }});
 
 
