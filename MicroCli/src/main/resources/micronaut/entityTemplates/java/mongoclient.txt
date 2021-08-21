@@ -4,9 +4,9 @@ package ${clientPackage};
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import javax.inject.Inject;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+import jakarta.inject.Inject;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 import ${entityPackage};
 
 
@@ -14,18 +14,18 @@ import ${entityPackage};
 public interface ${classNameA}Client {
 
     @Post("/save")
-    public Single<${className}> save(${classNameA} ${entityName});
+    public <% print reactor? "Mono" : "Single" %><${className}> save(${classNameA} ${entityName});
 
     @Get("/get")
-    public Single<${className}> findById(@Parameter("id") long id);
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") long id);
 
     @Delete("/delete/{id}")
     public boolean deleteById(@PathVariable("id") String id);
 
     @Get("/findAll")
-    public Flowable<${className}> findAll();
+    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll();
 
     @Put("/update")
-    public Single<${className}> update(@Body ${className} ${entityName});
+    public <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName});
 }
 

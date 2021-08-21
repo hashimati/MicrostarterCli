@@ -10,7 +10,7 @@ import io.reactivex.Single;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 class ${entityClass}Repository {

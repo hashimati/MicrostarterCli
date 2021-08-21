@@ -35,6 +35,8 @@ public class ConfigurationInfo {
             messaging,
             graphQLIntegrationLib;
     boolean graphQlSupport;
+    private String reactiveFramework;
+    private boolean micrometer;
     private boolean caffeine;
     boolean gorm;
     HashSet<Entity> entities = new HashSet<>();

@@ -5,12 +5,13 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import com.mongodb.reactivestreams.client.MongoCollection;
 
 import ${entityPackage}.${entityClass};
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
+
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class ${entityClass}Repository {

@@ -1,12 +1,12 @@
 package ${servicePackage};
 
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*;' %>
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import ${entityPackage};
 import ${repoPackage};
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 
@@ -21,7 +21,7 @@ public class ${className}Service {
 
     @Inject private ${className}Repository ${entityName}Repository;
 
-	public Single<${className}> save(${className} ${entityName}) {
+	public <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}) {
         log.info("Saving  ${className} : {}", ${entityName});
 
         //TODO insert your logic here!
@@ -31,23 +31,23 @@ public class ${className}Service {
     }
 
     <% if(cached) out.print '@Cacheable' %>
-    public Single<${className}> findById(String id){
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(String id){
 
           log.info("Finding ${className} By Id: {}", id);
           return ${entityName}Repository.findById(id);
     }
 
-     public Flowable<${className}> findAll(){
+     public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(){
         log.info("Finding All ${className}");
         return ${entityName}Repository.findAll();
      }
 
-    public Single<Boolean> deleteById(String id) {
+    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(String id) {
         log.info("Deleting ${className} By Id: {}", id);
 	    return ${entityName}Repository.deleteById(id);
 	}
 
-	public Single<${className}> update(${className} ${entityName})   {
+	public <% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName})   {
 	    log.info("Updating ${className}: {}", ${entityName});
 	    return ${entityName}Repository.update(${entityName});
     }

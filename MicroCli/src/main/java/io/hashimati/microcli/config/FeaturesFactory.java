@@ -6,6 +6,8 @@ package io.hashimati.microcli.config;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.micronaut.context.annotation.Factory;
+import org.apache.maven.model.Dependency;
+import org.apache.maven.model.Plugin;
 
 import javax.inject.Singleton;
 import java.io.FileNotFoundException;
@@ -185,6 +187,24 @@ public class FeaturesFactory {
                     "\t\t<scope>test</scope>\n" +
                     "\t</dependency>\n");
             setGradle("    testImplementation(\"de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1\")");
+
+            setPlugin(new Plugin(){{
+                setGroupId("org.openrewrite.maven");
+                setArtifactId("rewrite-maven-plugin</artifactId");
+                setVersion("${openrewrite.maven.plugin.version}");
+                setConfiguration( "<configuration>\n" +
+                        "<activeRecipes>\n" +
+                        "<recipe>org.openrewrite.java.micronaut.Micronaut2to3Migration</recipe>\n" +
+                        "</activeRecipes>\n" +
+                        "<activeStyles>\n" +
+                        "</activeStyles>\n" +
+                        "</configuration>\n");
+                addDependency(new Dependency(){{
+                    setGroupId("org.openrewrite.recipe");
+                    setArtifactId("rewrite-micronaut");
+                    setVersion("${rewrite-micronaut.version}");
+                }});
+            }});
         }});
 
         features.put("h2", new Feature(){{
@@ -361,18 +381,17 @@ public class FeaturesFactory {
                     "    </dependency>");
             setGradle("    implementation(\"io.swagger.core.v3:swagger-annotations\")");
             if(projectInfo.getSourceLanguage().equalsIgnoreCase(JAVA_LANG))
-                setAnnotationGradle("    annotationProcessor(\"io.micronaut.configuration:micronaut-openapi\")");
+                setAnnotationGradle("    annotationProcessor(\"io.micronaut.openapi:micronaut-openapi\")");
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
-                setAnnotationGradle("    compileOnly(\"io.micronaut.configuration:micronaut-openapi\")");
+                setAnnotationGradle("    compileOnly(\"io.micronaut.openapi:micronaut-openapi\")");
 
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
-                setAnnotationGradle("    kapt(\"io.micronaut.configuration:micronaut-openapi\")");
 
 
 
             setAnnotationMaven(
                     "            <path>\n" +
-                    "              <groupId>io.micronaut.configuration</groupId>\n" +
+                    "              <groupId>io.micronaut.openapi</groupId>\n" +
                     "              <artifactId>micronaut-openapi</artifactId>\n" +
                     "              <version>${micronaut.openapi.version}</version>\n" +
                     "            </path>");
@@ -645,6 +664,71 @@ public class FeaturesFactory {
             setGradle("    implementation(\"io.micronaut.reactor:micronaut-reactor\")");
         }});
 
+        features.put("reactor-http-client", new Feature(){{
+
+            setName("reactor-http-client");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.reactor</groupId>\n" +
+                    "\t\t<artifactId>micronaut-reactor-http-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.reactor:micronaut-reactor-http-client\")");
+        }});
+
+        features.put("rxjava2", new Feature(){{
+
+            setName("rxjava2");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rxjava2</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rxjava2</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.rxjava2:micronaut-rxjava2\")");
+        }});
+
+        features.put("rxjava2-http-client", new Feature(){{
+
+            setName("rxjava2-http-client");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rxjava2</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rxjava2-http-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.rxjava2:micronaut-rxjava2-http-client\")");
+        }});
+        features.put("rxjava2-http-server-netty", new Feature(){{
+
+            setName("rxjava2-http-server-netty");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rxjava2</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rxjava2-http-server-netty</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.rxjava2:micronaut-rxjava2-http-server-netty\")");
+        }});
+
+        features.put("rxjava3", new Feature(){{
+
+            setName("rxjava3");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rxjava3</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rxjava3</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.rxjava3:micronaut-rxjava3\")");
+        }});
+
+        features.put("rxjava3-http-client", new Feature(){{
+
+            setName("rxjava3-http-client");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.rxjava3</groupId>\n" +
+                    "\t\t<artifactId>micronaut-rxjava3-http-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut.rxjava3:micronaut-rxjava3-http-client\")");
+        }});
+
         features.put("cache-caffeine", new Feature(){{
             setName("cache-caffeine");
             setMaven("\t<dependency>\n" +
@@ -654,6 +738,66 @@ public class FeaturesFactory {
                     "\t</dependency>");
             setGradle("    implementation(\"io.micronaut.cache:micronaut-cache-caffeine\")");
         }});
+
+
+        //Management
+        features.put("management", new Feature(){{
+            setName("management");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut</groupId>\n" +
+                    "\t\t<artifactId>micronaut-management</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setGradle("    implementation(\"io.micronaut:micronaut-management\")\n");
+        }});
+
+        features.put("micrometer", new Feature(){{
+            setName("micrometer");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-core\")\n");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
+                    "\t\t<artifactId>micronaut-micrometer-core</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("micrometer-graphite", new Feature(){{
+            setName("micrometer-graphite");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-graphite\")\n");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
+                    "\t\t<artifactId>micronaut-micrometer-registry-graphite</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("micrometer-prometheus", new Feature(){{
+            setName("micrometer-prometheus");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-prometheus\")\n");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
+                    "\t\t<artifactId>micronaut-micrometer-registry-prometheus</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("micrometer-statsd", new Feature(){{
+            setName("micrometer-statsd");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-statsd\")\n");
+            setMaven("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
+                    "\t\t<artifactId>micronaut-micrometer-registry-statsd</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("openrewrite", new Feature(){{
+            setName("openrewrite");
+            setGradle("    rewrite(\"org.openrewrite.recipe:rewrite-micronaut:1.0.0\")");
+            this.getMavenProperties().putIfAbsent("openrewrite.maven.plugin.version", "4.9.0");
+            this.getMavenProperties().putIfAbsent("rewrite-micronaut.version", "1.0.0");
+
+        }});
+
 
         return features;
     }

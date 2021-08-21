@@ -1,11 +1,12 @@
 package ${servicePackage};
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import ${entityPackage};
 import ${repoPackage};
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
+
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 

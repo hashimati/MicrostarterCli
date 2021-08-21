@@ -1,13 +1,12 @@
 package ${controllerPackage}
 
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.reactivex.Flowable
 import io.reactivex.Single
-import javax.inject.Inject
 
 import ${entityPackage}
 import ${servicePackage}

@@ -3,8 +3,8 @@ package ${servicePackage}
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
 import ${entityPackage}
 import ${repoPackage}
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import java.util.List
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

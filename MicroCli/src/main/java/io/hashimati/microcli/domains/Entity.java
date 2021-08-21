@@ -21,6 +21,7 @@ public class Entity
     private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
     graphqlpackage,
 
+    reactiveFramework,
 
 
     //database type refer to the database
@@ -252,5 +253,13 @@ public class Entity
 
     public void setCached(boolean cached) {
         this.cached = cached;
+    }
+
+    public String getReactiveFramework() {
+        return reactiveFramework;
+    }
+
+    public void setReactiveFramework(String reactiveFramework) {
+        this.reactiveFramework = reactiveFramework;
     }
 }

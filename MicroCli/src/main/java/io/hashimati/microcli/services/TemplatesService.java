@@ -27,7 +27,8 @@ public class TemplatesService {
             liquibaseTemplates = new HashMap<>(),
             flywayTemplates = new HashMap<>(),
 
-            cacheTemplates = new HashMap<>();
+            cacheTemplates = new HashMap<>(),
+            micrometersTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -187,7 +188,13 @@ public class TemplatesService {
     NATS_yml = "NATS",
     GRAPHQL_yml = "GRAPHQL",
     JWT_yml = "JWT",
-    LIQUIBASE_yml= "liquibase";
+    LIQUIBASE_yml= "liquibase",
+
+
+    MICROMETERS_yml = "micrometers",
+    GRAPHITE_yml = "graphite",
+    PROMETHEUS_yml = "prometheus",
+    STATSD_yml = "statsd";
 
 
 
@@ -460,6 +467,10 @@ public class TemplatesService {
         flywayTemplates.put(FLYAWAY_YML, "micronaut/entityTemplates/sql/flyway/FlyWay_properties.yml");
 
 //        cacheTemplates.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
+        micrometersTemplates.put(MICROMETERS_yml, "micronaut/micrometers/Micrometers.yml");
+        micrometersTemplates.put(PROMETHEUS_yml, "micronaut/micrometers/prometheus.yml");
+        micrometersTemplates.put(GRAPHITE_yml, "micronaut/micrometers/graphite.yml");
+        micrometersTemplates.put(STATSD_yml, "micronaut/micrometers/statsd.yml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -510,7 +521,11 @@ public class TemplatesService {
 
         });
     }
-    
+
+
+    public HashMap<String, String> getMicrometersTemplates(){
+        return micrometersTemplates;
+    }
 
     public HashMap<String, String> getJavaTemplates() {
         return javaTemplates;

@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: micometers
+  metrics:
+    export:
+      graphite:
+        enabled: true
+        host: localhost
+        port: 2004
+        step: PT1M

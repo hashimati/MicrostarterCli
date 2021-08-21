@@ -1,8 +1,8 @@
 package ${servicePackage}
 
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import javax.transaction.Transactional
 import ${entityPackage}
 import ${repoPackage}

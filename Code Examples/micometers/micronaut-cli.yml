@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, gradle, http-client, java, java-application, junit, logback, management, micrometer, micrometer-graphite, micrometer-prometheus, micrometer-statsd, netty-server, reactor, reactor-http-client, readme, rxjava2, rxjava2-http-client, rxjava2-http-server-netty, shade, yaml]

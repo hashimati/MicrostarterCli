@@ -355,6 +355,7 @@ public class MicronautEntityGenerator
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));
         binder.put("importedPackages",importedPackages );
         binder.put("containDate", containDate);
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
         String templatePath= getTemplatPath(TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
 
@@ -442,7 +443,7 @@ public class MicronautEntityGenerator
     }
     public String generateRepository(Entity entity, String language, List<EntityRelation> relations) throws IOException, ClassNotFoundException {
 
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
 
         String methods = "";
         if(relations != null)
@@ -475,6 +476,7 @@ public class MicronautEntityGenerator
             methods = GeneratorUtils.generateFromTemplate(joinMethodsTemplate, new HashMap<String, String>(){{
                 put("joinAnnotation", annotations);
                 put("className", entity.getName());
+
             }});
 
 
@@ -488,6 +490,8 @@ public class MicronautEntityGenerator
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
                 binder.put("methods", methods);
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
 
@@ -506,7 +510,9 @@ public class MicronautEntityGenerator
                     binder.put("entityPackage", entity.getEntityPackage());
                     binder.put("entityClass", entity.getName());
                     binder.put("storeType", "table");
-                    binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
+                binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                     repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                     return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
 
@@ -519,6 +525,8 @@ public class MicronautEntityGenerator
                 binder.put("className", entity.getName());
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
 
 
@@ -531,6 +539,8 @@ public class MicronautEntityGenerator
                 binder.put("className", entity.getName());
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
                 String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
 
 
@@ -549,6 +559,8 @@ public class MicronautEntityGenerator
                 binder.put("entityPackage", entity.getEntityPackage());
                 binder.put("entityClass", entity.getName());
                 binder.put("storeType", "collection");
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -561,6 +573,8 @@ public class MicronautEntityGenerator
                 binder.put("entityClass", entity.getName());
                 binder.put("databaseName", entity.getDatabaseName());
                 binder.put("collectionName", entity.getCollectionName());
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
                 String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
 
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -570,9 +584,10 @@ public class MicronautEntityGenerator
         return "";
     }
     public String generateEntityException(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("exceptionPackage", entity.getExceptionPackage() );
         binder.put("className", entity.getName());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
         String templatePath= getTemplatPath(TemplatesService.GENERAL_EXCEPTION, language.toLowerCase());
 
@@ -596,10 +611,11 @@ public class MicronautEntityGenerator
    }
 
     public String generateEntityExceptionHandler(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("exceptionHanderPackage", entity.getExceptionHandlerPackage() );
         binder.put("excptionPacage", entity.getExceptionPackage());
         binder.put("className", entity.getName());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
         String templatePath= getTemplatPath(TemplatesService.EXCEPTION_HANDLER, language.toLowerCase());
 
@@ -609,12 +625,13 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(exceptionTemplate).make(binder).toString();
     }
     public String generateEntityRepositoryTest(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("className",entity.getName() );
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("repositoryPackage",entity.getRepoPackage() );
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
 
         String templatePath= getTemplatPath(TemplatesService.REPOSITORY_TEST, language.toLowerCase());
@@ -625,8 +642,9 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(entityRepositoryTesttemplate).make(binder).toString();
     }
     public String generateRandomizer(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("packageName", entity.getEntityPackage().replace(".domains", ""));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
 
         String templatePath= getTemplatPath(TemplatesService.RANDOMIZER, language.toLowerCase());
@@ -658,6 +676,8 @@ public class MicronautEntityGenerator
         binder.put("updates", updates);
         binder.put("cached", entity.isCached());
         binder.put("tableName", entity.getCollectionName()) ;
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -673,6 +693,8 @@ public class MicronautEntityGenerator
         binder.put("className", entity.getName());
         binder.put("cached", entity.isCached());
         binder.put("tableName", entity.getCollectionName()) ;
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
         String serviceTemplate = "";
         String templatePath="";
 
@@ -696,13 +718,15 @@ public class MicronautEntityGenerator
     }
 
     public String generateControllerGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("controllerPackage", entity.getRestPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
         binder.put("entityName", entity.getName().toLowerCase());
         
         binder.put("className", entity.getName());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
         String controllerTemplate = templatesService.loadTemplateContent(templatePath);
@@ -720,7 +744,7 @@ public class MicronautEntityGenerator
         }
 
 
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("controllerPackage", entity.getRestPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
@@ -728,6 +752,7 @@ public class MicronautEntityGenerator
         binder.put("entities", entity.getName().toLowerCase());
 
         binder.put("className", entity.getName());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         String serviceTemplate ;
         String templatePath="";
         switch (entity.getDatabaseType().toLowerCase())
@@ -749,11 +774,12 @@ public class MicronautEntityGenerator
     }
 
     public String generateClientGorm(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className",  entity.getName());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
 
         String templatePath= getTemplatPath(GORM_CLIENT, language.toLowerCase());
@@ -766,11 +792,12 @@ public class MicronautEntityGenerator
 
         if(entity.isGorm() && language.equalsIgnoreCase(GROOVY_LANG))
             return generateClientGorm(entity, language);
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("entities", entity.getName().toLowerCase());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
@@ -805,7 +832,7 @@ public class MicronautEntityGenerator
                 .reduce("", (x,y) -> x + ","+ y).replaceFirst(",", "");;
 
 
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", gqEntities.get(0).getGraphqlpackage() );
 
 
@@ -822,12 +849,13 @@ public class MicronautEntityGenerator
     }
 
     public String generateGraphQLResolver(Entity entity, String language) throws IOException, ClassNotFoundException {
-        HashMap<String, String> binder = new HashMap<>();
+        HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("className",  entity.getName());
         binder.put("domainPackage", entity.getEntityPackage());
         binder.put("servicePackage", entity.getServicePackage());
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
 
         String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
@@ -846,7 +874,7 @@ public class MicronautEntityGenerator
         String template = templatesService.loadTemplateContent(templatePath);
 
 //        enumPackage, className, options
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put(
                 "enumPackage", enumClass.getEnumPackage()
         );

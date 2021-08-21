@@ -5,7 +5,7 @@ import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 class ${className}QueryResolver(private val ${entityName}Repository :${className}Repository)  : GraphQLQueryResolver, GraphQLMutationResolver{

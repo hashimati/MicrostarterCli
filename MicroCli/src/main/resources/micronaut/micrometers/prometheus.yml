@@ -1,0 +1,7 @@
+micronaut:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M

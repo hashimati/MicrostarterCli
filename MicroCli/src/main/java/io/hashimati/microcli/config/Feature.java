@@ -7,6 +7,9 @@ import io.hashimati.microcli.utils.Visitor;
 
 import lombok.Data;
 import org.apache.maven.model.Dependency;
+import org.apache.maven.model.Plugin;
+
+import java.util.HashMap;
 
 @Data
 public class Feature {
@@ -26,6 +29,10 @@ public class Feature {
     rdbcMaven,  // for relational dbs only
     testRdbcGradle,
     testRdbcMaven;
+    private Plugin plugin;
+    private HashMap<String, String> mavenProperties = new HashMap<>();
+
+
 
     public Feature visit(Visitor<Feature> visitor)
     {
@@ -45,6 +52,8 @@ public class Feature {
             dependency.setType(GeneratorUtils.getValueBetweenTag("type", maven));
         return dependency;
     }
+
+
     public Dependency getMavenDependency()
     {
         return getMavenDependency(this.maven);

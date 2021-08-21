@@ -5,7 +5,7 @@ import ${servicePackage}
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import java.util.List
-import javax.inject.Inject
+import jakarta.inject.Inject
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation

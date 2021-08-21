@@ -7,6 +7,7 @@ import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
+import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
@@ -25,8 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
-import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
-import static io.hashimati.microcli.services.TemplatesService.OPENAPI_yml;
+import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
 
@@ -98,6 +98,37 @@ public class ConfigurationInitializer {
 //                    }
 //            );
 
+            if(!projectInfo.getFeatures().contains("reactor") &&!projectInfo.getFeatures().contains("rxjava2") && !projectInfo.getFeatures().contains("rxjava3") ){
+
+                ListResult reactiveFramework = PromptGui.createListPrompt("reactiveFramework", "Select Reactive Framework: ", "reactor", "rxjava2", "rxjava3");
+
+                configurationInfo.setReactiveFramework(reactiveFramework.getSelectedId());
+
+                if(configurationInfo.getReactiveFramework().equalsIgnoreCase("reactor")) {
+                    MicronautProjectValidator.addDependency(features.get("reactor"));
+                    MicronautProjectValidator.addDependency(features.get("reactor-http-client"));
+                }
+                else if(configurationInfo.getReactiveFramework().equalsIgnoreCase("rxjava2")) {
+                    MicronautProjectValidator.addDependency(features.get("rxjava2"));
+                    MicronautProjectValidator.addDependency(features.get("rxjava2-http-client"));
+                    MicronautProjectValidator.addDependency(features.get("rxjava2-http-server-netty"));
+
+                }
+                else if(configurationInfo.getReactiveFramework().equalsIgnoreCase("rxjava3")) {
+                    MicronautProjectValidator.addDependency(features.get("rxjava3"));
+                    MicronautProjectValidator.addDependency(features.get("rxjava3-http-client"));
+
+                }
+            }
+            else {
+                if(projectInfo.getFeatures().contains("reactor"))
+                    configurationInfo.setReactiveFramework("reactor");
+                else if(projectInfo.getFeatures().contains("rxjava2"))
+                    configurationInfo.setReactiveFramework("rxjava2");
+                else if(projectInfo.getFeatures().contains("rxjava3"))
+                    configurationInfo.setReactiveFramework("rxjava3");
+            }
+
             //Getting Database Name;
             InputResult  databaseNameResult = PromptGui.inputText("databaseName", "Enter the database name: ", "MyDatabase");
             configurationInfo.setDatabaseName( databaseNameResult.getInput());
@@ -107,6 +138,7 @@ public class ConfigurationInitializer {
 
             //Micronaut Launch generates supports testcontainers by default. This variable to ask the users their preferences to go with Test Container or H2
             boolean testWithH2 = false;
+
 
 
 //            if(!isDatabaseConfiguredByDefault.get())
@@ -172,7 +204,6 @@ public class ConfigurationInitializer {
                         break;
                     case "R2DBC":
                         MicronautProjectValidator.addDependency(features.get("r2dbc"));
-                        MicronautProjectValidator.addDependency(features.get("reactor"));
                         projectInfo.getFeatures().add("r2dbc");
                         projectInfo.getFeatures().add("reactor");
                         databaseFeature = features.get("data-r2dbc");
@@ -319,6 +350,41 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.addDependency(features.get("cache-caffeine"));
 
                 projectInfo.dumpToFile();
+            }
+        }
+        if(!projectInfo.getFeatures().contains("micrometer")){
+            ConfirmResult micrometer = createConfirmResult("micrometer", "Do you want to add micrometer-prometheus feature?");
+
+            if(micrometer.getConfirmed() == ConfirmChoice.ConfirmationValue.YES)
+            {
+                projectInfo.getFeatures().addAll(Arrays.asList(
+                        "management",
+                        "micrometer",
+                        "micrometer-prometheus",
+                        "micrometer-graphite",
+                        "micrometer-statsd"
+                ));
+                configurationInfo.setMicrometer(true);
+                MicronautProjectValidator.addDependency(features.get("management"));
+                MicronautProjectValidator.addDependency(features.get("micrometer"));
+                MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
+                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
+                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+
+
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
+
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
+
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
+
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
+                projectInfo.dumpToFile();
+
             }
         }
 //        if(!projectInfo.getFeatures().contains("graphql"))

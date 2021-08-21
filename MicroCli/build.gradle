@@ -82,12 +82,14 @@ dependencies {
 // https://mvnrepository.com/artifact/org.yaml/snakeyaml
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.26'
 
+    // https://mvnrepository.com/artifact/org.apache.maven/maven-core
+    implementation 'org.apache.maven:maven-core:3.8.2'
 // https://mvnrepository.com/artifact/org.apache.maven/maven-model
-    compile group: 'org.apache.maven', name: 'maven-model', version: '3.6.3'
+    implementation 'org.apache.maven:maven-model:3.8.2'
 // https://mvnrepository.com/artifact/org.apache.maven/maven-artifact
-    compile group: 'org.apache.maven', name: 'maven-artifact', version: '3.6.3'
-// https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api
-    compile group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.6.3'
+    implementation 'org.apache.maven:maven-artifact:3.8.2'
+    // https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api
+    implementation 'org.apache.maven:maven-plugin-api:3.8.2'
     implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.16.1'
     implementation 'com.github.javaparser:javaparser-core:3.16.1'
     implementation 'com.github.javaparser:javaparser-core-serialization:3.16.1'

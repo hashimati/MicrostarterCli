@@ -39,9 +39,9 @@ public class MavenProjectUtils {
         if(feature.getMaven() == null|| feature.getMaven().isEmpty()) return true;
         Model model = readPom(path);
         Dependency dependency = feature.getMavenDependency();
-        System.out.println(feature.getMaven());
-        System.out.println(dependency.getGroupId());
-        System.out.println(dependency.getArtifactId());
+//        System.out.println(feature.getMaven());
+//        System.out.println(dependency.getGroupId());
+//        System.out.println(dependency.getArtifactId());
 
         model.addDependency(dependency);
         return writeModelToPom(path, model);
@@ -102,5 +102,6 @@ public class MavenProjectUtils {
 
         return true;
     }
+
 
 }

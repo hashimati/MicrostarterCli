@@ -139,7 +139,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                 collectionName  = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
             }
             entity.setDatabaseName(configurationInfo.getDatabaseName());
-
+            entity.setReactiveFramework(configurationInfo.getReactiveFramework());
             entity.setCollectionName(collectionName);
             entity.setDatabaseType(configurationInfo.getDatabaseType());
 

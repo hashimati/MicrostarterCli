@@ -5,9 +5,8 @@ import javax.inject.Inject;
 
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.http.annotation.*;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
-import javax.inject.Inject;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 
 import ${entityPackage};
 import ${servicePackage};
