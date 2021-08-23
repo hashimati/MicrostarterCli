@@ -14,24 +14,25 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
     private ${className}Service ${entityName}Service;
     public ${className} find${className}ById(String id)
     {
-        return ${entityName}Service.findById(id).blockingGet();
+        return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>();
     }
 
     public Iterable<${className}> findAll${className}()
     {
-        return ${entityName}Service.findAll().blockingIterable();
+        return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>();
+
     }
 
     public ${className} save${className}(${className} ${entityName}){
-        return ${entityName}Service.save(${entityName}).blockingGet();
+        return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
     public ${className} update${className}(${className} ${entityName})
     {
-        return  ${entityName}Service.update(${entityName}).blockingGet();
+        return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
 
     }
     public boolean delete${className}(String id){
-      return ${entityName}Service.deleteById(id).blockingGet();
+      return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
 
 }
