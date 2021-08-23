@@ -41,10 +41,10 @@ public class ${entityClass}Repository {
                         .find(query));
     }
 
-    private <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAsFlowable(BsonDocument query)
+    private <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAs<% print reactor? "Flux" : "Flowable" %>(BsonDocument query)
     {
         log.info("Finding query : {}", query);
-        return Flowable
+        return <% print reactor? "Flux" : "Flowable" %>
                 .from<% print reactor? "" : "Publisher" %>(getCollection()
                         .find(query));
     }
@@ -57,7 +57,7 @@ public class ${entityClass}Repository {
         if(object.getId() == null)
         {
             return <% print reactor? "Mono" : "Single" %>.just(object)
-                    .onErrorReturn(fail-> object);
+                    .onErrorReturn(<% print reactor? "" : "fail->" %> object);
         }
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(object)
         ).map(success ->object);
@@ -66,7 +66,7 @@ public class ${entityClass}Repository {
     public <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAll()
     {
         log.info("Finding All ${entityClass} ");
-        return Flowable.from<% print reactor? "" : "Publisher" %>(getCollection().find());
+        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find());
     }
 
     public <% print reactor? "Mono" : "Single" %><${entityClass}> findById(final String id){
@@ -82,7 +82,7 @@ public class ${entityClass}Repository {
         document.append("_id", new BsonString(id));
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().deleteOne(document))
         .map(success->Boolean.TRUE)
-        .onErrorReturn(faile->Boolean.FALSE);
+        .onErrorReturn(<% print reactor? "" : "fail->" %>Boolean.FALSE);
 	}
 
      public <% print reactor? "Mono" : "Single" %><${entityClass}> update(${entityClass} object)  {
