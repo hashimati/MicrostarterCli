@@ -97,10 +97,27 @@ public class MavenProjectUtils {
 
     public boolean addMicronautDataProperty(String path) throws IOException, XmlPullParserException {
         Model model = readPom(path);
-        model.addProperty("micronaut.data.version", "1.1.3");
+        model.addProperty("micronaut.data.version", "3.0.0");
         model.addProperty("micronaut.openapi.version", "1.5.2");
 
-        return true;
+        return  writeModelToPom(path, model);
+    }
+    public static boolean addProperties(Feature x, String path) throws IOException, XmlPullParserException {
+        Model model = readPom(path);
+
+        x.getMavenProperties().keySet().stream().forEach(y->{
+            model.addProperty(y,x.getMavenProperties().get(y));
+        });
+
+        return  writeModelToPom(path, model);
+    }
+
+    public static boolean addPluginBuild(Feature x, String path) throws IOException, XmlPullParserException {
+        Model model = readPom(path);
+
+        model.getBuild().addPlugin(x.getPlugin());
+
+        return  writeModelToPom(path, model);
     }
 
 
