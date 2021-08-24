@@ -188,6 +188,9 @@ public class FeaturesFactory {
                     "\t</dependency>\n");
             setGradle("    testImplementation(\"de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1\")");
 
+            setGradleTask("rewrite {\n" +
+                    "    activeRecipe(\"org.openrewrite.java.micronaut.Micronaut2to3Migration\")\n" +
+                    "}");
             setPlugin(new Plugin(){{
                 setGroupId("org.openrewrite.maven");
                 setArtifactId("rewrite-maven-plugin</artifactId");

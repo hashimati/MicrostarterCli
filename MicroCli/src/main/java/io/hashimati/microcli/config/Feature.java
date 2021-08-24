@@ -28,7 +28,8 @@ public class Feature {
     rdbcGradle, // for database relational dbs only
     rdbcMaven,  // for relational dbs only
     testRdbcGradle,
-    testRdbcMaven;
+    testRdbcMaven,
+    gradleTask;
     private Plugin plugin;
     private HashMap<String, String> mavenProperties = new HashMap<>();
 
