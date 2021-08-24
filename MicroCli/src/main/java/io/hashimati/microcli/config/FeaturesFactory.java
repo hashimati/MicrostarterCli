@@ -77,7 +77,9 @@ public class FeaturesFactory {
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
                     "                </path>");
-            setVersionProperties("<micronaut.data.version>1.1.3</micronaut.data.version>");
+            setVersionProperties("<micronaut.data.version>3.0.0</micronaut.data.version>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+
         }});
 
 
@@ -101,6 +103,8 @@ public class FeaturesFactory {
                             "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                             "                  <version>${micronaut.data.version}</version>\n" +
                             "                </path>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+
         }});
 
         //rdbc-core
@@ -113,6 +117,8 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-r2dbc-core</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+
 
         }});
         features.put("mongo-reactive", new Feature(){{
@@ -148,7 +154,8 @@ public class FeaturesFactory {
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
                     "                </path>");
-            setVersionProperties("<micronaut.data.version>1.1.3</micronaut.data.version>");
+            setVersionProperties("<micronaut.data.version>3.0.0</micronaut.data.version>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
         }});
 
         features.put("mongo-sync", new Feature(){{
