@@ -450,6 +450,18 @@ public class MicronautProjectValidator {
         }
         return false;
     }
+
+    public static boolean addingTaskToGradleFile(String task) throws FileNotFoundException {
+        String gradleContent = getGradleFileContent()+ "\n" + "tasks.withType(JavaCompile) {\n" +
+                "    options.fork = true\n" +
+                "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
+                "}";
+        String kts = "";
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+            kts = ".kts";
+        return GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
+
+    }
     public  static boolean addExposingSwaggerUIToGradle() throws FileNotFoundException {
 
         if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")) {
@@ -523,7 +535,11 @@ public class MicronautProjectValidator {
                             return MavenProjectUtils.addDependency(x, "pom.xml") &&
                                     MavenProjectUtils.addAnnotation(x, "pom.xml")
                                     && MavenProjectUtils.addDependencyToDependecyMgmt(x, "pom.xml")
-                                    && MavenProjectUtils.addTestDependency(x, "pom.xml");
+                                    && MavenProjectUtils.addTestDependency(x, "pom.xml")
+                                    && MavenProjectUtils.addPluginBuild(x, "pom.xml")
+                                    && MavenProjectUtils.addProperties(x, "pom.xml")
+
+                                    ;
                         } catch (IOException e) {
                             e.printStackTrace();
                             return false;
