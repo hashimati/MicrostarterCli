@@ -15,10 +15,10 @@ import ${entityPackage}
 interface ${classNameA}Client {
 
     @Post("/save")
-    fun save(${entityName}:${classNameA}): Single<${className}>
+    fun save(${entityName}:${classNameA}): <% print reactor? "Mono" : "Single" %><${className}>
 
     @Get("/get")
-    fun findById(@Parameter("id") id:Long): Single<${className}>
+    fun findById(@Parameter("id") id:Long): <% print reactor? "Mono" : "Single" %><${className}>
 
     @Delete("/delete/{id}")
     fun deleteById(@PathVariable("id") id: Long): Boolean
@@ -27,6 +27,6 @@ interface ${classNameA}Client {
     fun findAll():Flowable<${className}>
 
     @Put("/update")
-    fun update(@Body ${entityName}: ${className}):Single<${className}>
+    fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}>
 }
 

@@ -12,20 +12,20 @@ class ${className}QueryResolver(private val ${entityName}Repository :${className
 
     fun find${className}ById(id: Long): ${className}
     {
-        return ${entityName}Service.findById(id).get().blockingGet();
+        return ${entityName}Service.findById(id).get().<% print reactor? "block" : "blockingGet" %>();
     }
     fun findAll${className}() : Iterable<${className}>
     {
-            return ${entityName}Service.findAll().blockingIterable()     ;
+            return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>()     ;
     }
     fun save${className}(${entityName}: ${className}):${className}{
-        return ${entityName}Service.save(${entityName}).blockingGet();
+        return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
     fun update${className}(${entityName}: ${className} ):${className}
     {
-        return  ${entityName}Service.update(${entityName}).blockingGet();
+        return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
     fun delete${className}(id: Long) : Boolean{
-      return ${entityName}Service.deleteById(id).blockingGet();
+      return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
 }

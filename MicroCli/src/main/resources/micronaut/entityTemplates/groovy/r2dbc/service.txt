@@ -6,8 +6,8 @@ import jakarta.inject.Singleton
 import javax.transaction.Transactional
 import ${entityPackage}
 import ${repoPackage}
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ class ${className}Service {
      Logger log = LoggerFactory.getLogger(${className}Service.class)
     @Inject ${className}Repository ${entityName}Repository
 
-    Mono<${className}> save(${className} ${entityName}){
+    <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName})
          //TODO insert your logic here!
          //saving Object
@@ -27,12 +27,12 @@ class ${className}Service {
      }
 
     <% if(cached) out.print '@Cacheable' %>
-    Mono<${className}> findById(long id){
+    <% print reactor? "Mono" : "Single" %><${className}> findById(long id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
-    Mono<Boolean> deleteById(long id){
+    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(long id){
         try
         {
             ${entityName}Repository.deleteById(id);
@@ -48,12 +48,12 @@ class ${className}Service {
     }
 
 
-    Flux<${className}> findAll() {
+    <% print reactor? "Flux" : "Flowable" %><${className}> findAll() {
         log.info("Find All")
       return  ${entityName}Repository.findAll();
     }
 
-    Mono<${className}> update(${className} ${entityName})
+    <% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName})
     {
         log.info("update {}", ${entityName})
         return ${entityName}Repository.update(${entityName})

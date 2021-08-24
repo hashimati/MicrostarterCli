@@ -15,24 +15,24 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
     ${className}Service ${entityName}Service
     ${className} find${className}ById(long id)
     {
-        return ${entityName}Service.findById(id).blockingGet()
+        return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>()
     }
 
     Iterable<${className}> findAll${className}()
     {
-        return ${entityName}Service.findAll().blockingIterable()
+        return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>()
     }
 
     ${className} save${className}(${className} ${entityName}){
-        return ${entityName}Service.save(${entityName}).blockingGet();
+        return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
     ${className} update${className}(${className} ${entityName})
     {
-        return  ${entityName}Service.update(${entityName}).blockingGet();
+        return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
 
     }
     boolean delete${className}(long id){
-      return ${entityName}Service.deleteById(id).blockingGet();
+      return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
 
 }

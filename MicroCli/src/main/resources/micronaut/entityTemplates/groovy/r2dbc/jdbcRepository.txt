@@ -6,8 +6,8 @@ import java.util.*
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.r2dbc.annotation.R2dbcRepository;
 import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 
 @R2dbcRepository
 @JdbcRepository(dialect = Dialect.${dialect})

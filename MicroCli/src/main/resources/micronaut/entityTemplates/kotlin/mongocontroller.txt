@@ -5,8 +5,11 @@ import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 
 import jakarta.inject.Inject
-import io.reactivex.Single
-import io.reactivex.Flowable
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import ${entityPackage}
 import ${servicePackage}
 
@@ -17,26 +20,67 @@ import org.slf4j.LoggerFactory;
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
     @Post("/save")
-    fun save(@Body ${entityName}:${className}):Single<${className}>
+    @Operation(summary = "Creating a ${entityName} and Storing in the database",
+            description = "A REST service, which saves ${className} objects to the database."
+    )
+    @ApiResponse(
+            content = [Content(mediaType = "application/json")]
+    )
+    fun save(@Body ${entityName}:${className}):<% print reactor? "Mono" : "Single" %><${className}>
     {
         log.info("Saving ${className}: {}", ${entityName} )
 
         return ${entityName}Service.save(${entityName})
     }
 
-    @Get("/find")
-    fun findById(@Parameter("id")  id: String):Single<${className}> {
+    @Get("/get")
+    @Operation(summary = "Getting a ${entityName} by Id",
+        description = "A REST service, which retrieves a ${className} object by Id."
+    )
+    @ApiResponse(
+        content = [Content(mediaType = "application/json")]
+    )
+    fun findById(@Parameter("id")  id: String):<% print reactor? "Mono" : "Single" %><${className}> {
         log.info("Finding ${className} by Id: {}", id)
         return ${entityName}Service.findById(id)
     }
 
 
-    @Get("/find/all")
-    fun findAll():Flowable<${className}>{
+    @Get("/findAll")
+   @Operation(summary = "Retrieving all ${entityName} objects as Json",
+            description = "A REST service, which returns all ${className} objects from the database."
+    )
+    @ApiResponse(
+            content = [Content(mediaType = "application/json")]
+    )
+    fun findAll():<% print reactor? "Flux" : "Flowable" %><${className}>{
         log.info("Finding All ${className}")
         return ${entityName}Service.findAll()
     }
 
+    @Put("/update")
+    @Operation(summary = "Updating a ${entityName}.",
+           description = "A REST service, which update a ${className} objects to the database."
+    )
+    @ApiResponse(
+           content = [Content(mediaType = "application/json")]
+    )
+    fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}> {
+        log.info("Deleting ${className} by id:{}", ${entityName})
+        return ${entityName}Service.update(${entityName})
+    }
+
+    @Delete("/delete/{id}")
+    @Operation(summary = "Deleting a ${entityName} by ID",
+            description = "A REST service, which deletes ${className} object from the database."
+    )
+    @ApiResponse(
+            content = [Content(mediaType = "boolean")]
+    )
+    fun deleteById(id:Long): Boolean {
+        log.info("Deleting ${className}: {}", id)
+        return  ${entityName}Service.deleteById(id)
+    }
     companion object {
             val log :Logger = LoggerFactory.getLogger(${className}Controller::class.java)
         }

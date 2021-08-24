@@ -5,8 +5,8 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import ${entityPackage}
 import ${repoPackage}
-import io.reactivex.Single
-import io.reactivex.Flowable
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ class ${className}Service {
 
     @Inject ${className}Repository ${entityName}Repository
 
-	Single<${className}> save(${className} ${entityName}) {
+	 <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}) {
 
         log.info("Saving  ${className} : {}", ${entityName});
 
@@ -31,20 +31,24 @@ class ${className}Service {
     }
 
     <% if(cached) out.print '@Cacheable' %>
-    Single<${className}> findById(String id){
+    <% print reactor? "Mono" : "Single" %><${className}> findById(String id){
         log.info("Finding ${className} By Id: {}", id);
         return ${entityName}Repository.findById(id)
     }
 
-    Flowable<${className}> findAll(){
+     <% print reactor? "Flux" : "Flowable" %><${className}> findAll(){
 
             log.info("Finding all ${className}");
             return ${entityName}Repository.findAll()
     }
 
-    Single<Boolean> deleteById(String id) {
+     <% print reactor? "Mono" : "Single" %><Boolean> deleteById(String id) {
 
         log.info("Deleting ${className} By Id: {}", id);
         return ${entityName}Repository.deleteById(id)
 	}
+	<% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName})   {
+    	    log.info("Updating ${className}: {}", ${entityName})
+    	    return ${entityName}Repository.update(${entityName})
+    }
 }

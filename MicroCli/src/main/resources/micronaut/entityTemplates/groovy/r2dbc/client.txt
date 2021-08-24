@@ -8,8 +8,8 @@ import io.micronaut.http.client.annotation.Client;
 import jakarta.inject.Inject
 import io.reactivex.Flowable
 import io.reactivex.Single
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 import ${entityPackage}
 
 
@@ -17,20 +17,20 @@ import ${entityPackage}
 interface ${classNameA}Client {
 
     @Post("/save")
-    Mono<${className}> save(@Body ${classNameA} ${entityName})
+    <% print reactor? "Mono" : "Single" %><${className}> save(@Body ${classNameA} ${entityName})
 
     @Get("/get")
-    Mono<${className}> findById(@Parameter("id") long id)
+    <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") long id)
 
     @Delete("/delete/{id}")
-    Mono<Boolean> deleteById(@PathVariable("id") long id)
+    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(@PathVariable("id") long id)
 
     @Get("/findAll")
-    Flux<${className}> findAll()
+    <% print reactor? "Flux" : "Flowable" %><${className}> findAll()
 
 
     @Put("/update")
-    Mono<${className}> update(@Body ${className} ${entityName})
+    <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName})
 
 }
 

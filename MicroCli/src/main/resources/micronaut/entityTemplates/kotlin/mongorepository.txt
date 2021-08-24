@@ -6,8 +6,8 @@ import com.mongodb.reactivestreams.client.MongoCollection
 
 import ${entityPackage}.${entityClass}
 
-import io.reactivex.Flowable
-import io.reactivex.Single
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 import org.bson.BsonDocument
 import org.bson.BsonString
 import jakarta.inject.Inject
@@ -25,61 +25,69 @@ class ${entityClass}Repository(private val mongoClient:MongoClient) {
          return mongoClient.getDatabase("${databaseName}").getCollection("${collectionName}", ${entityClass}::class.java)
    }
 
-    fun findAsSingle(query:BsonDocument):Single<${entityClass}>
+    fun findAs<% print reactor? "Mono" : "Single" %>(query:BsonDocument):<% print reactor? "Mono" : "Single" %><${entityClass}>
     {
         log.info("Find by query: {}",query )
-        return Single
-                .fromPublisher(getCollection()
+        return <% print reactor? "Mono" : "Single" %>
+                .from<% print reactor? "" : "Publisher" %>(getCollection()
                         .find(query))
     }
 
-    fun findAsFlowable( query: BsonDocument):Flowable<${entityClass}>
+    fun findAs<% print reactor? "Flux" : "Flowable" %>( query: BsonDocument):<% print reactor? "Flux" : "Flowable" %><${entityClass}>
     {
 
         log.info("Find by query :{}", query)
-        return Flowable
-                .fromPublisher(getCollection()
+        return <% print reactor? "Flux" : "Flowable" %>
+                .from<% print reactor? "" : "Publisher" %>(getCollection()
                         .find(query))
     }
 
-    fun  save(o: ${entityClass}): Single<${entityClass}>
+    fun  save(o: ${entityClass}): <% print reactor? "Mono" : "Single" %><${entityClass}>
     {
 
         log.info("Saving ${entityClass}: {}",o )
         if(object.getId() == null)
         {
-            return Single.just(object)
-                .onErrorReturn{_-> o}
+            return <% print reactor? "Mono" : "Single" %>.just(object)
+                .onErrorReturn{<% print reactor? "" : "_->" %>o}
         }
-        return Single.fromPublisher(getCollection().insertOne(o)
+        return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(o)
         ).map{_ ->o}
     }
 
 
-    fun  findAll(): Flowable<${entityClass}>
+    fun  findAll(): <% print reactor? "Flux" : "Flowable" %><${entityClass}>
     {
         log.info("Finding all ${entityClass}")
-        return Flowable.fromPublisher(getCollection().find())
+        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find())
     }
 
-    fun  findById( id: String):Single<${entityClass}>{
+    fun  findById( id: String):<% print reactor? "Mono" : "Single" %><${entityClass}>{
 
         log.info("Finding ${entityClass} by id :{}",id )
         var  document :BsonDocument=  BsonDocument();
         document.append("_id",  BsonString(id));
-        return findAsSingle(document)
+        return findAs<% print reactor? "Mono" : "Single" %>(document)
     }
 
 
-    fun  deleteById( id:String) :Single<Boolean>{
+    fun  deleteById( id:String) :<% print reactor? "Mono" : "Single" %><Boolean>{
 
         log.info("Deleting ${entityClass} by Id :{}", id)
         var  document :BsonDocument=  BsonDocument();
         document.append("_id",  BsonString(id));
-        return Single.fromPublisher(getCollection().deleteOne(document))
+        return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().deleteOne(document))
         .map{_->true}
-        .onErrorReturn{_->false}
+        .onErrorReturn{<% print reactor? "" : "_->" %>false}
 	}
+
+   fun  update(${entityClass} object):<% print reactor? "Mono" : "Single" %><${entityClass}>  {
+
+            var document: BsonDocument =  BsonDocument()
+            document.append("_id",  BsonString(object.getId()))
+            return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().findOneAndReplace(document,object ))
+
+    }
 
       companion object {
             val log :Logger = LoggerFactory.getLogger(${entityClass}Repository::class.java)
