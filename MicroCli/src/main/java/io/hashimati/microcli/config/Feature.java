@@ -9,6 +9,7 @@ import lombok.Data;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Data
@@ -30,6 +31,7 @@ public class Feature {
     testRdbcGradle,
     testRdbcMaven,
     gradleTask;
+    ArrayList<String> gradlePlugins = new ArrayList<>();
     private Plugin plugin;
     private HashMap<String, String> mavenProperties = new HashMap<>();
 
