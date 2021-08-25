@@ -2,6 +2,7 @@ package io.hashimati.microcli.utils;
 /**
  * @author Ahmed Al Hashmi
  */
+import groovy.lang.Tuple;
 import groovy.lang.Tuple3;
 import groovy.text.Template;
 import io.hashimati.microcli.config.Feature;
@@ -189,6 +190,35 @@ public class MicronautProjectValidator {
         return true;
     }
 
+
+    public static boolean updateGradlePlugin(String plugin, int index) throws FileNotFoundException, GradleReaderException {
+
+        GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
+        String gradleContent = getGradleFileContent();
+        if(gradleContent.contains(plugin.trim()))
+            return true;
+        LinkedList<String> gradleContentAsList = new LinkedList<>(){{
+            addAll(Arrays.asList(gradleContent.split("\n")));
+        }};
+        Tuple3<LinkedList<String> , Integer, Integer> plugins = gradleProjectUtils.getContentBetweenBraces(gradleContentAsList, "plugins {");
+        if(index < 0)
+            gradleContentAsList.add(plugins.getV2() + 1, plugin);
+        else
+            gradleContentAsList.add(plugins.getV3() -1, plugin);
+
+        String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
+                new StringBuilder().append(x).append("\n").append(y).toString());
+        try {
+            String kts = "";
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+                kts = ".kts";
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
+            return true;
+        }catch(Exception ex)
+        {
+            return false;
+        }
+    }
 
     public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException, GradleReaderException {
         GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
@@ -508,7 +538,7 @@ public class MicronautProjectValidator {
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 
-            return updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+            return (updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
@@ -520,7 +550,8 @@ public class MicronautProjectValidator {
                     &&
                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2);
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)) &&
+                    updateGradlePlugin(Arrays.stream(feature).map(x-> !x.getGradlePlugins().isEmpty()?x.getGradlePlugins().stream().reduce("",(y,z)->y+"\n"+z):"").reduce("", (x, y)->x+"\n"+ y), 2);
 
 
         }
