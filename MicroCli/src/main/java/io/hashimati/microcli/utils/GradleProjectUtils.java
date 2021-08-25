@@ -84,6 +84,56 @@ public class GradleProjectUtils{
             throw new GradleReaderException("Couldn't read dependencies!");
        return Tuple.tuple(result, indexOfDependencies, indexOfBound);
     }
+
+    /**
+     *
+     * @param fileContent
+     * @param dependenciesIndex: Example: dependencies {, plugins {
+     * @return
+     * @throws FileNotFoundException
+     * @throws GradleReaderException
+     */
+    public Tuple3<LinkedList<String>, Integer, Integer> getContentBetweenBraces(LinkedList<String> fileContent, String dependenciesIndex) throws FileNotFoundException, GradleReaderException {
+        LinkedList<String> result = new LinkedList<String>();
+
+
+        int indexOfDependencies = -1;
+        int indexOfBound = -1;
+        int braceCounter = 0;
+        String boundIndex = "}";
+
+        findingDependencies:
+        for(int i = 0; i < fileContent.size(); i++){
+            if(fileContent.get(i).contains(dependenciesIndex)){
+                indexOfDependencies = i;
+
+                braceCounter += 1;
+                break findingDependencies;
+            }
+        }
+        findingBound:
+        for(int i = indexOfDependencies+1;i < fileContent.size() ; i++)
+        {
+            String line = fileContent.get(i);
+            if(!line.equalsIgnoreCase(boundIndex))
+            {
+                if(!line.trim().isEmpty()) result.add(line);
+                if(line.contains("{")) braceCounter++;
+                if(line.contains("}")) braceCounter--;
+            }
+            else if (line.equalsIgnoreCase(boundIndex)){
+                braceCounter--;
+                if(braceCounter == 0)
+                {
+                    indexOfBound = i;
+                    break findingBound;
+                }
+            }
+        }
+        if(braceCounter != 0)
+            throw new GradleReaderException("Couldn't read dependencies!");
+        return Tuple.tuple(result, indexOfDependencies, indexOfBound);
+    }
     public void appendDependencies(LinkedList<String> list, String dependency)
     {
         list.addLast(dependency);
