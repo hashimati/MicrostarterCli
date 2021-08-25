@@ -10,7 +10,7 @@ import io.hashimati.microcli.utils.GeneratorUtils;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
-import javax.inject.ton;
+import javax.inject.Singleton;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
