@@ -22,6 +22,7 @@ import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
+import io.micronaut.core.util.StringUtils;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
@@ -90,6 +91,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+
+        entityName = StringUtils.capitalize(entityName);
 
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
