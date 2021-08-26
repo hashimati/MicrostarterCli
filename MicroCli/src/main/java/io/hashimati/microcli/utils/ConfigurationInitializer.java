@@ -464,7 +464,7 @@ public class ConfigurationInitializer {
             MicronautProjectValidator.addDependency(openrewrite);
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
             {
-                if(openrewrite.getGradleTask()!= null && !openrewrite.getGradleTask().isBlank())
+                //if(openrewrite.getGradleTask()!= null && !openrewrite.getGradleTask().isBlank())
                     MicronautProjectValidator.addingTaskToGradleFile(openrewrite.getGradleTask());
             }
 
