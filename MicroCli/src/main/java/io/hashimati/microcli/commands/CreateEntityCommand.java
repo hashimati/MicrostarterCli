@@ -92,7 +92,7 @@ public class CreateEntityCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
 
-        entityName = StringUtils.capitalize(entityName);
+
 
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
@@ -113,7 +113,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
             Entity entity = new Entity();
 
-            entity.setName(entityName);
+            entity.setName(StringUtils.capitalize(entityName));
 
 
             // reading collections/table name if the user didn't provide it .
