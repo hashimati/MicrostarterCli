@@ -482,10 +482,7 @@ public class MicronautProjectValidator {
     }
 
     public static boolean addingTaskToGradleFile(String task) throws FileNotFoundException {
-        String gradleContent = getGradleFileContent()+ "\n" + "tasks.withType(JavaCompile) {\n" +
-                "    options.fork = true\n" +
-                "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
-                "}";
+        String gradleContent = getGradleFileContent()+ "\n" + task;
         String kts = "";
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
             kts = ".kts";
