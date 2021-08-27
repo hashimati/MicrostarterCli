@@ -422,10 +422,10 @@ public class FeaturesFactory {
                     "              <artifactId>lombok</artifactId>\n" +
                     "              <version>1.18.12</version>\n" +
                     "            </path>");
-            setGradle("    compileOnly 'org.projectlombok:lombok:1.18.12'\n");
-            setAnnotationGradle("\n    annotationProcessor 'org.projectlombok:lombok:1.18.12'");
-            setTestGradleAnnotation("    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'");
-            setTestGradle("    testCompileOnly 'org.projectlombok:lombok:1.18.12'\n");
+            setGradle("       compileOnly(\"org.projectlombok:lombok\")\n");
+            setAnnotationGradle("\n    annotationProcessor(\"org.projectlombok:lombok\")");
+//            setTestGradleAnnotation("    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'");
+//            setTestGradle("    testCompileOnly 'org.projectlombok:lombok:1.18.12'\n");
 
         }});
 
