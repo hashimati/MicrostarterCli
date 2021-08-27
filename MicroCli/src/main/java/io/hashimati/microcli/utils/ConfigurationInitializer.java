@@ -74,6 +74,7 @@ public class ConfigurationInitializer {
         if(file.isFile() && file.exists())
         {
             configurationInfo =  ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+            if(configurationInfo.isConfigured()) return ; // the project is configured by MicroCli. Then, exit configuration.
         }
         else {
             configurationInfo = new ConfigurationInfo();//ask for Database Name;
@@ -483,6 +484,7 @@ public class ConfigurationInitializer {
         printlnSuccess("micronaut-cli.yml file has been updated");
 
         //System.out.println(configurationInfo);
+        configurationInfo.setConfigured(true);
         configurationInfo.writeToFile();
 
 
