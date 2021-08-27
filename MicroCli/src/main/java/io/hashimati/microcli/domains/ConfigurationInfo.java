@@ -42,6 +42,7 @@ public class ConfigurationInfo {
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
+    private boolean configured;
 
     public ConfigurationInfo visit(Visitor<ConfigurationInfo> visitor)
     {
