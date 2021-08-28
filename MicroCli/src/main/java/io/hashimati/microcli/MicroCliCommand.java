@@ -36,10 +36,10 @@ import picocli.CommandLine.Option;
 })
 public class MicroCliCommand implements Runnable {
 
-    @Option(names = {"-v", "--verbose"}, description = "...")
+    @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
 
-    @Option(names= {"--version"}, description = "Display MicroCli version.")
+    @Option(names= {"-v"}, description = "Display MicroCli version.")
     boolean version;
 
     public static void main(String[] args) throws Exception {
@@ -48,12 +48,13 @@ public class MicroCliCommand implements Runnable {
 
     public void run() {
         // business logic here
+        if(version)
+        {
+            System.out.println("MicroCLI 0.0.1");
+        }
         if (verbose) {
             System.out.println("Hi!, MicroCli is a rapid development tool for Micronaut framewMicroCli is a command-line rapid development tool for Micronaut applications. It helps developers cut development time and focus on application logic by generating Micronaut components and configurations using ready-built templates.");
         }
-        if(version)
-        {
-            System.out.println("MicroCli version 0.0.1");
-        }
+
     }
 }
