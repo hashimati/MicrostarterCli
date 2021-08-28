@@ -22,7 +22,7 @@ public class MicroCliCommandTest {
             PicocliRunner.run(MicroCliCommand.class, ctx, args);
 
             // MicroCli
-            assertTrue(baos.toString().contains("Hi!"));
+            assertTrue(baos.toString().contains("MicroCLI"));
         }
     }
 }
