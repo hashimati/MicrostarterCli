@@ -93,6 +93,9 @@ dependencies {
     implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.16.1'
     implementation 'com.github.javaparser:javaparser-core:3.16.1'
     implementation 'com.github.javaparser:javaparser-core-serialization:3.16.1'
+    // https://mvnrepository.com/artifact/io.leego/banana
+    implementation group: 'io.leego', name: 'banana', version: '2.1.0'
+
 }
 
 test.classpath += configurations.developmentOnly
