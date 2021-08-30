@@ -389,8 +389,8 @@ public class MicronautProjectValidator {
             {
                 updateGradlewDependencies(lombok.getAnnotationGradle(), -2);
                 updateGradlewDependencies(lombok.getGradle(), 3);
-                updateGradlewDependencies(lombok.getTestGradleAnnotation(), 2);
-                updateGradlewDependencies(lombok.getTestGradle(),2);
+//                updateGradlewDependencies(lombok.getTestGradleAnnotation(), 2);
+//                updateGradlewDependencies(lombok.getTestGradle(),2);
 
                 return true;
             }
