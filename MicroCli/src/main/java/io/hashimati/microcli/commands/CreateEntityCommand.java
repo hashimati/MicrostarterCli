@@ -173,7 +173,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             attributeLoop: for(;;) {
-                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add an attribute?");
+                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add an attribute?");
 
                 if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
                 {
@@ -210,19 +210,19 @@ public class CreateEntityCommand implements Callable<Integer> {
                     entityAttribute.setType(attrTypeResult.getSelectedId());
                     //todo Enter ask for Validation
                     //todo take validation
-                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribue", "Do you want to add Validations to "+attrNameResult.getInput()+"?");
+                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to "+attrNameResult.getInput()+"?");
 
                         if(validationConfirm.getConfirmed() == YES){
                             EntityConstraints   entityConstraints = new EntityConstraints();
                             entityConstraints.setEnabled(true);
                             //ask if it's required
-                            ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribue", "Required?");
+                            ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribute", "Required?");
                             entityConstraints.setRequired(requiredValidationConfirm.getConfirmed() == YES);
 
 
                             switch(entityAttribute.getType().toLowerCase()){
                                 case "string":
-                                    ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribue", "Unique?");
+                                    ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribute", "Unique?");
                                     entityConstraints.setUnique(uniqueValidationConfirm.getConfirmed() == YES);
 
                                     entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?").getConfirmed() == YES);
