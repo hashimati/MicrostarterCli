@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AsciiUtils {
-
-
-
     public static List<String> getFontNames(){
 
         return BananaUtils.fonts()
@@ -17,7 +14,7 @@ public class AsciiUtils {
                 .map(x-> x.getName())
                 .collect(Collectors.toList());
     }
-    public String getBanner(String name, String fontName)
+    public static String getBanner(String name, String fontName)
     {
         return BananaUtils.bananaify(name, Font.get(fontName));
     }
