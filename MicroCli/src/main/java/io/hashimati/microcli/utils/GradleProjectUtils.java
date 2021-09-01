@@ -158,7 +158,7 @@ public class GradleProjectUtils{
     }
 
     public String getAppName() throws FileNotFoundException {
-        String settings = new StringBuilder(System.getProperty("user.dir")).append("settings.gradle").toString();
+        String settings = new StringBuilder(System.getProperty("user.dir")).append("/settings.gradle").toString();
        String content =  GeneratorUtils.getFileContent(new File(settings));
         Scanner scanner = new Scanner(content);
         String line = "";
@@ -169,6 +169,8 @@ public class GradleProjectUtils{
                 break;
             }
         }
+
+
         return line.replace("rootProject.name=\"", "")
                 .replace("\"", "");
     }
