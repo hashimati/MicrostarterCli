@@ -24,16 +24,16 @@ public class BannerCommand implements Callable<Integer> {
 
 
         String defaultBanner = "Micronaut";
-//        try{
-//            File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
-//            if(configurationFile.exists()){
-//               defaultBanner =  ConfigurationInfo.fromFile(configurationFile).getAppName();
-//
-//            }
-//        }
-//        catch(Exception ex){
-//
-//        }
+        try{
+            File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+            if(configurationFile.exists()){
+               defaultBanner =  ConfigurationInfo.fromFile(configurationFile).getAppName();
+
+            }
+        }
+        catch(Exception ex){
+
+        }
 
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
