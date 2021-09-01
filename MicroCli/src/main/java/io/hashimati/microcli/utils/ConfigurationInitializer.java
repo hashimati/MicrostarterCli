@@ -473,13 +473,13 @@ public class ConfigurationInitializer {
 
 
 
-
         MicronautProjectValidator.addLombok(projectInfo);
     //MicronautProjectValidator.addDependency(features.get("openapi"));
+
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
-
+        configurationInfo.setAppName(MicronautProjectValidator.getAppName());
         configurationInfo.setProjectInfo(projectInfo);
         printlnSuccess("micronaut-cli.yml file has been updated");
 

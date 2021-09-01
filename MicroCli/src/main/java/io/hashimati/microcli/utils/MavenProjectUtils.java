@@ -121,4 +121,12 @@ public class MavenProjectUtils {
     }
 
 
+    public static String getVersion(String path) throws XmlPullParserException, IOException {
+        return readPom(path).getVersion();
+    }
+
+    public static String getArtifactId(String path) throws XmlPullParserException, IOException {
+        return readPom(path).getArtifactId();
+    }
+
 }

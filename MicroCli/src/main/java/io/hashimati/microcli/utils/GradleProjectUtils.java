@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 public class GradleProjectUtils{
 
+
     /**
      *
      * @param build: build.gradle file
@@ -142,6 +143,35 @@ public class GradleProjectUtils{
         list.addFirst(dependcy);
     }
 
+    public String getPorjectVersion(LinkedList<String> gradleContent){
+        String versionLine = "";
+        for(String x: gradleContent){
+            if(x.startsWith("version ="))
+            {
+                versionLine = x;
+                break;
+            }
+        }
+        return versionLine
+                .replace("version =", "")
+                .replaceAll("\"", "");
+    }
+
+    public String getAppName() throws FileNotFoundException {
+        String settings = new StringBuilder(System.getProperty("user.dir")).append("settings.gradle").toString();
+       String content =  GeneratorUtils.getFileContent(new File(settings));
+        Scanner scanner = new Scanner(content);
+        String line = "";
+        while (scanner.hasNextLine())
+        {
+            line = scanner.nextLine();
+            if(line.startsWith("rootProject.name=\"")){
+                break;
+            }
+        }
+        return line.replace("rootProject.name=\"", "")
+                .replace("\"", "");
+    }
 
 
 }

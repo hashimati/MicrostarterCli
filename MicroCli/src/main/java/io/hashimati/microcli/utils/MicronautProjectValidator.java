@@ -370,6 +370,7 @@ public class MicronautProjectValidator {
 //            return (projectInfo = null);
 //        return projectInfo;
 
+
         return (projectInfo = yaml.loadAs(content, ProjectInfo.class))
                 .getApplicationType().equalsIgnoreCase("default")?projectInfo:null;
     }
@@ -700,6 +701,7 @@ public class MicronautProjectValidator {
         return true;
     }
 
+
     public static boolean appendR2DBCToProperties(String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
 
         String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
@@ -731,6 +733,14 @@ public class MicronautProjectValidator {
             //return GeneratorUtils.appendContentToFile(propertiesPath,propertiesContent);
         }
         return false;
+    }
+
+    public static String getAppName() throws IOException, XmlPullParserException {
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle")){
+            return new GradleProjectUtils().getAppName();
+        }
+        else
+            return MavenProjectUtils.getArtifactId("pom.xml");
     }
 }
 
