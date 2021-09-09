@@ -33,7 +33,8 @@ import picocli.CommandLine.Option;
             CreateGcpPubSubListenerCommand.class,
             CreateMQTTListenerCommand.class,
             CreateMQTTClientCommand.class,
-            BannerCommand.class
+            BannerCommand.class,
+            SecurityCommand.class
 })
 public class MicroCliCommand implements Runnable {
 
