@@ -46,7 +46,7 @@ public class DataTypeMapper
         put("char", "char");
         put("float", "float");
         put("double", "float(24)");
-        put("string", "varchar2 ");
+        put("string", "varchar2");
         put("date", "timestamp");
     }};
 
@@ -70,7 +70,7 @@ public class DataTypeMapper
         put("byte", "smallint");
         put("long", "bigint");
         put("short", "mediumint");
-        put("boolean", "bit");
+        put("boolean", "boolean");
         put("char", "char");
         put("float", "float");
         put("double", "double");
