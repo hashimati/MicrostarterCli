@@ -39,6 +39,8 @@ public class ConfigurationInfo {
     private boolean micrometer;
     private boolean caffeine;
     boolean gorm;
+    private boolean securityEnable;
+    private String authenticationStrategy;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
