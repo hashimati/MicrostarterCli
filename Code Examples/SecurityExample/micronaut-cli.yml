@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [acme, annotation-api, app-name, gradle, h2, http-client, java, java-application, junit, logback, netty-server, readme, security-annotations, security-jwt, shade, yaml]

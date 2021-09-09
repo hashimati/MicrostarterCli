@@ -1,0 +1,38 @@
+micronaut:
+  application:
+    name: securityExample
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+        generator:
+          access-token:
+            expiration: 100000
+    enabled: true
+    endpoints:
+      login:
+        path: "/api/security/login"
+      logout:
+        path: "/api/security/logout"
+
+#  server:
+#    ssl:
+#      enabled: 'true'
+#acme:
+#  enabled: 'true'
+#  tos-agree: 'true'
+
+datasources:
+
+  default:
+    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+    schema-generate: create_drop
+    dialect: H2
+

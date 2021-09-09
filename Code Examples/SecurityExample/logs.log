@@ -1,0 +1,182 @@
+06:14:23.868 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+06:14:24.412 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+06:14:24.647 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+06:14:24.668 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+06:14:24.690 [main]     TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+06:14:24.690 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+06:14:25.340 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+06:14:25.351 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:14:25.351 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+06:14:25.351 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+06:14:25.351 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value XLu7vS0hXej8EFhfIkyvzmLweiqCoWI8gJSZLG14VG94O9XQw6gh10BLi9kuUiWZ with data type: STRING
+06:14:25.351 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Thu Sep 09 06:14:25 AST 2021 with data type: DATE
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Thu Sep 09 06:14:25 AST 2021 with data type: DATE
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Thu Sep 09 06:14:24 AST 2021 with data type: DATE
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Thu Sep 09 06:14:24 AST 2021 with data type: DATE
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+06:14:25.362 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+06:14:25.372 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:14:25.383 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:14:26.140 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3669ms. Server Running: http://localhost:8080
+06:14:34.411 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:14:34.413 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:14:34.415 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:14:34.415 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:15:56.347 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:15:56.348 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:15:56.349 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:15:56.349 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:16:02.042 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:16:02.042 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:16:02.043 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:16:02.043 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:19.483 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+06:19:20.049 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+06:19:20.283 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+06:19:20.309 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+06:19:20.326 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+06:19:20.326 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+06:19:21.019 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+06:19:21.030 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:21.030 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+06:19:21.030 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+06:19:21.030 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value WGurNnr43vOasCkQPaDi3Bwp97gWT5d9UPrbV5Jctw37uU+K2Ki8ayAUTi7KQJ2G with data type: STRING
+06:19:21.030 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Thu Sep 09 06:19:21 AST 2021 with data type: DATE
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Thu Sep 09 06:19:21 AST 2021 with data type: DATE
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Thu Sep 09 06:19:20 AST 2021 with data type: DATE
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Thu Sep 09 06:19:20 AST 2021 with data type: DATE
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+06:19:21.041 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+06:19:21.062 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:21.067 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:21.841 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3535ms. Server Running: http://localhost:8080
+06:19:26.898 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:26.899 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:26.899 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:26.900 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:33.037 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:33.037 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:33.038 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:33.038 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:19:43.706 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:43.706 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admfin with data type: STRING
+06:19:43.706 [default-nioEventLoopGroup-1-7] ERROR i.h.s.AuthenictationProviderUserPassword - Couldn't find this User :admfin
+06:19:46.655 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:19:46.656 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admfin with data type: STRING
+06:19:46.656 [default-nioEventLoopGroup-1-9] ERROR i.h.s.AuthenictationProviderUserPassword - Couldn't find this User :admfin
+06:27:10.594 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+06:27:11.128 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+06:27:11.362 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+06:27:11.383 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+06:27:11.405 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+06:27:11.405 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+06:27:12.088 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+06:27:12.098 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:27:12.098 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+06:27:12.098 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+06:27:12.098 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value tJvsdo+zKwi920RpxpB/fyTE+9eNcikrv/dQxXozaeU3GmAZwgmTplUp2F5tGDf0 with data type: STRING
+06:27:12.098 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Thu Sep 09 06:27:12 AST 2021 with data type: DATE
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Thu Sep 09 06:27:12 AST 2021 with data type: DATE
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Thu Sep 09 06:27:11 AST 2021 with data type: DATE
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Thu Sep 09 06:27:11 AST 2021 with data type: DATE
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+06:27:12.109 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+06:27:12.130 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:27:12.130 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:27:12.866 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3594ms. Server Running: http://localhost:8080
+06:28:22.252 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:28:22.253 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admfin with data type: STRING
+06:28:22.254 [default-nioEventLoopGroup-1-3] ERROR i.h.s.AuthenictationProviderUserPassword - Couldn't find this User :admfin
+06:28:39.176 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:28:39.177 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:28:39.177 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:28:39.178 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:28:39.268 [default-nioEventLoopGroup-1-5] ERROR i.h.s.AuthenictationProviderUserPassword - admin trying to login with invalid credentials
+06:34:05.226 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+06:34:05.738 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+06:34:05.962 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+06:34:05.984 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+06:34:05.996 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+06:34:06.005 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+06:34:06.677 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+06:34:06.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:34:06.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+06:34:06.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+06:34:06.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value oDGwtAV+RlWVii2urYUylM1YGGZZEaE937FzrVR1T5FSEtoJmlA+J0DrNfkuj9/H with data type: STRING
+06:34:06.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Thu Sep 09 06:34:06 AST 2021 with data type: DATE
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Thu Sep 09 06:34:06 AST 2021 with data type: DATE
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Thu Sep 09 06:34:06 AST 2021 with data type: DATE
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Thu Sep 09 06:34:06 AST 2021 with data type: DATE
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+06:34:06.699 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+06:34:06.714 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:34:06.714 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:34:07.456 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3601ms. Server Running: http://localhost:8080
+06:35:30.026 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:35:30.027 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:30.028 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:35:30.028 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:30.134 [default-nioEventLoopGroup-1-5] ERROR i.h.s.AuthenictationProviderUserPassword - admin is trying to login with invalid credentials
+06:35:52.448 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+06:35:52.995 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+06:35:53.219 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+06:35:53.241 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+06:35:53.262 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+06:35:53.273 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+06:35:53.968 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+06:35:53.977 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:53.977 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value ker86LO1PhnKXuMYkU59DuH+5LT+D/aEi1fuYZFH8s/uS5DM6J8GsSbFWAkpe903 with data type: STRING
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Thu Sep 09 06:35:53 AST 2021 with data type: DATE
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Thu Sep 09 06:35:53 AST 2021 with data type: DATE
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Thu Sep 09 06:35:53 AST 2021 with data type: DATE
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Thu Sep 09 06:35:53 AST 2021 with data type: DATE
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+06:35:53.982 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+06:35:53.999 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:35:54.008 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:54.846 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3844ms. Server Running: http://localhost:8080
+06:35:55.604 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:35:55.605 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:55.606 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:35:55.606 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:35:55.711 [default-nioEventLoopGroup-1-3] ERROR i.h.s.AuthenictationProviderUserPassword - admin is trying to login with invalid credentials
+06:36:03.166 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:36:03.166 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:36:03.167 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:36:03.167 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:36:08.299 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+06:36:08.299 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+06:36:08.299 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+06:36:08.300 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
