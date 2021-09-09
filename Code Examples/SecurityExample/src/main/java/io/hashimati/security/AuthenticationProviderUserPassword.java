@@ -25,10 +25,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
-public class AuthenictationProviderUserPassword implements AuthenticationProvider {
+public class AuthenticationProviderUserPassword implements AuthenticationProvider {
 
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenictationProviderUserPassword.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
     @Inject
     private UserRepository userRepository;
 
@@ -119,26 +119,7 @@ public class AuthenictationProviderUserPassword implements AuthenticationProvide
             }
         });
 
-//        if ( bCryptPasswordEncoder.matches(authenticationRequest.getSecret().toString(), user.getPassword())) {
-//            log.info("Check the user password :{}", authenticationRequest.getIdentity());
-//
-////            Flowable<AuthenticationResponse> result = Flowable.just(new UserDetails(user.getUsername(),
-////                    user.getRoles()));
-//
-//            loginEvent.setStatus(LoginStatus.SUCCEED);
-//            eventPublisher.publishEvent(loginEvent);
-//            return   Flux.create(emitter->{
-//                emitter.next(AuthenticationResponse.success((String) authenticationRequest.getIdentity()));
-//                emitter.complete();
-//            });
-//        }else {
-//            Flowable<AuthenticationResponse> result = Flowable.just(new AuthenticationFailed(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH));
-//            loginEvent.setStatus(LoginStatus.FAILED_WRONG_PASSWORD);
-//            eventPublisher.publishEvent(loginEvent);
-//            return result;
-//        }
     }
-
 
     @TransactionalEventListener
     public void onLoginEvent(LoginEvent loginEvent)
