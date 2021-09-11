@@ -21,6 +21,7 @@ public class LoginEventListener implements ApplicationEventListener<LoginEvent> 
         log.info("Saving login event: {}", event);
        User user =  userRepository.findByUsername(event.getUsername()).block();
        user.setLastLoginStatus(event.getStatus());
+       user.setLastTimeTryToLogin(event.getLastTimeLogin());
        userRepository.update(user).block();
     }
 }
