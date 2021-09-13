@@ -88,7 +88,7 @@ class ${entityClass}Repository {
 	}
 
 	<% print reactor? "Mono" : "Single" %><${entityClass}> update(${entityClass} object)  {
-
+            log.info("Updating ${entityClass} : {}", object)
             BsonDocument document = new BsonDocument()
             document.append("_id", new BsonString(object.getId()))
             return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().findOneAndReplace(document,object ))

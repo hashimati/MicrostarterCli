@@ -82,7 +82,7 @@ class ${entityClass}Repository(private val mongoClient:MongoClient) {
 	}
 
    fun  update(${entityClass} object):<% print reactor? "Mono" : "Single" %><${entityClass}>  {
-
+            log.info("Updating ${entityClass} : {}", object);
             var document: BsonDocument =  BsonDocument()
             document.append("_id",  BsonString(object.getId()))
             return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().findOneAndReplace(document,object ))
