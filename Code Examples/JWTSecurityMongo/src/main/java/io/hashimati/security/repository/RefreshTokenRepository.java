@@ -3,7 +3,8 @@ package io.hashimati.security.repository;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
-import io.hashimati.security.domains.User;
+import io.hashimati.security.domains.RefreshToken;
+import io.micronaut.security.token.jwt.endpoints.TokenRefreshRequest;
 import jakarta.inject.Singleton;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
@@ -12,34 +13,36 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @Singleton
-public class UserRepository
+public class RefreshTokenRepository
 {
-    private static final Logger log = LoggerFactory.getLogger(UserRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(RefreshTokenRepository.class);
 
     private final MongoClient mongoClient;
-    private MongoCollection<User> collection;
-    public UserRepository(MongoClient mongoClient){
+    private MongoCollection<RefreshToken> collection;
+    public RefreshTokenRepository(MongoClient mongoClient){
 
         this.mongoClient = mongoClient;
-        log.info("Creating Collection for UserRepository");
-        collection = mongoClient.getDatabase("database")
-                .getCollection("users", User.class);
+        log.info("Creating Collection for RefreshTokenRepository");
+        collection =  mongoClient.getDatabase("database")
+                .getCollection("refreshToken", RefreshToken.class);
     }
 
-    private MongoCollection<User> getCollection()
+    private MongoCollection<RefreshToken> getCollection()
     {
         return collection;
     }
 
-    private Mono<User> findAsMono(BsonDocument query)
+    private Mono<RefreshToken> findAsMono(BsonDocument query)
     {
         log.info("Finding query : {}", query);
         return Mono.from(getCollection()
                 .find(query));
     }
 
-    private Flux<User> findAsFlux(BsonDocument query)
+    private Flux<RefreshToken> findAsFlux(BsonDocument query)
     {
         log.info("Finding query : {}", query);
         return Flux
@@ -48,10 +51,10 @@ public class UserRepository
     }
 
 
-    public Mono<User> save(User object)
+    public Mono<RefreshToken> save(RefreshToken object)
     {
 
-        log.info("Saving User : {}", object);
+        log.info("Saving RefreshToken : {}", object);
         if(object.getId() == null)
         {
             return Mono.just(object)
@@ -61,46 +64,39 @@ public class UserRepository
         ).map(success ->object);
     }
 
-    public Flux<User> findAll()
+    public Flux<RefreshToken> findAll()
     {
-        log.info("Finding All Users ");
+        log.info("Finding All RefreshToken ");
         return Flux.from(getCollection().find());
     }
 
-    public Mono<User> findById(final String id){
-        log.info("Finding Fruit by Id : {}", id);
+    public Mono<RefreshToken> findById(final String id){
+        log.info("Finding RefreshToken by Id : {}", id);
         final BsonDocument document = new BsonDocument();
         document.append("_id", new BsonString(id));
         return findAsMono(document);
     }
 
     public Mono<Boolean> deleteById(String id) {
-        log.info("Deleting User by id: {}", id);
+        log.info("Deleting RefreshToken by id: {}", id);
         BsonDocument document = new BsonDocument();
         document.append("_id", new BsonString(id));
         return Mono.from(getCollection().deleteOne(document))
                 .map(success->Boolean.TRUE)
                 .onErrorReturn(Boolean.FALSE);
     }
+    public Mono<RefreshToken> update(RefreshToken object)  {
+        log.info("Deleting RefreshToken of Username: {}", object.getUsername());
 
-    public Mono<User> update(User object)  {
-        log.info("update user {}", object.getUsername() );
         BsonDocument document = new BsonDocument();
         document.append("_id", new BsonString(object.getId()));
         return  Mono.from(getCollection().findOneAndReplace(document,object ));
-
     }
 
-    public Mono<User> findByUsername(String username) {
-        log.info("Find user by username {}", username);
+    public Optional<RefreshToken> findByRefreshToken(String refreshToken) {
+        log.info("Find by refresh token: {}", refreshToken);
         BsonDocument document = new BsonDocument();
-        document.append("username", new BsonString(username));
-        return  findAsMono(document);
-
-    }
-
-    public boolean existsByUsername(String username) {
-        log.info("Exist {}", username);
-        return findByUsername(username).blockOptional().isPresent();
+        document.append("refreshToken", new BsonString(refreshToken));
+        return  findAsMono(document).blockOptional();
     }
 }

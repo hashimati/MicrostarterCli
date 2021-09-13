@@ -11,10 +11,7 @@ import io.micronaut.data.annotation.event.EntityEventMapping;
 import io.micronaut.data.model.naming.NamingStrategies;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Data
@@ -62,7 +59,15 @@ public class User {
 
     private String activationCode;
     
-    
+
+    public boolean removeRole(String role) {
+        if (roles.isBlank()) return false;
+        HashSet<String> roles = new HashSet<>();
+        roles.addAll(Arrays.asList(this.roles.split(",")));
+        boolean result = roles.remove(role);
+        this.roles = roles.stream().reduce((x,y)->new StringBuilder(x).append(",").append(y).toString()).get();
+        return result;
+    }
     public boolean addRole(String role)
     {
 

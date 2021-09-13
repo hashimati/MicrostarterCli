@@ -105,6 +105,7 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
                 emitter.next(AuthenticationResponse.success((String)authenticationRequest.getIdentity(), user.getRoles()));
                 loginEvent.setStatus(LoginStatus.SUCCEED);
 
+
                 eventPublisher.publishEvent(loginEvent);
                 log.info("Username {} logged in successfully", authenticationRequest.getIdentity());
                 emitter.complete();
