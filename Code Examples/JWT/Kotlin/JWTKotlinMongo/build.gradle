@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
     implementation("io.micronaut:micronaut-validation")
-
+    implementation 'org.jasypt:jasypt:1.9.2'
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }
