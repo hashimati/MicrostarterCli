@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati
+testFramework: spock
+sourceLanguage: groovy
+buildTool: gradle
+features: [annotation-api, app-name, data, data-jdbc, gradle, groovy, groovy-application, h2, http-client, jdbc-hikari, logback, netty-server, reactor, reactor-http-client, readme, shade, spock, yaml]

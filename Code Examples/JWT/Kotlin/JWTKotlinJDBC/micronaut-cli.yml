@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.hashimati
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, data, data-jdbc, gradle, h2, http-client, jdbc-hikari, kotest, kotlin, kotlin-application, logback, netty-server, reactor, reactor-http-client, readme, shade, yaml]
