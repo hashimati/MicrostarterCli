@@ -27,4 +27,6 @@ public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Lon
 
     long updateByUsername(@NonNull @NotBlank String username,
                           boolean revoked);
+    void deleteByUsername(@NonNull @NotBlank String username);
+
 }

@@ -5,10 +5,12 @@ import io.hashimati.security.PasswordEncoderService;
 import io.hashimati.security.domains.LoginStatus;
 import io.hashimati.security.domains.Roles;
 import io.hashimati.security.domains.User;
+import io.hashimati.security.repository.RefreshTokenRepository;
 import io.hashimati.security.repository.UserRepository;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -22,6 +24,8 @@ public class UserService {
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
     private PasswordEncoderService passwordEncoderService;
@@ -65,4 +69,12 @@ public class UserService {
     }
 
 
+    public String logout(Authentication authentication, String authorization) {
+        try {
+            refreshTokenRepository.deleteByUsername(authentication.getName());
+            return "SUCCESS";
+        }catch (Exception ex){
+            return "FAILED";
+        }
+    }
 }

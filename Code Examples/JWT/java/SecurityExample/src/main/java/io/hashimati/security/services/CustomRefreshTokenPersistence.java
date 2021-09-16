@@ -9,6 +9,8 @@ import io.micronaut.security.token.event.RefreshTokenGeneratedEvent;
 import io.micronaut.security.token.refresh.RefreshTokenPersistence;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
@@ -19,6 +21,7 @@ import static io.micronaut.security.errors.IssuingAnAccessTokenErrorCode.INVALID
 @Singleton
 public class CustomRefreshTokenPersistence implements RefreshTokenPersistence {
     private final RefreshTokenRepository refreshTokenRepository;
+    private static final Logger log = LoggerFactory.getLogger(CustomRefreshTokenPersistence.class);
 
     public CustomRefreshTokenPersistence(RefreshTokenRepository refreshTokenRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
@@ -26,6 +29,7 @@ public class CustomRefreshTokenPersistence implements RefreshTokenPersistence {
 
     @Override
     public void persistToken(RefreshTokenGeneratedEvent event) {
+        log.info("Persist Token by {}", event.getAuthentication().getName());
         if (event != null &&
                 event.getRefreshToken() != null &&
                 event.getAuthentication() != null &&
@@ -37,6 +41,7 @@ public class CustomRefreshTokenPersistence implements RefreshTokenPersistence {
 
     @Override
     public Publisher<Authentication> getAuthentication(String refreshToken) {
+        log.info("Get Authentication by refreshToken:{}", refreshToken);
         return Flux.create(emitter -> {
             Optional<RefreshToken> tokenOpt = refreshTokenRepository.findByRefreshToken(refreshToken);
             if (tokenOpt.isPresent()) {
