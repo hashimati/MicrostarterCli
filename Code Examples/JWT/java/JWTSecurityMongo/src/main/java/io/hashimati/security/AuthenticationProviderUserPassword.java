@@ -6,6 +6,7 @@ import io.hashimati.security.domains.LoginStatus;
 import io.hashimati.security.domains.User;
 import io.hashimati.security.event.LoginEventListener;
 import io.hashimati.security.event.LoginEventPublisher;
+import io.hashimati.security.repository.RefreshTokenRepository;
 import io.hashimati.security.repository.UserRepository;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.http.HttpRequest;
@@ -27,6 +28,9 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
     private LoginEventPublisher eventPublisher;
@@ -101,6 +105,9 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
         return Flux.create(emitter->{
             if(passwordEncoderService.matches(authenticationRequest.getSecret().toString(), user.getPassword())){
+                System.out.println("This is the fucking "+ authenticationRequest.getIdentity().toString());
+                refreshTokenRepository.deleteById(authenticationRequest.getIdentity().toString()).block();
+
                 Collections.emptyList();
                 emitter.next(AuthenticationResponse.success((String)authenticationRequest.getIdentity(), user.getRoles()));
                 loginEvent.setStatus(LoginStatus.SUCCEED);
