@@ -1,33 +1,30 @@
-package io.hashimati.security;
+package io.hashimati.security
+
+import io.hashimati.security.domains.LoginEvent
+import io.hashimati.security.domains.LoginStatus
+import io.hashimati.security.domains.User
+import io.hashimati.security.repository.RefreshTokenRepository
+import io.hashimati.security.repository.UserRepository
+import io.micronaut.context.event.ApplicationEventPublisher
+import io.micronaut.http.HttpRequest
+import io.micronaut.security.authentication.AuthenticationFailed
+import io.micronaut.security.authentication.AuthenticationFailureReason
+import io.micronaut.security.authentication.AuthenticationProvider
+import io.micronaut.security.authentication.AuthenticationRequest
+import io.micronaut.security.authentication.AuthenticationResponse
+import io.micronaut.transaction.annotation.TransactionalEventListener
+import io.reactivex.Flowable
+import jakarta.inject.Inject
+import org.reactivestreams.Publisher
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import reactor.core.publisher.Flux
+
+import javax.transaction.Transactional
+import java.time.Instant
 
 
-
-import io.hashimati.security.domains.LoginEvent;
-import io.hashimati.security.domains.LoginStatus;
-import io.hashimati.security.domains.User;
-import io.hashimati.security.repository.RefreshTokenRepository;
-import io.hashimati.security.repository.UserRepository;
-import io.micronaut.context.event.ApplicationEventPublisher;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.security.authentication.*;
-import io.micronaut.transaction.annotation.TransactionalEventListener;
-import io.reactivex.Flowable;
-import jakarta.inject.Inject;
-import org.reactivestreams.Publisher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import reactor.core.publisher.Flux;
-
-import javax.transaction.Transactional;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-
-public class AuthenticationProviderUserPassword implements AuthenticationProvider {
+class AuthenticationProviderUserPassword implements AuthenticationProvider {
 
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
@@ -44,7 +41,7 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
     @Transactional
     @Override
-    public Publisher<AuthenticationResponse> authenticate(HttpRequest<?> request, AuthenticationRequest<?, ?> authenticationRequest) {
+    Publisher<AuthenticationResponse> authenticate(HttpRequest<?> request, AuthenticationRequest<?, ?> authenticationRequest) {
 
         log.info("Trying to login with :{}", authenticationRequest.getIdentity());
 
@@ -127,7 +124,7 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
     }
 
     @TransactionalEventListener
-    public void onLoginEvent(LoginEvent loginEvent)
+    void onLoginEvent(LoginEvent loginEvent)
     {
 
         userRepository.updateByUsername(loginEvent.getUsername(), loginEvent.getStatus(), loginEvent.getLastTryDate());

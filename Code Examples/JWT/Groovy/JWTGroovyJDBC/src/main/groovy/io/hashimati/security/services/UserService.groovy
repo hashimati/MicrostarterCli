@@ -1,23 +1,18 @@
-package io.hashimati.security.services;
+package io.hashimati.security.services
 
+import io.hashimati.security.PasswordEncoderService
+import io.hashimati.security.domains.LoginStatus
+import io.hashimati.security.domains.Roles
+import io.hashimati.security.domains.User
+import io.hashimati.security.repository.RefreshTokenRepository
+import io.hashimati.security.repository.UserRepository
+import io.micronaut.context.event.StartupEvent
+import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.security.authentication.Authentication
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
-import io.hashimati.security.PasswordEncoderService;
-import io.hashimati.security.domains.LoginStatus;
-import io.hashimati.security.domains.Roles;
-import io.hashimati.security.domains.User;
-import io.hashimati.security.repository.RefreshTokenRepository;
-import io.hashimati.security.repository.UserRepository;
-import io.micronaut.context.event.StartupEvent;
-import io.micronaut.core.annotation.Introspected;
-import io.micronaut.runtime.event.annotation.EventListener;
-import io.micronaut.security.authentication.Authentication;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
-
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.time.Instant
 
 @Singleton
 public class UserService {
@@ -47,7 +42,9 @@ public class UserService {
 
     @EventListener
     public void init(StartupEvent startupEvent){
-
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(new Date());
+//        c.add(Calendar.YEAR, 1000);
 
         User admin = new User();
         admin.setUsername("admin");

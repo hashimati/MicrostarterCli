@@ -1,13 +1,13 @@
 package io.hashimati.security.domains;
 
-import io.micronaut.data.annotation.DateCreated;
-import io.micronaut.data.annotation.GeneratedValue;
-import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.*;
+import io.micronaut.data.model.naming.NamingStrategies;
 import lombok.Data;
 
 import java.time.Instant;
 
 @Data
+@MappedEntity(value = "refreshTokens", namingStrategy = NamingStrategies.Raw.class)
 public class RefreshToken {
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
@@ -17,4 +17,7 @@ public class RefreshToken {
     private Boolean revoked;
     @DateCreated
     private Instant dateCreated;
+
+    @DateUpdated
+    private Instant dateUpdated;
 }

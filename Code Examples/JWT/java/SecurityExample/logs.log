@@ -1,0 +1,194 @@
+22:34:00.559 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+22:34:01.021 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:34:01.223 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:34:01.255 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+22:34:01.255 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+22:34:01.255 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `refresh_token`
+22:34:01.255 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "REFRESH_TOKEN" not found; SQL statement:
+DROP TABLE `refresh_token` [42102-200]
+22:34:01.270 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+22:34:01.286 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `refresh_token` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`refresh_token` VARCHAR(255) NOT NULL,`revoked` BOOLEAN NOT NULL,`date_created` TIMESTAMP);
+22:34:01.896 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 0sAFCfQ5HrTMTcD8LbDsMXrgvqFfOIfQZR6iO1V2mpOkPDPYrhzdDVs8Khj/BTXM with data type: STRING
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Fri Sep 17 22:34:01 AST 2021 with data type: DATE
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Fri Sep 17 22:34:01 AST 2021 with data type: DATE
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Fri Sep 17 22:34:01 AST 2021 with data type: DATE
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Fri Sep 17 22:34:01 AST 2021 with data type: DATE
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+22:34:01.912 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+22:34:01.928 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+22:34:01.928 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+22:34:02.644 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 14388ms. Server Running: http://localhost:8080
+22:41:51.725 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+22:41:52.172 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:41:52.351 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:41:52.367 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+22:41:52.382 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+22:41:52.382 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `refreshTokens`
+22:41:52.382 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "REFRESHTOKENS" not found; SQL statement:
+DROP TABLE `refreshTokens` [42102-200]
+22:41:52.398 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+22:41:52.398 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `refreshTokens` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`refreshToken` VARCHAR(255) NOT NULL,`revoked` BOOLEAN NOT NULL,`dateCreated` TIMESTAMP,`dateUpdated` TIMESTAMP);
+22:41:52.986 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 08sAsl7pEX7/s/rr6QNW5vVrxQj6rMKeLJXHAy4PyPqRiWIXGej3E30JLlSxX+6r with data type: STRING
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Fri Sep 17 22:41:53 AST 2021 with data type: DATE
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Fri Sep 17 22:41:53 AST 2021 with data type: DATE
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Fri Sep 17 22:41:52 AST 2021 with data type: DATE
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Fri Sep 17 22:41:52 AST 2021 with data type: DATE
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+22:41:53.002 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+22:41:53.018 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+22:41:53.018 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+22:41:53.635 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 14201ms. Server Running: http://localhost:8080
+23:35:35.525 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52m13s75ms574µs400ns).
+23:36:52.408 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+23:36:52.871 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:36:53.056 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:36:53.087 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+23:36:53.095 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+23:36:53.095 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `refreshTokens`
+23:36:53.095 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "REFRESHTOKENS" not found; SQL statement:
+DROP TABLE `refreshTokens` [42102-200]
+23:36:53.106 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` DATE NOT NULL,`lastTimeTryToLogin` DATE NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+23:36:53.114 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `refreshTokens` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`refreshToken` VARCHAR(255) NOT NULL,`revoked` BOOLEAN NOT NULL,`dateCreated` TIMESTAMP,`dateUpdated` TIMESTAMP);
+23:36:53.693 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+23:36:53.693 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:36:53.709 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+23:36:53.709 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+23:36:53.709 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 9Cl7418akhUj6LycejsrJrKzjhFFmyhvh4XR/oeo1ZqQuP/rcTprZVv+PID/ZATs with data type: STRING
+23:36:53.709 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Fri Sep 17 23:36:53 AST 2021 with data type: DATE
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value Fri Sep 17 23:36:53 AST 2021 with data type: DATE
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value Fri Sep 17 23:36:53 AST 2021 with data type: DATE
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value Fri Sep 17 23:36:53 AST 2021 with data type: DATE
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+23:36:53.724 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+23:36:53.740 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+23:36:53.740 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:36:54.380 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 14337ms. Server Running: http://localhost:8080
+23:37:16.068 [default-nioEventLoopGroup-1-3] INFO  i.h.s.AuthenticationProviderUserPassword - Trying to login with :admin
+23:37:16.074 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+23:37:16.074 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:37:16.075 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+23:37:16.075 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:37:16.204 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: DELETE  FROM `refreshTokens`  WHERE (`username` = ?)
+23:37:16.205 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:37:16.206 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Update operation updated 0 records
+23:37:16.284 [default-nioEventLoopGroup-1-3] INFO  i.h.s.s.CustomRefreshTokenPersistence - Persist Token by admin
+23:37:16.287 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `refreshTokens` (`username`,`refreshToken`,`revoked`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?,?)
+23:37:16.288 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+23:37:16.288 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:16.289 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value false with data type: BOOLEAN
+23:37:16.289 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2021-09-17T20:37:16.288570500Z with data type: TIMESTAMP
+23:37:16.291 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value 2021-09-17T20:37:16.288570500Z with data type: TIMESTAMP
+23:37:16.353 [default-nioEventLoopGroup-1-3] INFO  i.h.s.AuthenticationProviderUserPassword - Username admin logged in successfully
+23:37:23.671 [default-nioEventLoopGroup-1-3] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:b23656b0-f4be-4bda-95ad-13aff99d474a
+23:37:23.674 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:23.675 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value b23656b0-f4be-4bda-95ad-13aff99d474a with data type: STRING
+23:37:53.017 [default-nioEventLoopGroup-1-5] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:53.018 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:53.018 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:54.100 [default-nioEventLoopGroup-1-7] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:54.100 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:54.101 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:54.811 [default-nioEventLoopGroup-1-9] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:54.812 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:54.812 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:55.770 [default-nioEventLoopGroup-1-11] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:55.771 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:55.771 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:56.735 [default-nioEventLoopGroup-1-13] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:56.736 [default-nioEventLoopGroup-1-13] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:56.736 [default-nioEventLoopGroup-1-13] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:57.518 [default-nioEventLoopGroup-1-15] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:57.518 [default-nioEventLoopGroup-1-15] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:57.518 [default-nioEventLoopGroup-1-15] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+23:37:58.378 [default-nioEventLoopGroup-1-17] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:03b5e60b-9596-4dd7-ba67-53b9329028ec
+23:37:58.379 [default-nioEventLoopGroup-1-17] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+23:37:58.379 [default-nioEventLoopGroup-1-17] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 03b5e60b-9596-4dd7-ba67-53b9329028ec with data type: STRING
+00:34:27.507 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+00:34:28.156 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+00:34:28.380 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+00:34:28.410 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `users`
+00:34:28.418 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "USERS" not found; SQL statement:
+DROP TABLE `users` [42102-200]
+00:34:28.418 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `refreshTokens`
+00:34:28.418 [main] TRACE io.micronaut.data.query - Drop Unsuccessful: Table "REFRESHTOKENS" not found; SQL statement:
+DROP TABLE `refreshTokens` [42102-200]
+00:34:28.430 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `users` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`email` VARCHAR(255) NOT NULL,`roles` VARCHAR(255) NOT NULL,`password` VARCHAR(255) NOT NULL,`dateCreated` TIMESTAMP,`dateUpdated` TIMESTAMP,`active` BOOLEAN NOT NULL,`disabled` BOOLEAN NOT NULL,`locked` BOOLEAN NOT NULL,`lastTimeLogin` TIMESTAMP NOT NULL,`lastTimeTryToLogin` TIMESTAMP NOT NULL,`lastLoginStatus` VARCHAR(255) NOT NULL,`activationCode` VARCHAR(255) NOT NULL);
+00:34:28.438 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `refreshTokens` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`username` VARCHAR(255) NOT NULL,`refreshToken` VARCHAR(255) NOT NULL,`revoked` BOOLEAN NOT NULL,`dateCreated` TIMESTAMP,`dateUpdated` TIMESTAMP);
+00:34:29.092 [main] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `users` (`username`,`email`,`roles`,`password`,`dateCreated`,`dateUpdated`,`active`,`disabled`,`locked`,`lastTimeLogin`,`lastTimeTryToLogin`,`lastLoginStatus`,`activationCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Hello@gmail.com with data type: STRING
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 3 to value ADMIN_ROLE with data type: STRING
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 4 to value OySqTuP+iv/t3MalhIOdRfdGXJ5QnES5U014mXuEYmsYdJ1qqmb1rofokcsxLXMq with data type: STRING
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 5 to value 2021-09-17T21:34:29.108191800Z with data type: TIMESTAMP
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 6 to value 2021-09-17T21:34:29.108191800Z with data type: TIMESTAMP
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 7 to value true with data type: BOOLEAN
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 8 to value false with data type: BOOLEAN
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 9 to value false with data type: BOOLEAN
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 10 to value 2021-09-17T21:34:28.591628400Z with data type: TIMESTAMP
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 11 to value 2021-09-17T21:34:28.591628400Z with data type: TIMESTAMP
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 12 to value SUCCEED with data type: STRING
+00:34:29.108 [main] TRACE io.micronaut.data.query - Binding parameter at position 13 to value 0000 with data type: STRING
+00:34:29.123 [main] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+00:34:29.123 [main] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:29.809 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 14500ms. Server Running: http://localhost:8080
+00:34:34.560 [default-nioEventLoopGroup-1-3] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:a9c46ff9-1a7e-4065-a42c-d2617fc29970
+00:34:34.589 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+00:34:34.589 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value a9c46ff9-1a7e-4065-a42c-d2617fc29970 with data type: STRING
+00:34:37.541 [default-nioEventLoopGroup-1-5] INFO  i.h.s.AuthenticationProviderUserPassword - Trying to login with :admin
+00:34:37.545 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id` FROM `users` user_ WHERE (user_.`username` = ?)
+00:34:37.546 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:37.546 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT user_.`id`,user_.`username`,user_.`email`,user_.`roles`,user_.`password`,user_.`dateCreated`,user_.`dateUpdated`,user_.`active`,user_.`disabled`,user_.`locked`,user_.`lastTimeLogin`,user_.`lastTimeTryToLogin`,user_.`lastLoginStatus`,user_.`activationCode` FROM `users` user_ WHERE (user_.`username` = ?)
+00:34:37.547 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:37.634 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: DELETE  FROM `refreshTokens`  WHERE (`username` = ?)
+00:34:37.635 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:37.636 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Update operation updated 0 records
+00:34:37.640 [default-nioEventLoopGroup-1-5] INFO  i.h.s.s.CustomRefreshTokenPersistence - Persist Token by admin
+00:34:37.645 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `refreshTokens` (`username`,`refreshToken`,`revoked`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?,?)
+00:34:37.646 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value admin with data type: STRING
+00:34:37.647 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value e5629490-5b05-456c-9841-9051b0d455fe with data type: STRING
+00:34:37.647 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value false with data type: BOOLEAN
+00:34:37.647 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2021-09-17T21:34:37.646539600Z with data type: TIMESTAMP
+00:34:37.647 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value 2021-09-17T21:34:37.646539600Z with data type: TIMESTAMP
+00:34:37.678 [default-nioEventLoopGroup-1-5] INFO  i.h.s.AuthenticationProviderUserPassword - Username admin logged in successfully
+00:34:51.149 [default-nioEventLoopGroup-1-5] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:e5629490-5b05-456c-9841-9051b0d455fe
+00:34:51.150 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+00:34:51.150 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value e5629490-5b05-456c-9841-9051b0d455fe with data type: STRING
+00:34:52.323 [default-nioEventLoopGroup-1-7] INFO  i.h.s.s.CustomRefreshTokenPersistence - Get Authentication by refreshToken:e5629490-5b05-456c-9841-9051b0d455fe
+00:34:52.324 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT refresh_token_.`id`,refresh_token_.`username`,refresh_token_.`refreshToken`,refresh_token_.`revoked`,refresh_token_.`dateCreated`,refresh_token_.`dateUpdated` FROM `refreshTokens` refresh_token_ WHERE (refresh_token_.`refreshToken` = ?)
+00:34:52.324 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value e5629490-5b05-456c-9841-9051b0d455fe with data type: STRING

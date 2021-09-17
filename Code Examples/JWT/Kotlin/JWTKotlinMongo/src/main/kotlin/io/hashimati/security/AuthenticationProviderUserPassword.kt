@@ -3,6 +3,7 @@ package io.hashimati.security
 import io.hashimati.security.domains.LoginEvent
 import io.hashimati.security.domains.LoginStatus
 import io.hashimati.security.event.LoginEventPublisher
+import io.hashimati.security.repository.RefreshTokenRepository
 import io.hashimati.security.repository.UserRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
@@ -17,6 +18,7 @@ import java.util.*
 
 @Singleton
 class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
+                                         private val refreshTokenRepository: RefreshTokenRepository,
                                          private val eventPublisher: LoginEventPublisher,
                                          private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
 
@@ -80,6 +82,7 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
         }
         return Flux.create { emitter: FluxSink<AuthenticationResponse> ->
             if (passwordEncoderService!!.matches(authenticationRequest.secret.toString(), user.password)) {
+                refreshTokenRepository.deleteById(authenticationRequest.identity.toString()).block()
                 emptyList<Any>()
                 emitter.next(
                     AuthenticationResponse.success(

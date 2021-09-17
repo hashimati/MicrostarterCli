@@ -11,6 +11,7 @@ import io.micronaut.data.annotation.event.EntityEventMapping;
 import io.micronaut.data.model.naming.NamingStrategies;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.*;
 
 
@@ -40,10 +41,10 @@ public class User {
     private String password;
 
     @DateCreated
-    private Date dateCreated;
+    private Instant dateCreated;
 
     @DateUpdated
-    private Date dateUpdated;
+    private Instant dateUpdated;
 
     private boolean active ;
 
@@ -53,8 +54,8 @@ public class User {
 //    private Date expiration;
 //
 //    private Date passwordExpiration;
-    private Date lastTimeLogin;
-    private Date lastTimeTryToLogin;
+    private Instant lastTimeLogin;
+    private Instant lastTimeTryToLogin;
     private LoginStatus lastLoginStatus;
 
     private String activationCode;

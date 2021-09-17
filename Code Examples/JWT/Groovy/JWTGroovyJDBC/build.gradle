@@ -29,9 +29,15 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("javax.annotation:javax.annotation-api")
     compileOnly("io.micronaut:micronaut-http-validation")
+    compileOnly("io.micronaut.security:micronaut-security-annotations")
     compileOnly("io.micronaut.data:micronaut-data-processor")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.h2database:h2")
+    implementation 'org.jasypt:jasypt:1.9.2'
+    implementation("io.micronaut.liquibase:micronaut-liquibase")
+    implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+
     implementation("io.micronaut:micronaut-validation")
 
 }
