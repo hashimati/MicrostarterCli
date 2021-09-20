@@ -1,29 +1,38 @@
-package io.hashimati.security
+package io.hashimati.security;
 
+import io.hashimati.security.PasswordEncoderService
 import io.hashimati.security.domains.LoginEvent
 import io.hashimati.security.domains.LoginStatus
-import io.hashimati.security.event.LoginEventPublisher
 import io.hashimati.security.repository.RefreshTokenRepository
 import io.hashimati.security.repository.UserRepository
+import io.micronaut.context.event.ApplicationEventPublisher
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
+import io.micronaut.transaction.annotation.TransactionalEventListener
+import io.reactivex.Flowable
 import jakarta.inject.Singleton
+import org.jetbrains.annotations.NotNull
 import org.reactivestreams.Publisher
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 import java.time.Instant
+import java.util.*
+import javax.transaction.Transactional
+
 
 @Singleton
-class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
+open class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
                                          private val refreshTokenRepository: RefreshTokenRepository,
-                                         private val eventPublisher: LoginEventPublisher,
+                                         private val eventPublisher: ApplicationEventPublisher<LoginEvent>,
                                          private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
+
 
     override fun authenticate(
         request: HttpRequest<*>?,
         authenticationRequest: AuthenticationRequest<*, *>
     ): Publisher<AuthenticationResponse> {
+//        println("JHell")
         log.info("Trying to login with :{}", authenticationRequest.identity)
         val loginEvent = LoginEvent()
         loginEvent.lastTryDate = Instant.now()
@@ -35,10 +44,10 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
                 "Couldn't find this User :{}",
                 authenticationRequest.identity
             )
-            return Flux.just(AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND))
+            return Flowable.just(AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND))
         }
-        val user = userRepository.findByUsername(authenticationRequest.identity.toString()).block()
-        if (user.disabled) {
+        val user = userRepository!!.findByUsername(authenticationRequest.identity.toString())
+        if (user!!.disabled) {
             log.error("This user is disabled :{}", authenticationRequest.identity)
             val result =
                 Flux.just<AuthenticationResponse>(AuthenticationFailed(AuthenticationFailureReason.USER_DISABLED))
@@ -75,37 +84,42 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
             val result =
                 Flux.just<AuthenticationResponse>(AuthenticationFailed(AuthenticationFailureReason.ACCOUNT_LOCKED))
             loginEvent.status = LoginStatus.FAILED_LOCKED
-            eventPublisher!!.publishEvent(loginEvent)
+//            eventPublisher!!.publishEvent(loginEvent)
             return result
         }
         return Flux.create { emitter: FluxSink<AuthenticationResponse> ->
             if (passwordEncoderService!!.matches(authenticationRequest.secret.toString(), user.password)) {
-                refreshTokenRepository.deleteById(authenticationRequest.identity.toString()).block()
-                emptyList<Any>()
+                refreshTokenRepository!!.deleteByUsername((authenticationRequest.identity as String))
+
                 emitter.next(
                     AuthenticationResponse.success(
                         authenticationRequest.identity as String,
-                        user.roles
+                        Arrays.asList(*user.roles!!.split(",").toTypedArray())
                     )
                 )
                 loginEvent.status = LoginStatus.SUCCEED
-                eventPublisher!!.publishEvent(loginEvent)
+//                eventPublisher!!.publishEvent(loginEvent)
                 log.info(
                     "Username {} logged in successfully",
                     authenticationRequest.identity
                 )
                 emitter.complete()
             } else {
+                loginEvent.status = LoginStatus.FAILED_WRONG_PASSWORD
+//                eventPublisher!!.publishEvent(loginEvent)
                 log.error(
                     "{} is trying to login with invalid credentials",
                     authenticationRequest.identity
                 )
-                loginEvent.status = LoginStatus.FAILED_WRONG_PASSWORD
-                eventPublisher!!.publishEvent(loginEvent)
                 emitter.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH))
             }
         }
     }
+
+//    @TransactionalEventListener
+//    open fun onLoginEvent(loginEvent: LoginEvent) {
+//        userRepository!!.updateByUsername(loginEvent.username, loginEvent.status, loginEvent.lastTryDate)
+//    }
 
     companion object {
         private val log = LoggerFactory.getLogger(AuthenticationProviderUserPassword::class.java)

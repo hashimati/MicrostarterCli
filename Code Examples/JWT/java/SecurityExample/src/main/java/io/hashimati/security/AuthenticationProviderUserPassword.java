@@ -13,6 +13,7 @@ import io.micronaut.security.authentication.*;
 import io.micronaut.transaction.annotation.TransactionalEventListener;
 import io.reactivex.Flowable;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+
 
 public class AuthenticationProviderUserPassword implements AuthenticationProvider {
 
