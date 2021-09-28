@@ -9,10 +9,8 @@ import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import io.micronaut.runtime.event.annotation.EventListener;
 
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 @Singleton
@@ -28,7 +26,9 @@ public class TemplatesService {
             flywayTemplates = new HashMap<>(),
 
             cacheTemplates = new HashMap<>(),
-            micrometersTemplates = new HashMap<>();
+            micrometersTemplates = new HashMap<>(),
+            securityTemplates = new HashMap<>(),
+            refreshTokenTemplates= new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -194,7 +194,26 @@ public class TemplatesService {
     MICROMETERS_yml = "micrometers",
     GRAPHITE_yml = "graphite",
     PROMETHEUS_yml = "prometheus",
-    STATSD_yml = "statsd";
+    STATSD_yml = "statsd",
+
+
+    //Security Constants
+    USER_CONTROLLER = "usercontroller",
+    LOGIN_EVENT = "loginevent",
+    REFRESHTOKEN = "refreshtoken",
+    LOGIN_STATUS = "loginstatus",
+    ROLES = "roles",
+    USER = "user",
+    REFRESH_TOKEN_REPOSITORY = "refreshtokenRepository",
+    USER_REPOSITORY = "userrepository",
+    CUSTOM_REFRESH_TOKEN = "customer_refresh_token_Persistenance",
+    USER_SERVICE = "userservice",
+    AUTHENTICATION_PROVIDER= "authenticationprovider",
+    PASSWORD_ENCODER = "password_encoder",
+    PASSWORD_ENCODER_SERVICE = "password_encoder_service",
+    SECURITY_CLIENT = "security_client",
+    SECURITY_FACTORY = "security_factory"
+    ;
 
 
 
@@ -243,19 +262,19 @@ public class TemplatesService {
         javaTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/java/QueryFactory.txt");
         javaTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/java/QueryResolver.txt");
         javaTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/java/Reactive_QueryResolver.txt");
-        javaTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/java/AuthenictationProviderUserPassword.txt");
-        javaTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/java/LoginEvent.txt");
-        javaTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/java/LoginStatus.txt");
-        javaTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/java/PasswordEncoder.txt");
-        javaTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/java/reactive/AuthenictationProviderUserPassword.txt");
-        javaTemplates.put(SECURITY_ROLES, "micronaut/security/java/Roles.txt");
-        javaTemplates.put(SECURITY_USER, "micronaut/security/java/User.txt");
-        javaTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/java/UserRepository.txt");
-        javaTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/java/UserService.txt");
-        javaTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/java/UserController.txt");
-        javaTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/java/reactive/UserRepository.txt");
-        javaTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/java/reactive/UserService.txt");
-        javaTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/java/reactive/UserController.txt");
+        javaTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/java/AuthenictationProviderUserPassword.txt");
+        javaTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/deprecated/java/LoginEvent.txt");
+        javaTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/deprecated/java/LoginStatus.txt");
+        javaTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/deprecated/java/PasswordEncoder.txt");
+        javaTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/java/reactive/AuthenictationProviderUserPassword.txt");
+        javaTemplates.put(SECURITY_ROLES, "micronaut/security/deprecated/java/Roles.txt");
+        javaTemplates.put(SECURITY_USER, "micronaut/security/deprecated/java/User.txt");
+        javaTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/deprecated/java/UserRepository.txt");
+        javaTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/deprecated/java/UserService.txt");
+        javaTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/deprecated/java/UserController.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/deprecated/java/reactive/UserRepository.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/deprecated/java/reactive/UserService.txt");
+        javaTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/deprecated/java/reactive/UserController.txt");
         javaTemplates.put(R2DBC_CONTROLLER, "micronaut/entityTemplates/java/r2dbc/controller.txt");
         javaTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/java/r2dbc/service.txt");
         javaTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/java/r2dbc/jdbcRepository.txt");
@@ -302,19 +321,19 @@ public class TemplatesService {
         groovyTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/groovy/QueryFactory.txt");
         groovyTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/groovy/QueryResolver.txt");
         groovyTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/groovy/Reactive_QueryResolver.txt");
-        groovyTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/groovy/AuthenictationProviderUserPassword.txt");
-        groovyTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/groovy/LoginEvent.txt");
-        groovyTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/groovy/LoginStatus.txt");
-        groovyTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/groovy/PasswordEncoder.txt");
-        groovyTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/groovy/reactive/AuthenictationProviderUserPassword.txt");
-        groovyTemplates.put(SECURITY_ROLES, "micronaut/security/groovy/Roles.txt");
-        groovyTemplates.put(SECURITY_USER, "micronaut/security/groovy/User.txt");
-        groovyTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/groovy/UserRepository.txt");
-        groovyTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/groovy/UserService.txt");
-        groovyTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/groovy/UserController.txt");
-        groovyTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/groovy/reactive/UserRepository.txt");
-        groovyTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/groovy/reactive/UserService.txt");
-        groovyTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/groovy/reactive/UserController.txt");
+        groovyTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/groovy/AuthenictationProviderUserPassword.txt");
+        groovyTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/deprecated/groovy/LoginEvent.txt");
+        groovyTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/deprecated/groovy/LoginStatus.txt");
+        groovyTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/deprecated/groovy/PasswordEncoder.txt");
+        groovyTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/groovy/reactive/AuthenictationProviderUserPassword.txt");
+        groovyTemplates.put(SECURITY_ROLES, "micronaut/security/deprecated/groovy/Roles.txt");
+        groovyTemplates.put(SECURITY_USER, "micronaut/security/deprecated/groovy/User.txt");
+        groovyTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/deprecated/groovy/UserRepository.txt");
+        groovyTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/deprecated/groovy/UserService.txt");
+        groovyTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/deprecated/groovy/UserController.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/deprecated/groovy/reactive/UserRepository.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/deprecated/groovy/reactive/UserService.txt");
+        groovyTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/deprecated/groovy/reactive/UserController.txt");
         groovyTemplates.put(GORM_ENTITY, "micronaut/entityTemplates/groovy/gorm/Entity.txt");
         groovyTemplates.put(GORM_REPOSITORY, "micronaut/entityTemplates/groovy/gorm/Repository.txt");
         groovyTemplates.put(GORM_SERVICE, "micronaut/entityTemplates/groovy/gorm/Service.txt");
@@ -365,19 +384,19 @@ public class TemplatesService {
         kotlinTemplates.put(GRAPHQL_QUERY_FACOTRY, "micronaut/components/kotlin/QueryFactory.txt");
         kotlinTemplates.put(GRAPHQL_QUERY_RESOLVER,"micronaut/components/kotlin/QueryResolver.txt");
         kotlinTemplates.put(GRAPHQL_REACTIVE_QUERY_RESOLVER,"micronaut/components/kotlin/Reactive_QueryResolver.txt");
-        kotlinTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/kotlin/AuthenictationProviderUserPassword.txt");
-        kotlinTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/kotlin/LoginEvent.txt");
-        kotlinTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/kotlin/LoginStatus.txt");
-        kotlinTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/kotlin/PasswordEncoder.txt");
-        kotlinTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/kotlin/reactive/AuthenictationProviderUserPassword.txt");
-        kotlinTemplates.put(SECURITY_ROLES, "micronaut/security/kotlin/Roles.txt");
-        kotlinTemplates.put(SECURITY_USER, "micronaut/security/kotlin/User.txt");
-        kotlinTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/kotlin/UserRepository.txt");
-        kotlinTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/kotlin/UserService.txt");
-        kotlinTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/kotlin/UserController.txt");
-        kotlinTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/kotlin/reactive/UserRepository.txt");
-        kotlinTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/kotlin/reactive/UserService.txt");
-        kotlinTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/kotlin/reactive/UserController.txt");
+        kotlinTemplates.put(SECURITY_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/kotlin/AuthenictationProviderUserPassword.txt");
+        kotlinTemplates.put(SECURITY_LOGIN_EVENT, "micronaut/security/deprecated/kotlin/LoginEvent.txt");
+        kotlinTemplates.put(SECURITY_LOGIN_STATUS, "micronaut/security/deprecated/kotlin/LoginStatus.txt");
+        kotlinTemplates.put(SECURITY_PASSWORD_ENCODER, "micronaut/security/deprecated/kotlin/PasswordEncoder.txt");
+        kotlinTemplates.put(SECURITY_REACTIVE_AUTHENTICATION_PROVIDER, "micronaut/security/deprecated/kotlin/reactive/AuthenictationProviderUserPassword.txt");
+        kotlinTemplates.put(SECURITY_ROLES, "micronaut/security/deprecated/kotlin/Roles.txt");
+        kotlinTemplates.put(SECURITY_USER, "micronaut/security/deprecated/kotlin/User.txt");
+        kotlinTemplates.put(SECURITY_USER_REPOSITORY, "micronaut/security/deprecated/kotlin/UserRepository.txt");
+        kotlinTemplates.put(SECURITY_USER_SERVICE, "micronaut/security/deprecated/kotlin/UserService.txt");
+        kotlinTemplates.put(SECURITY_USER_CONTROLLER, "micronaut/security/deprecated/kotlin/UserController.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_REPOSITORY, "micronaut/security/deprecated/kotlin/reactive/UserRepository.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_SERVICE, "micronaut/security/deprecated/kotlin/reactive/UserService.txt");
+        kotlinTemplates.put(SECURITY_USER_MONGO_CONTROLLER, "micronaut/security/deprecated/kotlin/reactive/UserController.txt");
         kotlinTemplates.put(R2DBC_CONTROLLER, "micronaut/entityTemplates/kotlin/r2dbc/controller.txt");
         kotlinTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/kotlin/r2dbc/service.txt");
         kotlinTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/kotlin/r2dbc/jdbcRepository.txt");
@@ -471,6 +490,23 @@ public class TemplatesService {
         micrometersTemplates.put(PROMETHEUS_yml, "micronaut/micrometers/prometheus.yml");
         micrometersTemplates.put(GRAPHITE_yml, "micronaut/micrometers/graphite.yml");
         micrometersTemplates.put(STATSD_yml, "micronaut/micrometers/statsd.yml");
+
+
+        securityTemplates.put(USER_CONTROLLER,"micronaut/security/${lang}/${db}/controllers/UserController.${ext}");
+        securityTemplates.put(LOGIN_EVENT ,"micronaut/security/${lang}/${db}/domains/LoginEvent.${ext}");
+        securityTemplates.put(REFRESHTOKEN ,"micronaut/security/${lang}/${db}/domains/RefreshToken.${ext}");
+        securityTemplates.put(LOGIN_STATUS ,"micronaut/security/${lang}/${db}/domains/LoginStatus.${ext}");
+        securityTemplates.put(ROLES ,"micronaut/security/${lang}/${db}/domains/Roles.${ext}");
+        securityTemplates.put(USER ,"micronaut/security/${lang}/${db}/domains/User.${ext}");
+        securityTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${lang}/${db}/repository/RefreshTokenRepository.${ext}");
+        securityTemplates.put(USER_REPOSITORY ,"micronaut/security/${lang}/${db}/repository/UserRepository.${ext}");
+        securityTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${lang}/${db}/services/CustomRefreshTokenPersistence.${ext}");
+        securityTemplates.put(USER_SERVICE ,"micronaut/security/${lang}/${db}/services/UserService.${ext}");
+        securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${lang}/${db}/AuthenticationProviderUserPassword.${ext}");
+        securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${lang}/${db}/PasswordEncoder.${ext}");
+        securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${lang}/${db}/PasswordEncoderService.${ext}");
+        securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${lang}/${db}/SecurityClient.${ext}");
+        securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${lang}/${db}/SecurityFactory.${ext}");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -551,6 +587,7 @@ public class TemplatesService {
     public HashMap<String, String> getFlywayTemplates() {
         return flywayTemplates;
     }
+    public HashMap<String, String> getSecurityTemplates(){return securityTemplates; }
 
 }
 

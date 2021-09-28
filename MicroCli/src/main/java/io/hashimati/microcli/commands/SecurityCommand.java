@@ -5,12 +5,14 @@ import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.services.SecurityGenerator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -20,6 +22,10 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 @Command(name = "security", description = "Enabling Security")
 public class SecurityCommand implements Callable<Integer> {
+
+
+    @Inject
+    private SecurityGenerator securityGenerator;
 
     @Override
     public Integer call() throws Exception {
@@ -69,6 +75,7 @@ public class SecurityCommand implements Callable<Integer> {
                 break;
         }
 
+        securityGenerator.generateSecurityFiles(strategy, roles );
         return 0;
     }
 }

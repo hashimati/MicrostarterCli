@@ -293,8 +293,9 @@ public class ConfigurationInitializer {
                 projectInfo.dumpToFile();
             }
             else {
-                configurationInfo.setDataBackendRun("none");
+               // configurationInfo.setDataBackendRun("none");
                 projectInfo.getFeatures().add("mongo-reactive");
+                configurationInfo.setDataBackendRun("mongoReactive");
                 MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
 //                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
                 projectInfo.getFeatures().add("testcontainers");
@@ -310,6 +311,7 @@ public class ConfigurationInitializer {
                         configurationInfo.setGorm(true);
                         MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
                         projectInfo.getFeatures().add("mongo-gorm");
+                        configurationInfo.setDataBackendRun("mongoGorm");
                     }
                 projectInfo.dumpToFile();
             }
