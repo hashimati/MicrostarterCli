@@ -28,6 +28,12 @@ public class TemplatesService {
             cacheTemplates = new HashMap<>(),
             micrometersTemplates = new HashMap<>(),
             securityTemplates = new HashMap<>(),
+            securityControllerTemplates = new HashMap<>(), 
+            securityDomainsTemplates = new HashMap<>(), 
+            securityRepositoryTemplates = new HashMap<>(), 
+            securityServicesTemplates = new HashMap<>(), 
+            securityEventsTemplates= new HashMap<>(), 
+            securityUtilsTemplates = new HashMap<>(),
             refreshTokenTemplates= new HashMap<>();
 
     public static final String
@@ -492,16 +498,16 @@ public class TemplatesService {
         micrometersTemplates.put(STATSD_yml, "micronaut/micrometers/statsd.yml");
 
 
-        securityTemplates.put(USER_CONTROLLER,"micronaut/security/${lang}/${db}/controllers/UserController.${ext}");
-        securityTemplates.put(LOGIN_EVENT ,"micronaut/security/${lang}/${db}/domains/LoginEvent.${ext}");
-        securityTemplates.put(REFRESHTOKEN ,"micronaut/security/${lang}/${db}/domains/RefreshToken.${ext}");
-        securityTemplates.put(LOGIN_STATUS ,"micronaut/security/${lang}/${db}/domains/LoginStatus.${ext}");
-        securityTemplates.put(ROLES ,"micronaut/security/${lang}/${db}/domains/Roles.${ext}");
-        securityTemplates.put(USER ,"micronaut/security/${lang}/${db}/domains/User.${ext}");
-        securityTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${lang}/${db}/repository/RefreshTokenRepository.${ext}");
-        securityTemplates.put(USER_REPOSITORY ,"micronaut/security/${lang}/${db}/repository/UserRepository.${ext}");
-        securityTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${lang}/${db}/services/CustomRefreshTokenPersistence.${ext}");
-        securityTemplates.put(USER_SERVICE ,"micronaut/security/${lang}/${db}/services/UserService.${ext}");
+        securityControllerTemplates.put(USER_CONTROLLER,"micronaut/security/${lang}/${db}/controllers/UserController.${ext}");
+        securityDomainsTemplates.put(LOGIN_EVENT ,"micronaut/security/${lang}/${db}/domains/LoginEvent.${ext}");
+        securityDomainsTemplates.put(REFRESHTOKEN ,"micronaut/security/${lang}/${db}/domains/RefreshToken.${ext}");
+        securityDomainsTemplates.put(LOGIN_STATUS ,"micronaut/security/${lang}/${db}/domains/LoginStatus.${ext}");
+        securityDomainsTemplates.put(ROLES ,"micronaut/security/${lang}/${db}/domains/Roles.${ext}");
+        securityDomainsTemplates.put(USER ,"micronaut/security/${lang}/${db}/domains/User.${ext}");
+        securityRepositoryTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${lang}/${db}/repository/RefreshTokenRepository.${ext}");
+        securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${lang}/${db}/repository/UserRepository.${ext}");
+        securityServicesTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${lang}/${db}/services/CustomRefreshTokenPersistence.${ext}");
+        securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${lang}/${db}/services/UserService.${ext}");
         securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${lang}/${db}/AuthenticationProviderUserPassword.${ext}");
         securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${lang}/${db}/PasswordEncoder.${ext}");
         securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${lang}/${db}/PasswordEncoderService.${ext}");
@@ -588,6 +594,11 @@ public class TemplatesService {
         return flywayTemplates;
     }
     public HashMap<String, String> getSecurityTemplates(){return securityTemplates; }
-
+    public HashMap<String, String> getSecurityControllerTemplates(){return  securityControllerTemplates; }
+    public HashMap<String, String> getSecurityDomainsTemplates(){return securityDomainsTemplates; }
+    public HashMap<String, String> getSecurityRepositoryTemplates(){return securityRepositoryTemplates; }
+    public HashMap<String, String> getSecurityServicesTemplates(){return securityServicesTemplates; }
+    public HashMap<String, String> getSecurityEventsTemplates(){return securityEventsTemplates; }
+    public HashMap<String, String> getSecurityUtilsTemplates(){return securityUtilsTemplates; }
 }
 

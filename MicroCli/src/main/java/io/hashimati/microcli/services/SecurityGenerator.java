@@ -2,7 +2,6 @@ package io.hashimati.microcli.services;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.micronaut.core.io.ResourceResolver;
@@ -15,7 +14,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.JAVA_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
 
 @Singleton
@@ -43,8 +41,15 @@ public class SecurityGenerator {
                 put("lang", lang);
                 put("ext", ext);
             }});
+            String template = templatesService.loadTemplateContent(path);
 
-            System.out.println(templatesService.loadTemplateContent(path));
+            String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
+            String fileContent = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+                put("securityPackage", securityPackage);
+                put("roles", "");
+            }});
+
+            System.out.println(fileContent);
         }
         //System.out.println(templatesService.loadTemplateContent("micronaut/security/java/JDBC/domains/LoginEvent.java"));
     }

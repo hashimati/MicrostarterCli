@@ -1,8 +1,8 @@
 package ${securityPackage}.controllers;
 
 
-import io.hashimati.security.domains.User;
-import io.hashimati.security.services.UserService;
+import ${securityPackage}.domains.User;
+import ${securityPackage}.services.UserService;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
