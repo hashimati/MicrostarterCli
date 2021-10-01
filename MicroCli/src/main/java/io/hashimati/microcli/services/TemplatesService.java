@@ -35,7 +35,8 @@ public class TemplatesService {
             securityEventsTemplates= new HashMap<>(), 
             securityUtilsTemplates = new HashMap<>(),
             securityRefreshTokenTemplates= new HashMap<>(),
-            securityPropertiesTemplates = new HashMap<>();
+            securityPropertiesTemplates = new HashMap<>(),
+            securityLiquibase = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -86,6 +87,8 @@ public class TemplatesService {
             SECURITY_USER_MONGO_SERVICE= "sec_user_mongo_service",
             SECURITY_USER_MONGO_CONTROLLER= "sec_user_mongo_controller",
             SECURITY_JWT_PROPERTIES = "security_jwt_properties",
+            SECURITY_LIQUIBASE_CONFIG = "Liquibase_config",
+            SECURITY_LIQUIBASE_SCHEMA = "liquibase_schema",
 
 
     CONTROLLER_UNIT_TEST = "controller_unit",
@@ -516,6 +519,8 @@ public class TemplatesService {
         securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${lang}/${db}/SecurityClient.${ext}");
         securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${lang}/${db}/SecurityFactory.${ext}");
         securityPropertiesTemplates.put(SECURITY_JWT_PROPERTIES, "micronaut/security/jwt_properties.yml");
+        securityLiquibase.put(SECURITY_LIQUIBASE_CONFIG, "micronaut/security/db/liquibase-changelog.xml");
+        securityLiquibase.put(SECURITY_LIQUIBASE_SCHEMA, "micronaut/security/db/changelog/db.security-1.xml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -605,5 +610,6 @@ public class TemplatesService {
     public HashMap<String, String> getSecurityUtilsTemplates(){return securityUtilsTemplates; }
     public HashMap<String, String> getSecurityRefreshTokenTemplates(){return securityRefreshTokenTemplates; }
     public HashMap<String, String> getSecurityPropertiesTemplates(){return securityPropertiesTemplates; }
+    public HashMap<String, String> getSecurityLiquibase(){return securityLiquibase; }
 }
 

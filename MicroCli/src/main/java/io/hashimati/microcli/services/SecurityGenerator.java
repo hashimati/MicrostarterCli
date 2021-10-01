@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Optional;
 
 @Singleton
@@ -65,6 +66,22 @@ public class SecurityGenerator {
 
             );
         }
+
+        if(!configurationInfo.getDatabaseType().toLowerCase().contains("mongo")){
+            String configPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_CONFIG);
+            String configContent = templatesService.loadTemplateContent(configPath);
+            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
+
+
+            String userSchemaPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_SCHEMA);
+            String userSchemaContent = templatesService.loadTemplateContent(configPath);
+            userSchemaPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
+
+            GeneratorUtils.createFile(configPath, configContent);
+            GeneratorUtils.createFile(userSchemaPath, userSchemaContent);
+
+
+        }
         configurationInfo.setSecurityEnable(true);
         configurationInfo.getProjectInfo().dumpToFile();
         configurationInfo.writeToFile();
@@ -96,10 +113,10 @@ public class SecurityGenerator {
                 put("persistToken", ""+persistRefreshToken);
             }});
 
-            System.out.println("-----");
-            System.out.println(filePath);
-            System.out.println(fileContent);
-            System.out.println("-----");
+//            System.out.println("-----");
+//            System.out.println(filePath);
+//            System.out.println(fileContent);
+//            System.out.println("-----");
 
             GeneratorUtils.createFile(filePath, fileContent);
         }
