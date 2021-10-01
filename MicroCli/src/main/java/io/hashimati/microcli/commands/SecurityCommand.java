@@ -44,8 +44,13 @@ public class SecurityCommand implements Callable<Integer> {
             return 0;
         }
 
+
         ListResult strategyResult = PromptGui.createListPrompt("strategy", "Select authentication strategy:", "Basic", "Session", "JWT");
         String strategy = strategyResult.getSelectedId();
+
+
+        boolean persistRefreshToken = true; //todo: to add this option in the future; strategy.equalsIgnoreCase("jwt")? PromptGui.createConfirmResult("refreshToken","Do you want to persist Refresh Token" ).getConfirmed() == ConfirmChoice.ConfirmationValue.YES:false;
+
 
         ArrayList<String> roles = new ArrayList<>();
 
@@ -60,9 +65,7 @@ public class SecurityCommand implements Callable<Integer> {
                 roles.add(role);
             }
         }
-
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-
         switch (lang.toLowerCase())
         {
             case "java":
@@ -74,8 +77,7 @@ public class SecurityCommand implements Callable<Integer> {
             default:
                 break;
         }
-
-        securityGenerator.generateSecurityFiles(strategy, roles );
+        securityGenerator.generateSecurityFiles(strategy, roles, persistRefreshToken );
         return 0;
     }
 }

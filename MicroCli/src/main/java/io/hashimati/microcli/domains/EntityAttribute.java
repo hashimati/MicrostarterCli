@@ -125,6 +125,23 @@ public class EntityAttribute {
         return this.type;
     }
 
+    public String getFinalStaticDeclaration(String lang, String value)
+    {
+        switch (lang){
+
+            case GROOVY_LANG:
+                return "\tpublic static final "+ type + " "+ name +" = "+value + "\n";
+
+            case KOTLIN_LANG:
+                return "\tconst val "+ type + " "+ name +" = "+value + "\n";
+
+            case JAVA_LANG:
+            default:
+                return "\tpublic static final "+ type + " "+ name + " = "+value +";\n";
+
+
+        }
+    }
 
     public String getDeclaration(String lang)
     {
