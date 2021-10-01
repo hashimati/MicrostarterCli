@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 
@@ -45,7 +46,7 @@ public class ConfigurationInfo {
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
     private boolean configured;
-
+    private List<String> securityRoles;
     public ConfigurationInfo visit(Visitor<ConfigurationInfo> visitor)
     {
         return visitor.visit(this);

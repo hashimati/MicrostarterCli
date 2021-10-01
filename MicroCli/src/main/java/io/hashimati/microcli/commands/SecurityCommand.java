@@ -6,6 +6,7 @@ import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.services.SecurityGenerator;
+import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -77,7 +78,11 @@ public class SecurityCommand implements Callable<Integer> {
             default:
                 break;
         }
-        securityGenerator.generateSecurityFiles(strategy, roles, persistRefreshToken );
+        try {
+            securityGenerator.generateSecurityFiles(strategy, roles, persistRefreshToken );
+        } catch (GradleReaderException e) {
+
+        }
         return 0;
     }
 }

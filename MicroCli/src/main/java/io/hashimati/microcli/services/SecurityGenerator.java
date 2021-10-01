@@ -1,9 +1,13 @@
 package io.hashimati.microcli.services;
 
 
+import io.hashimati.microcli.config.Feature;
+import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.EntityAttribute;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.GradleReaderException;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,13 +23,12 @@ public class SecurityGenerator {
 //
     @Inject
     private TemplatesService templatesService;
+    @Inject
+    private HashMap<String, Feature> features  ;
 
-
-    public void generateSecurityFiles(String strategy, ArrayList<String> roles, boolean persistRefreshToken) throws IOException {
+    public void generateSecurityFiles(String strategy, ArrayList<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
-
         String rolesDeclaration = "";
-
         if(!roles.isEmpty())
             rolesDeclaration =roles.stream().map(x->new EntityAttribute(){{
             setName(x);
@@ -41,7 +44,32 @@ public class SecurityGenerator {
         auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
         if(persistRefreshToken)
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
-  }
+
+        configurationInfo.setSecurityRoles(roles);
+
+        if(!configurationInfo.getProjectInfo().getFeatures().contains("security-annotations"))
+        {
+            configurationInfo.getProjectInfo().getFeatures().add("security-annotations");
+            MicronautProjectValidator.addDependency(features.get("security-annotations"));
+        }
+        if(!configurationInfo.getProjectInfo().getFeatures().contains("security-jwt"))
+        {
+            configurationInfo.getProjectInfo().getFeatures().add("security-jwt");
+            MicronautProjectValidator.addDependency(features.get("security-jwt"));
+            MicronautProjectValidator.appendToProperties(
+                    GeneratorUtils.getFileContent(
+                            new File(
+                                    templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
+                            )
+                    )
+
+            );
+        }
+        configurationInfo.setSecurityEnable(true);
+        configurationInfo.getProjectInfo().dumpToFile();
+        configurationInfo.writeToFile();
+
+    }
 
 
     public void auxGenerateSecurityFiles(String strategy, String roles, boolean persistRefreshToken, HashMap<String, String> templates, ConfigurationInfo configurationInfo) throws IOException {

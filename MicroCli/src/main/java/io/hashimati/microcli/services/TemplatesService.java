@@ -34,7 +34,8 @@ public class TemplatesService {
             securityServicesTemplates = new HashMap<>(), 
             securityEventsTemplates= new HashMap<>(), 
             securityUtilsTemplates = new HashMap<>(),
-            securityRefreshTokenTemplates= new HashMap<>();
+            securityRefreshTokenTemplates= new HashMap<>(),
+            securityPropertiesTemplates = new HashMap<>();
 
     public static final String
             CLIENT = "client",
@@ -84,6 +85,7 @@ public class TemplatesService {
             SECURITY_USER_MONGO_REPOSITORY= "sec_user_mongo_repository",
             SECURITY_USER_MONGO_SERVICE= "sec_user_mongo_service",
             SECURITY_USER_MONGO_CONTROLLER= "sec_user_mongo_controller",
+            SECURITY_JWT_PROPERTIES = "security_jwt_properties",
 
 
     CONTROLLER_UNIT_TEST = "controller_unit",
@@ -513,6 +515,7 @@ public class TemplatesService {
         securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${lang}/${db}/PasswordEncoderService.${ext}");
         securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${lang}/${db}/SecurityClient.${ext}");
         securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${lang}/${db}/SecurityFactory.${ext}");
+        securityPropertiesTemplates.put(SECURITY_JWT_PROPERTIES, "micronaut/security/jwt_properties.yml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
@@ -601,5 +604,6 @@ public class TemplatesService {
     public HashMap<String, String> getSecurityEventsTemplates(){return securityEventsTemplates; }
     public HashMap<String, String> getSecurityUtilsTemplates(){return securityUtilsTemplates; }
     public HashMap<String, String> getSecurityRefreshTokenTemplates(){return securityRefreshTokenTemplates; }
+    public HashMap<String, String> getSecurityPropertiesTemplates(){return securityPropertiesTemplates; }
 }
 

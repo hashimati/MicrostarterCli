@@ -1,7 +1,4 @@
 micronaut:
-  #  server:
-  #    ssl:
-  #      enabled: 'true'
   security:
     authentication: bearer
     token:
@@ -12,7 +9,12 @@ micronaut:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
         generator:
           access-token:
-            expiration: 23222222
-    basic-auth:
-      enabled: true
+            expiration: 100000
+          refresh-token:
+            secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
     enabled: true
+    endpoints:
+      login:
+        path: "/api/security/login"
+      logout:
+        path: "/api/security/logout"

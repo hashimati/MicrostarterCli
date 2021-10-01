@@ -522,6 +522,15 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
         }});
+        features.put("security-annotations", new Feature(){{
+            setName("security-annotations");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.security:micronaut-security-annotations\")\n");
+            setAnnotationMaven("\t<path>\n" +
+                    "\t\t<groupId>io.micronaut.security</groupId>\n" +
+                    "\t\t<artifactId>micronaut-security-annotations</artifactId>\n" +
+                    "\t\t<version>${micronaut.security.version}</version>\n" +
+                    "\t</path>");
+        }});
         features.put("security-session", new Feature(){{
             setName("security-session");
             setGradle("    implementation(\"io.micronaut.security:micronaut-security-session\")");
