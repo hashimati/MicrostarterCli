@@ -3,14 +3,14 @@ package ${defaultPackage}.controllers;
 import ${defaultPackage}.domains.${className};
 import ${defaultPackage}.utils.Randomizer;
 import io.micronaut.http.HttpRequest;
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test;
 
 @MicronautTest
-class ${className}ControllerTest(@Client("/api/${entityName}") private val client: RxHttpClient ) {
+class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient ) {
 
     lateinit var ${entityName}:${className};
 
