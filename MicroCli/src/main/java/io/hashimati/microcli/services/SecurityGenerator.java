@@ -1,6 +1,5 @@
 package io.hashimati.microcli.services;
 
-
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
@@ -35,7 +34,7 @@ public class SecurityGenerator {
             rolesDeclaration =roles.stream().map(x->new EntityAttribute(){{
             setName(x);
             setType("String");
-        }}.getFinalStaticDeclaration(configurationInfo.getProjectInfo().getSourceLanguage(), x))
+        }}.getFinalStaticDeclaration(configurationInfo.getProjectInfo().getSourceLanguage(), new StringBuilder().append("\"").append(x).append("\"").toString()))
                         .reduce((x, y)-> new StringBuilder(x).append(y).toString()).get();
 
         auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
@@ -112,7 +111,7 @@ public class SecurityGenerator {
 
             String fileContent = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>() {{
                 put("securityPackage", securityPackage);
-                put("roles", "");
+                put("roles", roles);
                 put("persistToken", ""+persistRefreshToken);
             }});
 
