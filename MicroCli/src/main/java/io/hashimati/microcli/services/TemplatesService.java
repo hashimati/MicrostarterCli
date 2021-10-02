@@ -503,21 +503,21 @@ public class TemplatesService {
         micrometersTemplates.put(STATSD_yml, "micronaut/micrometers/statsd.yml");
 
 
-        securityControllerTemplates.put(USER_CONTROLLER,"micronaut/security/${lang}/${db}/controllers/UserController.${ext}");
-        securityDomainsTemplates.put(LOGIN_EVENT ,"micronaut/security/${lang}/${db}/domains/LoginEvent.${ext}");
-        securityRefreshTokenTemplates.put(REFRESHTOKEN ,"micronaut/security/${lang}/${db}/domains/RefreshToken.${ext}");
-        securityDomainsTemplates.put(LOGIN_STATUS ,"micronaut/security/${lang}/${db}/domains/LoginStatus.${ext}");
-        securityDomainsTemplates.put(ROLES ,"micronaut/security/${lang}/${db}/domains/Roles.${ext}");
-        securityDomainsTemplates.put(USER ,"micronaut/security/${lang}/${db}/domains/User.${ext}");
-        securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${lang}/${db}/repository/RefreshTokenRepository.${ext}");
-        securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${lang}/${db}/repository/UserRepository.${ext}");
-        securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${lang}/${db}/services/CustomRefreshTokenPersistence.${ext}");
-        securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${lang}/${db}/services/UserService.${ext}");
-        securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${lang}/${db}/AuthenticationProviderUserPassword.${ext}");
-        securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${lang}/${db}/PasswordEncoder.${ext}");
-        securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${lang}/${db}/PasswordEncoderService.${ext}");
-        securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${lang}/${db}/SecurityClient.${ext}");
-        securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${lang}/${db}/SecurityFactory.${ext}");
+        securityControllerTemplates.put(USER_CONTROLLER,"micronaut/security/${lang}/${db}/controllers/UserController${ext}");
+        securityDomainsTemplates.put(LOGIN_EVENT ,"micronaut/security/${lang}/${db}/domains/LoginEvent${ext}");
+        securityRefreshTokenTemplates.put(REFRESHTOKEN ,"micronaut/security/${lang}/${db}/domains/RefreshToken${ext}");
+        securityDomainsTemplates.put(LOGIN_STATUS ,"micronaut/security/${lang}/${db}/domains/LoginStatus${ext}");
+        securityDomainsTemplates.put(ROLES ,"micronaut/security/${lang}/${db}/domains/Roles${ext}");
+        securityDomainsTemplates.put(USER ,"micronaut/security/${lang}/${db}/domains/User${ext}");
+        securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${lang}/${db}/repository/RefreshTokenRepository${ext}");
+        securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${lang}/${db}/repository/UserRepository${ext}");
+        securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");
+        securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${lang}/${db}/services/UserService${ext}");
+        securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${lang}/${db}/AuthenticationProviderUserPassword${ext}");
+        securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${lang}/${db}/PasswordEncoder${ext}");
+        securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${lang}/${db}/PasswordEncoderService${ext}");
+        securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${lang}/${db}/SecurityClient${ext}");
+        securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${lang}/${db}/SecurityFactory${ext}");
         securityPropertiesTemplates.put(SECURITY_JWT_PROPERTIES, "micronaut/security/jwt_properties.yml");
         securityLiquibase.put(SECURITY_LIQUIBASE_CONFIG, "micronaut/security/db/liquibase-changelog.xml");
         securityLiquibase.put(SECURITY_LIQUIBASE_SCHEMA, "micronaut/security/db/changelog/db.security-1.xml");

@@ -24,10 +24,11 @@ public class SecurityGenerator {
 //
     @Inject
     private TemplatesService templatesService;
-    @Inject
-    private HashMap<String, Feature> features  ;
+
 
     public void generateSecurityFiles(String strategy, ArrayList<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
+         HashMap<String, Feature> features  =FeaturesFactory.features();
+
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
         String rolesDeclaration = "";
         if(!roles.isEmpty())
@@ -48,6 +49,7 @@ public class SecurityGenerator {
 
         configurationInfo.setSecurityRoles(roles);
 
+        MicronautProjectValidator.addDependency(features.get("jasypt"));
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-annotations"))
         {
             configurationInfo.getProjectInfo().getFeatures().add("security-annotations");
@@ -58,26 +60,27 @@ public class SecurityGenerator {
             configurationInfo.getProjectInfo().getFeatures().add("security-jwt");
             MicronautProjectValidator.addDependency(features.get("security-jwt"));
             MicronautProjectValidator.appendToProperties(
-                    GeneratorUtils.getFileContent(
-                            new File(
+                    templatesService.loadTemplateContent(
+
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
-                            )
+
                     )
 
             );
+
         }
 
         if(!configurationInfo.getDatabaseType().toLowerCase().contains("mongo")){
-            String configPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_CONFIG);
-            String configContent = templatesService.loadTemplateContent(configPath);
-            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
-
+//            String configPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_CONFIG);
+//            String configContent = templatesService.loadTemplateContent(configPath);
+//            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
+//
 
             String userSchemaPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_SCHEMA);
-            String userSchemaContent = templatesService.loadTemplateContent(configPath);
+            String userSchemaContent = templatesService.loadTemplateContent(userSchemaPath);
             userSchemaPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
 
-            GeneratorUtils.createFile(configPath, configContent);
+//            GeneratorUtils.createFile(configPath, configContent);
             GeneratorUtils.createFile(userSchemaPath, userSchemaContent);
 
 

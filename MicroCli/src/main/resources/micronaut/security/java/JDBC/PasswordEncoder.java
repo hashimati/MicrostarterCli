@@ -1,4 +1,4 @@
-package ${securityPackage}.security;
+package ${securityPackage};
 
 public interface PasswordEncoder {
 
