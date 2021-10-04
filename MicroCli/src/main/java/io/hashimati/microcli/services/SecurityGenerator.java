@@ -26,23 +26,29 @@ public class SecurityGenerator {
 
 
     public void generateSecurityFiles(String strategy, ArrayList<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
-         HashMap<String, Feature> features  =FeaturesFactory.features();
+        HashMap<String, Feature> features = FeaturesFactory.features();
 
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
         String rolesDeclaration = "";
-        if(!roles.isEmpty())
-            rolesDeclaration =roles.stream().map(x->new EntityAttribute(){{
-            setName(x);
-            setType("String");
-        }}.getFinalStaticDeclaration(configurationInfo.getProjectInfo().getSourceLanguage(), new StringBuilder().append("\"").append(x).append("\"").toString()))
-                        .reduce((x, y)-> new StringBuilder(x).append(y).toString()).get();
+        if (!roles.isEmpty())
+            rolesDeclaration = roles.stream().map(x -> new EntityAttribute() {{
+                        setName(x);
+                        setType("String");
+                    }}.getFinalStaticDeclaration(configurationInfo.getProjectInfo().getSourceLanguage(), new StringBuilder().append("\"").append(x).append("\"").toString()))
+                    .reduce((x, y) -> new StringBuilder(x).append(y).toString()).get();
 
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration,persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
+
+        if (configurationInfo.getDatabaseType().contains("mongo"))
+        {
+            auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
+
+        }
         if(persistRefreshToken)
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
@@ -62,7 +68,6 @@ public class SecurityGenerator {
                     templatesService.loadTemplateContent(
 
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
-
                     )
 
             );
@@ -74,7 +79,6 @@ public class SecurityGenerator {
 //            String configContent = templatesService.loadTemplateContent(configPath);
 //            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
 //
-
             String userSchemaPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_SCHEMA);
             String userSchemaContent = templatesService.loadTemplateContent(userSchemaPath);
             userSchemaPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
