@@ -522,8 +522,8 @@ public class TemplatesService {
         securityPropertiesTemplates.put(SECURITY_JWT_PROPERTIES, "micronaut/security/jwt_properties.yml");
         securityLiquibase.put(SECURITY_LIQUIBASE_CONFIG, "micronaut/security/db/liquibase-changelog.xml");
         securityLiquibase.put(SECURITY_LIQUIBASE_SCHEMA, "micronaut/security/db/changelog/db.security-1.xml");
-        securityEventsTemplates.put(LOGIN_EVENT_PUBLISHER, "/micronaut/security/${lang}/common/event/LoginEventPublisher.java");
-        securityEventsTemplates.put(LOGIN_EVENT_LISTENER, "/micronaut/security/${lang}/common/event/LoginEventListener.java.java");
+        securityEventsTemplates.put(LOGIN_EVENT_PUBLISHER, "micronaut/security/${lang}/common/event/LoginEventPublisher.java");
+        securityEventsTemplates.put(LOGIN_EVENT_LISTENER, "micronaut/security/${lang}/common/event/LoginEventListener.java.java");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)

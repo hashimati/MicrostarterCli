@@ -1165,13 +1165,8 @@ public class MicronautEntityGenerator
                 e.printStackTrace();
                 return "";
             }
-        }).reduce("", (x,y)->x+ "\n" + y);
-
+        }).reduce("", (x,y)-> new StringBuilder().append(x).append("\n").append(y).toString());
         map.put("mutationMethods", mutationMethods);
-
-
-
-
         return new SimpleTemplateEngine()
                 .createTemplate(queryTemplates).make(map).toString();
 

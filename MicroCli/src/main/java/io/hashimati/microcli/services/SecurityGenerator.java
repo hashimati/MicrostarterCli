@@ -4,6 +4,7 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.EntityAttribute;
+import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
@@ -107,8 +108,7 @@ public class SecurityGenerator {
                 put("ext", ext);
             }});
 
-            String filePath = System.getProperty("user.dir")+"/src/main/"+ lang + "/"+ GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())
-                    + path.substring(path.indexOf("/security")).replace("/"+ lang + "/" + db, "" );
+            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "")).toString();
             String template = templatesService.loadTemplateContent(path);
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
@@ -117,13 +117,8 @@ public class SecurityGenerator {
                 put("securityPackage", securityPackage);
                 put("roles", roles);
                 put("persistToken", ""+persistRefreshToken);
+                put("dialect", DataTypeMapper.dialectMapper.get(configurationInfo.getDatabaseType().toLowerCase()));
             }});
-
-//            System.out.println("-----");
-//            System.out.println(filePath);
-//            System.out.println(fileContent);
-//            System.out.println("-----");
-
             GeneratorUtils.createFile(filePath, fileContent);
         }
     }
