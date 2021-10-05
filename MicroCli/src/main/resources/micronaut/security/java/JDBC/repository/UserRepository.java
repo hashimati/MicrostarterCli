@@ -10,7 +10,7 @@ import io.micronaut.data.repository.CrudRepository;
 import java.time.Instant;
 import java.util.List;
 
-@JdbcRepository(dialect = Dialect.H2)
+@JdbcRepository(dialect = Dialect.${dialect})
 public interface UserRepository extends CrudRepository<User, Long> {
     public User findByUsername(String username);
     public List<User> findAll();
