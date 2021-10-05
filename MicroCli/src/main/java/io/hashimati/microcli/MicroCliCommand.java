@@ -1,6 +1,10 @@
 package io.hashimati.microcli;
 /**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 import io.hashimati.microcli.commands.*;
 import io.micronaut.configuration.picocli.PicocliRunner;

@@ -1,6 +1,10 @@
 package io.hashimati.microcli.domains;
 /**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 import io.hashimati.microcli.utils.Visitor;
 import lombok.Data;

@@ -2,6 +2,10 @@ package io.hashimati.microcli.test;
 
 /**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 import picocli.CommandLine.Option;
 

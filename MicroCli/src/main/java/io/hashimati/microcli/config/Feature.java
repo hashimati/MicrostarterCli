@@ -1,6 +1,10 @@
 package io.hashimati.microcli.config;
-/*
+/**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.Visitor;

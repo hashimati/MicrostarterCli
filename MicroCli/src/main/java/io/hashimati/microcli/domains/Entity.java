@@ -1,6 +1,10 @@
 package io.hashimati.microcli.domains;
 /**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.Visitor;

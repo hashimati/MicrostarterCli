@@ -18,7 +18,11 @@ import java.util.List;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 
 /**
- * @author Ahmed Al Hashmi (@Hashimati)
+ * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
 @Data
 public class ConfigurationInfo {

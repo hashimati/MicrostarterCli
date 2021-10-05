@@ -1,4 +1,11 @@
 package io.hashimati.microcli.commands;
+/**
+ * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
+ */
 
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
@@ -10,13 +17,11 @@ import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.Callable;
 
 import static org.fusesource.jansi.Ansi.ansi;

@@ -1,8 +1,11 @@
 package io.hashimati.microcli.services;
 /**
  * @author Ahmed Al Hashmi
+ *
+ * @github: @Hashimati
+ * @twitter: @hashimati
+ * @email: hashimati.ahmed@gmail.com
  */
-
 import groovy.lang.Tuple2;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.domains.EntityRelation;
