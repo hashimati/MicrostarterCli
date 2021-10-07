@@ -101,7 +101,6 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
         return Flux.create(emitter->{
             if(passwordEncoderService.matches(authenticationRequest.getSecret().toString(), user.getPassword())){
-                System.out.println("This is the fucking "+ authenticationRequest.getIdentity().toString());
                 refreshTokenRepository.deleteById(authenticationRequest.getIdentity().toString()).block();
 
                 Collections.emptyList();

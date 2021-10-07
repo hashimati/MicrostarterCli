@@ -3,10 +3,10 @@ package ${securityPackage}.services;
 
 import ${securityPackage}.domains.RefreshToken;
 import ${securityPackage}.repository.RefreshTokenRepository;
-import ${securityPackage}.authentication.Authentication;
-import ${securityPackage}.errors.OauthErrorResponseException;
-import ${securityPackage}.token.event.RefreshTokenGeneratedEvent;
-import ${securityPackage}.token.refresh.RefreshTokenPersistence;
+import io.micronaut.security.authentication.Authentication;
+import io.micronaut.security.errors.OauthErrorResponseException;
+import io.micronaut.security.token.event.RefreshTokenGeneratedEvent;
+import io.micronaut.security.token.refresh.RefreshTokenPersistence;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;

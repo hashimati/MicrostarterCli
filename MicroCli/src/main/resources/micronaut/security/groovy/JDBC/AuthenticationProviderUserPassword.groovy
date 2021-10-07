@@ -1,46 +1,48 @@
-package io.hashimati.security;
+package ${securityPackage}
 
+import ${securityPackage}.PasswordEncoderService
+import ${securityPackage}.domains.LoginEvent
+import ${securityPackage}.domains.LoginStatus
+import ${securityPackage}.domains.User
+import ${securityPackage}.repository.RefreshTokenRepository
+import ${securityPackage}.repository.UserRepository
+import io.micronaut.context.event.ApplicationEventPublisher
+import io.micronaut.http.HttpRequest
+import io.micronaut.security.authentication.*
+import io.micronaut.transaction.annotation.TransactionalEventListener
+import io.reactivex.Flowable
+import jakarta.inject.Inject
+import org.reactivestreams.Publisher
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import reactor.core.publisher.Flux
 
-import io.hashimati.security.domains.LoginEvent;
-import io.hashimati.security.domains.LoginStatus;
-import io.hashimati.security.domains.User;
-import io.hashimati.security.event.LoginEventPublisher;
-import io.hashimati.security.repository.RefreshTokenRepository;
-import io.hashimati.security.repository.UserRepository;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.security.authentication.*;
-import jakarta.inject.Inject;
-import org.reactivestreams.Publisher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
+import javax.transaction.Transactional
+import java.time.Instant
 
-import java.util.Collections;
-import java.util.Date;
-
-public class AuthenticationProviderUserPassword implements AuthenticationProvider {
+class AuthenticationProviderUserPassword implements AuthenticationProvider {
 
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
     @Inject
     private UserRepository userRepository;
-
     @Inject
     private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
-    private LoginEventPublisher eventPublisher;
+    private ApplicationEventPublisher eventPublisher;
 
     @Inject
     private PasswordEncoderService passwordEncoderService;
 
+    @Transactional
     @Override
-    public Publisher<AuthenticationResponse> authenticate(HttpRequest<?> request, AuthenticationRequest<?, ?> authenticationRequest) {
+    Publisher<AuthenticationResponse> authenticate(HttpRequest<?> request, AuthenticationRequest<?, ?> authenticationRequest) {
 
         log.info("Trying to login with :{}", authenticationRequest.getIdentity());
 
         LoginEvent loginEvent = new LoginEvent();
-        loginEvent.setLastTryDate(new Date());
+        loginEvent.setLastTryDate(Instant.now());
         loginEvent.setStatus(LoginStatus.FAILED);
         loginEvent.setUsername(authenticationRequest.getIdentity().toString());
         loginEvent.setPassword(authenticationRequest.getSecret().toString());
@@ -48,11 +50,11 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
         if(!userRepository.existsByUsername(authenticationRequest.getIdentity().toString())){
             log.error("Couldn't find this User :{}", authenticationRequest.getIdentity());
-            Flux<AuthenticationResponse> result = Flux.just(new AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND));;
+            Flowable<AuthenticationResponse> result = Flowable.just(new AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND));;
 
             return result;
         }
-        User user = userRepository.findByUsername(authenticationRequest.getIdentity().toString()).block();
+        User user = userRepository.findByUsername(authenticationRequest.getIdentity().toString());
 
         if(user.isDisabled())
         {
@@ -101,11 +103,9 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
         return Flux.create(emitter->{
             if(passwordEncoderService.matches(authenticationRequest.getSecret().toString(), user.getPassword())){
-                System.out.println("This is the fucking "+ authenticationRequest.getIdentity().toString());
-                refreshTokenRepository.deleteById(authenticationRequest.getIdentity().toString()).block();
-
+                refreshTokenRepository.deleteByUsername(((String) authenticationRequest.getIdentity()).toString());
                 Collections.emptyList();
-                emitter.next(AuthenticationResponse.success((String)authenticationRequest.getIdentity(), user.getRoles()));
+                emitter.next(AuthenticationResponse.success((String)authenticationRequest.getIdentity(), Arrays.asList(user.getRoles().split(","))));
                 loginEvent.setStatus(LoginStatus.SUCCEED);
                 eventPublisher.publishEvent(loginEvent);
                 log.info("Username {} logged in successfully", authenticationRequest.getIdentity());
@@ -113,11 +113,17 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
             }
             else{
                 log.error("{} is trying to login with invalid credentials", authenticationRequest.getIdentity());
-                loginEvent.setStatus(LoginStatus.FAILED_WRONG_PASSWORD);
-                eventPublisher.publishEvent(loginEvent);
                 emitter.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH));
             }
         });
+
+    }
+
+    @TransactionalEventListener
+    void onLoginEvent(LoginEvent loginEvent)
+    {
+
+        userRepository.updateByUsername(loginEvent.getUsername(), loginEvent.getStatus(), loginEvent.getLastTryDate());
 
     }
 }

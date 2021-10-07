@@ -1,9 +1,9 @@
-package io.hashimati.security.repository;
+package ${securityPackage}.repository;
 
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
-import io.hashimati.security.domains.User;
+import ${securityPackage}.domains.User;
 import jakarta.inject.Singleton;
 import org.bson.BsonDocument;
 import org.bson.BsonString;

@@ -51,7 +51,7 @@ public class SecurityGenerator {
         auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
         auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
 
-        if (configurationInfo.getDatabaseType().contains("mongo"))
+        if (configurationInfo.getDataBackendRun().contains("mongoReactive"))
         {
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
 
@@ -114,7 +114,7 @@ public class SecurityGenerator {
                 put("ext", ext);
             }});
 
-            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "")).toString();
+            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "")).toString();
             String template = templatesService.loadTemplateContent(path);
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
