@@ -67,20 +67,44 @@ public class SecurityGenerator {
             configurationInfo.getProjectInfo().getFeatures().add("security-annotations");
             MicronautProjectValidator.addDependency(features.get("security-annotations"));
         }
+        if(strategy.equalsIgnoreCase("jwt")){
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-jwt"))
         {
             configurationInfo.getProjectInfo().getFeatures().add("security-jwt");
             MicronautProjectValidator.addDependency(features.get("security-jwt"));
             MicronautProjectValidator.appendToProperties(
                     templatesService.loadTemplateContent(
-
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
                     )
-
             );
 
-        }
+        }}
+        else if(strategy.equalsIgnoreCase("oauth")){
+            if(!configurationInfo.getProjectInfo().getFeatures().contains("security-oauth2"))
+            {
+                configurationInfo.getProjectInfo().getFeatures().add("security-oauth2");
+                MicronautProjectValidator.addDependency(features.get("security-oauth2"));
+                MicronautProjectValidator.appendToProperties(
+                        templatesService.loadTemplateContent(
+                                templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
+                        )
+                );
 
+            }
+        }
+        else if(strategy.equalsIgnoreCase("session")){
+            if(!configurationInfo.getProjectInfo().getFeatures().contains("security-session"))
+            {
+                configurationInfo.getProjectInfo().getFeatures().add("security-session");
+                MicronautProjectValidator.addDependency(features.get("security-session"));
+                MicronautProjectValidator.appendToProperties(
+                        templatesService.loadTemplateContent(
+                                templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
+                        )
+                );
+
+            }
+        }
         if(!configurationInfo.getDatabaseType().toLowerCase().contains("mongo")){
 //            String configPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_CONFIG);
 //            String configContent = templatesService.loadTemplateContent(configPath);
@@ -115,7 +139,7 @@ public class SecurityGenerator {
                 put("ext", ext);
             }});
 
-            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append(lang).append("/").append(db).toString(), "")).toString();
+            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder("/").append(strategy).append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append("/").append(lang).append("/").append(db).toString(), "")).toString();
             String template = templatesService.loadTemplateContent(path);
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();

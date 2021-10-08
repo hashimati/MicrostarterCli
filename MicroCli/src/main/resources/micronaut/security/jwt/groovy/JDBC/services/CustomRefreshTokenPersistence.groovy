@@ -17,7 +17,7 @@ import reactor.core.publisher.FluxSink
 @Singleton
 class CustomRefreshTokenPersistence implements RefreshTokenPersistence {
     private final RefreshTokenRepository refreshTokenRepository
-    private static final Logger log = LoggerFactory.getLogger(micronaut.security.jwt.groovy.mongoReactive.services.CustomRefreshTokenPersistence.class)
+    private static final Logger log = LoggerFactory.getLogger(CustomRefreshTokenPersistence.class)
 
     CustomRefreshTokenPersistence(RefreshTokenRepository refreshTokenRepository) {
         this.refreshTokenRepository = refreshTokenRepository

@@ -40,7 +40,11 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+// https://mvnrepository.com/artifact/com.esotericsoftware.yamlbeans/yamlbeans
+    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.15'
 
+    // https://mvnrepository.com/artifact/org.openrewrite/rewrite-yaml
+    runtimeOnly 'org.openrewrite:rewrite-yaml:7.15.0'
 
 
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'

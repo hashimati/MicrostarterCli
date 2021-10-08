@@ -2,6 +2,8 @@ package io.hashimati.microcli.utils;
 /**
  * @author Ahmed Al Hashmi
  */
+import com.esotericsoftware.yamlbeans.YamlReader;
+import com.esotericsoftware.yamlbeans.YamlWriter;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple3;
 import groovy.text.Template;
@@ -22,12 +24,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
@@ -666,24 +667,35 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws FileNotFoundException {
+    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws IOException {
         //todo
         if(database.contains("gorm"))
             return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool);
       return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool)&&
         appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
     }
-    public static boolean appendToProperties(String properties) throws FileNotFoundException {
+    public static boolean appendToProperties(String properties) throws IOException {
         //todo
         String propertiesPath = "src/main/resources/application.yml";
-        String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath));
-
+        String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath)).replaceAll("^\\s+","");
         if(!propertiesContent.contains(properties))
         {
-            return GeneratorUtils.appendContentToFile(propertiesPath, propertiesContent + "\n---\n"+properties);
 
+            boolean appending =  GeneratorUtils.appendContentToFile(propertiesPath, propertiesContent + "\n---\n"+properties) ;
+
+            return appending;  //&& formattingYamlFile(propertiesPath);
         }
         return false;
+    }
+    public static boolean formattingYamlFile(String path) throws IOException {
+//        InputStream inputStream = new FileInputStream(new File(path));
+        YamlReader reader = new YamlReader(new FileReader(path));
+        Map<String, Object> data = (Map<String, Object>) reader.read();
+        System.out.println(data);
+//        PrintWriter writer = new PrintWriter(new File(path));
+//        Yaml yaml = new Yaml();
+//        yaml.dump(data, writer);
+        return true;
     }
 
     public static boolean appendToXMLNode(String node, String path) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {

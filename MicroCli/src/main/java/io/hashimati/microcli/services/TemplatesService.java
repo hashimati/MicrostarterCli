@@ -519,7 +519,7 @@ public class TemplatesService {
         securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${auth}/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");
         securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${auth}/${lang}/${db}/services/UserService${ext}");
         securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${auth}/${lang}/${db}/AuthenticationProviderUserPassword${ext}");
-        securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${lang}/${auth}/${db}/PasswordEncoder${ext}");
+        securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${auth}/${lang}/${db}/PasswordEncoder${ext}");
         securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${auth}/${lang}/${db}/PasswordEncoderService${ext}");
         securityTemplates.put( SECURITY_CLIENT ,"micronaut/security/${auth}/${lang}/${db}/SecurityClient${ext}");
         securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${auth}/${lang}/${db}/SecurityFactory${ext}");
