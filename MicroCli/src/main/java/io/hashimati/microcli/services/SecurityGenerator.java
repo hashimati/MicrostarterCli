@@ -84,11 +84,7 @@ public class SecurityGenerator {
             {
                 configurationInfo.getProjectInfo().getFeatures().add("security-oauth2");
                 MicronautProjectValidator.addDependency(features.get("security-oauth2"));
-                MicronautProjectValidator.appendToProperties(
-                        templatesService.loadTemplateContent(
-                                templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
-                        )
-                );
+
 
             }
         }
@@ -99,7 +95,7 @@ public class SecurityGenerator {
                 MicronautProjectValidator.addDependency(features.get("security-session"));
                 MicronautProjectValidator.appendToProperties(
                         templatesService.loadTemplateContent(
-                                templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
+                                templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_SESSION_PROPERTIES)
                         )
                 );
 
