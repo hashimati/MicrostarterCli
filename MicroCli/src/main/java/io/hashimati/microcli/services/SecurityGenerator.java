@@ -109,6 +109,7 @@ public class SecurityGenerator {
         for (String key : templates.keySet()) {
             String path = templates.get(key);
             path = GeneratorUtils.generateFromTemplate(path, new HashMap<String, String>() {{
+                put("auth", strategy);
                 put("db", db);
                 put("lang", lang);
                 put("ext", ext);

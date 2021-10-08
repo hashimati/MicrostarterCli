@@ -1,0 +1,7 @@
+micronaut:
+  server:
+    ssl:
+      enabled: 'true'
+acme:
+  enabled: 'true'
+  tos-agree: 'true'

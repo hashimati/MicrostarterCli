@@ -84,7 +84,7 @@ public class SecurityCommand implements Callable<Integer> {
                 break;
         }
         try {
-            securityGenerator.generateSecurityFiles(strategy, roles, persistRefreshToken );
+            securityGenerator.generateSecurityFiles(strategy.toLowerCase(), roles, persistRefreshToken );
         } catch (GradleReaderException e) {
 
         }

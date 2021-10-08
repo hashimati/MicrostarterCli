@@ -232,13 +232,13 @@ public class ConfigurationInitializer {
 
                         MicronautProjectValidator.addDependency(new Feature(){{
                             setGradle(features.get("h2").getTestGradle());
-                            setMaven(features.get("h2").getTestMaven());
+                            getMaven().add(features.get("h2").getTestMaven());
                         }});
                         if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
                         {
                             MicronautProjectValidator.addDependency(new Feature(){{
                                 setGradle(features.get("h2").getTestRdbcGradle());
-                                setMaven(features.get("h2").getTestRdbcMaven());
+                                getMaven().add(features.get("h2").getTestRdbcMaven());
 
                             }});
                         }

@@ -8,19 +8,19 @@ package io.hashimati.microcli.config;
  */
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.Visitor;
-
+import java.util.List;
 import lombok.Data;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Data
 public class Feature {
-
     private String name,
-    maven, gradle,
+    gradle,
     annotationMaven,
     annotationGradle,
     testGradle,
@@ -36,8 +36,10 @@ public class Feature {
     testRdbcMaven,
     gradleTask;
     ArrayList<String> gradlePlugins = new ArrayList<>();
+    ArrayList<String> maven = new ArrayList<>();
     private Plugin plugin;
     private HashMap<String, String> mavenProperties = new HashMap<>();
+
 
 
 
@@ -61,9 +63,12 @@ public class Feature {
     }
 
 
-    public Dependency getMavenDependency()
+    public List<Dependency> getMavenDependency()
     {
-        return getMavenDependency(this.maven);
+
+        return maven.stream().map(x-> getMavenDependency(x)).collect(Collectors.toList());
+
+        //return getMavenDependency(this.maven);
     }
 
 }
