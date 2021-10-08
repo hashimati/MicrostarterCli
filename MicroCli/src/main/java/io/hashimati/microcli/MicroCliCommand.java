@@ -32,11 +32,11 @@ import picocli.CommandLine.Option;
             CreateWebsocketServerCommand.class,
             CreateNatsClientCommand.class,
             CreateNatsListenerCommand.class,
-            EnableJWTSecurityCommand.class,
+           // EnableJWTSecurityCommand.class,
             CreateGcpPubSubClientCommand.class,
             CreateGcpPubSubListenerCommand.class,
-            CreateMQTTListenerCommand.class,
-            CreateMQTTClientCommand.class,
+//            CreateMQTTListenerCommand.class,
+//            CreateMQTTClientCommand.class,
             BannerCommand.class,
             SecurityCommand.class
 })

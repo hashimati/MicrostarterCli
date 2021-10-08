@@ -34,6 +34,8 @@ import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
 import static io.hashimati.microcli.services.TemplatesService.JWT_yml;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
+
+@Deprecated
 @Command(name = "enable-security-jwt", aliases = {"jwt", "JWT", "security-jwt"}, description = "To secure the application with JWT")
 public class EnableJWTSecurityCommand implements Callable<Integer> {
 
