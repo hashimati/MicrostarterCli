@@ -44,8 +44,7 @@ import java.util.stream.Collectors;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
-import static io.hashimati.microcli.services.TemplatesService.CAFFEINE_YML;
-import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
+import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.PromptGui.println;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.RED;
@@ -331,6 +330,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
+
                 String repoPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>(){{
                     put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
@@ -340,6 +340,17 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                 GeneratorUtils.createFile(System.getProperty("user.dir")+"/"+repoPath+ "/"+entity.getName()+"Repository"+extension, repositoryFileContent);
 
+                if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb"))
+                {
+                    templatesService.loadTemplates(null);
+                    String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
+                            (templatesService.getProperties().get(MDB_COLLECTION_YML));
+                    String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String> (){{
+                        put("collection", entity.getName());
+                        put("collections", collectionName);
+                    }});
+                    MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
+                }
                 //----------------------
 
                 String serviceFileContent = micronautEntityGenerator.generateService(entity, lang);

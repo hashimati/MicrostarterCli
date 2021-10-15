@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
 import static io.hashimati.microcli.utils.PromptGui.*;
@@ -308,8 +308,34 @@ public class ConfigurationInitializer {
                 //todo add dependencies to build files;
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
+
                 MicronautProjectValidator.appendToProperties(mongoProperties);
 
+                String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(MDB_yml));
+                String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String> (){{
+                    put("dbName", configurationInfo.getDatabaseName());
+                }});
+                MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
+
+                String mongodbConfigurationTemplate  = "";
+                String ext = projectInfo.getSourceLanguage();
+                switch (projectInfo.getSourceLanguage().toLowerCase()){
+                    case JAVA_LANG:
+                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(MONGODB_CONFIGURATION));
+                        break;
+                    case GROOVY_LANG:
+                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getGroovyTemplates().get(MONGODB_CONFIGURATION));
+                        break;
+                    case KOTLIN_LANG:
+                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getKotlinTemplates().get(MONGODB_CONFIGURATION));
+                        ext = "kt";
+                        break;
+                }
+                String mongoConfigurationContent = GeneratorUtils.generateFromTemplate(mongodbConfigurationTemplate, new HashMap<String, String> (){{
+                    put("projectPackage", projectInfo.getDefaultPackage());
+                }});
+                GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/"+ projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+ "/config/MongodbConfiguration."+ ext , mongoConfigurationContent);
                 if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
                     if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
                     {
@@ -482,7 +508,7 @@ public class ConfigurationInitializer {
         try {
 
            String logBackContent =  new TemplatesService().loadTemplateContent(LOGBACK_PATH);
-            GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/resources/logback.xml", logBackContent);
+            GeneratorUtils.createFile(new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/logback.xml").toString(), logBackContent);
         }catch (Exception ex)
         {
 

@@ -59,6 +59,7 @@ public class TemplatesService {
             MONGO_REPOSITORY = "mongorepository",
             MONGO_SERVICE = "mongoservice",
             MONGO_CLIENT = "mongoclient",
+            MONGODB_CONFIGURATION = "MongodbConfiguration",
             NEO4J_CONTROLLER = "neo4jcontroller",
             NEO4J_REPOSITORY = "neo4jrepository",
             NEO4J_SERVICE = "neo4jservice",
@@ -194,6 +195,8 @@ public class TemplatesService {
             MYSQL_R2DBC_TEST_yml = "mysql_r2dbc_test",
             SQLSERVER_R2DBC_TEST_yml = "sqlserver_r2dbc_test",
             JPA_yml = "jpa",
+            MDB_yml = "mdb",
+            MDB_COLLECTION_YML = "mdb_collection",
 
 
 
@@ -250,6 +253,7 @@ public class TemplatesService {
         javaTemplates.put(JOIN_ANNOTATION, "micronaut/entityTemplates/java/JdbcJoinAnnotation.txt");
         javaTemplates.put(JOIN_METHODS, "micronaut/entityTemplates/java/JoinRepoMethods.txt");
         javaTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/java/mongocontroller.txt");
+        javaTemplates.put(MONGODB_CONFIGURATION, "micronaut/entityTemplates/java/MongodbConfiguration.txt");
         javaTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/java/mongorepository.txt");
         javaTemplates.put(MONGO_CLIENT, "micronaut/entityTemplates/java/mongoclient.txt");
         javaTemplates.put(MONGO_SERVICE, "micronaut/entityTemplates/java/mongoservice.txt");
@@ -310,6 +314,7 @@ public class TemplatesService {
         groovyTemplates.put(JOIN_METHODS, "micronaut/entityTemplates/groovy/JoinRepoMethods.txt");
         groovyTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/groovy/mongocontroller.txt");
         groovyTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/groovy/mongorepository.txt");
+        groovyTemplates.put(MONGODB_CONFIGURATION, "micronaut/entityTemplates/groovy/MongodbConfiguration.txt");
         groovyTemplates.put(MONGO_SERVICE, "micronaut/entityTemplates/groovy/mongoservice.txt");
         groovyTemplates.put(MONGO_CLIENT, "micronaut/entityTemplates/groovy/mongoclient.txt");
         groovyTemplates.put(NEO4J_CONTROLLER, "micronaut/entityTemplates/groovy/neo4jcontroller.txt");
@@ -375,6 +380,7 @@ public class TemplatesService {
         kotlinTemplates.put(MONGO_CONTROLLER, "micronaut/entityTemplates/kotlin/mongocontroller.txt");
         kotlinTemplates.put(MONGO_REPOSITORY, "micronaut/entityTemplates/kotlin/mongorepository.txt");
         kotlinTemplates.put(MONGO_SERVICE, "micronaut/entityTemplates/kotlin/mongoservice.txt");
+        kotlinTemplates.put(MONGODB_CONFIGURATION, "micronaut/entityTemplates/kotlin/MongodbConfiguration.txt");
         kotlinTemplates.put(MONGO_CLIENT, "micronaut/entityTemplates/kotlin/mongoclient.txt");
         kotlinTemplates.put(NEO4J_CONTROLLER, "micronaut/entityTemplates/kotlin/neo4jcontroller.txt");
         kotlinTemplates.put(NEO4J_REPOSITORY, "micronaut/entityTemplates/kotlin/neo4jrepository.txt");
@@ -462,6 +468,8 @@ public class TemplatesService {
 
 
         properties.put(JPA_yml, "micronaut/entityTemplates/jpa_properties.yml");
+        properties.put(MDB_yml, "micronaut/entityTemplates/mdb.yml");
+        properties.put(MDB_COLLECTION_YML, "micronaut/entityTemplates/mdb_collections.yml");
         properties.put(MONGODB_yml, "micronaut/entityTemplates/mongodb_properties.txt");
         properties.put(CASSANDRA_yml, "micronaut/entityTemplates/cassandra_properties.txt");
         properties.put(NEO4J_yml, "micronaut/entityTemplates/neo4j_properties.txt");

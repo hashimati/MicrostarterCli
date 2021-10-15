@@ -4,6 +4,8 @@ package ${controllerPackage}
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Inject
 <% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
 <% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
@@ -16,6 +18,7 @@ import ${servicePackage}
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ExecuteOn(TaskExecutors.IO)
 @Controller("/api/${entityName}")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 

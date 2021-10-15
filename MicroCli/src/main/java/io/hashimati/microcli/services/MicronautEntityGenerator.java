@@ -574,6 +574,8 @@ public class MicronautEntityGenerator
             {
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
                 binder.put("entityPackage", entity.getEntityPackage());
+                binder.put("projectPackage", entity.getEntityPackage().replace(".domains", ""));
+
                 binder.put("entityClass", entity.getName());
                 binder.put("databaseName", entity.getDatabaseName());
                 binder.put("collectionName", entity.getCollectionName());
