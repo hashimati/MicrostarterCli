@@ -42,6 +42,8 @@ public class TemplatesService {
             securityPropertiesTemplates = new HashMap<>(),
             securityLiquibase = new HashMap<>();
 
+
+    public static final String LOGBACK_PATH = "micronaut/logs/logback.xml";
     public static final String
             CLIENT = "client",
             CONTROLLER = "controller",

@@ -2,6 +2,7 @@ package io.hashimati.microcli.utils;
 /**
  * @author Ahmed Al Hashmi
  */
+import com.querydsl.core.types.TemplateFactory;
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
@@ -478,7 +479,14 @@ public class ConfigurationInitializer {
         }
 
 
+        try {
 
+           String logBackContent =  new TemplatesService().loadTemplateContent(LOGBACK_PATH);
+            GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/resources/logback.xml", logBackContent);
+        }catch (Exception ex)
+        {
+
+        }
         MicronautProjectValidator.addLombok(projectInfo);
     //MicronautProjectValidator.addDependency(features.get("openapi"));
 
