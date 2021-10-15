@@ -3,10 +3,7 @@ package io.hashimati.microcli.utils;
  * @author Ahmed Al Hashmi
  */
 import com.esotericsoftware.yamlbeans.YamlReader;
-import com.esotericsoftware.yamlbeans.YamlWriter;
-import groovy.lang.Tuple;
 import groovy.lang.Tuple3;
-import groovy.text.Template;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ProjectInfo;
@@ -25,10 +22,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.KOTLIN_LANG;
@@ -203,9 +198,9 @@ public class MicronautProjectValidator {
         }};
         Tuple3<LinkedList<String> , Integer, Integer> plugins = gradleProjectUtils.getContentBetweenBraces(gradleContentAsList, "plugins {");
         if(index < 0)
-            gradleContentAsList.add(plugins.getV2() + 1, plugin);
+            gradleContentAsList.add(plugins.getV2() + 1, plugin.replace("\n", ""));
         else
-            gradleContentAsList.add(plugins.getV3() -1, plugin);
+            gradleContentAsList.add(plugins.getV3() -1, plugin.replace("\n", ""));
 
         String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
                 new StringBuilder().append(x).append("\n").append(y).toString());
@@ -219,6 +214,45 @@ public class MicronautProjectValidator {
         {
             return false;
         }
+    }
+
+    public static boolean sortGradleDependencies() throws FileNotFoundException, GradleReaderException {
+        GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
+
+        String gradleContent = getGradleFileContent();
+        LinkedList<String> gradleContentAsList =    new LinkedList<String>()
+        {{
+            addAll(Arrays.asList(gradleContent.split("\n")));
+        }};
+        Tuple3<LinkedList<String>, Integer, Integer> dependencies = gradleProjectUtils.getDependencies(
+                gradleContentAsList
+        );
+
+        String first = dependencies.getV1().removeFirst();
+
+        Collections.sort(dependencies.getV1());
+        dependencies.getV1().addFirst(first);
+
+        AtomicInteger indexDepStr = new AtomicInteger(dependencies.getV2());
+        dependencies.getV1().forEach(x->{
+            gradleContentAsList.set(indexDepStr.incrementAndGet(), x);
+        });
+
+
+
+        String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
+                new StringBuilder().append(x).append("\n").append(y).toString());
+        try {
+            String kts = "";
+            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+                kts = ".kts";
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
+            return true;
+        }catch(Exception ex)
+        {
+            return false;
+        }
+
     }
 
     public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException, GradleReaderException {
@@ -238,19 +272,21 @@ public class MicronautProjectValidator {
         );
 
         if(index < 0)
-            gradleContentAsList.add(dependencies.getV2() + 1, newDependencies);
+            gradleContentAsList.add(dependencies.getV2() + 1, newDependencies.replace("\n", ""));
         else
-            gradleContentAsList.add(dependencies.getV3() -1, newDependencies);
+            gradleContentAsList.add(dependencies.getV3() -1, newDependencies.replace("\n", ""));
+
+
 
         String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
                 new StringBuilder().append(x).append("\n").append(y).toString());
-
         try {
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
             GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
-            return true;
+
+            return true & sortGradleDependencies();
         }catch(Exception ex)
         {
             return false;
@@ -415,7 +451,7 @@ public class MicronautProjectValidator {
             Feature openapi = FeaturesFactory.features().get("openapi");
             if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
             {
-                updateGradlewDependencies(openapi.getAnnotationGradle(), 3);
+                updateGradlewDependencies(openapi.getAnnotationGradle(), 1);
                 updateGradlewDependencies(openapi.getGradle(), 3);
 
 
@@ -532,24 +568,73 @@ public class MicronautProjectValidator {
         }
             return false;
     }
+
+    public static boolean addR2DBCependency(Feature... feature) throws IOException, GradleReaderException {
+
+
+        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
+        {
+
+            return (
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    &&
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)) ;
+
+
+        }
+        else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
+        {
+
+            return Arrays.stream(feature).map(
+                    x->{
+                        try {
+                            if(x.getRdbcMaven() == null || x.getTestRdbcMaven() == null) return false;
+                            x.getMaven().clear();
+                            x.getMaven().add(x.getRdbcMaven());
+                            x.setTestMaven(x.getRdbcMaven());
+                            // todo it is not completed
+                            return MavenProjectUtils.addDependency(x, "pom.xml") &&
+                                    MavenProjectUtils.addAnnotation(x, "pom.xml")
+                                    && MavenProjectUtils.addDependencyToDependecyMgmt(x, "pom.xml")
+                                    && MavenProjectUtils.addTestDependency(x, "pom.xml")
+                                    && MavenProjectUtils.addPluginBuild(x, "pom.xml")
+                                    && MavenProjectUtils.addProperties(x, "pom.xml")
+
+                                    ;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return false;
+                        } catch (XmlPullParserException e) {
+                            e.printStackTrace();
+                            return false;
+                        }
+                    }
+            ).reduce((x, y)->x && y).get();
+
+
+//            return updateMavenDependencies(Arrays.stream(feature).map(x->x.getMaven() == null?"": x.getMaven()).reduce("", (x, y)->x+"\n"+ y))
+//                   && updateMavenPathAnnotation(Arrays.stream(feature).map(x->x.getAnnotationMaven() == null?"": x.getAnnotationMaven()).reduce("", (x, y)->x+"\n"+ y))
+//                    &&  updateMavenDependencies(Arrays.stream(feature).map(x->x.getTestMaven() == null?"": x.getTestMaven()).reduce("", (x, y)->x+"\n"+ y)) ;
+        }
+        return false;
+    }
+
     public static boolean addDependency(Feature... feature) throws IOException, GradleReaderException {
+
 
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 
             return (updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),1)
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestGradle() !=null? x.getTestGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestGradleAnnotation() !=null? x.getTestGradleAnnotation():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
                     updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestContainerGradle() !=null? x.getTestContainerGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
-                    &&
-                   updateGradlewDependencies(Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
-                    &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)) &&
+                   ) &&
                     updateGradlePlugin(Arrays.stream(feature).map(x-> !x.getGradlePlugins().isEmpty()?x.getGradlePlugins().stream().reduce("",(y,z)->y+"\n"+z):"").reduce("", (x, y)->x+"\n"+ y), 2);
 
 

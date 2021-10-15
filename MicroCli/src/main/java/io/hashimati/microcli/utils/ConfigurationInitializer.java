@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.services.TemplatesService.*;
+import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
 
@@ -182,19 +183,7 @@ public class ConfigurationInitializer {
                 Feature databaseFeature = null;
                 switch (databaseBackend.getSelectedId())
                 {
-                    case "JPA" :
 
-                            if(!projectInfo.getFeatures().contains("data-jpa")) {
-                                projectInfo.getFeatures().add("data-jpa");
-                                databaseFeature = features.get("data-jpa");
-                            }
-                        break;
-                    case "JDBC":
-                        if(!projectInfo.getFeatures().contains("data-jdbc")) {
-                            projectInfo.getFeatures().add("data-jdbc");
-                            databaseFeature = features.get("data-jdbc");
-                        }
-                        break;
                     case "GORM":
                         configurationInfo.setGorm(true);
                         MicronautProjectValidator.addDependency(features.get("tomcat-jdbc"));
@@ -209,6 +198,19 @@ public class ConfigurationInitializer {
                         projectInfo.getFeatures().add("reactor");
                         databaseFeature = features.get("data-r2dbc");
                         projectInfo.getFeatures().add("r2dbc-data");
+                        break;
+                    case "JPA" :
+
+                        if(!projectInfo.getFeatures().contains("data-jpa")) {
+                            projectInfo.getFeatures().add("data-jpa");
+                            databaseFeature = features.get("data-jpa");
+                        }
+                        break;
+                    case "JDBC":
+                        if(!projectInfo.getFeatures().contains("data-jdbc")) {
+                            projectInfo.getFeatures().add("data-jdbc");
+                            databaseFeature = features.get("data-jdbc");
+                        }
                         break;
                 }
 
@@ -246,6 +248,9 @@ public class ConfigurationInitializer {
                     else {
                         MicronautProjectValidator.addDependency(
                                 features.get(databasetype));
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("R2DBC"))
+                            MicronautProjectValidator.addR2DBCependency(
+                                    features.get(databasetype));
                         if(Arrays.asList("sqlserver", "oracle", "mysql", "mariadb").contains(databasetype))
                         {
                             if(!projectInfo.getFeatures().contains("testcontainers")) {
@@ -266,7 +271,6 @@ public class ConfigurationInitializer {
                         MicronautProjectValidator.appendR2DBCToProperties(databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
                     if(!databasetype.equalsIgnoreCase("h2")) {
-
                         if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
                             MicronautProjectValidator.appendR2DBCToProperties(databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                         else
@@ -276,8 +280,8 @@ public class ConfigurationInitializer {
 
 
 
-                MicronautProjectValidator.addDependency(databaseFeature,
-                        features.get("jdbc-hikari"));
+                MicronautProjectValidator.addDependency(databaseFeature);
+                MicronautProjectValidator.addDependency(features.get("jdbc-hikari"));
 
                 if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
                 {
