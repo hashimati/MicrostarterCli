@@ -1,37 +1,65 @@
 package io.hashimati.security.controllers;
 
 
+import io.hashimati.domains.Message;
+import io.hashimati.domains.MessageCode;
+import io.hashimati.domains.MessageType;
 import io.hashimati.security.domains.User;
 import io.hashimati.security.services.UserService;
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Header;
+import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
+import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.validation.Validated;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 import static io.micronaut.http.HttpHeaders.AUTHORIZATION;
 
+@Validated
 @Controller
 @Introspected
 public class UserController {
 
+    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Inject
     private UserService userService;
 
-    @Get("/h")
-    public User foo()
-    {
-        User admin = new User(){{
-            setUsername("admin");
-            setPassword("admin");
-            setEmail("Hello@gmail.com");
-            setRoles("ADMIN_ROLE");
+    @Secured(value = SecurityRule.IS_ANONYMOUS)
+    @Post("/register/{role}")
+    public Mono<Message> registerUser(@Body @Valid User user, @PathVariable("role") String role) throws Exception {
+        user.addRole(role);
+        logger.info("Saving user {}", user);
+        try {
+            return Mono.just(new Message<User>(){{
+                    setMessage("The user is created Successfully");
+                    setCode(MessageCode.POST_SUCCESS_MESSAGE);
+                    setData(userService.save(user));
+                    setMessageType(MessageType.SUCCESS);
+            }});
+        } catch (Exception e) {
+            return Mono.just(new Message<User>() {{
+                setMessage("This is not a valid user");
+                setCode(MessageCode.INVALID_USER);
+                setData(user);
+                setMessageType(MessageType.ERROR);
+            }});
+        }
+    }
 
-        }};
-        return userService.save(admin);
+    @Get("/findAll")
+    public Flux<User> findAll() {
+        logger.info("Find All Users");
+        return userService.findAll();
     }
 
     @Get("/logout")

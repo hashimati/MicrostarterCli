@@ -20,7 +20,6 @@ import static io.micronaut.security.errors.IssuingAnAccessTokenErrorCode.INVALID
 @Singleton
 public class CustomRefreshTokenPersistence implements RefreshTokenPersistence {
 
-
     private final RefreshTokenRepository refreshTokenRepository;
     public CustomRefreshTokenPersistence(RefreshTokenRepository refreshTokenRepository) {
         this.refreshTokenRepository = refreshTokenRepository;

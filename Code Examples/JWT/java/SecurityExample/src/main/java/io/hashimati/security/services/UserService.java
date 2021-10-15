@@ -13,6 +13,7 @@ import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
 
 import java.time.Instant;
 import java.util.Calendar;
@@ -75,5 +76,9 @@ public class UserService {
         }catch (Exception ex){
             return "FAILED";
         }
+    }
+
+    public Flux<User> findAll() {
+        return Flux.fromIterable(userRepository.findAll());
     }
 }
