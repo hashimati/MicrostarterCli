@@ -92,7 +92,7 @@ public class FeaturesFactory {
 
 
             setName("data-r2dbc");
-            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-data-r2dbc\")\n");
+            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-data-r2dbc\")");
 
 
             getMaven().add("\t<dependency>\n" +
@@ -114,7 +114,7 @@ public class FeaturesFactory {
         //rdbc-core
         features.put("r2dbc", new Feature(){{
             setName("r2dbc");
-            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-r2dbc-core\")\n");
+            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-r2dbc-core\")");
 
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.r2dbc</groupId>\n" +
@@ -302,7 +302,7 @@ public class FeaturesFactory {
                     "      <artifactId>postgresql</artifactId>\n" +
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
-            setGradle("    runtimeOnly(\"org.postgresql:postgresql\")\n");
+            setGradle("    runtimeOnly(\"org.postgresql:postgresql\")");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:postgresql\")");
 
             setRdbcGradle("    runtimeOnly(\"io.r2dbc:r2dbc-postgresql\")");
@@ -325,8 +325,8 @@ public class FeaturesFactory {
                     "      <artifactId>mariadb</artifactId>\n" +
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
-            setGradle("    runtimeOnly(\"org.mariadb.jdbc:mariadb-java-client\")\n");
-            setTestGradle("    testRuntimeOnly(\"org.testcontainers:mariadb\")\n");
+            setGradle("    runtimeOnly(\"org.mariadb.jdbc:mariadb-java-client\")");
+            setTestGradle("    testRuntimeOnly(\"org.testcontainers:mariadb\")");
             setRdbcGradle("    runtimeOnly(\"org.mariadb:r2dbc-mariadb\")");
             setRdbcMaven("\t<dependency>\n" +
                     "\t\t<groupId>org.mariadb</groupId>\n" +
@@ -349,8 +349,8 @@ public class FeaturesFactory {
                     "      <artifactId>oracle-xe</artifactId>\n" +
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
-            setGradle("    runtimeOnly(\"com.oracle.ojdbc:ojdbc8\")\n");
-            setTestGradle("    testRuntimeOnly(\"org.testcontainers:oracle-xe\")\n");
+            setGradle("    runtimeOnly(\"com.oracle.ojdbc:ojdbc8\")");
+            setTestGradle("    testRuntimeOnly(\"org.testcontainers:oracle-xe\")");
         }});
 
         features.put("sqlserver", new Feature(){{
@@ -360,7 +360,7 @@ public class FeaturesFactory {
                     "      <artifactId>mssql-jdbc</artifactId>\n" +
                     "      <scope>runtime</scope>\n" +
                     "    </dependency>\n");
-            setGradle("    runtimeOnly(\"com.microsoft.sqlserver:mssql-jdbc\")\n");
+            setGradle("    runtimeOnly(\"com.microsoft.sqlserver:mssql-jdbc\")");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:mssqlserver\")");
 
             setTestMaven("  <dependency>\n" +
@@ -384,7 +384,7 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-graphql</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            setGradle("    implementation(\"io.micronaut.graphql:micronaut-graphql\")\n");
+            setGradle("    implementation(\"io.micronaut.graphql:micronaut-graphql\")");
         }});
         features.put("openapi", new Feature(){{
             setName("openapi");
@@ -426,7 +426,7 @@ public class FeaturesFactory {
                     "              <artifactId>lombok</artifactId>\n" +
                     "              <version>1.18.12</version>\n" +
                     "            </path>");
-            setGradle("       compileOnly(\"org.projectlombok:lombok\")\n");
+            setGradle("    compileOnly(\"org.projectlombok:lombok\")");
             setAnnotationGradle("\n    annotationProcessor(\"org.projectlombok:lombok\")");
 //            setTestGradleAnnotation("    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'");
 //            setTestGradle("    testCompileOnly 'org.projectlombok:lombok:1.18.12'\n");
@@ -441,7 +441,7 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>\n");
 
-            setGradle("    implementation(\"io.micronaut.rabbitmq:micronaut-rabbitmq\")\n");
+            setGradle("    implementation(\"io.micronaut.rabbitmq:micronaut-rabbitmq\")");
         }});
 
         features.put("kafka", new Feature(){{
@@ -452,7 +452,7 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>\n");
 
-            setGradle("    implementation(\"io.micronaut.kafka:micronaut-kafka\")\n");
+            setGradle("    implementation(\"io.micronaut.kafka:micronaut-kafka\")");
         }});
 
         features.put("nats", new Feature(){{
@@ -463,7 +463,7 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\tt</dependency\n");
 
-            setGradle("    implementation(\"io.micronaut.nats:micronaut-nats\")\n");
+            setGradle("    implementation(\"io.micronaut.nats:micronaut-nats\")");
         }});
 
         features.put("graphql", new Feature(){{
@@ -528,7 +528,7 @@ public class FeaturesFactory {
         }});
         features.put("security-annotations", new Feature(){{
             setName("security-annotations");
-            setAnnotationGradle("    annotationProcessor(\"io.micronaut.security:micronaut-security-annotations\")\n");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.security:micronaut-security-annotations\")");
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.security</groupId>\n" +
                     "\t\t<artifactId>micronaut-security-annotations</artifactId>\n" +
@@ -771,12 +771,12 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-management</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            setGradle("    implementation(\"io.micronaut:micronaut-management\")\n");
+            setGradle("    implementation(\"io.micronaut:micronaut-management\")");
         }});
 
         features.put("micrometer", new Feature(){{
             setName("micrometer");
-            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-core\")\n");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-core\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
                     "\t\t<artifactId>micronaut-micrometer-core</artifactId>\n" +
@@ -786,7 +786,7 @@ public class FeaturesFactory {
 
         features.put("micrometer-graphite", new Feature(){{
             setName("micrometer-graphite");
-            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-graphite\")\n");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-graphite\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
                     "\t\t<artifactId>micronaut-micrometer-registry-graphite</artifactId>\n" +
@@ -796,7 +796,7 @@ public class FeaturesFactory {
 
         features.put("micrometer-prometheus", new Feature(){{
             setName("micrometer-prometheus");
-            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-prometheus\")\n");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-prometheus\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
                     "\t\t<artifactId>micronaut-micrometer-registry-prometheus</artifactId>\n" +
@@ -805,7 +805,7 @@ public class FeaturesFactory {
         }});
         features.put("micrometer-statsd", new Feature(){{
             setName("micrometer-statsd");
-            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-statsd\")\n");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-statsd\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
                     "\t\t<artifactId>micronaut-micrometer-registry-statsd</artifactId>\n" +
@@ -851,7 +851,7 @@ public class FeaturesFactory {
         features.put("tracing-jaeger", new Feature(){{
             setName("tracing-jaeger");
 
-            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")\n" +
+            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")" +
                     "    implementation(\"io.micronaut:micronaut-tracing\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut</groupId>\n" +
