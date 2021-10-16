@@ -31,7 +31,7 @@ public class ${entityClass}Repository {
     {
         log.info("Creating Collection for ${entityClass}Repository");
         return mongoClient.getDatabase("${databaseName}")
-                .getCollection(mongodbConfiguration.getCollections().get("${entityClass}"), ${entityClass}.class);
+                .getCollection(mongodbConfiguration.getCollections().get("${entityName}"), ${entityClass}.class);
     }
 
     private <% print reactor? "Mono" : "Single" %><${entityClass}> findAs<% print reactor? "Mono" : "Single" %>(BsonDocument query)
