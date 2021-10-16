@@ -5,6 +5,7 @@ import com.mongodb.reactivestreams.client.MongoClients
 import com.mongodb.reactivestreams.client.MongoCollection
 
 import ${entityPackage}.${entityClass}
+import ${projectPackage}.config.MongodbConfiguration
 
 <% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
 <% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
@@ -16,13 +17,13 @@ import jakarta.inject.Singleton
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @Singleton
-class ${entityClass}Repository(private val mongoClient:MongoClient) {
+class ${entityClass}Repository(private val mongoClient:MongoClient, private val mongodbConfiguration:MongodbConfiguration ) {
 
 
 
 
    fun getCollection(): MongoCollection<${entityClass}> {
-         return mongoClient.getDatabase("${databaseName}").getCollection("${collectionName}", ${entityClass}::class.java)
+         return mongoClient.getDatabase("${databaseName}").getCollection(mongodbConfiguration.getCollections().get("${entityName}"), ${entityClass}::class.java)
    }
 
     fun findAs<% print reactor? "Mono" : "Single" %>(query:BsonDocument):<% print reactor? "Mono" : "Single" %><${entityClass}>
