@@ -6,7 +6,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 As a getting started steps, we will generate an application using The Micronaut Launch. Then, we generate a Fruit entity 
 1. Download the MicroCli. 
-2. Generate a Micronaut Application using [Micrnaut Launch](https://launch.micronaut.io) or [Micronaut CLI](https://micronaut.io/download/). 
+2. Generate a Micronaut Application using [Micronaut Launch](https://launch.micronaut.io) or [Micronaut CLI](https://micronaut.io/download/). 
 3. Unzip MicroCli in the Micronaut Application or configure it in you environment.  
 4. 
 5. 
