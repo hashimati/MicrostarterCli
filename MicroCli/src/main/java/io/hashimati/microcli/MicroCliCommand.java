@@ -39,7 +39,9 @@ import picocli.CommandLine.Option;
 //            CreateMQTTClientCommand.class,
             BannerCommand.class,
             SecurityCommand.class,
-            SupportCommand.class
+            SupportCommand.class,
+        ReportCommand.class,
+        ContactCommand.class
 
 })
 public class MicroCliCommand implements Runnable {
@@ -47,15 +49,14 @@ public class MicroCliCommand implements Runnable {
 
     static{
 
-        System.out.println("::::    ::::  :::::::::::  ::::::::  :::::::::   ::::::::   ::::::::  :::        :::::::::::\n" +
-                "+:+:+: :+:+:+     :+:     :+:    :+: :+:    :+: :+:    :+: :+:    :+: :+:            :+:\n" +
-                "+:+ +:+:+ +:+     +:+     +:+        +:+    +:+ +:+    +:+ +:+        +:+            +:+\n" +
-                "+#+  +:+  +#+     +#+     +#+        +#++:++#:  +#+    +:+ +#+        +#+            +#+\n" +
-                "+#+       +#+     +#+     +#+        +#+    +#+ +#+    +#+ +#+        +#+            +#+\n" +
-                "#+#       #+#     #+#     #+#    #+# #+#    #+# #+#    #+# #+#    #+# #+#            #+#\n" +
-                "###       ### ###########  ########  ###    ###  ########   ########  ########## ###########\n" +
-                "(MicroCLI v0.0.1)\n\n" +
-                "");
+        System.out.println("  __  __ _                   _____ _      _____ \n" +
+                " |  \\/  (_)                 / ____| |    |_   _|\n" +
+                " | \\  / |_  ___ _ __ ___   | |    | |      | |  \n" +
+                " | |\\/| | |/ __| '__/ _ \\  | |    | |      | |  \n" +
+                " | |  | | | (__| | | (_) | | |____| |____ _| |_ \n" +
+                " |_|  |_|_|\\___|_|  \\___/   \\_____|______|_____|\n" +
+                "                                                                                      \n" +
+                "(MicroCLI v0.0.1)\n");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
