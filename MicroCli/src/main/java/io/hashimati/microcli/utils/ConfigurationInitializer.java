@@ -394,16 +394,16 @@ public class ConfigurationInitializer {
                 projectInfo.getFeatures().addAll(Arrays.asList(
                         "management",
                         "micrometer",
-                        "micrometer-prometheus",
-                        "micrometer-graphite",
-                        "micrometer-statsd"
+                        "micrometer-prometheus"
+//                        "micrometer-graphite",
+//                        "micrometer-statsd"
                 ));
                 configurationInfo.setMicrometer(true);
                 MicronautProjectValidator.addDependency(features.get("management"));
                 MicronautProjectValidator.addDependency(features.get("micrometer"));
                 MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
-                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
-                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+//                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
+//                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
 
 
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
@@ -412,11 +412,11 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                         (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
 
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
-
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
+//                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+//                        (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
+//
+//                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+//                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
                 projectInfo.dumpToFile();
 
             }

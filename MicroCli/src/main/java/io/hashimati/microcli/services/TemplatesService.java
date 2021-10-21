@@ -218,6 +218,7 @@ public class TemplatesService {
     GRAPHITE_yml = "graphite",
     PROMETHEUS_yml = "prometheus",
     STATSD_yml = "statsd",
+    INFLUX_yml = "influx",
 
 
     //Security Constants
@@ -517,7 +518,7 @@ public class TemplatesService {
         micrometersTemplates.put(PROMETHEUS_yml, "micronaut/micrometers/prometheus.yml");
         micrometersTemplates.put(GRAPHITE_yml, "micronaut/micrometers/graphite.yml");
         micrometersTemplates.put(STATSD_yml, "micronaut/micrometers/statsd.yml");
-
+        micrometersTemplates.put(INFLUX_yml, "micronaut/micrometers/influxdb.yml");
 
         securityControllerTemplates.put(USER_CONTROLLER,"micronaut/security/${auth}/${lang}/${db}/controllers/UserController${ext}");
         securityDomainsTemplates.put(LOGIN_EVENT ,"micronaut/security/${auth}/${lang}/${db}/domains/LoginEvent${ext}");

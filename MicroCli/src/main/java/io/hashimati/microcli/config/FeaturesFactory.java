@@ -803,6 +803,15 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
         }});
+        features.put("micrometer-influx", new Feature(){{
+            setName("micrometer-influx");
+            setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-influx\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
+                    "\t\t<artifactId>micronaut-micrometer-registry-influx</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
         features.put("micrometer-statsd", new Feature(){{
             setName("micrometer-statsd");
             setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-registry-statsd\")");
