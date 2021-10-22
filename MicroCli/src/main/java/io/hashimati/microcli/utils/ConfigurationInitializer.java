@@ -386,41 +386,41 @@ public class ConfigurationInitializer {
                 projectInfo.dumpToFile();
             }
         }
-        if(!projectInfo.getFeatures().contains("micrometer")){
-            ConfirmResult micrometer = createConfirmResult("micrometer", "Do you want to add micrometer-prometheus feature?");
-
-            if(micrometer.getConfirmed() == ConfirmChoice.ConfirmationValue.YES)
-            {
-                projectInfo.getFeatures().addAll(Arrays.asList(
-                        "management",
-                        "micrometer",
-                        "micrometer-prometheus"
-//                        "micrometer-graphite",
-//                        "micrometer-statsd"
-                ));
-                configurationInfo.setMicrometer(true);
-                MicronautProjectValidator.addDependency(features.get("management"));
-                MicronautProjectValidator.addDependency(features.get("micrometer"));
-                MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
-//                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
-//                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
-
-
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
-
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
-
-//                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-//                        (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
+//        if(!projectInfo.getFeatures().contains("micrometer")){
+//            ConfirmResult micrometer = createConfirmResult("micrometer", "Do you want to add micrometer-prometheus feature?");
+//
+//            if(micrometer.getConfirmed() == ConfirmChoice.ConfirmationValue.YES)
+//            {
+//                projectInfo.getFeatures().addAll(Arrays.asList(
+//                        "management",
+//                        "micrometer",
+//                        "micrometer-prometheus"
+////                        "micrometer-graphite",
+////                        "micrometer-statsd"
+//                ));
+//                configurationInfo.setMicrometer(true);
+//                MicronautProjectValidator.addDependency(features.get("management"));
+//                MicronautProjectValidator.addDependency(features.get("micrometer"));
+//                MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
+////                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
+////                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+//
 //
 //                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-//                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
-                projectInfo.dumpToFile();
-
-            }
-        }
+//                        (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
+//
+//                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+//                        (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
+//
+////                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+////                        (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
+////
+////                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+////                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
+//                projectInfo.dumpToFile();
+//
+//            }
+//        }
 //        if(!projectInfo.getFeatures().contains("graphql"))
 //        {
 //            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");

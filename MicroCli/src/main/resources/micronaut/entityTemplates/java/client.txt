@@ -5,8 +5,6 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.inject.Inject;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
 import ${entityPackage};
 
 
