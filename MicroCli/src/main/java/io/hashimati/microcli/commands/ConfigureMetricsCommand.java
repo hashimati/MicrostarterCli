@@ -37,15 +37,23 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+
          HashMap<String, Feature> features  = FeaturesFactory.features();
-
-        projectInfo
-                =  projectValidator.getProjectInfo();
-        configurationInfo =  ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
-
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
-        ListResult registryOption = PromptGui.createListPrompt("registry", "Select micrometer registry: ", "Influxdb", "prometheus");
+
+             projectInfo
+                     =  projectValidator.getProjectInfo();
+
+        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName());
+        if(!configurationFile.exists()){
+            PromptGui.printlnWarning("run \"configure\" command first!");
+            return 0;
+        }
+        configurationInfo =  ConfigurationInfo.fromFile(configurationFile);
+
+
+          ListResult registryOption = PromptGui.createListPrompt("registry", "Select micrometer registry: ", "Influxdb", "prometheus");
 
         String registry  = registryOption.getSelectedId();
 
@@ -69,19 +77,30 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         if(registry.equalsIgnoreCase("prometheus"))
         {
 
+            if(configurationInfo.isPrometheus()){
+                PromptGui.printlnWarning("\"Prometheus\" is already configured!");
+                return 0;
+            }
             if(!projectInfo.getFeatures().contains("micrometer-prometheus"))
-            {projectInfo.getFeatures().addAll(Arrays.asList(
+            {
+                projectInfo.getFeatures().addAll(Arrays.asList(
 
                     "micrometer-prometheus"
 //                        "micrometer-graphite",
 //                        "micrometer-statsd"
-            ));
-            try {
+                ));
+                try {
 
-                MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
-            } catch (GradleReaderException e) {
-                e.printStackTrace();
+                    MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
+                } catch (GradleReaderException e) {
+                    e.printStackTrace();
+                }
             }
+            else
+            {
+                configurationInfo.setPrometheus(true);
+                boolean result = configurationInfo.writeToFile();
+                return result? 1:0;
             }
 
 //                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
@@ -92,12 +111,17 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
 
+            configurationInfo.setPrometheus(true);
             projectInfo.dumpToFile();
 
 
         }
         else if(registry.equalsIgnoreCase("influxdb"))
         {
+            if(configurationInfo.isInflux()){
+                PromptGui.printlnWarning("\"influxdb\" is already configured!");
+                return 0;
+            }
             String org = PromptGui.inputText("org", "Enter the \"org\": ", "org").getInput();
             String bucket = PromptGui.inputText("bucket", "Enter the bucket:", "bucket").getInput();
             String token = PromptGui.inputText("token", "Enter the token: ", "secret").getInput();
@@ -112,6 +136,11 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                     e.printStackTrace();
                 }
             }
+            else{
+                configurationInfo.setInflux(true);
+                boolean result = configurationInfo.writeToFile();
+                return result? 1:0;
+            }
 
             String influxTemplate = templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(INFLUX_yml));
@@ -121,10 +150,12 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                 put("bucket", bucket);
                 put("token", token);
             }}));
+            configurationInfo.setInflux(true);
            projectInfo.dumpToFile();
 
         }
 
-        return 0;
+        boolean result = configurationInfo.writeToFile();
+        return result? 1:0;
     }
 }
