@@ -2,6 +2,31 @@
 MicroCli is a command-line rapid development tool for Micronaut applications. It helps developers to cut the development time and focus on the application logic by generating Micronaut components and configurations using ready-built templates. This tool is a [Micronaut](https://github.com/micronaut-projects)/[PicoCLI](https://github.com/remkop/picocli) application powered with and [ConsoleUI](https://github.com/awegmann/consoleui)
 
 
+
+# Table Of Contents
+1. [Getting Started](#started)
+2. [Configure Command](#configure)
+3. [Enum Command](#enum)
+4. [Entity Command](#entity)
+5. [Relationship Command](#relationship)
+6. [Messaging](#messaging)
+    a. [Kafka](#kafka)
+    b. [RabbitMQ](#rabbitmq)
+    c. [NAT](#nat). 
+7. [Security](#security)
+    a.[JWT](#jwt)
+    b.[Baiscs](#basicsecurity)
+    c.[Session](#session)
+8. [Banner](#banners)
+
+
+
+
+
+
+
+
+<a name="started"> </a>
 ## Getting Started
 
 As a getting started steps, we will generate an application using The Micronaut Launch. Then, we will generate a Fruit entity, repository, service, REST API, and GraphQL endpoints.
