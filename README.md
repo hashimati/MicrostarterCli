@@ -10,13 +10,13 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 4. [Entity Command](#entity)
 5. [Relationship Command](#relationship)
 6. [Messaging](#messaging)
-    a. [Kafka](#kafka)
-    b. [RabbitMQ](#rabbitmq)
-    c. [NAT](#nat). 
+    1. [Kafka](#kafka)
+    2. [RabbitMQ](#rabbitmq)
+    3. [NAT](#nat). 
 7. [Security](#security)
-    a.[JWT](#jwt)
-    b.[Baiscs](#basicsecurity)
-    c.[Session](#session)
+    1. [JWT](#jwt)
+    2. [Baiscs](#basicsecurity)
+    3. [Session](#session)
 8. [Banner](#banners)
 
 
@@ -45,6 +45,10 @@ mc entity -e fruit --graphql
 6. MicroCli application will launch. And, it will start with configuration process. 
 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
+
+
+<a name="configure"></a>
+## Configure Command
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P411AKC)
 <a href="https://www.buymeacoffee.com/hashimati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hashimati&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
