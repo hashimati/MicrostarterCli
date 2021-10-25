@@ -10,14 +10,14 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 4. [Entity Command](#entity)
 5. [Relationship Command](#relationship)
 6. [Messaging](#messaging)
-    1. [Kafka](#kafka)
-    2. [RabbitMQ](#rabbitmq)
-    3. [NAT](#nat). 
-7. [Security](#security)
+    1. [Kafka Commmands](#kafka)
+    2. [RabbitMQ Commands](#rabbitmq)
+    3. [NAT Commands](#nat). 
+7. [Security Command](#security)
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-8. [Banner](#banners)
+8. [Banner Command](#banner)
 
 
 
@@ -50,6 +50,39 @@ mc entity -e fruit --graphql
 <a name="configure"></a>
 ## Configure Command
 
+<a name="enum"></a>
+## Enum Command
+
+<a name="entity"></a>
+## Entity Command
+
+<a name="relationship"></a>
+## Relationship Command
+
+<a name="messaging"></a>
+## Messaging
+
+<a name="kafka"></a>
+### Kafka Commands
+
+<a name="rabbitmq"></a>
+### RabbitMQ Commands
+
+<a name="nat"></a>
+### NAT Commands
+
+<a name="security"></a>
+## Security Command
+<a name="jwt"></a>
+### JWT
+<a name="basicsecurity"></a>
+### Basic
+
+<a name="Session"></a>
+### Session
+
+<a name="banner"></a>
+### Banner Command
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P411AKC)
 <a href="https://www.buymeacoffee.com/hashimati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hashimati&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
 
