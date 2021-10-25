@@ -50,11 +50,28 @@ mc entity -e fruit --graphql
 <a name="configure"></a>
 ## Configure Command
 
+```shell
+> mc configure
+```
+
 <a name="enum"></a>
 ## Enum Command
+```shell
+> mc create-enum --name WHETHER --options SUNNY,CLOUDY,RAINY 
+```
 
 <a name="entity"></a>
 ## Entity Command
+
+```shell
+mc entity -entity-name Fruit
+```
+options
+--collection-name
+--no-endpoint
+--graphql
+--cache
+
 
 <a name="relationship"></a>
 ## Relationship Command
