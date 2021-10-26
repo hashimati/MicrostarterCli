@@ -13,6 +13,7 @@ import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.domains.EntityRelation;
+import io.hashimati.microcli.services.FlyWayGenerator;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
@@ -46,6 +47,8 @@ public class CreateRelationCommand implements Callable<Integer> {
     @Inject
     private LiquibaseGenerator liquibaseGenerator;
 
+    @Inject
+    private FlyWayGenerator flyWayGenerator;
 
     @Override
     public Integer call() throws Exception {
@@ -181,6 +184,16 @@ public class CreateRelationCommand implements Callable<Integer> {
                 Tuple2< String, String> content = liquibaseGenerator.generateForeignKey(e1, e2, entityRelation, configurationInfo.getLiquibaseSequence());
                 GeneratorUtils.createFile(content.getV1(), content.getV2());
             }
+            else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway"))
+            {
+                configurationInfo.setLiquibaseSequence(1 + configurationInfo.getLiquibaseSequence());
+                e1.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+                e2.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
+
+                Tuple2< String, String> content = flyWayGenerator.addRelationship(e1,entityRelation,configurationInfo.getLiquibaseSequence());
+                GeneratorUtils.createFile(content.getV1(), content.getV2());
+            }
+
         }
         configurationInfo.getRelations().add(entityRelation);
         //==== regenerate entity1's Repository

@@ -10,10 +10,7 @@ package io.hashimati.microcli.services;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.Template;
-import io.hashimati.microcli.domains.Entity;
-import io.hashimati.microcli.domains.EntityAttribute;
-import io.hashimati.microcli.domains.EntityConstraints;
-import io.hashimati.microcli.domains.EntityRelation;
+import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import org.xml.sax.SAXException;
@@ -167,12 +164,27 @@ public class FlyWayGenerator
         return Tuple.tuple(filePath.append(fileName).toString(), content.toString());
     }
     public Tuple2<String, String> addRelationship(Entity entity, EntityRelation relation, int changeSetId){
-        String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_TABLE));
+/*
+            template:
+            ALTER TABLE ${tableName} ADD ${columnName};
+            CONSTRAINT ${name} ${constraintType} (${attribute}) REFERENCES ${entity}(id)
+ */
+        String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_constrain));
 
-        String content = new String();
+        String content = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>(){{
+            put("tableName", relation.getE2Table());
+            put("columnName", relation.getE1()+"_id");
+            put("name", "fk_"+relation.getE1()+"_id");
+            put("constraintType", (relation.getRelationType()== EntityRelationType.OneToOne? "UNIQUE ":"")+"FOREIGN KEY ");
+            put("attribute", relation.getE1()+"_id");
+            put("entity", relation.getE1Table());
+
+        }});
+
+        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
 
         String fileName = new StringBuilder().append("V").append(String.valueOf(changeSetId)).append("__datebase-change.sql").toString();
-        return Tuple.tuple(fileName, content.toString());
+        return Tuple.tuple(filePath.append(fileName).toString(), content.toString());
     }
     public Tuple2<String, String> dropColumn(String entity, HashSet<String> attributes, int changeSetId ){
         String template =templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYWAY_DROP_COLUMN));
