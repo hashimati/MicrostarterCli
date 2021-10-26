@@ -27,14 +27,14 @@ import static io.hashimati.microcli.utils.PromptGui.printlnWarning;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
-@Command(name = "create-enum",aliases = {"enum"}, description = "Create Enumuration Class")
+@Command(name = "create-enum",aliases = {"enum"}, description = "Create Enumeration Class")
 public class CreateEnumCommand implements Callable<Integer> {
    
-    @Option(names={"-n", "--name"}, description = "Enumuration class name")
+    @Option(names={"-n", "--name"}, description = "Enumeration class name")
     private String name;
 
 
-    @Option(names = {"-o", "--options"}, description = {"Enumration values ", "You can use commas without spaces to add multiple values.", "For Example, -o FOO,BAR,BOO"}, split =",")
+    @Option(names = {"-o", "--options"}, description = {"Enumeration values ", "You can use commas without spaces to add multiple values.", "For Example, -o FOO,BAR,BOO"}, split =",")
     private HashSet<String> values ;
 
 
