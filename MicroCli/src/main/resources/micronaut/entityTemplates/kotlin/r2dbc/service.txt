@@ -11,6 +11,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 class ${className}Service(private val ${entityName}Repository: ${className}Repository)  {
 
 
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     fun save(${entityName}: ${className}):  Mono<${className}> {
         log.info("Saving ${className} :{}", ${entityName})
         ${entityName}Repository.save(${entityName})
@@ -25,10 +27,14 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
     }
 
     <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     fun findById(id:Long): Mono<${className}> {
         log.info("Finding ${className} by id:{}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     fun deleteById(id:Long): Mono<Boolean> {
         try{
 
@@ -44,12 +50,13 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
         }
     }
 
-
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     fun  findAll():Flux<${className}> {
         log.info("Find All")
       return  ${entityName}Repository.findAll()
     }
 
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
     fun update( ${entityName}:${className}):Mono<${className}>
     {
         log.info("update {}", ${entityName})

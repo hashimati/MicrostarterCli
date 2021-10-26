@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
-<% if(micrometer) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
-<% if(micrometer) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+<% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
+<% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 import jakarta.inject.Inject;
 
 import ${entityPackage};
@@ -29,8 +29,8 @@ public class ${className}Controller {
 
     @Post("/save")
     @Version("1")
-    <% if(micrometer) out.print '@NewSpan("${appName}")'%>
-    <% if(micrometer) out.print '@Timed(value = "${controllerPackage}.${entityName}.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving ${entityName} object")' %>
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     @Operation(summary = "Creating a ${entityName} and Storing in the database",
             description = "A REST service, which saves ${className} objects to the database.",
             operationId = "Save${className}"
@@ -51,8 +51,8 @@ public class ${className}Controller {
 
     @Get("/get")
     @Version("1")
-    <% if(micrometer) out.print '@NewSpan("${appName}")'%>
-    <% if(micrometer) out.print '@Timed(value = "${controllerPackage}.${entityName}.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a ${entityName} object by id")' %>
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     @Operation(summary = "Getting a ${entityName} by Id",
         description = "A REST service, which retrieves a ${className} object by Id.",
         operationId = "FindById${className}"
@@ -68,8 +68,8 @@ public class ${className}Controller {
 
     @Delete("/delete/{id}")
     @Version("1")
-    <% if(micrometer) out.print '@NewSpan("${appName}")'%>
-    <% if(micrometer) out.print '@Timed(value = "${controllerPackage}.${entityName}.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a ${entityName} object by id")' %>
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     @Operation(summary = "Deleting a ${entityName} by ID",
             description = "A REST service, which deletes ${className} object from the database.",
             operationId = "DeleteById${className}"
@@ -86,8 +86,8 @@ public class ${className}Controller {
 
     @Get("/findAll")
     @Version("1")
-    <% if(micrometer) out.print '@NewSpan("${appName}")'%>
-    <% if(micrometer) out.print '@Timed(value = "${controllerPackage}.${entityName}.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all ${entityName} objects")' %>
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     @Operation(summary = "Retrieving all ${entityName} objects as Json",
             description = "A REST service, which returns all ${className} objects from the database.",
             operationId = "FindAll${className}"
@@ -102,8 +102,8 @@ public class ${className}Controller {
 
     @Put("/update")
     @Version("1")
-    <% if(micrometer) out.print '@NewSpan("${appName}")'%>
-    <% if(micrometer) out.print '@Timed(value = "${controllerPackage}.${entityName}.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a ${entityName} object")' %>
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
     @Operation(summary = "Updating a ${entityName}.",
             description = "A REST service, which update a ${className} objects to the database.",
             operationId = "Update${className}"

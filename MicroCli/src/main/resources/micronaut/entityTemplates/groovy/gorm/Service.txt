@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils
 import grails.gorm.transactions.Transactional
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
@@ -19,7 +20,7 @@ class ${className}Service {
 
     @Inject
     ${className}Repository ${entityName}Repository
-
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     ${className} save(${className} ${entityName}){
 
         log.info("Saving  ${className} : {}", ${entityName})
@@ -27,10 +28,13 @@ class ${className}Service {
     }
 
     <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     ${className} findById(Serializable id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id)
     }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     List<${className}> findAll(){
         log.info("Find All")
         return ${entityName}Repository.list()
@@ -41,7 +45,7 @@ class ${className}Service {
 
     }
 
-
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     boolean deleteById(Serializable id){
         try
         {
@@ -58,6 +62,7 @@ class ${className}Service {
     }
 
     @Transactional
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
     ${className} update(${className} ${entityName})
     {
         log.info("update {}", ${entityName})

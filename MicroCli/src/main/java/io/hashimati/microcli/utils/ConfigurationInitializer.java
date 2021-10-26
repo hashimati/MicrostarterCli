@@ -393,7 +393,7 @@ public class ConfigurationInitializer {
             {
                 projectInfo.getFeatures().addAll(Arrays.asList(
                         "management",
-                        "micrometer",
+                        "micrometer"
 //                        "micrometer-prometheus"
 //                        "micrometer-graphite",
 //                        "micrometer-statsd"

@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 import javax.transaction.Transactional;
 import ${entityPackage};
 import ${repoPackage};
@@ -18,6 +18,7 @@ public class ${className}Service {
     private static final Logger log = LoggerFactory.getLogger(${className}Service.class);
     @Inject private ${className}Repository ${entityName}Repository;
 
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     public ${className} save(${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
@@ -27,12 +28,13 @@ public class ${className}Service {
     }
 
     <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     public ${className} findById(long id){
         log.info("Finding ${className} By Id: {}", id);
         return ${entityName}Repository.findById(id).orElse(null);
     }
 
-
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     public boolean deleteById(long id){
         log.info("Deleting ${className} by Id: {}", id);
         try{
@@ -48,6 +50,7 @@ public class ${className}Service {
         }
     }
 
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     public Iterable<${className}> findAll() {
         log.info("Find All");
       return  ${entityName}Repository.findAll();
@@ -59,6 +62,8 @@ public class ${className}Service {
         return  ${entityName}Repository.existsById(id);
 
     }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
     public ${className} update(${className} ${entityName})
     {
         log.info("update {}", ${entityName});

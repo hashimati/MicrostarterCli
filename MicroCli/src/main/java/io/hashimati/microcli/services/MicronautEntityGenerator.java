@@ -732,7 +732,9 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
         binder.put("entityName", entity.getName().toLowerCase());
-        
+        binder.put("jaeger", false);
+        binder.put("micrometer", entity.isMicrometer());
+
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
 
@@ -759,7 +761,8 @@ public class MicronautEntityGenerator
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("entities", entity.getName().toLowerCase());
-
+        binder.put("micrometer", entity.isMicrometer());
+        binder.put("jaeger", false);
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         String serviceTemplate ;
