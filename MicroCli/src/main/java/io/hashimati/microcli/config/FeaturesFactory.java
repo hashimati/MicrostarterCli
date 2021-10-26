@@ -777,18 +777,12 @@ public class FeaturesFactory {
         features.put("micrometer", new Feature(){{
             setName("micrometer");
             setGradle("    implementation(\"io.micronaut.micrometer:micronaut-micrometer-core\")");
-            setAnnotationGradle("    annotationProcessor(\"io.micronaut.micrometer:micronaut-micrometer-annotation\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
                     "\t\t<artifactId>micronaut-micrometer-core</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            setAnnotationMaven("\t<annotationProcessorPaths>\n" +
-                    "\t\t<path>\n" +
-                    "\t\t\t<groupId>io.micronaut.micrometer</groupId>\n" +
-                    "\t\t\t<artifactId>micronaut-micrometer-annotation</artifactId>\n" +
-                    "\t\t</path>\n" +
-                    "\t</annotationProcessorPaths>");
+
         }});
 
         features.put("micrometer-graphite", new Feature(){{

@@ -422,41 +422,41 @@ public class ConfigurationInitializer {
             }
         }
 
+//
+//        if(!projectInfo.getFeatures().contains("graphql"))
+//        {
+//            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");
+//
 
-        if(!projectInfo.getFeatures().contains("graphql"))
-        {
-            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL support?");
-
-
-            if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
-
-
-                projectInfo.getFeatures().add("graphql");
-                configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
-                MicronautProjectValidator.addDependency(features.get("graphql"));
-
-
-                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQL Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
-                switch(graphqlLib){
-
-                    case "graphql-java-tools":
-                        MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
-                        configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
-                        break;
-                    case "graphql-spqr":
-                        MicronautProjectValidator.addDependency(features.get("graphql-spqr"));
-                        configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
-                        break;
-                }
-                projectInfo.dumpToFile();
-
-
-                templatesService.loadTemplates(null);
-                String graphQLproperties = templatesService.loadTemplateContent
-                        (templatesService.getProperties().get(GRAPHQL_yml));
-                MicronautProjectValidator.appendToProperties(graphQLproperties);
-            }
-        }
+//            if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+//
+//
+//                projectInfo.getFeatures().add("graphql");
+//                configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
+//                MicronautProjectValidator.addDependency(features.get("graphql"));
+//
+//
+//                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQL Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
+//                switch(graphqlLib){
+//
+//                    case "graphql-java-tools":
+//                        MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
+//                        configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
+//                        break;
+//                    case "graphql-spqr":
+//                        MicronautProjectValidator.addDependency(features.get("graphql-spqr"));
+//                        configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
+//                        break;
+//                }
+//                projectInfo.dumpToFile();
+//
+//
+//                templatesService.loadTemplates(null);
+//                String graphQLproperties = templatesService.loadTemplateContent
+//                        (templatesService.getProperties().get(GRAPHQL_yml));
+//                MicronautProjectValidator.appendToProperties(graphQLproperties);
+//            }
+//        }
 
         if(!projectInfo.getFeatures().contains("graphql"))
         {
