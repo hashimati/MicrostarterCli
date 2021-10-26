@@ -41,6 +41,7 @@ public class Entity
 
     private boolean isGraphQl;
     private boolean cached;
+    private boolean micrometer;
     public String getName() {
         return name;
 
@@ -265,5 +266,13 @@ public class Entity
 
     public void setReactiveFramework(String reactiveFramework) {
         this.reactiveFramework = reactiveFramework;
+    }
+
+    public boolean isMicrometer() {
+        return micrometer;
+    }
+
+    public void setMicrometer(boolean micrometer) {
+        this.micrometer = micrometer;
     }
 }

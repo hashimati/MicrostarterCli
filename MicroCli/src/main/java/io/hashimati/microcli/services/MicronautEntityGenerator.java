@@ -495,6 +495,7 @@ public class MicronautEntityGenerator
                 binder.put("className", entity.getName());
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("micrometer", entity.isMicrometer());
 
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
@@ -515,7 +516,7 @@ public class MicronautEntityGenerator
                     binder.put("entityClass", entity.getName());
                     binder.put("storeType", "table");
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+                binder.put("micrometer", entity.isMicrometer());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                     repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                     return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -530,7 +531,7 @@ public class MicronautEntityGenerator
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+                binder.put("micrometer", entity.isMicrometer());
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
 
 
@@ -544,7 +545,7 @@ public class MicronautEntityGenerator
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+                binder.put("micrometer", entity.isMicrometer());
                 String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
 
 
@@ -564,7 +565,7 @@ public class MicronautEntityGenerator
                 binder.put("entityClass", entity.getName());
                 binder.put("storeType", "collection");
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+                binder.put("micrometer", entity.isMicrometer());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -581,7 +582,7 @@ public class MicronautEntityGenerator
                 binder.put("databaseName", entity.getDatabaseName());
                 binder.put("collectionName", entity.getCollectionName());
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+                binder.put("micrometer", entity.isMicrometer());
                 String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
 
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -595,7 +596,7 @@ public class MicronautEntityGenerator
         binder.put("exceptionPackage", entity.getExceptionPackage() );
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+        binder.put("micrometer", entity.isMicrometer());
         String templatePath= getTemplatPath(TemplatesService.GENERAL_EXCEPTION, language.toLowerCase());
 
 
@@ -623,7 +624,7 @@ public class MicronautEntityGenerator
         binder.put("excptionPacage", entity.getExceptionPackage());
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+        binder.put("micrometer", entity.isMicrometer());
         String templatePath= getTemplatPath(TemplatesService.EXCEPTION_HANDLER, language.toLowerCase());
 
         String  exceptionTemplate = templatesService.loadTemplateContent(templatePath);
@@ -639,7 +640,7 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+        binder.put("micrometer", entity.isMicrometer());
 
         String templatePath= getTemplatPath(TemplatesService.REPOSITORY_TEST, language.toLowerCase());
 
@@ -684,7 +685,7 @@ public class MicronautEntityGenerator
         binder.put("cached", entity.isCached());
         binder.put("tableName", entity.getCollectionName()) ;
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+        binder.put("micrometer", entity.isMicrometer());
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -701,6 +702,7 @@ public class MicronautEntityGenerator
         binder.put("cached", entity.isCached());
         binder.put("tableName", entity.getCollectionName()) ;
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("micrometer", entity.isMicrometer());
 
         String serviceTemplate = "";
         String templatePath="";
@@ -846,6 +848,7 @@ public class MicronautEntityGenerator
         binder.put("QueryResolvers", QueryResolvers);
         binder.put("schemafiles",  schemafiles);
         binder.put("resolverObject", resolverObject);
+        binder.put("micrometer", entities.stream().anyMatch(Entity::isMicrometer));
 
         String key = TemplatesService.GRAPHQL_QUERY_FACOTRY;
         String templatePath= getTemplatPath(key, language.toLowerCase());
@@ -863,6 +866,7 @@ public class MicronautEntityGenerator
         binder.put("domainPackage", entity.getEntityPackage());
         binder.put("servicePackage", entity.getServicePackage());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("micrometer", entity.isMicrometer());
 
 
         String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;

@@ -154,7 +154,7 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setGorm(configurationInfo.isGorm());
             //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
-
+            entity.setMicrometer(configurationInfo.isMicrometer());
 
 
 
