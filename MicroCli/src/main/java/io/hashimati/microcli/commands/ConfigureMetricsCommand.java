@@ -32,14 +32,16 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
     private MicronautProjectValidator projectValidator = new MicronautProjectValidator();
 
 
-    private TemplatesService templatesService = new TemplatesService() ;
 
+
+    @Inject
+    TemplatesService templatesService;
 
     @Override
     public Integer call() throws Exception {
 
          HashMap<String, Feature> features  = FeaturesFactory.features();
-        AnsiConsole.systemInstall();
+         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
 
              projectInfo
@@ -57,7 +59,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
         String registry  = registryOption.getSelectedId();
 
-        if(projectInfo.getFeatures().contains( "micrometer")){
+        if(!projectInfo.getFeatures().contains( "micrometer")){
         projectInfo.getFeatures().addAll(Arrays.asList(
                 "management",
                 "micrometer"
@@ -68,11 +70,12 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         try {
             MicronautProjectValidator.addDependency(features.get("management"));
             MicronautProjectValidator.addDependency(features.get("micrometer"));
+            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                    (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
+
         } catch (GradleReaderException e) {
             e.printStackTrace();
         }}
-        MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
 
         if(registry.equalsIgnoreCase("prometheus"))
         {
@@ -131,7 +134,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                         "micrometer-influx"
                 ));
                 try {
-                    MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
+                    MicronautProjectValidator.addDependency(features.get("micrometer-influx"));
                 } catch (GradleReaderException e) {
                     e.printStackTrace();
                 }
