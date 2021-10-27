@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
@@ -337,7 +339,7 @@ public class ConfigurationInitializer {
                 }});
                 GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/"+ projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+ "/config/MongodbConfiguration."+ ext , mongoConfigurationContent);
                 if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
-                    if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?").getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
+                    if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?", NO).getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
                     {
                         configurationInfo.setGorm(true);
                         MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
@@ -376,7 +378,7 @@ public class ConfigurationInitializer {
         }
 
         if(!projectInfo.getFeatures().contains("cache-caffeine")){
-            ConfirmResult caffeineSupport = createConfirmResult("caffeine", "Do you want to add cache-caffeine support?");
+            ConfirmResult caffeineSupport = createConfirmResult("caffeine", "Do you want to add cache-caffeine support?", NO);
 
             if(caffeineSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES){
                 projectInfo.getFeatures().add("cache-caffeine");
@@ -387,7 +389,7 @@ public class ConfigurationInitializer {
             }
         }
         if(!projectInfo.getFeatures().contains("micrometer")){
-            ConfirmResult micrometer = createConfirmResult("micrometer", "Do you want to add Micrometer feature?");
+            ConfirmResult micrometer = createConfirmResult("micrometer", "Do you want to add Micrometer feature?",YES);
 
             if(micrometer.getConfirmed() == ConfirmChoice.ConfirmationValue.YES)
             {
@@ -460,7 +462,7 @@ public class ConfigurationInitializer {
 
         if(!projectInfo.getFeatures().contains("graphql"))
         {
-            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL-Java-Tools support?");
+            ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL-Java-Tools support?",YES);
             if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
                 projectInfo.getFeatures().add("graphql");
                 configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);

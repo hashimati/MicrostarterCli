@@ -4,6 +4,7 @@ import graphql.kickstart.tools.GraphQLMutationResolver
 import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -13,24 +14,32 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
 
     @Inject
     ${className}Service ${entityName}Service
+
+    <% if(micrometer) out.print '@Timed(value = "'pack+'.QueryResolver.save.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     ${className} find${className}ById(long id)
     {
         return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>()
     }
 
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     Iterable<${className}> findAll${className}()
     {
         return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>()
     }
 
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     ${className} save${className}(${className} ${entityName}){
         return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
     ${className} update${className}(${className} ${entityName})
     {
         return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
 
     }
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     boolean delete${className}(long id){
       return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }

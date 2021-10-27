@@ -4,10 +4,12 @@ package ${pack};
 ${importMessage}
 import io.micronaut.mqtt.annotation.Topic;
 import io.micronaut.mqtt.v5.annotation.MqttPublisher;
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 
 @MqttPublisher
 interface ${className} {
 
     @Topic("${queueName}")
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Client metric for send a '+Message+' object")' %>
     fun sendOrder(message:${Message});
 }

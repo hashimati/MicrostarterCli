@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
@@ -113,7 +114,7 @@ public class CreateRelationCommand implements Callable<Integer> {
         {
             printlnWarning("There is already an exist relationship between these two entities!");
             setToDefault();
-            if(PromptGui.createConfirmResult("tellMe","Do you want to override it?").getConfirmed() ==  ConfirmChoice.ConfirmationValue.YES){
+            if(PromptGui.createConfirmResult("tellMe","Do you want to override it?", NO).getConfirmed() ==  ConfirmChoice.ConfirmationValue.YES){
                 int index = 0;
                 for(int i = 0;i < configurationInfo.getRelations().size(); i++) {
                     if(entityRelation.getE2().equals(configurationInfo.getRelations().get(i).getE2())

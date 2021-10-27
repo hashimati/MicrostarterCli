@@ -46,7 +46,7 @@ public class CreateControllerCommand implements Callable<Integer> {
 
         String path = PromptGui.inputText("map", "Enter the controller's path: ", "/"+className).getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateController(packageName, className, path,lang);
+        String content = micronautComponentGenerator.generateController(packageName, className, path,lang, configurationInfo.isMicrometer());
 
 
 

@@ -44,7 +44,7 @@ public class CreateJobCommand implements Callable<Integer> {
 
         String className = PromptGui.inputText("className", "Enter job name: ", "MyJob").getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateJob(packageName, className,lang);
+        String content = micronautComponentGenerator.generateJob(packageName, className,lang, configurationInfo.isMicrometer());
 
 
 

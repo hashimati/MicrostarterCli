@@ -25,18 +25,22 @@ public class MicronautComponentGenerator {
     private TemplatesService templatesService;
 
 
-    public String generateController(String classPackage, String className,String path,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateController(String classPackage, String className,String path,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("map", path);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_CONTROLLER, map, lang);
     }
 
-    public String generateSingleton(String classPackage, String className,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateSingleton(String classPackage, String className,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_Singleton, map, lang);
     }
 //
@@ -47,60 +51,71 @@ public class MicronautComponentGenerator {
 //        return generate(TemplatesService.COMP_REPOSITORY, map, lang);
 //    }
 
-    public String generateClient(String classPackage, String className,String serviceId, String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateClient(String classPackage, String className,String serviceId, String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("service-id", serviceId);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_CLIENT, map, lang);
 
     }
 
-    public String generateJob(String classPackage, String className,String lang){
+    public String generateJob(String classPackage, String className,String lang, boolean micrometers){
 
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_JOB, map, lang);
+
 
     }
 
-    public String generateWebSocket(String classPackage, String className, String path,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateWebSocket(String classPackage, String className, String path,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("path", path);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_WEBSOCKET, map, lang);
 
     }
 
-    public String generateWebsocketClient(String classPackage, String className, String path,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateWebsocketClient(String classPackage, String className, String path,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("path", path);
+        map.put("micrometer", micrometers);
+
         return generate(TemplatesService.COMP_WEBSOCKET_CLIENT, map, lang);
     }
 
-    public String generateKafkaClient(String classPackage,String className, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateKafkaClient(String classPackage,String className, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+        map.put("micrometer", micrometers);
 
         return generate(TemplatesService.KAFKA_CLIENT, map, lang);
 
     }
 
-    public String generateKafkaConsumer(String classPackage,String className, String groupId, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateKafkaConsumer(String classPackage,String className, String groupId, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("groupId", groupId);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
+        map.put("micrometer", micrometers);
 
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
@@ -109,25 +124,25 @@ public class MicronautComponentGenerator {
     }
 
 
-    public String generateNatsClient(String classPackage,String className, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateNatsClient(String classPackage,String className, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
-
+        map.putIfAbsent("micrometer",  micrometers);
         return generate(TemplatesService.NATS_CLIENT, map, lang);
 
     }
 
-    public String generateNatsConsumer(String classPackage,String className, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateNatsConsumer(String classPackage,String className, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
-
+        map.put("micrometer", micrometers);
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
         return generate(TemplatesService.NATS_LISTENER, map, lang);
@@ -135,24 +150,26 @@ public class MicronautComponentGenerator {
     }
 
 
-    public String generateGcpPubSubClient(String classPackage,String className, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateGcpPubSubClient(String classPackage,String className, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+        map.put("micrometer", micrometers);
 
         return generate(TemplatesService.GCP_PUB_SUB_CLIENT, map, lang);
 
     }
 
-    public String generateGcpPubSubConsumer(String classPackage,String className, String topic, Entity entity,String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateGcpPubSubConsumer(String classPackage,String className, String topic, Entity entity,String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("topic", topic);
         map.put("Message", entity == null?"String": entity.getName());
+        map.put("micrometer", micrometers);
 
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
 
@@ -160,31 +177,32 @@ public class MicronautComponentGenerator {
 
     }
 
-    public String generateRabbitMQClient(String classPackage, String className, String queueName, Entity entity, String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateRabbitMQClient(String classPackage, String className, String queueName, Entity entity, String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("queueName", queueName);
         map.put("Message", entity == null?"String": entity.getName());
+        map.put("micrometer", micrometers);
 
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
         return generate(TemplatesService.RABBITMQ_CLIENT, map, lang);
 
     }
 
-    public String generateRabbitMQConsumer(String classPackage, String className,String queueName, Entity entity, String lang){
-        HashMap<String, String> map = new HashMap<>();
+    public String generateRabbitMQConsumer(String classPackage, String className,String queueName, Entity entity, String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
         map.put("className", className);
         map.put("queueName", queueName);
         map.put("Message", entity == null?"String": entity.getName());
-
+        map.put("micrometer", micrometers);
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
         return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
     }
 
 
-    public String generate(String key,HashMap<String, String> map,  String lang)
+    public String generate(String key,HashMap<String, Object> map,  String lang)
     {
         String templatePath = "";
         switch (lang.toLowerCase())
@@ -202,6 +220,6 @@ public class MicronautComponentGenerator {
                 templatePath =  templatesService.getJavaTemplates().get(key);
                 break;
         }
-        return GeneratorUtils.generateFromTemplate(templatesService.loadTemplateContent(templatePath), map);
+        return GeneratorUtils.generateFromTemplateObj(templatesService.loadTemplateContent(templatePath), map);
     }
 }

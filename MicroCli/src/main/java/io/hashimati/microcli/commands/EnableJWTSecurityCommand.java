@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static io.hashimati.microcli.services.TemplatesService.GRAPHQL_yml;
 import static io.hashimati.microcli.services.TemplatesService.JWT_yml;
 import static io.hashimati.microcli.utils.PromptGui.*;
@@ -92,7 +93,7 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
                 }
                 else
                     rules.add(rule);
-                read = createConfirmResult("more", "Do you want to add another security rule?").getConfirmed() != ConfirmChoice.ConfirmationValue.NO;
+                read = createConfirmResult("more", "Do you want to add another security rule?", NO).getConfirmed() != ConfirmChoice.ConfirmationValue.NO;
             }
         }
         String rootPath = new StringBuilder().append(System.getProperty("user.dir")).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).toString();

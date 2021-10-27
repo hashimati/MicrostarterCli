@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory
 import io.micronaut.messaging.annotation.Body
 import io.micronaut.gcp.pubsub.annotation.PubSubListener;
 import io.micronaut.gcp.pubsub.annotation.Subscription;
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
 ${importMessage}
 
 @PubSubListener
@@ -13,6 +15,7 @@ class ${className} {
 
 
     @Subscription("${topic}")
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Consumer metric for receive a '+Message+' object")' %>
     fun receive(@Body message:${Message})
     {
         log.info("Received {}", message)

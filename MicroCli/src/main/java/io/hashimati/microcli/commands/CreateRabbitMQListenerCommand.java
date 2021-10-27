@@ -95,7 +95,7 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
         Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
 
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateRabbitMQConsumer(packageName, className,queueName, entity,lang);
+        String content = micronautComponentGenerator.generateRabbitMQConsumer(packageName, className,queueName, entity,lang, configurationInfo.isMicrometer());
 
 
         String extension = GeneratorUtils.getSourceFileExtension(lang);

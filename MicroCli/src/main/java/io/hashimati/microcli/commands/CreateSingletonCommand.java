@@ -38,7 +38,7 @@ public class CreateSingletonCommand implements Callable<Integer> {
 
         String className = PromptGui.inputText("className", "Enter singleton name: ", "MySingleton").getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateSingleton(packageName, className,lang);
+        String content = micronautComponentGenerator.generateSingleton(packageName, className,lang, configurationInfo.isMicrometer());
 
 
 

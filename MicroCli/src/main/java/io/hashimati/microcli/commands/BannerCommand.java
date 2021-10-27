@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static picocli.CommandLine.Command;
 
 @Command(name = "banner")
@@ -50,7 +51,7 @@ public class BannerCommand implements Callable<Integer> {
         ArrayList<String> ansiStyleList = new ArrayList<>(){{
             add("-1"); //just for
         }};
-        while(PromptGui.createConfirmResult("style", "Do you want to add an Ansi Style?").getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+        while(PromptGui.createConfirmResult("style", "Do you want to add an Ansi Style?", NO).getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
 
             String[] ansis = AsciiUtils.getAnsiStyle().toArray(new String[AsciiUtils.getAnsiStyle().size()]);
             ListResult ansiStyleResult = PromptGui.createListPrompt("ansi", "Select an Ansi style:", ansis);

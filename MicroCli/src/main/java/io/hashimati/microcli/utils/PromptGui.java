@@ -107,14 +107,14 @@ public class PromptGui {
 
     }
 //    public
-    public static ConfirmResult createConfirmResult(String name, String message ) throws IOException {
+    public static ConfirmResult createConfirmResult(String name, String message,ConfirmChoice.ConfirmationValue defaultValue  ) throws IOException {
 
         ConsolePrompt prompt = new ConsolePrompt();
         PromptBuilder builder = prompt.getPromptBuilder();
         builder.createConfirmPromp()
                 .name(name)
                 .message(message)
-                .defaultValue(ConfirmChoice.ConfirmationValue.NO)
+                .defaultValue(defaultValue)
                 .addPrompt();
         return (ConfirmResult)prompt.prompt(builder.build()).get(name);
 

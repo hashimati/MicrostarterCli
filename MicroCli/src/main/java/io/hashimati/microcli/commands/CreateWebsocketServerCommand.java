@@ -46,7 +46,7 @@ public class CreateWebsocketServerCommand implements Callable<Integer> {
 
         String path = PromptGui.inputText("map", "Enter the websocket server's path: ", "/"+className).getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateWebSocket(packageName, className, path,lang);
+        String content = micronautComponentGenerator.generateWebSocket(packageName, className, path,lang, configurationInfo.isMicrometer());
 
 
 

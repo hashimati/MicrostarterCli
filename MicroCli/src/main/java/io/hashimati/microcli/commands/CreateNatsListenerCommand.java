@@ -101,7 +101,7 @@ public class CreateNatsListenerCommand implements Callable<Integer> {
         Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
 
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateNatsConsumer(packageName, className, topic, entity,lang);
+        String content = micronautComponentGenerator.generateNatsConsumer(packageName, className, topic, entity,lang, configurationInfo.isMicrometer());
 
 
         String extension = GeneratorUtils.getSourceFileExtension(lang);

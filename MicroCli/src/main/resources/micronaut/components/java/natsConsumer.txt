@@ -8,6 +8,7 @@ import io.micronaut.messaging.annotation.Body;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 ${importMessage}
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 
 @NatsListener
 public class ${className} {
@@ -15,6 +16,7 @@ public class ${className} {
     private static final Logger log= LoggerFactory.getLogger(${className}.class);
 
     @Subject("${topic}")
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Consumer metric for receive a '+Message+' object")' %>
     public void receive(@Body ${Message} message)
     {
         log.info("Received {}", message);

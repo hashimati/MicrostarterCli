@@ -39,7 +39,7 @@ public class CreateClientCommand implements Callable<Integer> {
 
         String serviceId = PromptGui.inputText("map", "Enter the Service ID: ", "/my-service").getInput();
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateClient(packageName, className, serviceId,lang);
+        String content = micronautComponentGenerator.generateClient(packageName, className, serviceId,lang, configurationInfo.isMicrometer());
 
 
 

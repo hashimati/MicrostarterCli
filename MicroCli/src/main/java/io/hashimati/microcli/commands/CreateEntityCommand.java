@@ -41,6 +41,7 @@ import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
@@ -176,7 +177,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             attributeLoop: for(;;) {
-                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add an attribute?");
+                ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add an attribute?", NO);
 
                 if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
                 {
@@ -213,38 +214,38 @@ public class CreateEntityCommand implements Callable<Integer> {
                     entityAttribute.setType(attrTypeResult.getSelectedId());
                     //todo Enter ask for Validation
                     //todo take validation
-                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to "+attrNameResult.getInput()+"?");
+                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to "+attrNameResult.getInput()+"?", NO);
 
                         if(validationConfirm.getConfirmed() == YES){
                             EntityConstraints   entityConstraints = new EntityConstraints();
                             entityConstraints.setEnabled(true);
                             //ask if it's required
-                            ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribute", "Required?");
+                            ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribute", "Required?", NO);
                             entityConstraints.setRequired(requiredValidationConfirm.getConfirmed() == YES);
 
 
                             switch(entityAttribute.getType().toLowerCase()){
                                 case "string":
-                                    ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribute", "Unique?");
+                                    ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribute", "Unique?", NO);
                                     entityConstraints.setUnique(uniqueValidationConfirm.getConfirmed() == YES);
 
-                                    entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?").getConfirmed() == YES);
+                                    entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?", NO).getConfirmed() == YES);
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a minimum length?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a minimum length?", NO).getConfirmed() == YES)
 
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum length", "1");
                                         entityConstraints.setMin(Long.parseLong(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a maximum length?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a maximum length?", NO).getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum Length", "100");
                                         entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
                                     }
-                                    entityConstraints.setEmail(PromptGui.createConfirmResult("email", "Is Email?").getConfirmed() == YES);
+                                    entityConstraints.setEmail(PromptGui.createConfirmResult("email", "Is Email?", NO).getConfirmed() == YES);
 
                                     if(!entityConstraints.isEmail()){
-                                        if(PromptGui.createConfirmResult("regex", "Regex?").getConfirmed() == YES)
+                                        if(PromptGui.createConfirmResult("regex", "Regex?", NO).getConfirmed() == YES)
                                         {
                                             entityConstraints.setPattern(PromptGui.inputText("regex", "Enter the regex:","").getInput());
 
@@ -258,32 +259,32 @@ public class CreateEntityCommand implements Callable<Integer> {
                                 case "short":
                                 case "int":
                                 case "long":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES)
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
                                         entityConstraints.setMin(Long.parseLong(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
                                         entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
                                     }
                                     break;
                                 case "float":
                                 case "double":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?").getConfirmed() == YES)
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES)
                                     {
                                         InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
                                         entityConstraints.setDecimalMin(Double.parseDouble(minSize.getInput()));
                                     }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
                                         InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
                                         entityConstraints.setDecimalMax(Double.parseDouble(maxSize.getInput()));
                                     }
                                     break;
                                 case "date":
-                                    if(PromptGui.createConfirmResult("minimum", "Is Future?").getConfirmed() == YES) {
+                                    if(PromptGui.createConfirmResult("minimum", "Is Future?", NO).getConfirmed() == YES) {
                                         entityConstraints.setFuture(true);
                                     }
                                     break;

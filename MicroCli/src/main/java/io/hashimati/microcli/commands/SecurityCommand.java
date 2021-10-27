@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static org.fusesource.jansi.Ansi.ansi;
 
 @Command(name = "security", description = "Enabling Security")
@@ -61,7 +62,7 @@ public class SecurityCommand implements Callable<Integer> {
         ArrayList<String> roles = new ArrayList<>();
 
         for(;;){
-            ConfirmResult addRoleConfirm = PromptGui.createConfirmResult("addRole", "Do you want to add Role?");
+            ConfirmResult addRoleConfirm = PromptGui.createConfirmResult("addRole", "Do you want to add Role?", NO);
             if(addRoleConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.NO)
                 break;
             else{
