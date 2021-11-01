@@ -71,10 +71,10 @@ public class CreateEntityCommand implements Callable<Integer> {
     @Option(names = {"--no-endpoint"}, description = "To prevent generating controller.")
     private boolean noEndpoint;
 
-    @Option(names ={"--graphql"}, description = "To generate GraphQL")
+    @Option(names ={"--graphql"}, description = "To generate GraphQL components.")
     private boolean graphql;
 
-    @Option(names={"--cache", "--caffeine"}, description = "To caching with caffeine ")
+    @Option(names={"--cache", "--caffeine"}, description = "To caching with caffeine.")
     private boolean caffeine;
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
