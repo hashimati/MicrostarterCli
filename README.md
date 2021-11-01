@@ -49,6 +49,15 @@ mc entity -e fruit --graphql
 
 <a name="configure"></a>
 ## Configure Command
+"Configure" command will configure features in a Micronaut Application by asking questions. the features are including: 
+1. Reactive framework: Reactor Project, RxJava2 , RxJava3. 
+2. Database Name. 
+3. Database Type. 
+4. Messaging
+5. Caching
+6. Metrics Observibiltiy
+7. GraphQl
+
 
 ```shell
 > mc configure
