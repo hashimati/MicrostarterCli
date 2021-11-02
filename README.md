@@ -49,14 +49,44 @@ mc entity -e fruit --graphql
 
 <a name="configure"></a>
 ## Configure Command
-"Configure" command will configure features in a Micronaut Application by asking questions. the features are including: 
+"Configure" command will add features and configure them in a Micronaut Application. When a user run the command it will ask the user to configure the below: 
 1. Reactive framework: Reactor Project, RxJava2 , RxJava3. 
 2. Database Name. 
 3. Database Type. 
 4. Messaging
 5. Caching
 6. Metrics Observibiltiy
-7. GraphQl
+7. GraphQL
+
+In the other hand, the "configure" does the below configuratio by default: 
+1. Adding the OpenAPI features and doing the necessary YAML and Java annotations configurations. 
+2. Adding "OpenWriter" features. 
+3. Updating the "logback.xml" file. It will add the "FILE" appender to the file, which will let the Miconaut application to write/append the logs to "logs.log" file. Also, it will add "io.micronaut.data.query" logger to trace the Micronaut data events.  
+
+* File Appender Configuration: 
+```xml
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+</appender>
+...
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+```
+
+"io.micronaut.data.query" Logger Configuration: 
+```xml
+    <logger name="io.micronaut.data.query" level="trace" />
+
+```
+5. Adding Lombok to the Micornaut-java application. 
+6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file tarcks all the actions that users do using the MicroCli tool.
+
+
 
 
 ```shell
