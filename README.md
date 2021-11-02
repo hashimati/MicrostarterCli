@@ -50,7 +50,7 @@ mc entity -e fruit --graphql
 <a name="configure"></a>
 ## Configure Command
 
-#### Command:
+#### Command Syntax:
 ```shell
 > mc configure
 ```
@@ -100,6 +100,14 @@ The "configure" command runs implicitly if the user runs [Entity Command](#entit
 
 <a name="enum"></a>
 ## Enum Command
+#### Command Syntax:
+```shell
+> mc create-enum --name <Enum Name> --options <OPTION1,OPTION2,OPTION3, ...> 
+```
+
+The users can use"enum" command declare and configure an Enum data type in the applicaiton. The defined enum data type will appear in the attributes data type selection list in [Enum Command](#enum).    
+
+#### Example:
 ```shell
 > mc create-enum --name WHETHER --options SUNNY,CLOUDY,RAINY 
 ```
@@ -108,10 +116,20 @@ The "configure" command runs implicitly if the user runs [Entity Command](#entit
 <a name="entity"></a>
 ## Entity Command
 
+#### Command Syntax:
 ```shell
-mc entity -entity-name Fruit
+mc entity --entity-name <EntityName> --collection-name <collection name> --graphql --cache --no-endpoint
 ```
-options
+
+
+| Option | Aliases |  Description |
+| :---: | :---: | :---: |
+| --entity-name| -e , -n | To specify the entity's name |
+| --collection-name | -c | to specify the entity's table/collection name |
+| --no-endpoint | :---: | to prevent generating the entity's controller class | 
+| --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
+| --cache | --caffine | to add caching annotations in the entity's service file |
+options 
 --collection-name
 --no-endpoint
 --graphql
