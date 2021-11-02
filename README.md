@@ -122,18 +122,14 @@ mc entity --entity-name <EntityName> --collection-name <collection name> --graph
 ```
 
 
-| Option | Aliases |  Description |
-| :---: | :---: | :---: |
+| #### Option | #### Aliases |  #### Description |
+
 | --entity-name| -e , -n | To specify the entity's name |
 | --collection-name | -c | to specify the entity's table/collection name |
 | --no-endpoint | :---: | to prevent generating the entity's controller class | 
 | --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
 | --cache | --caffine | to add caching annotations in the entity's service file |
-options 
---collection-name
---no-endpoint
---graphql
---cache
+| :---: | :---: | :---: |
 
 
 <a name="relationship"></a>
