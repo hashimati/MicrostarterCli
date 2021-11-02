@@ -54,7 +54,7 @@ mc entity -e fruit --graphql
 ```shell
 > mc configure
 ```
-The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
+The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
 
 The "Configure" command adds the necessary features and configurations that are required by other command to the Micronaut Application. When a user runs the command it will ask the user to configure the below: 
 
@@ -95,8 +95,7 @@ In the other hand, the "configure" does the below configurations by default:
 5. Adding Lombok to the Micornaut-java application if the Micronaut application doesn't contain Lombok. 
 6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file contains the application informations from "micronaut-cli.yml" file and tarcks all the actions that users do using the MicroCli tool.
 
-
-
+The "configure" command runs implicitly if the user runs [Entity Command](#entity). 
 
 
 <a name="enum"></a>
@@ -104,6 +103,7 @@ In the other hand, the "configure" does the below configurations by default:
 ```shell
 > mc create-enum --name WHETHER --options SUNNY,CLOUDY,RAINY 
 ```
+
 
 <a name="entity"></a>
 ## Entity Command
