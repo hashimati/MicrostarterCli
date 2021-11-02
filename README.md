@@ -49,17 +49,26 @@ mc entity -e fruit --graphql
 
 <a name="configure"></a>
 ## Configure Command
-"Configure" command will add features and configure them in a Micronaut Application. When a user run the command it will ask the user to configure the below: 
+
+#### Command:
+```shell
+> mc configure
+```
+The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
+
+The "Configure" command adds the necessary features and configurations that are required by other command to the Micronaut Application. When a user runs the command it will ask the user to configure the below: 
+
 1. Reactive framework: Reactor Project, RxJava2 , RxJava3. 
 2. Database Name. 
 3. Database Type. 
-4. Messaging
+4. Messaging Framework
 5. Caching
 6. Metrics Observibiltiy
 7. GraphQL
 
-In the other hand, the "configure" does the below configuratio by default: 
-1. Adding the OpenAPI features and doing the necessary YAML and Java annotations configurations. 
+In the other hand, the "configure" does the below configurations by default: 
+
+1. Adding the OpenAPI features and adding the necessary YAML and Java annotations configurations. 
 2. Adding "OpenWriter" features. 
 3. Updating the "logback.xml" file. It will add the "FILE" appender to the file, which will let the Miconaut application to write/append the logs to "logs.log" file. Also, it will add "io.micronaut.data.query" logger to trace the Micronaut data events.  
 
@@ -83,15 +92,12 @@ In the other hand, the "configure" does the below configuratio by default:
     <logger name="io.micronaut.data.query" level="trace" />
 
 ```
-5. Adding Lombok to the Micornaut-java application. 
-6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file tarcks all the actions that users do using the MicroCli tool.
+5. Adding Lombok to the Micornaut-java application if the Micronaut application doesn't contain Lombok. 
+6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file contains the application informations from "micronaut-cli.yml" file and tarcks all the actions that users do using the MicroCli tool.
 
 
 
 
-```shell
-> mc configure
-```
 
 <a name="enum"></a>
 ## Enum Command
