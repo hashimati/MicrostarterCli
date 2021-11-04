@@ -3,8 +3,6 @@
 
                ${columns}
             </createTable>
-
-
             <addAutoIncrement columnDataType="bigint"
                               columnName="id"
                               incrementBy="1"

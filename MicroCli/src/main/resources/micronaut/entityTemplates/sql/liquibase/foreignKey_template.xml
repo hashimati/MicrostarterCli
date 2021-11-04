@@ -1,10 +1,8 @@
-
             <addColumn tableName="${baseTable}">
                 <column name="${baseColumnName}" type="bigint">
                     <constraints unique="${unique}" />
                 </column>
             </addColumn>
-
             <addForeignKeyConstraint  baseColumnNames="${baseColumnName}"
                                       baseTableName="${baseTable}"
                                       constraintName="fk_${constraintName}"
