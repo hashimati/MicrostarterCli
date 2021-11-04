@@ -50,11 +50,11 @@ mc entity -e fruit --graphql
 <a name="configure"></a>
 ## Configure Command
 
-#### Command:
+#### Command Syntax:
 ```shell
 > mc configure
 ```
-The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
+The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
 
 The "Configure" command adds the necessary features and configurations that are required by other command to the Micronaut Application. When a user runs the command it will ask the user to configure the below: 
 
@@ -95,27 +95,45 @@ In the other hand, the "configure" does the below configurations by default:
 5. Adding Lombok to the Micornaut-java application if the Micronaut application doesn't contain Lombok. 
 6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file contains the application informations from "micronaut-cli.yml" file and tarcks all the actions that users do using the MicroCli tool.
 
-
-
+The "configure" command runs implicitly if the user runs [Entity Command](#entity). 
 
 
 <a name="enum"></a>
 ## Enum Command
+#### Command Syntax:
+```shell
+> mc create-enum --name <Enum Name> --options <OPTION1,OPTION2,OPTION3, ...> 
+```
+
+The users can use"enum" command declare and configure an Enum data type in the applicaiton. The defined enum data type will appear in the attributes data type selection list in [Enum Command](#enum).    
+
+#### Example:
 ```shell
 > mc create-enum --name WHETHER --options SUNNY,CLOUDY,RAINY 
 ```
 
+
 <a name="entity"></a>
 ## Entity Command
 
+#### Command Syntax:
 ```shell
-mc entity -entity-name Fruit
+mc entity --entity-name <EntityName> --collection-name <collection name> --graphql --cache --no-endpoint
 ```
-options
---collection-name
---no-endpoint
---graphql
---cache
+
+
+| Option |  Aliases | Description |
+| :---: | :---: | :---: |
+| --entity-name| -e , -n | To specify the entity's name |
+| --collection-name | -c | to specify the entity's table/collection name |
+| --no-endpoint | :---: | to prevent generating the entity's controller class | 
+| --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
+| --cache | --caffine | to add caching annotations in the entity's service file |
+
+#### Example
+```shell
+> mc entity -n Fruit --graphql
+```
 
 
 <a name="relationship"></a>
