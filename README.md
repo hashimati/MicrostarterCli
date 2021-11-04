@@ -133,10 +133,11 @@ The "entity" command helps the developers to bootstarp the code of the basic CRU
 | --cache | --caffine | to add caching annotations in the entity's service file |
 
 
-#### Example
+### Example
 ```shell
-> mc entity -n Fruit --graphql
+> mc entity -n Fruit
 ```
+#### Generated Files: 
 ##### 1. Fruit Class
 ```java 
 @Data
@@ -161,8 +162,6 @@ public class Fruit{
     @DateUpdated 
     private Date dateUpdated;    
 }
-
-
 ```
 
 ##### 2. Fruit Repository
@@ -173,8 +172,6 @@ public class Fruit{
 public interface FruitRepository extends CrudRepository<Fruit, Long> {
     
 }
-
-
 ```
 
 ##### 3. Fruit Service
@@ -240,7 +237,6 @@ public class FruitService {
     }
 
 }
-
 ```
 ##### 4. Fruit Controller
 ```java
@@ -346,7 +342,6 @@ public class FruitController {
 
 
 }
-
 ```
 
 ##### 5. Fruit Client
@@ -369,16 +364,6 @@ public interface FruitClient {
     @Put("/update")
     public Fruit update(@Body Fruit fruit);
 }
-
-
-
-```
-##### 5. GraphQL Factory
-
-```java
-```
-##### 6. GraphQL Query Resolver
-```java
 ```
 
  
