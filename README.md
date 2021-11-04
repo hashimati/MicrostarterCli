@@ -121,7 +121,9 @@ The users can use"enum" command declare and configure an Enum data type in the a
 mc entity --entity-name <EntityName> --collection-name <collection name> --graphql --cache --no-endpoint
 ```
 
+The "entity" command helps the developers to bootstarp the code of the basic CRUD operations for the application's domains. The files are including Entity Class file, Database Repository file, Service file, REST Endpoint file, and GraphQL configuration files. The "entity" command generates the files based on the information that the developer provides in "configure" command. The "entity" command runs the "configure" command implicitly if the developer didn't run it.. 
 
+#### Command Options: 
 | Option |  Aliases | Description |
 | :---: | :---: | :---: |
 | --entity-name| -e , -n | To specify the entity's name |
@@ -130,10 +132,43 @@ mc entity --entity-name <EntityName> --collection-name <collection name> --graph
 | --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
 | --cache | --caffine | to add caching annotations in the entity's service file |
 
+
 #### Example
 ```shell
 > mc entity -n Fruit --graphql
 ```
+##### 1. Fruit Class
+```java 
+public class Fruit{
+    public static void main(String... args)
+    {
+    
+    }
+}
+```
+
+##### 2. Fruit Repository
+
+```java
+```
+
+##### 3. Fruit Service
+```java
+```
+##### 4. Fruit Controller
+```java
+```
+##### 5. GraphQL Factory
+
+```java
+```
+##### 6. GraphQL Query Resolver
+```java
+```
+
+ 
+
+
 
 
 <a name="relationship"></a>
