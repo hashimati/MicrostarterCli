@@ -139,24 +139,239 @@ The "entity" command helps the developers to bootstarp the code of the basic CRU
 ```
 ##### 1. Fruit Class
 ```java 
+@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
+@Schema(name="Fruit", description="Fruit Description")
+@MappedEntity(value = "fruits", namingStrategy = Raw.class)
 public class Fruit{
-    public static void main(String... args)
-    {
     
-    }
+    @Id 
+    @GeneratedValue(GeneratedValue.Type.AUTO) 
+    @EqualsAndHashCode.Exclude 
+    private Long id;
+    
+    private String name;
+    @DateCreated 
+    private Date dateCreated;
+
+    @DateUpdated 
+    private Date dateUpdated;    
 }
+
+
 ```
 
 ##### 2. Fruit Repository
 
 ```java
+@Repository
+@JdbcRepository(dialect = Dialect.H2)
+public interface FruitRepository extends CrudRepository<Fruit, Long> {
+    
+}
+
+
 ```
 
 ##### 3. Fruit Service
 ```java
+@Singleton
+@Transactional
+public class FruitService {
+
+    private static final Logger log = LoggerFactory.getLogger(FruitService.class);
+    @Inject private FruitRepository fruitRepository;
+
+    @Timed(value = "io.hashimati.services.fruitService.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving fruit object")
+    public Fruit save(Fruit fruit){
+        log.info("Saving  Fruit : {}", fruit);
+        //TODO insert your logic here!
+        //saving Object
+        fruitRepository.save(fruit);
+        return fruit;
+    }
+
+    
+    @Timed(value = "io.hashimati.services.fruitService.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a fruit object by id")
+    public Fruit findById(long id){
+        log.info("Finding Fruit By Id: {}", id);
+        return fruitRepository.findById(id).orElse(null);
+    }
+
+    @Timed(value = "io.hashimati.services.fruitService.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a fruit object by id")
+    public boolean deleteById(long id){
+        log.info("Deleting Fruit by Id: {}", id);
+        try{
+            fruitRepository.deleteById(id);
+            log.info("Deleted Fruit by Id: {}", id);
+            return true;
+        }
+        catch(Exception ex)
+        {
+            log.info("Failed to delete Fruit by Id: {}", id);
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Timed(value = "io.hashimati.services.fruitService.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all fruit objects")
+    public Iterable<Fruit> findAll() {
+        log.info("Find All");
+      return  fruitRepository.findAll();
+    }
+
+    public boolean existsById(Long id)
+    {
+        log.info("Check if id exists: {}", id);
+        return  fruitRepository.existsById(id);
+
+    }
+
+    @Timed(value = "io.hashimati.services.fruitService.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a fruit object")
+    public Fruit update(Fruit fruit)
+    {
+        log.info("update {}", fruit);
+        return fruitRepository.update(fruit);
+
+    }
+
+}
+
 ```
 ##### 4. Fruit Controller
 ```java
+@Controller("/api/fruit")
+public class FruitController {
+
+    private static final Logger log = LoggerFactory.getLogger(FruitController.class);
+
+    @Inject private FruitService fruitService;
+
+
+    @Post("/save")
+    @Version("1")
+    
+    @Timed(value = "io.hashimati.controllers.fruitController.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving fruit object")
+    @Operation(summary = "Creating a fruit and Storing in the database",
+            description = "A REST service, which saves Fruit objects to the database.",
+            operationId = "SaveFruit"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
+    @ApiResponse(responseCode = "404", description = "Fruit not stored")
+    public Fruit save(@Body Fruit fruit){
+        log.info("Saving  Fruit : {}", fruit);
+        //TODO insert your logic here!
+
+        //saving Object
+        return fruitService.save(fruit);
+    }
+
+
+    @Get("/get")
+    @Version("1")
+    
+    @Timed(value = "io.hashimati.controllers.fruitController.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a fruit object by id")
+    @Operation(summary = "Getting a fruit by Id",
+        description = "A REST service, which retrieves a Fruit object by Id.",
+        operationId = "FindByIdFruit"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "Fruit not found")
+    public Fruit findById(@Parameter("id") long id){
+        return fruitService.findById(id);
+    }
+
+    @Delete("/delete/{id}")
+    @Version("1")
+    
+    @Timed(value = "io.hashimati.controllers.fruitController.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a fruit object by id")
+    @Operation(summary = "Deleting a fruit by ID",
+            description = "A REST service, which deletes Fruit object from the database.",
+            operationId = "DeleteByIdFruit"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "boolean")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "Fruit not found")
+    public boolean deleteById(@PathVariable("id") long id){
+        log.info("Deleting Fruit by Id: {}", id);
+        return  fruitService.deleteById(id);
+    }
+
+    @Get("/findAll")
+    @Version("1")
+    
+    @Timed(value = "io.hashimati.controllers.fruitController.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all fruit objects")
+    @Operation(summary = "Retrieving all fruit objects as Json",
+            description = "A REST service, which returns all Fruit objects from the database.",
+            operationId = "FindAllFruit"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    public Iterable<Fruit> findAll(){
+        log.info("find All");
+        return fruitService.findAll();
+    }
+
+    @Put("/update")
+    @Version("1")
+    
+    @Timed(value = "io.hashimati.controllers.fruitController.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a fruit object")
+    @Operation(summary = "Updating a fruit.",
+            description = "A REST service, which update a Fruit objects to the database.",
+            operationId = "UpdateFruit"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "Fruit not found")
+    public Fruit update(@Body Fruit fruit)
+    {
+        log.info("update {}", fruit);
+        return fruitService.update(fruit);
+
+    }
+
+
+}
+
+```
+
+##### 5. Fruit Client
+```java
+@Client("/api/fruit")
+public interface FruitClient {
+
+    @Post("/save")
+    public Fruit save(Fruit fruit);
+
+    @Get("/get")
+    public Fruit findById(@Parameter("id") long id);
+
+    @Delete("/delete/{id}")
+    public boolean deleteById(@PathVariable("id") long id);
+
+    @Get("/findAll")
+    public Iterable<Fruit> findAll();
+
+    @Put("/update")
+    public Fruit update(@Body Fruit fruit);
+}
+
+
+
 ```
 ##### 5. GraphQL Factory
 
