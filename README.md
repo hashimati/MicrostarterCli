@@ -38,14 +38,14 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 #### 2. Database
 | Database | Type | Features | Notes |
-| :--: | :--: | :--: | :--: | 
-| Mongodb | NoSQL | ReactiveMongo, GORM(Groovy Language Only |  |
-| H2 | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
-| MySQL | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
-| MariaDB | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
-| PostgreSQL | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
-| Oracle | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
-| SqlServer | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| :--: | :--: | :--: | :-- | 
+| Mongodb | NoSQL | ReactiveMongo, GORM | GORM in <b>Preview</b> and it is supported with Groovy Language Only.<  |
+| H2 | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| MySQL | RDBM | JPA , JDBC , R2DBC ,  GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| MariaDB | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| PostgreSQL | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| Oracle | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| SqlServer | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
 
 #### 3. SQL Data Migrations Tools
 | Framework/Tools | notes |
@@ -62,7 +62,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 #### 5. Caching
 | Framework/Tools | Notes |
 | :--: | :--: |
-| Caffine | | 
+| Caffeine | | 
 
 #### 6. Observability 
 | Framework/Tools | Notes |
@@ -188,10 +188,10 @@ The "entity" command helps the developers to bootstarp the code of the basic CRU
 
 #### Command Options: 
 | Option |  Aliases | Description |
-| :---: | :---: | :---: |
+| :---: | :---: | :--- |
 | --entity-name| -e , -n | To specify the entity's name |
 | --collection-name | -c | to specify the entity's table/collection name |
-| --no-endpoint | :---: | to prevent generating the entity's controller class | 
+| --no-endpoint |  | to prevent generating the entity's controller class | 
 | --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
 | --cache | --caffine | to add caching annotations in the entity's service file |
 
