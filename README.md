@@ -449,12 +449,30 @@ public interface FruitClient {
 > create-kafka-listener <-e <entityName>>
 ```
 
+##### Aliases: 
+kafka-listener - kafkaListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 #### Kafka Client
 
 ##### Command: 
 ```shell
 > create-kafka-client <-e <entityName>> 
 ```
+
+##### Aliases: 
+kafka-client - kafkaClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+
 <a name="rabbitmq"></a>
 ### RabbitMQ Commands
 #### RabbitMQ Listener
@@ -463,6 +481,17 @@ public interface FruitClient {
 ```shell
 > create-rabbitmq-listener <-e <entityName>>
 ```
+
+##### Aliases: 
+rabbitmqListener - rabbitmq-Listener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name |
+
+
+
 #### RabbitMQ Client
 
 ##### Command: 
@@ -470,23 +499,47 @@ public interface FruitClient {
 > create-rabbitmq-listener <-e <entityName>>
 ```
 
+##### Aliases: 
+rabbitmq-client - rabbitmqClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 
 <a name="nat"></a>
-### NAT Commands
-#### NAT Listener
+### NATS Commands
+#### NATS Listener
 
 ##### Command: 
 ```shell
 > create-nat-listener <-e <entityName>>
 ```
 
-#### NAT Client
+##### Aliases: 
+nats-Listener - natsListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+#### NATS Client
 
 ##### Command: 
 ```shell
 > create-nat-client <-e <entityName>>
 
 ```
+
+##### Aliases: 
+nats-client - natsClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
 
 
 <a name="gcp"></a>
@@ -499,12 +552,28 @@ public interface FruitClient {
 
 ```
 
+##### Aliases: 
+gcp-listener - gcpListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 #### GCP Client
 
 ##### Command: 
 ```shell
 > create-gcp-client <-e <entityName>>
 ```
+##### Aliases: 
+gcp-client - gcpClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 
 <a name="security"></a>
 ## Security Command
