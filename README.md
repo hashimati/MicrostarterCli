@@ -4,20 +4,21 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 
 # Table Of Contents
-1. [Getting Started](#started)
-2. [Configure Command](#configure)
-3. [Enum Command](#enum)
-4. [Entity Command](#entity)
-5. [Relationship Command](#relationship)
-6. [Messaging](#messaging)
+1. [Technologies Stack](#stack)
+2. [Getting Started](#started)
+3. [Configure Command](#configure)
+4. [Enum Command](#enum)
+5. [Entity Command](#entity)
+6. [Relationship Command](#relationship)
+7. [Messaging](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
     3. [NAT Commands](#nat). 
-7. [Security Command](#security)
+8. [Security Command](#security)
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-8. [Banner Command](#banner)
+9. [Banner Command](#banner)
 
 
 
@@ -25,6 +26,68 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 
 
+<a name="stack"></a>
+## Technologies Stack
+
+#### 1. Languages 
+| Language | Notes |
+| :--: | :--: | 
+| java | MicroCli will detected the language from micronaut-cli.yml file | 
+| groovy | MicroCli will detected the language from micronaut-cli.yml file |
+| kotlin | MicroCli will detected the language from micronaut-cli.yml file | 
+
+#### 2. Database
+| Database | Type | Features | Notes |
+| :--: | :--: | :--: | :--: | 
+| Mongodb | NoSQL | ReactiveMongo, GORM(Groovy Language Only |  |
+| H2 | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| MySQL | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| MariaDB | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| PostgreSQL | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| Oracle | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+| SqlServer | RDBM | JPA , JDBC , GROM (Groovy Language Only) | |
+
+#### 3. SQL Data Migrations Tools
+| Framework/Tools | notes |
+| :--: | :--: | 
+| Liquibase | recommended | 
+| Flyway | |
+
+#### 4. GraphQL
+
+| Framework/Tools | Notes | 
+| :--: | :--: | 
+| graphql-java-tools | |
+
+#### 5. Caching
+| Framework/Tools | Notes |
+| :--: | :--: |
+| Caffine | | 
+
+#### 6. Observability 
+| Framework/Tools | Notes |
+|:--: | :--: | 
+| Micrometers | | 
+| InfluxDB | |
+| prometheus | |
+
+#### 7. Messeging 
+| Messaging | Notes |
+| :--: | :--: | 
+| Kafka | | 
+| RabbitMQ | | 
+| NAT | | 
+| GCP | | 
+
+#### 8. Security
+| Mechanism | Notes | 
+| :--: | :--: | 
+| JWT | | 
+| Sessions | | 
+| Basics | | 
+
+
+####
 
 <a name="started"> </a>
 ## Getting Started
