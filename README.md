@@ -438,7 +438,7 @@ public interface FruitClient {
 ```shell
 
 ```
-======
+
 <a name="messaging"></a>
 ## Messaging
 
@@ -457,7 +457,6 @@ public interface FruitClient {
 ```shell
 > create-kafka-client <-e <entityName>> 
 ```
-======
 <a name="rabbitmq"></a>
 ### RabbitMQ Commands
 #### RabbitMQ Listener
@@ -473,7 +472,7 @@ public interface FruitClient {
 > create-rabbitmq-listener <-e <entityName>>
 ```
 
-======
+
 <a name="nat"></a>
 ### NAT Commands
 #### NAT Listener
@@ -490,7 +489,7 @@ public interface FruitClient {
 > create-nat-client <-e <entityName>>
 
 ```
-======
+
 
 <a name="gcp"></a>
 ### GCP Commands
@@ -509,7 +508,6 @@ public interface FruitClient {
 > create-gcp-client <-e <entityName>>
 ```
 
-======
 <a name="security"></a>
 ## Security Command
 <a name="jwt"></a>
@@ -533,8 +531,8 @@ public interface FruitClient {
 ##### Command: 
 ```shell
 >
-======```
-
+```
+======
 <a name="banner"></a>
 ## Banner Command
 
