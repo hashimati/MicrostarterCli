@@ -544,16 +544,16 @@ nats-client - natsClient
 
 <a name="gcp"></a>
 ### GCP Commands
-#### GCP Consumer
+#### GCP Listener
 
 ##### Command: 
 ```shell
-> create-gcp-listener <-e <entityName>>
+> create-gcp-pubsub-listener <-e <entityName>>
 
 ```
 
 ##### Aliases: 
-gcp-listener - gcpListener
+pubsub-listener - pubSubListener
 
 ##### Options: 
 | Option| Alias | Mandatory | Description | 
@@ -564,10 +564,10 @@ gcp-listener - gcpListener
 
 ##### Command: 
 ```shell
-> create-gcp-client <-e <entityName>>
+> create-gcp-pubsub-client <-e <entityName>>
 ```
 ##### Aliases: 
-gcp-client - gcpClient
+pubsub-client - pubsubClient - PubSubClient
 
 ##### Options: 
 | Option| Alias | Mandatory | Description | 
