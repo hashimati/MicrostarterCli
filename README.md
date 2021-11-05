@@ -39,13 +39,13 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 #### 2. Database
 | Database | Type | Features | Notes |
 | :--: | :--: | :--: | :-- | 
-| Mongodb | NoSQL | ReactiveMongo, GORM | GORM in <b>Preview</b> and it is supported with Groovy Language Only.<  |
-| H2 | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
-| MySQL | RDBM | JPA , JDBC , R2DBC ,  GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
-| MariaDB | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
-| PostgreSQL | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
-| Oracle | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
-| SqlServer | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b>. |
+| Mongodb | NoSQL | ReactiveMongo, GORM | GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<  |
+| H2 | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage. |
+| MySQL | RDBM | JPA , JDBC , R2DBC ,  GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
+| MariaDB | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
+| PostgreSQL | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
+| Oracle | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
+| SqlServer | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
 
 #### 3. SQL Data Migrations Tools
 | Framework/Tools | notes |
