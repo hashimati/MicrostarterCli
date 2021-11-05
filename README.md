@@ -25,7 +25,6 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 
 
-======
 
 <a name="stack"></a>
 ## Technologies Stack
@@ -108,7 +107,7 @@ mc entity -e fruit --graphql
 6. MicroCli application will launch. 
 7. Select the instructions as in this GIF: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
-======
+
 
 <a name="configure"></a>
 ## Configure Command
@@ -428,12 +427,11 @@ public interface FruitClient {
     public Fruit update(@Body Fruit fruit);
 }
 ```
-======
+
 
 <a name="relationship"></a>
 ## Relationship Command
 
-======
 #### Command Syntax:
 ```shell
 
@@ -532,7 +530,7 @@ public interface FruitClient {
 ```shell
 >
 ```
-======
+
 <a name="banner"></a>
 ## Banner Command
 
