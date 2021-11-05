@@ -86,6 +86,8 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 | Sessions | | 
 | Basics | | 
 
+#### 9. Banners. 
+The MicroCli uses [Banana](https://github.com/yihleego/banana) to generate banners. 
 
 ####
 
