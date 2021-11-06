@@ -34,4 +34,50 @@ public class UserController {
         return userService.save(user);
     }
 
+    //activae user
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Post("/activate")
+    public Mono<User> activateUsers(@Body User user) {
+        /*
+        the client should send json object of this structure
+        {
+            "username": "user",
+            "activationCode": "activationCode"
+        }
+         */
+        logger.info("activate user {}", user);
+        return userService.activateUser(user.getUsername(), user.getActivationCode());
+    }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Post("/forgot")
+    public Mono<Void> forgotPassword(@Body String user) {
+        /*
+        the client should send json object of this structure
+        {
+            "username": "user"
+        }
+         */
+        logger.info("forgot password {}", user);
+        userService.sendResetPasswordEmail(user);
+        return Mono.empty();
+    }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Post("/reset")
+    public Mono<User> resetPassword(@Body User user) {
+        /*
+        the client should send json object of this structure
+        {
+            "username": "user",
+            "resetCode": "resetCode"
+            "password": "password"
+        }
+         */
+        logger.info("reset user {}", user);
+        return userService.resetPassword(user.getUsername(), user.getResetPasswordCode(), user.getPassword());
+    }
+
+
+
 }
