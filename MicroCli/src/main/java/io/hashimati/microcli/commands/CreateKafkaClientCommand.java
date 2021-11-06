@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
-@CommandLine.Command(name= "create-kafka-client", aliases = {"kafka-client", "kafkaClient", "KafkaClient"}, description = "To create Kafka Client.")
+@CommandLine.Command(name= "create-kafka-client", aliases = {"kafka-client", "kafkaClient"}, description = "To create Kafka Client.")
 public class CreateKafkaClientCommand implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-e", "--entity"})
+    @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
 
     @Inject

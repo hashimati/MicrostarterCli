@@ -33,7 +33,7 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 @CommandLine.Command(name= "create-nats-client", aliases = {"nats-client", "natsClient", "NatsClient"}, description = "To create Nats Client.")
 public class CreateNatsClientCommand implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-e", "--entity"})
+    @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
 
     @Inject

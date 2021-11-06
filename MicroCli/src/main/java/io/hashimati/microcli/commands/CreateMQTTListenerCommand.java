@@ -33,7 +33,7 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 @CommandLine.Command(name= "create-mqtt-listener", aliases = {"mqttListener", "mqtt-Listener"}, description = "To create MQTT listener component")
 public class CreateMQTTListenerCommand implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-e", "--entity"})
+    @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
 
     @Inject

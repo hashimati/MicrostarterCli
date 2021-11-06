@@ -33,7 +33,7 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 @CommandLine.Command(name= "create-gcp-pubsub-client", aliases = {"pubsub-client", "pubsubClient", "PubSubClient"}, description = "To create GCP PubSub Client.")
 public class CreateGcpPubSubClientCommand implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-e", "--entity"})
+    @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
 
     @Inject

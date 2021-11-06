@@ -34,7 +34,7 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 @Command(name="create-kafka-listener", aliases = {"kafka-listener", "kafkaListener"}, description = "Creating Kafka Listener componenet")
 public class CreateKafkaListenerCommand implements Callable<Integer> {
-    @CommandLine.Option(names = {"-e", "--entity"})
+    @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
 
     @Inject
