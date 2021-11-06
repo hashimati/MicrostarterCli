@@ -1,8 +1,8 @@
 package ${securityPackage}.controllers
 
 
-import io.hashimati.security.domains.User
-import io.hashimati.security.services.UserService
+import ${securityPackage}.domains.User
+import ${securityPackage}.services.UserService
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -24,7 +24,7 @@ class UserController {
     @Inject
     private UserService userService
 
-    public UserController(UserService userService) {
+    UserController(UserService userService) {
         this.userService = userService
     }
 
