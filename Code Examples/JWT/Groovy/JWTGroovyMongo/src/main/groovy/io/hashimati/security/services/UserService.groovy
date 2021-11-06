@@ -6,19 +6,21 @@ import io.hashimati.security.domains.LoginStatus
 import io.hashimati.security.domains.Roles
 import io.hashimati.security.domains.User
 import io.hashimati.security.repository.UserRepository
+import io.hashimati.security.utils.CodeRandomizer
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 
-import java.util.Arrays
-import java.util.Calendar
-import java.util.Date
+
 
 
 @Singleton
  class UserService {
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Inject
     private UserRepository userRepository
@@ -26,18 +28,76 @@ import java.util.Date
 
     @Inject
     private PasswordEncoderService passwordEncoderService
+    @Inject
+    private CodeRandomizer codeRandomizer;
 
 
-     Mono<User> save(User user)
+    Mono<User> save(User user)
     {
         user.setPassword(passwordEncoderService.encode(user.getPassword()))
         user.setId(user.getUsername())
         return userRepository.save(user)
 
     }
-     Mono<User> findByUsername(String username)
+    Mono<User> findByUsername(String username)
     {
         return userRepository.findByUsername(username)
+    }
+    Mono<User> activateUser(String username, String activationCode)
+    {
+        logger.info("Activating user: {}",  username);
+        return userRepository.findByUsername(username).filter(
+                user -> user.getActivationCode().equals(activationCode)
+        )
+                .map(user -> {
+                    user.setActive(true);
+                    user.setDateUpdated(new Date());
+                    return user;
+                })
+                .flatMap(userRepository::update)
+                .onErrorReturn(null);
+    }
+
+    void sendResetPasswordEmail(String username)
+    {
+        logger.info("Sending reset password email to user: {}",  username);
+        String resetPasswordCode = codeRandomizer.getRandomString(6);
+        userRepository.findByUsername(username).map(user -> {
+            user.setResetPasswordCode(resetPasswordCode);
+            user.setDateUpdated(new Date());
+            return user;
+        }).flatMap(userRepository::update);
+
+
+        //TODO: Send email. Override this method in your own implementation.
+        logger.info("Reset password code: {}", resetPasswordCode);
+    }
+
+    Mono<User> resetPassword(String username, String resetPasswordCode, String password)
+    {
+        logger.info("Resetting password for user: {}",  username);
+        return userRepository.findByUsername(username).filter(
+                user -> user.getResetPasswordCode().equals(resetPasswordCode)
+        )
+                .map(user -> {
+                    user.setPassword(passwordEncoderService.encode(password));
+                    user.setResetPasswordCode(null);
+                    user.setDateUpdated(new Date());
+                    return user;
+                })
+                .flatMap(userRepository::update)
+                .onErrorReturn(null);
+    }
+
+    Mono<User> changePassword(String username, String oldPassword, String password)
+    {
+        logger.info("Changing password for user: {}",  username);
+        return userRepository.findByUsername(username).filter(user -> passwordEncoderService.matches(oldPassword, user.getPassword())).map(user -> {
+            user.setPassword(passwordEncoderService.encode(password));
+            user.setDateUpdated(new Date());
+            return user;
+        }).flatMap(userRepository::update)
+                .onErrorReturn(null);
     }
 
     @EventListener
