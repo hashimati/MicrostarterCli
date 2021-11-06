@@ -58,7 +58,7 @@ public class UserService {
                     user.setDateUpdated(new Date());
                     return user;
                 })
-                .flatMap(userRepository::save)
+                .flatMap(userRepository::update)
                 .onErrorReturn(null);
     }
 
@@ -70,7 +70,7 @@ public class UserService {
             user.setResetPasswordCode(resetPasswordCode);
             user.setDateUpdated(new Date());
             return user;
-        }).flatMap(userRepository::save);
+        }).flatMap(userRepository::update);
 
 
         //TODO: Send email. Override this method in your own implementation.
@@ -89,7 +89,7 @@ public class UserService {
                     user.setDateUpdated(new Date());
                     return user;
                 })
-                .flatMap(userRepository::save)
+                .flatMap(userRepository::update)
                 .onErrorReturn(null);
     }
 
@@ -100,7 +100,7 @@ public class UserService {
             user.setPassword(passwordEncoderService.encode(password));
             user.setDateUpdated(new Date());
             return user;
-        }).flatMap(userRepository::save)
+        }).flatMap(userRepository::update)
                 .onErrorReturn(null);
     }
 

@@ -7,12 +7,15 @@ import io.hashimati.security.domains.Roles;
 import io.hashimati.security.domains.User;
 import io.hashimati.security.repository.RefreshTokenRepository;
 import io.hashimati.security.repository.UserRepository;
+import io.hashimati.security.util.CodeRandomizer;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
 import java.time.Instant;
@@ -23,9 +26,13 @@ import java.util.Date;
 @Singleton
 public class UserService {
 
+
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private CodeRandomizer codeRandomizer;
     @Inject
     private RefreshTokenRepository refreshTokenRepository;
 
@@ -44,6 +51,47 @@ public class UserService {
     {
         return userRepository.findByUsername(username);
 
+    }
+
+
+    public User activateUser(String username, String activationCode) {
+
+        logger.info("Activate User {}", username);
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getActivationCode().equals(activationCode))
+            user.setActive(true);
+        return userRepository.update(user);
+    }
+
+    //send forget password email
+    public void sendResetPasswordEmail(String username)
+    {
+        logger.info("Sending reset password email to user: {}",  username);
+        String resetPasswordCode = codeRandomizer.getRandomString(6);
+        User user = userRepository.findByUsername(username);
+        user.setResetPasswordCode(resetPasswordCode);
+        userRepository.update(user);
+        //TODO: Send email. Override this method in your own implementation.
+        logger.info("Reset password code: {}", resetPasswordCode);
+    }
+
+    public User resetPassword(String username, String resetCode, String password) {
+
+        logger.info("Reset Password {}", username);
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getResetPasswordCode().equals(resetCode))
+            user.setPassword(passwordEncoderService.encode(password));
+        return userRepository.save(user);
+    }
+
+
+    public User changePassword(String username, String oldPassword, String newPassword) {
+
+        logger.info("Change Password {}", username);
+        User user = userRepository.findByUsername(username);
+        if (user != null && passwordEncoderService.matches(oldPassword, user.getPassword()))
+            user.setPassword(passwordEncoderService.encode(newPassword));
+        return userRepository.save(user);
     }
 
     @EventListener
