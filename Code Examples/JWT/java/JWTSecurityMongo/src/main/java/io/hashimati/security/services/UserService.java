@@ -123,12 +123,6 @@ public class UserService {
         System.out.println(admin
         );
         if(!userRepository.existsByUsername(admin.getUsername()))
-        save(admin).block();
-//        if(!userRepository.existsByUsername(admin.getUsername()))
-
-        System.out.println(findByUsername("admin"));
-
+            save(admin).block();
     }
-
-
 }
