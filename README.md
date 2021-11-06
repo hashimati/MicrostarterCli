@@ -13,13 +13,13 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 7. [Messaging](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
-    3. [NAT Commands](#nat). 
+    3. [NAT Commands](#nat)
+    4. [GCP Commands](#gcp). 
 8. [Security Command](#security)
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
 9. [Banner Command](#banner)
-
 
 
 
@@ -104,11 +104,8 @@ As a getting started steps, we will generate an application using The Micronaut 
 ```shell
 mc entity -e fruit --graphql
 ```
-
-
-
-6. MicroCli application will launch. And, it will start with configuration process. 
-
+6. MicroCli application will launch. 
+7. Select the instructions as in this GIF: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
 
 
@@ -186,14 +183,14 @@ The users can use"enum" command declare and configure an Enum data type in the a
 mc entity --entity-name <EntityName> --collection-name <collection name> --graphql --cache --no-endpoint
 ```
 
-The "entity" command helps the developers to bootstarp the code of the basic CRUD operations for the application's domains. The files are including Entity Class file, Database Repository file, Service file, REST Endpoint file, and GraphQL configuration files. The "entity" command generates the files based on the information that the developer provides in "configure" command. The "entity" command runs the "configure" command implicitly if the developer didn't run it.. 
+The "entity" command helps the developers to bootstarp the code of the basic CRUD operations for the application's domains. The files are including Entity Class file, Database Repository file, Service file, REST Endpoint file, and GraphQL configuration files. The "entity" command generates the files based on the information that the developer provides in "configure" command. The "entity" command runs the "configure" command implicitly if the developer didn't run it. 
 
 #### Command Options: 
 | Option |  Aliases | Description |
 | :---: | :---: | :--- |
 | --entity-name| -e , -n | To specify the entity's name |
 | --collection-name | -c | to specify the entity's table/collection name |
-| --no-endpoint |  | to prevent generating the entity's controller class | 
+| --no-endpoint |  | to generate the entity class only. | 
 | --graphql | -gl | to generate entity's graphql configuration and files including QueryFactory, QueryResolver, schema, data, query,and mutation files | 
 | --cache | --caffine | to add caching annotations in the entity's service file |
 
@@ -431,38 +428,187 @@ public interface FruitClient {
 }
 ```
 
- 
-
-
-
 
 <a name="relationship"></a>
 ## Relationship Command
+
+#### Command Syntax:
+```shell
+
+```
 
 <a name="messaging"></a>
 ## Messaging
 
 <a name="kafka"></a>
 ### Kafka Commands
+#### Kafka Listener 
+
+##### Command: 
+```shell
+> create-kafka-listener <-e <entityName>>
+```
+
+##### Aliases: 
+kafka-listener - kafkaListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+#### Kafka Client
+
+##### Command: 
+```shell
+> create-kafka-client <-e <entityName>> 
+```
+
+##### Aliases: 
+kafka-client - kafkaClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 
 <a name="rabbitmq"></a>
 ### RabbitMQ Commands
+#### RabbitMQ Listener
+
+##### Command: 
+```shell
+> create-rabbitmq-listener <-e <entityName>>
+```
+
+##### Aliases: 
+rabbitmqListener - rabbitmq-Listener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name |
+
+
+
+#### RabbitMQ Client
+
+##### Command: 
+```shell
+> create-rabbitmq-listener <-e <entityName>>
+```
+
+##### Aliases: 
+rabbitmq-client - rabbitmqClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 
 <a name="nat"></a>
-### NAT Commands
+### NATS Commands
+#### NATS Listener
+
+##### Command: 
+```shell
+> create-nat-listener <-e <entityName>>
+```
+
+##### Aliases: 
+nats-Listener - natsListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+#### NATS Client
+
+##### Command: 
+```shell
+> create-nat-client <-e <entityName>>
+
+```
+
+##### Aliases: 
+nats-client - natsClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+
+<a name="gcp"></a>
+### GCP Commands
+#### GCP Listener
+
+##### Command: 
+```shell
+> create-gcp-pubsub-listener <-e <entityName>>
+
+```
+
+##### Aliases: 
+pubsub-listener - pubSubListener
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
+#### GCP Client
+
+##### Command: 
+```shell
+> create-gcp-pubsub-client <-e <entityName>>
+```
+##### Aliases: 
+pubsub-client - pubsubClient - PubSubClient
+
+##### Options: 
+| Option| Alias | Mandatory | Description | 
+| :--: | :--: | :--: | :-- | 
+| -e | --entity | No | To pass the entity name. |
+
 
 <a name="security"></a>
 ## Security Command
 <a name="jwt"></a>
 ### JWT
+
+##### Command: 
+```shell
+>
+```
 <a name="basicsecurity"></a>
 ### Basic
+
+##### Command: 
+```shell
+>
+```
 
 <a name="Session"></a>
 ### Session
 
+##### Command: 
+```shell
+>
+```
+
 <a name="banner"></a>
 ## Banner Command
+
+##### Command: 
+```shell
+>
+```
+
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P411AKC)
 <a href="https://www.buymeacoffee.com/hashimati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hashimati&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
 
