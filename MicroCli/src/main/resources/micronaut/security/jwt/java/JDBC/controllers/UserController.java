@@ -4,39 +4,34 @@ package ${securityPackage}.controllers;
 import ${securityPackage}.domains.User;
 import ${securityPackage}.services.UserService;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Header;
-import io.micronaut.security.authentication.Authentication;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
-import reactor.core.publisher.Mono;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static io.micronaut.http.HttpHeaders.AUTHORIZATION;
-
-@Controller
+@Controller("/api/security/users")
 @Introspected
 public class UserController {
 
 
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Inject
     private UserService userService;
 
-    @Get("/h")
-    public User foo()
-    {
-        User admin = new User(){{
-            setUsername("admin");
-            setPassword("admin");
-            setEmail("Hello@gmail.com");
-            setRoles("ADMIN_ROLE");
-
-        }};
-        return userService.save(admin);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @Get("/logout")
-    public Mono<String> logout(Authentication authentication, @Header(AUTHORIZATION) String authorization){
-        return Mono.just(userService.logout(authentication, authorization));
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Post("/register")
+    public User saveUsers(@Body User user) {
+        logger.info("save user {}", user);
+        return userService.save(user);
     }
 
 }

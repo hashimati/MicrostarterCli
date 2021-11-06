@@ -30,4 +30,7 @@ data class User (
     var lastLoginStatus: LoginStatus? = null,
 
     var activationCode: String? = null,
+    var resetPasswordCode: String? = null,
+
+
 ){}

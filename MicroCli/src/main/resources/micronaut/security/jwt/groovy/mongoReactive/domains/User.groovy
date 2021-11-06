@@ -42,6 +42,7 @@ class User {
     LoginStatus lastLoginStatus
 
     String activationCode
+    String resetPasswordCode
 
 
     boolean addRole(String role)

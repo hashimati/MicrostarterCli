@@ -46,8 +46,9 @@ public class User {
     private LoginStatus lastLoginStatus;
 
     private String activationCode;
-    
-    
+    private String resetPasswordCode;
+
+
     public boolean addRole(String role)
     {
        return roles.add(role);
