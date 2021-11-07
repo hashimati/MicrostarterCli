@@ -63,11 +63,5 @@ public class UserService {
     }
 
 
-    public String logout(Authentication authentication, String authorization) {
-        try {
-            return "SUCCESS";
-        }catch (Exception ex){
-            return "FAILED";
-        }
-    }
+
 }

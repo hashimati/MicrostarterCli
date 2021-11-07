@@ -53,6 +53,7 @@ class User {
     LoginStatus lastLoginStatus
 
     String activationCode
+    String resetPasswordCode
 
 
     boolean removeRole(String role) {
