@@ -72,7 +72,7 @@ class UserService {
         logger.info("Reset password code: {}", resetPasswordCode)
     }
 
-    Mono<User> resetPassword(String username, String resetPasswordCode, String password)
+    User resetPassword(String username, String resetPasswordCode, String password)
     {
         logger.info("Reset Password {}", username)
         User user = userRepository.findByUsername(username)
@@ -81,7 +81,7 @@ class UserService {
         return userRepository.save(user)
     }
 
-    Mono<User> changePassword(String username, String oldPassword, String password)
+    User changePassword(String username, String oldPassword, String password)
     {
 
         logger.info("Change Password {}", username)
