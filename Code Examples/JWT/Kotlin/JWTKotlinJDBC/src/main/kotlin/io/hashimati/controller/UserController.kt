@@ -1,46 +1,37 @@
-package ${securityPackage}.controllers
+package io.hashimati.controller
 
-
-import ${securityPackage}.domains.User
-import ${securityPackage}.services.UserService
+import io.hashimati.security.domains.User
+import io.hashimati.security.services.UserService
 import io.micronaut.core.annotation.Introspected
+import io.micronaut.http.HttpHeaders
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.validation.Validated
 import jakarta.inject.Inject
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 
-import static io.micronaut.http.HttpHeaders.AUTHORIZATION
-
+import io.micronaut.http.HttpHeaders.AUTHORIZATION
 
 @Validated
 @Controller("/api/security/users")
 @Introspected
-class UserController {
-    private static Logger logger = LoggerFactory.getLogger(UserController.class)
-
+class UserController(userService: UserService) {
     @Inject
-    private UserService userService
-
-    UserController(UserService userService) {
-        this.userService = userService
-    }
-
+    private val userService: UserService
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/register")
-    User saveUsers(@Body User user) {
+    fun saveUsers(@Body user: User?): User? {
         logger.info("save user {}", user)
-        return userService.save(user)
+        return user?.let { userService.save(it) }
     }
 
     //activae user
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/activate")
-    User activateUsers(@Body User user) {
+    fun activateUsers(@Body user: User): User? {
         /*
         the client should send json object of this structure
         {
@@ -49,12 +40,12 @@ class UserController {
         }
          */
         logger.info("activate user {}", user)
-        return userService.activateUser(user.getUsername(), user.getActivationCode())
+        return userService.activateUser(user.username, user.activationCode)
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/forgot")
-    void forgotPassword(@Body String user) {
+    fun forgotPassword(@Body user: String?): Mono<Void> {
         /*
         the client should send json object of this structure
         {
@@ -63,12 +54,12 @@ class UserController {
          */
         logger.info("forgot password {}", user)
         userService.sendResetPasswordEmail(user)
-
+        return Mono.empty()
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/reset")
-    User resetPassword(@Body User user) {
+    fun resetPassword(@Body user: User): User? {
         /*
         the client should send json object of this structure
         {
@@ -78,11 +69,22 @@ class UserController {
         }
          */
         logger.info("reset user {}", user)
-        return userService.resetPassword(user.getUsername(), user.getResetPasswordCode(), user.getPassword())
+        return userService.resetPassword(user.username, user.resetPasswordCode, user.password)
     }
 
     @Get("/logout")
-    String logout(Authentication authentication, @Header(AUTHORIZATION) String authorization) {
-        return userService.logout(authentication, authorization)
+    fun logout(
+        authentication: Authentication?,
+        @Header(HttpHeaders.AUTHORIZATION) authorization: String?
+    ): Mono<String> {
+        return Mono.just(authentication?.let { userService.logout(it, authorization) })
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(UserController::class.java)
+    }
+
+    init {
+        this.userService = userService
     }
 }

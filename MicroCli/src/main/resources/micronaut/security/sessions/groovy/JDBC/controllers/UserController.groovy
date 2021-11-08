@@ -14,7 +14,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 
-import static io.micronaut.http.HttpHeaders.AUTHORIZATION
 
 
 @Validated
@@ -81,8 +80,5 @@ class UserController {
         return userService.resetPassword(user.getUsername(), user.getResetPasswordCode(), user.getPassword())
     }
 
-    @Get("/logout")
-    String logout(Authentication authentication, @Header(AUTHORIZATION) String authorization) {
-        return userService.logout(authentication, authorization)
-    }
+
 }
