@@ -6,6 +6,7 @@ ${importMessage}
 import io.micronaut.mqtt.annotation.Topic;
 import io.micronaut.mqtt.v5.annotation.MqttPublisher;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+import io.micronaut.messaging.annotation.MessageBody;
 
 @MqttPublisher
 public interface ${className} {

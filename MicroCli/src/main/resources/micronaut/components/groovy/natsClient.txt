@@ -3,7 +3,7 @@ package ${pack}
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
-import io.micronaut.messaging.annotation.Body
+import io.micronaut.messaging.annotation.MessageBody
 ${importMessage}
 
 

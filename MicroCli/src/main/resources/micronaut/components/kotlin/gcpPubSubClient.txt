@@ -3,7 +3,7 @@ package ${pack}
 
 import io.micronaut.gcp.pubsub.annotation.Topic;
 import io.micronaut.gcp.pubsub.annotation.PubSubClient;
-import io.micronaut.messaging.annotation.Body
+import io.micronaut.messaging.annotation.MessageBody
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 ${importMessage}
 

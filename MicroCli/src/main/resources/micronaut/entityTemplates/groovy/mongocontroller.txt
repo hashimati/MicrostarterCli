@@ -49,7 +49,7 @@ class ${className}Controller {
         //TODO: enter your logic here before saving.
         return ${entityName}Service.save(${entityName})
     }
-    @Get("/find")
+    @Get("/get")
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     @Operation(summary = "Getting a ${entityName} by Id",

@@ -3,7 +3,6 @@ package ${pack}
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
-
 import io.micronaut.mqtt.annotation.MqttSubscriber;
 import io.micronaut.mqtt.annotation.Topic;
 ${importMessage}
