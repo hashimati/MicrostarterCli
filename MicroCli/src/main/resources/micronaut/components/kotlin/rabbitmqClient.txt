@@ -9,7 +9,7 @@ import io.micronaut.rabbitmq.annotation.RabbitClient;
 @RabbitClient
 interface ${className} {
 
-    @Binding("${queueName}")
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Client metric for send a '+Message+' object")' %>
+    @Binding("${queueName}")
     fun sendOrder(message:${Message});
 }

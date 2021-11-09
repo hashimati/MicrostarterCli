@@ -12,8 +12,8 @@ class ${className} {
 
     static final Logger log= LoggerFactory.getLogger(${className}.class);
 
-    @Topic("${queueName}")
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Consumer metric for receive a '+Message+' object")' %>
+    @Topic("${queueName}")
     void receive(${Message} message)
     {
         log.info("Received {}", message);
