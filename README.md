@@ -312,7 +312,6 @@ public class FruitController {
 
     @Post("/save")
     @Version("1")
-    
     @Timed(value = "io.hashimati.controllers.fruitController.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving fruit object")
     @Operation(summary = "Creating a fruit and Storing in the database",
             description = "A REST service, which saves Fruit objects to the database.",
@@ -333,8 +332,7 @@ public class FruitController {
 
 
     @Get("/get")
-    @Version("1")
-    
+    @Version("1") 
     @Timed(value = "io.hashimati.controllers.fruitController.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a fruit object by id")
     @Operation(summary = "Getting a fruit by Id",
         description = "A REST service, which retrieves a Fruit object by Id.",
@@ -350,8 +348,7 @@ public class FruitController {
     }
 
     @Delete("/delete/{id}")
-    @Version("1")
-    
+    @Version("1")  
     @Timed(value = "io.hashimati.controllers.fruitController.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a fruit object by id")
     @Operation(summary = "Deleting a fruit by ID",
             description = "A REST service, which deletes Fruit object from the database.",
@@ -369,7 +366,6 @@ public class FruitController {
 
     @Get("/findAll")
     @Version("1")
-    
     @Timed(value = "io.hashimati.controllers.fruitController.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all fruit objects")
     @Operation(summary = "Retrieving all fruit objects as Json",
             description = "A REST service, which returns all Fruit objects from the database.",
@@ -384,8 +380,7 @@ public class FruitController {
     }
 
     @Put("/update")
-    @Version("1")
-    
+    @Version("1") 
     @Timed(value = "io.hashimati.controllers.fruitController.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a fruit object")
     @Operation(summary = "Updating a fruit.",
             description = "A REST service, which update a Fruit objects to the database.",
