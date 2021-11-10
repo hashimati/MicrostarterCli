@@ -311,7 +311,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
-            String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang);
+            String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang).replaceAll("\n\n\n", "\n");
 
             String extension =GeneratorUtils.getSourceFileExtension(lang);
 
