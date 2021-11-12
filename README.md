@@ -435,6 +435,7 @@ public interface FruitClient {
 <a name="messaging"></a>
 ## Messaging
 
+![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/Nats%20Messaging%20Demo.gif)
 <a name="kafka"></a>
 ### Kafka Commands
 #### Kafka Listener 
