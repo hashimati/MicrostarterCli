@@ -573,6 +573,8 @@ pubsub-client - pubsubClient - PubSubClient
 
 <a name="security"></a>
 ## Security Command
+
+![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/JWT%20Security%20Demo.gif)
 <a name="jwt"></a>
 ### JWT
 
