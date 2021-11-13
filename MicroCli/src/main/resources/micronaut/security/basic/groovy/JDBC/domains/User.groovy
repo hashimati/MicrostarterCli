@@ -50,7 +50,7 @@ class User {
     LoginStatus lastLoginStatus
 
     String activationCode
-    String resetPasswordCode
+    String resetPasswordCode= ""
 
 
     boolean removeRole(String role) {

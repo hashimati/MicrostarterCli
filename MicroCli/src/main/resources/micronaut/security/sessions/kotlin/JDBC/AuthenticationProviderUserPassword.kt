@@ -8,7 +8,6 @@ import io.micronaut.context.event.ApplicationEventPublisher
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
 import io.micronaut.transaction.annotation.TransactionalEventListener
-import io.reactivex.Flowable
 import jakarta.inject.Singleton
 import org.jetbrains.annotations.NotNull
 import org.reactivestreams.Publisher
@@ -42,7 +41,7 @@ open class AuthenticationProviderUserPassword(private val userRepository: UserRe
                 "Couldn't find this User :{}",
                 authenticationRequest.identity
             )
-            return Flowable.just(AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND))
+            return Flux.just(AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND))
         }
         val user = userRepository!!.findByUsername(authenticationRequest.identity.toString())
         if (user!!.disabled) {

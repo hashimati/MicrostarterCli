@@ -8,11 +8,14 @@ import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
+import groovy.lang.Tuple;
+import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
+import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.TemplatesService;
 import io.micronaut.runtime.Micronaut;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -47,6 +50,7 @@ public class ConfigurationInitializer {
     private TemplatesService templatesService = new TemplatesService() ;
     @Inject
     private HashMap<String, Feature> features  =FeaturesFactory.features();
+
 
     public ConfigurationInitializer() throws FileNotFoundException {
     }
@@ -291,6 +295,9 @@ public class ConfigurationInitializer {
                     projectInfo.getFeatures().add("liquibase");
                     MicronautProjectValidator.addDependency(features.get("liquibase"));
                     MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.LIQUIBASE_yml)));
+                    Tuple2<String, String> changeLog = Tuple.tuple(System.getProperty("user.dir") +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
+
+                    GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
                 }
                 else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")){
                     projectInfo.getFeatures().add("flyway");

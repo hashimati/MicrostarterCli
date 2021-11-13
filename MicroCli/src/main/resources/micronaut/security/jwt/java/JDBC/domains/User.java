@@ -57,7 +57,7 @@ public class User {
     private LoginStatus lastLoginStatus;
 
     private String activationCode;
-    private String resetPasswordCode;
+    private String resetPasswordCode = "";
 
 
     public boolean removeRole(String role) {

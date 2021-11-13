@@ -1,4 +1,4 @@
-package ${securityPackage}.util;
+package ${securityPackage}.utils;
 
 import jakarta.inject.Singleton;
 

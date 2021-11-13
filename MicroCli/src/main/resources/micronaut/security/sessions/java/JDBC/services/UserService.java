@@ -6,7 +6,7 @@ import ${securityPackage}.domains.LoginStatus;
 import ${securityPackage}.domains.Roles;
 import ${securityPackage}.domains.User;
 import ${securityPackage}.repository.UserRepository;
-import ${securityPackage}.util.CodeRandomizer;
+import ${securityPackage}.utils.CodeRandomizer;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.security.authentication.Authentication;

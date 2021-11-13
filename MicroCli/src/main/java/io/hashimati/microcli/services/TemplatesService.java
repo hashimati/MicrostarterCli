@@ -236,7 +236,8 @@ public class TemplatesService {
     PASSWORD_ENCODER = "password_encoder",
     PASSWORD_ENCODER_SERVICE = "password_encoder_service",
     SECURITY_CLIENT = "security_client",
-    SECURITY_FACTORY = "security_factory";
+    SECURITY_FACTORY = "security_factory",
+    SECURITY_CODERANDOMIZER = "code_randomizer";
 
 
 
@@ -530,6 +531,7 @@ public class TemplatesService {
         securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${auth}/${lang}/${db}/repository/UserRepository${ext}");
         securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${auth}/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");
         securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${auth}/${lang}/${db}/services/UserService${ext}");
+        securityServicesTemplates.put(SECURITY_CODERANDOMIZER, "micronaut/security/${auth}/${lang}/${db}/utils/CodeRandomizer${ext}");
         securityTemplates.put(AUTHENTICATION_PROVIDER,"micronaut/security/${auth}/${lang}/${db}/AuthenticationProviderUserPassword${ext}");
         securityTemplates.put(PASSWORD_ENCODER,"micronaut/security/${auth}/${lang}/${db}/PasswordEncoder${ext}");
         securityTemplates.put(PASSWORD_ENCODER_SERVICE ,"micronaut/security/${auth}/${lang}/${db}/PasswordEncoderService${ext}");

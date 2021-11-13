@@ -11,7 +11,6 @@ import io.micronaut.context.event.ApplicationEventPublisher
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
 import io.micronaut.transaction.annotation.TransactionalEventListener
-import io.reactivex.Flowable
 import jakarta.inject.Inject
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
@@ -49,7 +48,7 @@ class AuthenticationProviderUserPassword implements AuthenticationProvider {
 
         if(!userRepository.existsByUsername(authenticationRequest.getIdentity().toString())){
             log.error("Couldn't find this User :{}", authenticationRequest.getIdentity());
-            Flowable<AuthenticationResponse> result = Flowable.just(new AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND));;
+            Flux<AuthenticationResponse> result = Flux.just(new AuthenticationFailed(AuthenticationFailureReason.USER_NOT_FOUND));;
 
             return result;
         }

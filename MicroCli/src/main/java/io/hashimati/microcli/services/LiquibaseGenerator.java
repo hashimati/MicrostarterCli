@@ -46,6 +46,7 @@ public class LiquibaseGenerator
 
         //<column name="${columnName}" type="${type}"/>
 
+
         String databaseType = entity.getDatabaseType();
         String columnTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_COLUMN));
         String constraintTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_constrain));
@@ -197,7 +198,6 @@ public class LiquibaseGenerator
 
     public Tuple2<String, String> generateCatalog()
     {
-
 
         return Tuple.tuple(System.getProperty("user.dir") +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
 

@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive
-
-{securityPackage}
+package {securityPackage}.utils
 
 import ${securityPackage}.PasswordEncoderService
 import ${securityPackage}.domains.LoginEvent
