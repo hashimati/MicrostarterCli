@@ -114,10 +114,14 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
 
+
             configurationInfo.setPrometheus(true);
             projectInfo.dumpToFile();
 
 
+            //generating prometheus.yml with micronaut job configuration. 
+            String prometheusJobConfig = templatesService.loadTemplateContent(templatesService.getMicrometersTemplates().get(PROMETHEUS_JOB_YML));
+            GeneratorUtils.createFile(System.getProperty("user.dir") + "/prometheus.yml", prometheusJobConfig);
         }
         else if(registry.equalsIgnoreCase("influxdb"))
         {

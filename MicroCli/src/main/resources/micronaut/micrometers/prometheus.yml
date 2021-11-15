@@ -1,3 +1,6 @@
+endpoints:
+  prometheus:
+    sensitive: false
 micronaut:
   metrics:
     export:
