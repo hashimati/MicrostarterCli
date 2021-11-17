@@ -19,7 +19,9 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-9. [Banner Command](#banner)
+
+9. [Metrics](#metrics)
+10.[Banner Command](#banner)
 
 
 
@@ -597,6 +599,12 @@ pubsub-client - pubsubClient - PubSubClient
 ```shell
 >
 ```
+
+<a name="metrics"></a> 
+## Metrics
+
+### Micronaut + Prometheus + Grafana 
+![Grafana](https://github.com/hashimati/MicroCli/blob/master/Prometheus.gif)
 
 <a name="banner"></a>
 ## Banner Command
