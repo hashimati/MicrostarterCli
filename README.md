@@ -21,7 +21,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
     3. [Session](#session)
 
 9. [Metrics](#metrics)
-10.[Banner Command](#banner)
+10. [Banner Command](#banner)
 
 
 
