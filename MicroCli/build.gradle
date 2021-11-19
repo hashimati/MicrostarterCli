@@ -99,7 +99,8 @@ dependencies {
     implementation 'com.github.javaparser:javaparser-core-serialization:3.16.1'
     // https://mvnrepository.com/artifact/io.leego/banana
     implementation group: 'io.leego', name: 'banana', version: '2.1.0'
-
+    implementation 'com.querydsl:querydsl-apt:5.0.0'
+    implementation 'com.querydsl:querydsl-collections:5.0.0'
 }
 
 test.classpath += configurations.developmentOnly
