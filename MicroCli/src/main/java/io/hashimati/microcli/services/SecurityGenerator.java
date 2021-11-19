@@ -10,10 +10,7 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.EntityAttribute;
-import io.hashimati.microcli.utils.DataTypeMapper;
-import io.hashimati.microcli.utils.GeneratorUtils;
-import io.hashimati.microcli.utils.GradleReaderException;
-import io.hashimati.microcli.utils.MicronautProjectValidator;
+import io.hashimati.microcli.utils.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -106,6 +103,16 @@ public class SecurityGenerator {
 //            String configContent = templatesService.loadTemplateContent(configPath);
 //            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
 //
+
+            if(!configurationInfo.getProjectInfo().getFeatures().contains("reactor")){
+                configurationInfo.getProjectInfo().getFeatures().add("reactor");
+                configurationInfo.getProjectInfo().getFeatures().add("reactor-http-client");
+                MicronautProjectValidator.addDependency(features.get("reactor"));
+                MicronautProjectValidator.addDependency(features.get("reactor-http-client"));
+
+                PromptGui.printlnSuccess("The \"Reactor\" feature is added");
+
+            }
             String userSchemaPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_SCHEMA);
             String userSchemaContent = templatesService.loadTemplateContent(userSchemaPath);
             userSchemaPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
