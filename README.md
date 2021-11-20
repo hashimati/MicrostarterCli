@@ -495,7 +495,7 @@ public interface FruitClient {
 ```
 
 #### Micronaut Messaging with Nats Demo: 
-![Alt Tutorial](https://www.youtube.com/watch?v=Zrew3FMaGzA)
+![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/Nats%20Messaging%20Demo.gif)
 <a name="kafka"></a>
 ### Kafka Commands
 #### Kafka Listener 
