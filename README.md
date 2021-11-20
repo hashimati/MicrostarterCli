@@ -31,6 +31,13 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 <a name="stack"></a>
 ## Technologies Stack
 
+#### 0. Reactive Framework
+
+| Framework | Notes |
+| :--: | :-- |
+| Reactor | It is the recommended to use Reactor. |
+|Rxjava2 | It's not supported in security command. |
+|Rxjava3 | It's jnt supported in security command. |
 #### 1. Languages 
 | Language | Notes |
 | :--: | :--: | 
@@ -429,10 +436,17 @@ public interface FruitClient {
 <a name="relationship"></a>
 ## Relationship Command
 
+The developers can add relationship between two generated entities. The command asks the use the following: 
+1. First entity. 
+2. Second entity. 
+3. The relationship type: One-to-One or One-to-Many. 
+
 #### Command Syntax:
 ```shell
-
+> mc create-relation
 ```
+
+##### Alias: relation
 
 <a name="messaging"></a>
 ## Messaging
@@ -634,42 +648,42 @@ pubsub-client - pubsubClient - PubSubClient
 <a name="security"></a>
 ## Security Command
 
+MicroCli helps to bootstrap the security authentication mechanisim using the "security" command. The MicroCli supports the following Mechanisim: 
+1. Basic. 
+2. Session.
+3. JWT. 
+
+The "security" command requires the "configure" to be run first and it will boostrap the security files accordingly. Please, ensure to configure according to the supported technologies in the below table: 
+
+| Mechanisim | MongoDB | JDBC | JPA | GORM | Liquibase | Flyway | Reactor | RxJava2 | RxJava3 | 
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| Basic | Yes | Yes | No | No | Yes | No | Yes | No | No |
+| Session | Yes | Yes | No | No | Yes | No | Yes | No | No |
+| JWT | Yes | Yes | No | No | Yes | No | Yes | No | No |
+
+### Command Syntax 
+```shell
+> mc security
+```
+#### JWT Authentication Demo
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/JWT%20Security%20Demo.gif)
-<a name="jwt"></a>
-### JWT
-
-##### Command: 
-```shell
->
-```
-<a name="basicsecurity"></a>
-### Basic
-
-##### Command: 
-```shell
->
-```
-
-<a name="Session"></a>
-### Session
-
-##### Command: 
-```shell
->
-```
 
 <a name="metrics"></a> 
 ## Metrics
+The "metrics" command configurs the metircs registry in the micronaut application. 
 
 ### Micronaut + Prometheus + Grafana 
 ![Grafana](https://github.com/hashimati/MicroCli/blob/master/Prometheus.gif)
 
+
 <a name="banner"></a>
+
 ## Banner Command
+The banner command allows to the user to customize the displayed banner at launch time. Please refer to quick start section for the demo. 
 
 ##### Command: 
 ```shell
->
+> mc banner
 ```
 
 
