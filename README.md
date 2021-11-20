@@ -656,9 +656,9 @@ The "security" command requires the "configure" to be run first and it will boos
 
 | Mechanisim | MongoDB | JDBC | JPA | GORM | Liquibase | Flyway | Reactor | RxJava2 | RxJava3 | 
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| Basic | Yes | Yes | No | No | Yes | No | Yes | No | No |
-| Session | Yes | Yes | No | No | Yes | No | Yes | No | No |
-| JWT | Yes | Yes | No | No | Yes | No | Yes | No | No |
+| Basic | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
+| Session | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
+| JWT | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
 
 ### Command Syntax 
 ```shell
