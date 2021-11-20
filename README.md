@@ -450,7 +450,7 @@ Each messaging system has two commands. The first command is for generating the 
 4. The "Subject", "Topic", or "Queue" based on the messaging system. 
 
 
-Nats Listener Example: 
+##### Nats Listener Example: 
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -477,7 +477,7 @@ public class FruitsListener {
 
 
 ```
-Nats Client Example: 
+##### Nats Client Example: 
 ```java 
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.Subject;
@@ -494,7 +494,7 @@ public interface FruitClient {
 }
 ```
 
-#### Demo Nats: 
+#### Micronaut Messaging with Nats Demo: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/Nats%20Messaging%20Demo.gif)
 <a name="kafka"></a>
 ### Kafka Commands
