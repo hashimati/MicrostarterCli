@@ -30,7 +30,7 @@ import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENT
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 
 
-@Command(name = "delete-attribute",aliases = {"delAttr", "delattr"}, description = "to delete attribute from an entity")
+@Command(name = "delete-attribute",aliases = {"delAttr", "delattr"}, description = "to delete an attribute from an entity.")
 public class DeleteAttributeCommand implements Callable<Integer>
 {
     @Option(names = {"-e", "--entity"})

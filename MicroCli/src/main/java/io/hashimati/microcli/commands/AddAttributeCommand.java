@@ -38,7 +38,7 @@ import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 
-@Command(name = "add-attribute")
+@Command(name = "add-attribute", description = {"To a new attribute to an entity", "Warning, this command will overwrite the entity."})
 public class AddAttributeCommand implements Callable<Integer> {
 
 

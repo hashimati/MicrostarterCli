@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-@Command(name = "support", aliases = {"donate"}, description = "To support!")
+@Command(name = "support", aliases = {"donate"}, description = {"To sponsor or support the MicroCli project.", "Thanks in advance!"})
 public class SupportCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {

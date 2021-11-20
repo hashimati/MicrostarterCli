@@ -7,7 +7,7 @@ import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "create-configuration", aliases = {"configuration"}, description = "To create configuration")
+@Command(name = "create-configuration", aliases = {"configuration"}, description = "To create configuration component.")
 public class CreateConfigurationCommand implements Callable<Integer> {
 
     @Option(names = {"--name", "-n"}, description = "Name of the configuration")

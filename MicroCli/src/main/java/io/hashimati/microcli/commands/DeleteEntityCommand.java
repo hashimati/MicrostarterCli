@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 
 import static io.hashimati.microcli.utils.PromptGui.*;
 
-@Command(name = "delete-entity", aliases ={"delEntity", "delentity"}, description = "To delete existing entity")
+@Command(name = "delete-entity", aliases ={"delEntity", "delentity"}, description = "To delete an entity")
 public class DeleteEntityCommand implements Callable<Integer> {
 
     @CommandLine.Option(names={"-e", "--entity"})

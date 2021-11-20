@@ -32,7 +32,7 @@ import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
-@Command(name="create-kafka-listener", aliases = {"kafka-listener", "kafkaListener"}, description = "Creating Kafka Listener componenet")
+@Command(name="create-kafka-listener", aliases = {"kafka-listener", "kafkaListener"}, description = "To create Kafka Listener componenet")
 public class CreateKafkaListenerCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;

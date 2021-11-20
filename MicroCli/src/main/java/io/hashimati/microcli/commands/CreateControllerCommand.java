@@ -24,7 +24,7 @@ import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
-@Command(name = "create-controller", aliases = {"controller", "c", "control"})
+@Command(name = "create-controller", aliases = {"controller", "c", "control"}, description = {"To create controller component."})
 public class CreateControllerCommand implements Callable<Integer> {
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;

@@ -23,7 +23,7 @@ import java.util.concurrent.Callable;
 
 import static io.hashimati.microcli.services.TemplatesService.*;
 
-@Command(name = "configure-metrics", aliases = {"metrics"}, description = "Configure Metrics")
+@Command(name = "configure-metrics", aliases = {"metrics"}, description = "Configure Metrics Registries.")
 public class ConfigureMetricsCommand implements Callable<Integer> {
     public static ConfigurationInfo configurationInfo;
 

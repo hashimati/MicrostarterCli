@@ -32,7 +32,7 @@ import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
-@Command(name="create-gcp-pubsub-listener", aliases = {"pubsub-listener", "pubSubListener"}, description = "Creating GCP PubSub Listener component")
+@Command(name="create-gcp-pubsub-listener", aliases = {"pubsub-listener", "pubSubListener"}, description = "To create GCP PubSub Listener component")
 public class CreateGcpPubSubListenerCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;

@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static picocli.CommandLine.Command;
 
-@Command(name = "banner")
+@Command(name = "banner", description = "To overwrite the default micronaut banner with your own banner.")
 public class BannerCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {

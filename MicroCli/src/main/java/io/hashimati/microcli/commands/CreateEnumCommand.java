@@ -27,7 +27,7 @@ import static io.hashimati.microcli.utils.PromptGui.printlnWarning;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
-@Command(name = "create-enum",aliases = {"enum"}, description = "Create Enumeration Class")
+@Command(name = "create-enum",aliases = {"enum"}, description = {"To create Enumeration Class", "You can use the created enumeration as an attribute for an entity."})
 public class CreateEnumCommand implements Callable<Integer> {
    
     @Option(names={"-n", "--name"}, description = "Enumeration class name")

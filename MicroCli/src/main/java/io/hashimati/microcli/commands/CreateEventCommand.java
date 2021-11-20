@@ -6,7 +6,7 @@ import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-@Command
+@Command(name = "event", description = {"To create event component."})
 public class CreateEventCommand implements Callable<Integer> {
 
     @Option(names = {"--name", "-n"}, description = "Event's name")

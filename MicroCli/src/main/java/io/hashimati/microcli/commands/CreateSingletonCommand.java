@@ -25,7 +25,7 @@ import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 
-@Command(name= "create-singleton", aliases = {"singleton", "single", "service"}, description = {"To creae Singleton."})
+@Command(name= "create-singleton", aliases = {"singleton", "single", "service"}, description = {"To create a Singleton."})
 public class CreateSingletonCommand implements Callable<Integer> {
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
