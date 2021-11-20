@@ -10,7 +10,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 4. [Enum Command](#enum)
 5. [Entity Command](#entity)
 6. [Relationship Command](#relationship)
-7. [Messaging](#messaging)
+7. [Messaging Commands](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
     3. [NAT Commands](#nat)
@@ -19,8 +19,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-
-9. [Metrics](#metrics)
+9. [Metrics Command](#metrics)
 10. [Banner Command](#banner)
 
 
@@ -669,7 +668,7 @@ The "security" command requires the "configure" to be run first and it will boos
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/JWT%20Security%20Demo.gif)
 
 <a name="metrics"></a> 
-## Metrics
+## Metrics Command
 The "metrics" command configurs the metircs registry in the micronaut application. 
 
 ### Micronaut + Prometheus + Grafana 
