@@ -10,7 +10,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 4. [Enum Command](#enum)
 5. [Entity Command](#entity)
 6. [Relationship Command](#relationship)
-7. [Messaging](#messaging)
+7. [Messaging Commands](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
     3. [NAT Commands](#nat)
@@ -19,8 +19,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-
-9. [Metrics](#metrics)
+9. [Metrics Command](#metrics)
 10. [Banner Command](#banner)
 
 
@@ -31,6 +30,13 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 <a name="stack"></a>
 ## Technologies Stack
 
+#### 0. Reactive Framework
+
+| Framework | Notes |
+| :--: | :-- |
+| Reactor | It is the recommended to use Reactor. |
+|Rxjava2 | It's not supported in security command. |
+|Rxjava3 | It's jnt supported in security command. |
 #### 1. Languages 
 | Language | Notes |
 | :--: | :--: | 
@@ -429,14 +435,79 @@ public interface FruitClient {
 <a name="relationship"></a>
 ## Relationship Command
 
+The developers can add relationship between two generated entities. The command asks the use the following: 
+1. First entity. 
+2. Second entity. 
+3. The relationship type: One-to-One or One-to-Many. 
+
 #### Command Syntax:
 ```shell
-
+> mc create-relation
 ```
+
+##### Alias: relation
 
 <a name="messaging"></a>
 ## Messaging
 
+The developers can use Messaging commands to generated producer/consumer components for the entities generated using "entity" command. MicroCli supports the following messaging systems: 
+1. Kafka. 
+2. RabbitMQ. 
+3. Nats
+4. GCP-PubSub. 
+
+Each messaging system has two commands. The first command is for generating the Listener Component. The second command is for generating the Client Component. The messaging commands ask the developers to provide the following information: 
+1. The class/interface's package. 
+2. The class/interface's name. 
+3. The GroupID if required by the system. 
+4. The "Subject", "Topic", or "Queue" based on the messaging system. 
+
+
+##### Nats Listener Example: 
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import io.micronaut.messaging.annotation.MessageBody;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+import io.hashimati.domains.Fruit;
+
+
+@NatsListener
+public class FruitsListener {
+
+    private static final Logger log= LoggerFactory.getLogger(FruitsListener.class);
+
+    
+    @Subject("fruits")
+    public void receive(@MessageBody Fruit message)
+    {
+        log.info("Received {}", message);
+    }
+}
+
+
+```
+##### Nats Client Example: 
+```java 
+import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.micronaut.messaging.annotation.MessageBody;
+import io.hashimati.domains.Fruit;
+
+@NatsClient
+public interface FruitClient {
+
+    
+    @Subject("fruit")
+    public void send(Fruit message);
+
+}
+```
+
+#### Micronaut Messaging with Nats Demo: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/Nats%20Messaging%20Demo.gif)
 <a name="kafka"></a>
 ### Kafka Commands
@@ -576,45 +647,49 @@ pubsub-client - pubsubClient - PubSubClient
 <a name="security"></a>
 ## Security Command
 
+MicroCli helps to bootstrap the security authentication mechanisim using the "security" command. The MicroCli supports the following Mechanisim: 
+1. Basic. 
+2. Session.
+3. JWT. 
+
+The "security" command requires the "configure" to be run first and it will boostrap the security files accordingly. Please, ensure to configure according to the supported technologies in the below table: 
+
+| Mechanisim | MongoDB | JDBC | JPA | GORM | Liquibase | Flyway | Reactor | RxJava2 | RxJava3 | 
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| Basic | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
+| Session | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
+| JWT | <b color="green">Yes</b> | <b color="green">Yes</b> | - | - | <b color="green">Yes</b> | - | <b color="green">Yes</b> | - | - |
+
+### Command Syntax 
+```shell
+> mc security
+```
+#### JWT Authentication Demo
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/JWT%20Security%20Demo.gif)
-<a name="jwt"></a>
-### JWT
-
-##### Command: 
-```shell
->
-```
-<a name="basicsecurity"></a>
-### Basic
-
-##### Command: 
-```shell
->
-```
-
-<a name="Session"></a>
-### Session
-
-##### Command: 
-```shell
->
-```
 
 <a name="metrics"></a> 
-## Metrics
+## Metrics Command
+The "metrics" command configurs the metircs registry in the micronaut application. 
 
 ### Micronaut + Prometheus + Grafana 
 ![Grafana](https://github.com/hashimati/MicroCli/blob/master/Prometheus.gif)
 
+
 <a name="banner"></a>
+
 ## Banner Command
+The banner command allows to the user to customize the displayed banner at launch time. Please refer to quick start section for the demo. 
 
 ##### Command: 
 ```shell
->
+> mc banner
 ```
 
 
+## Support
+
+If you like this work and you would like to see it growing, your support will help: 
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P411AKC)
-<a href="https://www.buymeacoffee.com/hashimati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hashimati&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
+<a href="https://www.buymeacoffee.com/hashimati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hashimati&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a> <a href="https://www.patreon.com/bePatron?u=10819450"><img src="https://camo.githubusercontent.com/2b7105015397da52617ce6775a339b0b99d689d6f644c2ce911c5d472362bcbd/68747470733a2f2f63352e70617472656f6e2e636f6d2f65787465726e616c2f6c6f676f2f6265636f6d655f615f706174726f6e5f627574746f6e2e706e67" alt="" data-canonical-src="https://c5.patreon.com/external/logo/become_a_patron_button.png" style="max-width: 100%;">
 
