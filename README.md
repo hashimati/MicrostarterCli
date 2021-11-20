@@ -437,6 +437,64 @@ public interface FruitClient {
 <a name="messaging"></a>
 ## Messaging
 
+The developers can use Messaging commands to generated producer/consumer components for the entities generated using "entity" command. MicroCli supports the following messaging systems: 
+1. Kafka. 
+2. RabbitMQ. 
+3. Nats
+4. GCP-PubSub. 
+
+Each messaging system has two commands. The first command is for generating the Listener Component. The second command is for generating the Client Component. The messaging commands ask the developers to provide the following information: 
+1. The class/interface's package. 
+2. The class/interface's name. 
+3. The GroupID if required by the system. 
+4. The "Subject", "Topic", or "Queue" based on the messaging system. 
+
+
+Nats Listener Example: 
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import io.micronaut.messaging.annotation.MessageBody;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+import io.hashimati.domains.Fruit;
+
+
+@NatsListener
+public class FruitsListener {
+
+    private static final Logger log= LoggerFactory.getLogger(FruitsListener.class);
+
+    
+    @Subject("fruits")
+    public void receive(@MessageBody Fruit message)
+    {
+        log.info("Received {}", message);
+    }
+}
+
+
+```
+Nats Client Example: 
+```java 
+import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.micronaut.messaging.annotation.MessageBody;
+import io.hashimati.domains.Fruit;
+
+@NatsClient
+public interface FruitClient {
+
+    
+    @Subject("fruit")
+    public void send(Fruit message);
+
+}
+```
+
+#### Demo Nats: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/Nats%20Messaging%20Demo.gif)
 <a name="kafka"></a>
 ### Kafka Commands
