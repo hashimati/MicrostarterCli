@@ -37,7 +37,7 @@ import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
 import static io.hashimati.microcli.utils.PromptGui.*;
 
 
-@Command(name = "create-relation", aliases = {"relation"}, description = "To create a new entity")
+@Command(name = "create-relation", aliases = {"relation"}, description = "To create a relationship between two entities")
 public class CreateRelationCommand implements Callable<Integer> {
 
     ConfigurationInfo configurationInfo;
