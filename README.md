@@ -5,7 +5,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 
 # Table Of Contents
 1. [Technologies Stack](#stack)
-2. [Getting Started](#started)
+2. [Quick Start](#started)
 3. [Configure Command](#configure)
 4. [Enum Command](#enum)
 5. [Entity Command](#entity)
@@ -100,7 +100,7 @@ The MicroCli uses [Banana](https://github.com/yihleego/banana) to generate banne
 ####
 
 <a name="started"> </a>
-## Getting Started
+## Quick Start
 
 As a getting started steps, we will generate an application using The Micronaut Launch. Then, we will generate a Fruit entity, repository, service, REST API, and GraphQL endpoints.
 
