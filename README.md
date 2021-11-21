@@ -671,12 +671,17 @@ The "security" command requires the "configure" to be run first and it will boos
 ## Metrics Command
 The "metrics" command configurs the metircs registry in the micronaut application. 
 
+
 #### Command Syntax
 ```shell
-> mc metrics
+> mc configure-metrics
 ```
-### Micronaut + Prometheus + Grafana 
+#### Alias: metrics
+
+
+### Demo: Micronaut + Prometheus + Grafana 
 ![Grafana](https://github.com/hashimati/MicroCli/blob/master/Prometheus.gif)
+
 
 
 <a name="banner"></a>
