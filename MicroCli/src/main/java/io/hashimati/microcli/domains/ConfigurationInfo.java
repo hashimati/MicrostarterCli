@@ -42,7 +42,7 @@ public class ConfigurationInfo {
     boolean graphQlSupport;
     private String reactiveFramework;
     private boolean micrometer;
-    private boolean influx, prometheus;
+    private boolean influx, prometheus, graphite, statsd;
     private boolean caffeine;
     boolean gorm;
     private boolean securityEnable;

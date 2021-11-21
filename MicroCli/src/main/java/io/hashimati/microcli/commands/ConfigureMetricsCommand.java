@@ -23,7 +23,7 @@ import java.util.concurrent.Callable;
 
 import static io.hashimati.microcli.services.TemplatesService.*;
 
-@Command(name = "configure-metrics", aliases = {"metrics"}, description = "Configure Metrics Registries.")
+@Command(name = "configure-metrics", aliases = {"metrics"}, description = "To configure Metrics Registries.")
 public class ConfigureMetricsCommand implements Callable<Integer> {
     public static ConfigurationInfo configurationInfo;
 
@@ -62,9 +62,9 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         if(!projectInfo.getFeatures().contains( "micrometer")){
         projectInfo.getFeatures().addAll(Arrays.asList(
                 "management",
-                "micrometer"
-//                        "micrometer-graphite",
-//                        "micrometer-statsd"
+                "micrometer",
+                       "micrometer-graphite",
+                "micrometer-statsd"
         ));
         configurationInfo.setMicrometer(true);
         try {
@@ -161,7 +161,46 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
            projectInfo.dumpToFile();
 
         }
+        else if(registry.equalsIgnoreCase("graphite"))
+        {
+            projectInfo.getFeatures().addAll(Arrays.asList(
 
+                        "micrometer-graphite"
+//                        "micrometer-statsd"
+            ));
+            try {
+
+                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
+            } catch (GradleReaderException e) {
+                e.printStackTrace();
+            }
+            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                    (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
+
+
+            configurationInfo.setGraphite(true);
+            projectInfo.dumpToFile();
+        }
+        else if(registry.equalsIgnoreCase("statsd"))
+        {
+            projectInfo.getFeatures().addAll(Arrays.asList(
+
+                    "micrometer-statsd"
+//                        "micrometer-statsd"
+            ));
+            try {
+
+                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+            } catch (GradleReaderException e) {
+                e.printStackTrace();
+            }
+            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                    (templatesService.getMicrometersTemplates().get(STATSD_yml)));
+
+
+            configurationInfo.setStatsd(true);
+            projectInfo.dumpToFile();
+        }
         boolean result = configurationInfo.writeToFile();
         return result? 1:0;
     }
