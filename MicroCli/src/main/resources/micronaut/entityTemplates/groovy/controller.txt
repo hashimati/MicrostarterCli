@@ -23,7 +23,7 @@ class ${className}Controller {
     static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
-    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     @Post("/save")
     @Version("1")
     @Operation(summary = "Creating a ${entityName} and Storing in the database",
@@ -44,7 +44,7 @@ class ${className}Controller {
 
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
-    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     @Get("/get")
     @Version("1")
     @Operation(summary = "Getting a ${entityName} by Id",
@@ -63,7 +63,7 @@ class ${className}Controller {
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
-    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     @Delete("/delete/{id}")
     @Version("1")
     @Operation(summary = "Deleting a ${entityName} by ID",
@@ -82,7 +82,7 @@ class ${className}Controller {
 
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
-    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     @Get("/findAll")
     @Version("1")
     @Operation(summary = "Retrieving all ${entityName} objects as Json",
@@ -98,7 +98,7 @@ class ${className}Controller {
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
-    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
     @Put("/update")
     @Version("1")
     @Operation(summary = "Updating a ${entityName}.",

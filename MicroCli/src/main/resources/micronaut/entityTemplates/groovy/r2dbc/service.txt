@@ -19,7 +19,7 @@ class ${className}Service {
      Logger log = LoggerFactory.getLogger(${className}Service.class)
     @Inject ${className}Repository ${entityName}Repository
 
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName})
          //TODO insert your logic here!
@@ -29,13 +29,13 @@ class ${className}Service {
      }
 
     <% if(cached) out.print '@Cacheable' %>
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     <% print reactor? "Mono" : "Single" %><${className}> findById(long id){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     <% print reactor? "Mono" : "Single" %><Boolean> deleteById(long id){
         try
         {
@@ -51,13 +51,13 @@ class ${className}Service {
         }
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     <% print reactor? "Flux" : "Flowable" %><${className}> findAll() {
         log.info("Find All")
       return  ${entityName}Repository.findAll();
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles =[ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
     <% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName})
     {
         log.info("update {}", ${entityName})

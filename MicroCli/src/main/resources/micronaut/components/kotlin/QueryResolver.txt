@@ -11,30 +11,30 @@ import jakarta.inject.Singleton;
 @Singleton
 class ${className}QueryResolver(private val ${entityName}Repository :${className}Repository)  : GraphQLQueryResolver, GraphQLMutationResolver{
 
-    <% if(micrometer) out.print '@Timed(value = "'pack+'.QueryResolver.save.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     fun find${className}ById(id: Long): ${className}
     {
         return ${entityName}Service.findById(id).get();
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
     fun findAll${className}() : Iterable<${className}>
     {
             return ${entityName}Service.findAll();
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save", description = "Observing all service metric for saving '+entityName+' object")' %>
     fun save${className}(${entityName}: ${className}):${className}{
         return ${entityName}Service.save(${entityName});
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.update", description = "Observing all service metric for update a '+entityName+' object")' %>
     fun update${className}(${entityName}: ${className} ):${className}
     {
         return  ${entityName}Service.update(${entityName});
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     fun delete${className}(id: Long) : Boolean{
       return ${entityName}Service.deleteById(id);
     }

@@ -14,7 +14,7 @@ ${importMessage}
 class ${className} {
 
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Consumer metric for receive a '+Message+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", description = "Observing all Consumer metric for receive a '+Message+' object")' %>
     @Subscription("${topic}")
     fun receive(@MessageBody message:${Message})
     {

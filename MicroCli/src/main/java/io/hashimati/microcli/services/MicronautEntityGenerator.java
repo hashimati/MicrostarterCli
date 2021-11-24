@@ -322,7 +322,7 @@ public class MicronautEntityGenerator
         String entityAnnotation= "";
         boolean isJpa = false;
         boolean isJdbc = false;
-       // boolean isNormal = false;
+        boolean isNormal = false;
         switch (entity.getDatabaseType().toLowerCase())
         {
             case "mysql":
@@ -336,7 +336,7 @@ public class MicronautEntityGenerator
                     isJdbc = true;
                 break;
             default:
-             //   isNormal = true;
+                isNormal = true;
                 isJdbc = false;
                 isJpa = false;
 
@@ -352,7 +352,7 @@ public class MicronautEntityGenerator
         binder.put("entitypackage", entity.getEntityPackage());
         binder.put("jpa", isJpa);
         binder.put("jdbc", isJdbc);
-        binder.put("normal", (isJpa == false && isJdbc == false));
+        binder.put("normal", true);
 
         binder.put("collectionName", entity.getCollectionName()); 
         binder.put("className",entity.getName() );
@@ -418,7 +418,7 @@ public class MicronautEntityGenerator
                         "\n" +
                         "    <% if(jpa) out.print '@DateUpdated' %>\n" +
                         "    <% if(jpa) out.print 'Date dateUpdated;' %>\n" +
-                        "}",
+                        "}","    <% if(normal) out.println 'String id' %>\n" +
                         "    ${instances}\n" +
                         "}").replace("<% if(jpa) out.print \"@Entity(name=\\\"${collectionName}\\\")\"%>\n" +
                         "<% if(jdbc) out.print \"@MappedEntity(value = \\\"${collectionName}\\\", namingStrategy = Raw.class)\"%>\n", "");

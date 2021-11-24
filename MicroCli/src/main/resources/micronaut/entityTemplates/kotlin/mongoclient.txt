@@ -24,7 +24,7 @@ interface ${classNameA}Client {
     fun deleteById(@PathVariable("id") id: Long): Boolean
 
     @Get("/findAll")
-    fun findAll():Flowable<${className}>
+    fun findAll():<% print reactor? "Flux" : "Flowable" %><${className}>
 
     @Put("/update")
     fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}>
