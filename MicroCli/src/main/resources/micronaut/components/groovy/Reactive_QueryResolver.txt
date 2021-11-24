@@ -15,31 +15,31 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
     @Inject
     ${className}Service ${entityName}Service
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     ${className} find${className}ById(long id)
     {
         return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>()
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     Iterable<${className}> findAll${className}()
     {
         return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>()
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     ${className} save${className}(${className} ${entityName}){
         return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
     ${className} update${className}(${className} ${entityName})
     {
         return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
 
     }
 
-    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     boolean delete${className}(long id){
       return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
