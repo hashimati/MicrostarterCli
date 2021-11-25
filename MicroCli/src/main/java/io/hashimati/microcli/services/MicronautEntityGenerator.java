@@ -336,10 +336,9 @@ public class MicronautEntityGenerator
                     isJdbc = true;
                 break;
             default:
-                isNormal = true;
                 isJdbc = false;
                 isJpa = false;
-
+                isNormal = isJdbc & isJpa;
                 entityAnnotation = "";
                 break;
 
@@ -352,7 +351,7 @@ public class MicronautEntityGenerator
         binder.put("entitypackage", entity.getEntityPackage());
         binder.put("jpa", isJpa);
         binder.put("jdbc", isJdbc);
-        binder.put("normal", true);
+        binder.put("normal", (isJpa == false && isJdbc == false));
 
         binder.put("collectionName", entity.getCollectionName()); 
         binder.put("className",entity.getName() );
@@ -443,6 +442,8 @@ public class MicronautEntityGenerator
 //        else
 //            result  =new Formatter().formatSource(result);
 
+        result = result.replace("    \n" +
+                "    \n", "");
         return result;//.replaceAll("(?m)^[ \t]*\r?\n", "");
     }
     public String generateRepository(Entity entity, String language, List<EntityRelation> relations) throws IOException, ClassNotFoundException {
