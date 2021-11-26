@@ -40,7 +40,7 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    public boolean delete${className}(String id){
+    public boolean delete${className}(${idType} id){
       return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
 
