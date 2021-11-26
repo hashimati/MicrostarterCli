@@ -679,10 +679,11 @@ The "metrics" command configurs the metircs registry in the micronaut applicatio
 #### Alias: metrics
 
 
-### Demo: Micronaut + Prometheus + Grafana 
+### Demo 1: Micronaut + Prometheus + Grafana 
 ![Grafana](https://github.com/hashimati/MicroCli/blob/master/Prometheus.gif)
 
-
+### Demo 2: Micronaut(Groovy) + MongoDB + GraphQL + InfluxDB
+![InfluxDB](https://github.com/hashimati/MicroCli/blob/master/influxDB.gif)
 
 <a name="banner"></a>
 
