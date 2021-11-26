@@ -12,7 +12,7 @@ import jakarta.inject.Singleton;
 class ${className}QueryResolver(private val ${entityName}Repository :${className}Repository)  : GraphQLQueryResolver, GraphQLMutationResolver{
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    fun find${className}ById(id: Long): ${className}
+    fun find${className}ById(id: ${idType}): ${className}
     {
         return ${entityName}Service.findById(id).get().<% print reactor? "block" : "blockingGet" %>();
     }

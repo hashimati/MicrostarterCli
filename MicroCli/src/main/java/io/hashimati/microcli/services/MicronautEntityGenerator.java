@@ -863,6 +863,9 @@ public class MicronautEntityGenerator
     }
 
     public String generateGraphQLResolver(Entity entity, String language) throws IOException, ClassNotFoundException {
+
+
+
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );
         binder.put("entityName", entity.getName().toLowerCase());
@@ -870,7 +873,9 @@ public class MicronautEntityGenerator
         binder.put("domainPackage", entity.getEntityPackage());
         binder.put("servicePackage", entity.getServicePackage());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-        binder.put("micrometer", entity.isMicrometer());
+        binder.put("micrometer", entity.isMicrometer()) ;
+        String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
+        binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
 
 
         String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;

@@ -15,7 +15,7 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
     private ${className}Service ${entityName}Service;
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    public ${className} find${className}ById(String id)
+    public ${className} find${className}ById(${idType} id)
     {
         return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>();
     }
