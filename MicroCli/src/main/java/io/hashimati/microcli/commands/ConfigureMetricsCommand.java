@@ -55,16 +55,16 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         configurationInfo =  ConfigurationInfo.fromFile(configurationFile);
 
 
-          ListResult registryOption = PromptGui.createListPrompt("registry", "Select micrometer registry: ", "Influxdb", "prometheus");
+          ListResult registryOption = PromptGui.createListPrompt("registry", "Select micrometer registry: ", "Influxdb", "prometheus", "graphite", "statsd");
 
         String registry  = registryOption.getSelectedId();
 
         if(!projectInfo.getFeatures().contains( "micrometer")){
         projectInfo.getFeatures().addAll(Arrays.asList(
                 "management",
-                "micrometer",
-                       "micrometer-graphite",
-                "micrometer-statsd"
+                "micrometer"//,
+                   //    "micrometer-graphite",
+                //"micrometer-statsd"
         ));
         configurationInfo.setMicrometer(true);
         try {
