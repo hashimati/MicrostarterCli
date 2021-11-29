@@ -28,6 +28,7 @@ public class Feature {
     testGradleAnnotation,
     versionProperties,
     testContainerGradle,
+
     depndencyManagement,
     ymlConfig,
     rdbcGradle, // for database relational dbs only

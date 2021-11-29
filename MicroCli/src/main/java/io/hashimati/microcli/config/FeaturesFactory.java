@@ -132,8 +132,15 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-mongo-reactive</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>org.testcontainers</groupId>\n" +
+                    "\t\t<artifactId>spock</artifactId>\n" +
+                    "\t\t<scope>test</scope>\n" +
+                    "\t</dependency>");
+
 
             setGradle("    implementation(\"io.micronaut.mongodb:micronaut-mongo-reactive\")");
+            setTestContainerGradle("    testImplementation(\"org.testcontainers:mongodb\")");
         }});
 
         features.put("data-jpa", new Feature(){{
@@ -259,6 +266,7 @@ public class FeaturesFactory {
                     "      <artifactId>mysql-connector-java</artifactId>\n" +
                     "      <scope>runtime</scope>\n" +
                     "    </dependency>\n");
+
             setGradle("    runtimeOnly(\"mysql:mysql-connector-java\")");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:mysql\")");
             setTestMaven(" <dependency>\n" +
@@ -267,26 +275,45 @@ public class FeaturesFactory {
                     "      <scope>test</scope>\n" +
                     "    </dependency>");
 
-
             setRdbcMaven("\t<dependency>\n" +
                     "\t\t<groupId>dev.miku</groupId>\n" +
                     "\t\t<artifactId>r2dbc-mysql</artifactId>\n" +
                     "\t\t<scope>runtime</scope>\n" +
                     "\t</dependency>");
             setRdbcGradle("    runtimeOnly(\"dev.miku:r2dbc-mysql\")");
+
         }});
 
         features.put("testcontainers", new Feature(){{
             setName("testcontainers");
 
-            setDepndencyManagement("<dependency>\n" +
-                    "        <groupId>org.testcontainers</groupId>\n" +
-                    "        <artifactId>testcontainers-bom</artifactId>\n" +
-                    "        <version>1.14.3</version>\n" +
-                    "        <type>pom</type>\n" +
-                    "        <scope>import</scope>\n" +
-                    "      </dependency>");
-            setTestContainerGradle("    testImplementation(platform(\"org.testcontainers:testcontainers-bom:1.14.3\"))");
+
+
+
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>org.testcontainers</groupId>\n" +
+                    "\t\t<artifactId>mongodb</artifactId>\n" +
+                    "\t\t<scope>test</scope>\n" +
+                    "\t</dependency>");
+            setTestContainerGradle("    testImplementation(\"org.testcontainers:testcontainers\")");
+        }});
+        features.put("junit-jupiter", new Feature(){{
+            setName("junit-jupiter");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>org.testcontainers</groupId>\n" +
+                            "\t\t<artifactId>junit-jupiter</artifactId>\n" +
+                            "\t\t<scope>test</scope>\n" +
+                            "\t</dependency>");
+            setGradle("    testImplementation(\"org.testcontainers:junit-jupiter\")");
+        }});
+        features.put("testcontainers-spock", new Feature(){{
+            setName("testcontainers-spock");
+            setGradle("    testImplementation(\"org.testcontainers:spock\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>org.testcontainers</groupId>\n" +
+                    "\\t\t<artifactId>spock</artifactId>\n" +
+                    "\t\t<scope>test</scope>\n" +
+                    "\t</dependency>");
         }});
 
         features.put("postgres", new Feature(){{

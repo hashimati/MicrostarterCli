@@ -264,6 +264,12 @@ public class ConfigurationInitializer {
 
                                 projectInfo.getFeatures().add("testcontainers");
                                 MicronautProjectValidator.addDependency(features.get("testcontainers"));
+                                if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
+                                    MicronautProjectValidator.addDependency(features.get(("testcontainers-spock")));
+                                }
+                                else
+                                    MicronautProjectValidator.addDependency(features.get(("junit-jupiter")));
+
                             }
                         }
                     }
@@ -314,6 +320,11 @@ public class ConfigurationInitializer {
 //                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
                 projectInfo.getFeatures().add("testcontainers");
                 MicronautProjectValidator.addDependency(features.get("testcontainers"));
+                if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
+                    MicronautProjectValidator.addDependency(features.get(("testcontainers-spock")));
+                }
+                else
+                    MicronautProjectValidator.addDependency(features.get(("junit-jupiter")));
                 //todo add dependencies to build files;
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
