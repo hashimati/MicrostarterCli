@@ -33,20 +33,7 @@ public class Randomizer<T> {
 
             if (String.class.equals(f.getType())) {
                 try {
-
-                    List<Character> charList = (IntStream.range(1, 5)
-                            .boxed()
-                            .map(x->new Character((char)x.intValue()))
-                            .collect(Collectors.toList()));
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while(charList.size()>0)
-                    {
-                        int index= rnd.nextInt(charList.size());
-                        stringBuilder.append(charList.get(index));
-                        charList.remove(index);
-                    }
-                    f.set(t, stringBuilder.toString());
+                    f.set(t, "Test"+new Random().nextInt(100));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

@@ -18,7 +18,7 @@ interface ${classNameA}Client {
     fun save(${entityName}:${classNameA}): <% print reactor? "Mono" : "Single" %><${className}>
 
     @Get("/get")
-    fun findById(@Parameter("id") id:Long): <% print reactor? "Mono" : "Single" %><${className}>
+    fun findById(@Parameter("id") id:String): <% print reactor? "Mono" : "Single" %><${className}>
 
     @Delete("/delete/{id}")
     fun deleteById(@PathVariable("id") id: Long): Boolean

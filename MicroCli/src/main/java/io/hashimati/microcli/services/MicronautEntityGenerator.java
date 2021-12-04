@@ -1067,6 +1067,7 @@ public class MicronautEntityGenerator
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
         binder.put("className", entity.getName());
         binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("afterBeforeMethods", "");
 
         String keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         switch(testFramework.toLowerCase())

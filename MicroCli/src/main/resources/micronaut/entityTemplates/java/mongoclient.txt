@@ -17,7 +17,7 @@ public interface ${classNameA}Client {
     public <% print reactor? "Mono" : "Single" %><${className}> save(${classNameA} ${entityName});
 
     @Get("/get")
-    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") long id);
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") String id);
 
     @Delete("/delete/{id}")
     public boolean deleteById(@PathVariable("id") String id);

@@ -19,10 +19,10 @@ interface ${classNameA}Client {
     <% print reactor? "Mono" : "Single" %><${className}> save(@Body ${classNameA} ${entityName})
 
     @Get("/get")
-    <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") long id)
+    <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") String id)
 
     @Delete("/delete/{id}")
-    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(@PathVariable("id") long id)
+    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(@PathVariable("id") String id)
 
     @Get("/findAll")
     <% print reactor? "Flux" : "Flowable" %><${className}> findAll()

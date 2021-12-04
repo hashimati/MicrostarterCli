@@ -47,7 +47,7 @@ class Randomizer<T : Any>(private val tClass: KClass<T>) {
                         }
                         val property = tClass.memberProperties.find { it.name == f.name }
                         if (property is KMutableProperty<*>) {
-                            property.setter.call(f, stringBuilder.toString())
+                            property.setter.call(f, "Test"+rnd.nextInt(charList.size))
                         }
 
                     } catch (e: IllegalAccessException) {
