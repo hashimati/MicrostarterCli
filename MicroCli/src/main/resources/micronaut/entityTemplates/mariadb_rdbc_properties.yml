@@ -5,4 +5,4 @@ r2dbc:
       dialect: MYSQL
       url: r2dbc:mariadb://localhost:3306/${databaseName}
       username: root
-      password: ''
+      password: 'Hello1234'

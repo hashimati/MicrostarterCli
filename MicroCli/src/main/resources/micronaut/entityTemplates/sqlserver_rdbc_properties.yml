@@ -3,6 +3,6 @@ r2dbc:
     default:
       url: r2dbc:mssql://localhost:1433/${databaseName}
       username: sa
-      password: ''
+      password: 'Hello1234'
       schema-generate: ${schemaGenerate}
       dialect: SQL_SERVER

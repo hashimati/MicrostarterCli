@@ -3,6 +3,6 @@ datasources:
     url: jdbc:sqlserver://localhost:1433;databaseName=${databaseName}
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: sa
-    password: ''
+    password: 'Hello1234'
     schema-generate: ${schemaGenerate}
     dialect: SQL_SERVER

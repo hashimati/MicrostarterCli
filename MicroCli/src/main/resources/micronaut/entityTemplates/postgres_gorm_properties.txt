@@ -2,7 +2,7 @@ dataSource:
   url: jdbc:postgresql://localhost:5432/${databaseName}
   driverClassName: org.postgresql.Driver
   username: postgres
-  password: ''
+  password: 'Hello1234'
   pooled: true
   jmxExport: true
 hibernate:

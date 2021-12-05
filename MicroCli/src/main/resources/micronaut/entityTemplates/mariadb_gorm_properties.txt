@@ -2,7 +2,7 @@ dataSource:
   url: jdbc:mariadb://localhost:3306/${databaseName}
   driverClassName: org.mariadb.jdbc.Driver
   username: root
-  password: ''
+  password: 'Hello1234'
   pooled: true
   jmxExport: true
 hibernate:

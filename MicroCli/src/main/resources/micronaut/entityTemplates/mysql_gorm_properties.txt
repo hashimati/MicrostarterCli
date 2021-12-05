@@ -2,7 +2,7 @@ dataSource:
   url: jdbc:mysql://localhost:3306/${databaseName}
   driverClassName: com.mysql.cj.jdbc.Driver
   username: root
-  password: ''
+  password: 'Hello1234'
   pooled: true
   jmxExport: true
 hibernate:

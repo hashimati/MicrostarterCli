@@ -5,4 +5,4 @@ r2dbc:
       dialect: POSTGRES
       url: r2dbc:postgresql://localhost:5432/${databaseName}
       username: postgres
-      password: ''
+      password: 'Hello1234'
