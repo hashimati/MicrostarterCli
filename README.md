@@ -431,6 +431,8 @@ public interface FruitClient {
 }
 ```
 
+### Demo: GraphQL Endpoints with Micronaut Data and MySQL + Testing with TestContainers
+![Video](https://github.com/hashimati/MicroCli/blob/master/GraphQLMySQL.gif)
 
 <a name="relationship"></a>
 ## Relationship Command
