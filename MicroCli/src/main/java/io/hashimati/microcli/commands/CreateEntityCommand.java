@@ -34,10 +34,7 @@ import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -46,6 +43,7 @@ import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YE
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.services.TemplatesService.*;
+import static io.hashimati.microcli.utils.PromptGui.createListPrompt;
 import static io.hashimati.microcli.utils.PromptGui.println;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.RED;
@@ -190,6 +188,12 @@ public class CreateEntityCommand implements Callable<Integer> {
                     InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter the attribute name", "attribute");
                     entityAttribute.setName(attrNameResult.getInput());
 
+                    if(entity.getAttributes().stream().map(x->x.getName().toLowerCase()).collect(Collectors.toList()).contains(
+                            entityAttribute.getName().toLowerCase()
+                    )){
+                        PromptGui.printlnErr("The attribute's Name is already exist!");
+                        continue attributeLoop; 
+                    };
                     //todo Enter attribute Type:
 
                     ListResult attrTypeResult = PromptGui.dataTypePrompt(configurationInfo.getEnums().stream().map(x->x.getName()).collect(Collectors.toList()));
