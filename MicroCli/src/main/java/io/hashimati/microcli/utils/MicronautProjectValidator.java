@@ -272,9 +272,9 @@ public class MicronautProjectValidator {
         );
 
         if(index < 0)
-            gradleContentAsList.add(dependencies.getV2() + 1, newDependencies.replace("\n", ""));
+            gradleContentAsList.add(dependencies.getV2() + 1, "\t"+newDependencies.trim());
         else
-            gradleContentAsList.add(dependencies.getV3() -1, newDependencies.replace("\n", ""));
+            gradleContentAsList.add(dependencies.getV3() -1, "\t"+newDependencies.trim());
 
 
 

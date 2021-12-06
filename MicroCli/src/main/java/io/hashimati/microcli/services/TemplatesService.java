@@ -639,5 +639,9 @@ public class TemplatesService {
     public HashMap<String, String> getSecurityRefreshTokenTemplates(){return securityRefreshTokenTemplates; }
     public HashMap<String, String> getSecurityPropertiesTemplates(){return securityPropertiesTemplates; }
     public HashMap<String, String> getSecurityLiquibase(){return securityLiquibase; }
+
+    public HashMap<String, String> getDistributedTracingTemplates() {
+        return distributedTracingTemplates;
+    }
 }
 

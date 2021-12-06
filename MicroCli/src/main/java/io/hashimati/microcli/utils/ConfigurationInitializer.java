@@ -457,9 +457,10 @@ public class ConfigurationInitializer {
 
 
                 projectInfo.getFeatures().add("tracing-jaeger");
+                MicronautProjectValidator.addDependency(features.get("tracing"));
                 MicronautProjectValidator.addDependency(features.get("tracing-jaeger"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
+                        (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
 
                 configurationInfo.setTracingEnabled(true);
                 configurationInfo.setTracingFramework("tracing-jaeger");
@@ -471,15 +472,19 @@ public class ConfigurationInitializer {
             else if(tracing.getSelectedId().equalsIgnoreCase("zipkin")){
 
                 projectInfo.getFeatures().add("tracing-zipkin");
+                MicronautProjectValidator.addDependency(features.get("tracing"));
                 MicronautProjectValidator.addDependency(features.get("tracing-zipkin"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
-                        (templatesService.getMicrometersTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));
+                        (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));
                 configurationInfo.setTracingEnabled(true);
                 configurationInfo.setTracingFramework("tracing-zipkin");
             }
 
 
 
+        }
+        else {
+            configurationInfo.setTracingEnabled(false);
         }
 //
 //        if(!projectInfo.getFeatures().contains("graphql"))

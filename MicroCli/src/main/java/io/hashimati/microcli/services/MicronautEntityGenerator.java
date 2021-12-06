@@ -763,7 +763,7 @@ public class MicronautEntityGenerator
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("entities", entity.getName().toLowerCase());
         binder.put("micrometer", entity.isMicrometer());
-        binder.put("jaeger", false);
+        binder.put("jaeger", entity.isTracingEnabled());
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         String serviceTemplate ;

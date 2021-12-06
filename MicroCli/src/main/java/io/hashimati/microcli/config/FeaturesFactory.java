@@ -885,16 +885,19 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
         }});
-        features.put("tracing-jaeger", new Feature(){{
-            setName("tracing-jaeger");
-
-            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")\n" +
-                    "    runtimeOnly(\"io.jaegertracing:jaeger-thrift\")");
+        features.put("tracing", new Feature(){{
+            setName("tracing");
+            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")\n" );
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut</groupId>\n" +
                     "\t\t<artifactId>micronaut-tracing</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>\n");
+        }});
+        features.put("tracing-jaeger", new Feature(){{
+            setName("tracing-jaeger");
+            setGradle("    runtimeOnly(\"io.jaegertracing:jaeger-thrift\")\n");
+
             getMaven().add(" \t<dependency>\n" +
                     "\t\t<groupId>io.jaegertracing</groupId>\n" +
                     "\t\t<artifactId>jaeger-thrift</artifactId>\n" +
@@ -913,20 +916,13 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
         }});
-        features.put("zipkin-jaeger", new Feature(){{
-            setName("zipkin-jaeger");
+        features.put("tracing-zipkin", new Feature(){{
+            setName("tracing-zipkin");
 
-            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")" +
-                    "    runtimeOnly(\"io.zipkin.brave:brave-instrumentation-http\")\n" +
+            setGradle("    runtimeOnly(\"io.zipkin.brave:brave-instrumentation-http\")\n" +
                     "    runtimeOnly(\"io.zipkin.reporter2:zipkin-reporter\")\n" +
-                    "    implementation(\"io.opentracing.brave:brave-opentracing\")\n" +
+                    "    implementation(\"io.opentracing.brave:brave-opentracing\")\n");
 
-                    "\n");
-            getMaven().add("\t<dependency>\n" +
-                    "\t\t<groupId>io.micronaut</groupId>\n" +
-                    "\t\t<artifactId>micronaut-tracing</artifactId>\n" +
-                    "\t\t<scope>compile</scope>\n" +
-                    "\t</dependency>\n");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.opentracing.brave</groupId>\n" +
                     "\t\t<artifactId>brave-opentracing</artifactId>\n" +
