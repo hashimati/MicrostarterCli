@@ -34,7 +34,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun save(@Body ${entityName}:${className}):<% print reactor? "Mono" : "Single" %><${className}>
+    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}:${className}):<% print reactor? "Mono" : "Single" %><${className}>
     {
         log.info("Saving ${className}: {}", ${entityName} )
 
@@ -50,7 +50,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
         content = [Content(mediaType = "application/json")]
     )
-    fun findById(@Parameter("id")  id: String):<% print reactor? "Mono" : "Single" %><${className}> {
+    fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id")  id: String):<% print reactor? "Mono" : "Single" %><${className}> {
         log.info("Finding ${className} by Id: {}", id)
         return ${entityName}Service.findById(id)
     }
@@ -79,7 +79,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
            content = [Content(mediaType = "application/json")]
     )
-    fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}> {
+    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}> {
         log.info("Deleting ${className} by id:{}", ${entityName})
         return ${entityName}Service.update(${entityName})
     }
@@ -93,7 +93,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "boolean")]
     )
-    fun deleteById(id:Long): Boolean {
+    fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") id:Long): Boolean {
         log.info("Deleting ${className}: {}", id)
         return  ${entityName}Service.deleteById(id)
     }

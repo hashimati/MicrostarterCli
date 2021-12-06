@@ -40,7 +40,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    public <% print reactor? "Mono" : "Single" %><${className}> save(@Body ${className} ${entityName}){
+    public <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName}){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
 
@@ -61,7 +61,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") long id){
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") long id){
         return ${entityName}Service.findById(id);
     }
 
@@ -77,7 +77,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(@PathVariable("id") long id){
+    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") long id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id);
     }
@@ -108,7 +108,7 @@ public class ${className}Controller {
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName})
+    public <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName})
     {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName});

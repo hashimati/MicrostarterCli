@@ -442,6 +442,45 @@ public class ConfigurationInitializer {
             }
         }
 
+
+        if(!projectInfo.getFeatures().contains("tracing-jaeger") &&!projectInfo.getFeatures().contains("tracing-zipkin") && !projectInfo.getFeatures().contains("gcp-cloud-trace") ){
+            ListResult tracing = PromptGui.createListPrompt("tracing", "Select Distributed Tracing: ", "Jaeger",
+//                    "Google Cloud Trace",
+                    "zipkin", "none");
+
+            if(tracing.getSelectedId().equalsIgnoreCase("none")){
+
+                configurationInfo.setTracingEnabled(false);
+                System.gc();
+            }
+            else if(tracing.getSelectedId().equalsIgnoreCase("Jaeger")){
+
+
+                projectInfo.getFeatures().add("tracing-jaeger");
+                MicronautProjectValidator.addDependency(features.get("tracing-jaeger"));
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
+
+                configurationInfo.setTracingEnabled(true);
+                configurationInfo.setTracingFramework("tracing-jaeger");
+            }
+
+//            else if(tracing.getSelectedId().equalsIgnoreCase("Google Cloud Trace")){
+//            }
+
+            else if(tracing.getSelectedId().equalsIgnoreCase("zipkin")){
+
+                projectInfo.getFeatures().add("tracing-zipkin");
+                MicronautProjectValidator.addDependency(features.get("tracing-zipkin"));
+                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                        (templatesService.getMicrometersTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));
+                configurationInfo.setTracingEnabled(true);
+                configurationInfo.setTracingFramework("tracing-zipkin");
+            }
+
+
+
+        }
 //
 //        if(!projectInfo.getFeatures().contains("graphql"))
 //        {

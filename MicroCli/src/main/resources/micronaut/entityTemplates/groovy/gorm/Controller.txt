@@ -35,7 +35,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    ${className} save(@Body ${className} ${entityName})
+    ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName})
     {
         log.info("Saving  ${className} : {}", ${entityName});
 
@@ -56,7 +56,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${className} findById(@Parameter("id") String id)
+    ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") String id)
     {
         log.info("Finding ${className} By Id: {}", id);
 
@@ -91,7 +91,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    Boolean deleteById(@PathVariable("id") long id){
+    Boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") long id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id);
     }
@@ -107,7 +107,7 @@ class ${className}Controller {
         content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${className} update(@Body ${className} ${entityName})
+    ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName})
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName})

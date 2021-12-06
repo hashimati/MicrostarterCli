@@ -47,6 +47,8 @@ public class ConfigurationInfo {
     boolean gorm;
     private boolean securityEnable;
     private String authenticationStrategy;
+    private String tracingFramework;
+    private boolean tracingEnabled;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();

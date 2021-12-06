@@ -42,7 +42,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    <% print reactor? "Mono" : "Single" %><${className}> save(@Body ${className} ${entityName})
+    <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName})
     {
         log.info("Saving  ${className} : {}", ${entityName});
 
@@ -62,7 +62,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") String id)
+    <% print reactor? "Mono" : "Single" %><${className}> findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") String id)
     {
             log.info("Finding ${className} By Id: {}", id);
 
@@ -96,7 +96,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(@PathVariable("id") String id){
+    <% print reactor? "Mono" : "Single" %><Boolean> deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") String id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id)
     }
@@ -114,7 +114,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-   <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName}) {
+   <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}) {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName});
    }

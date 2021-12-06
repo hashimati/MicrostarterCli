@@ -28,7 +28,7 @@ public class TemplatesService {
             graphqlTemplates = new HashMap<>(),
             liquibaseTemplates = new HashMap<>(),
             flywayTemplates = new HashMap<>(),
-
+            distributedTracingTemplates = new HashMap<>(),
             cacheTemplates = new HashMap<>(),
             micrometersTemplates = new HashMap<>(),
             securityTemplates = new HashMap<>(),
@@ -153,8 +153,10 @@ public class TemplatesService {
             FLYWAY_DROP_TABLE = "drop_table",
             FLYAWAY_YML = "flyway_yml",
 
-            CAFFEINE_YML ="caffeine_yml";
+            CAFFEINE_YML ="caffeine_yml",
 
+            DISTRIBUTED_TRACING_ZIPKIN = "zipkin",
+                    DISTRIBUTED_TRACING_JAEGER = "jaeger";
 
 
 
@@ -544,6 +546,9 @@ public class TemplatesService {
         securityLiquibase.put(SECURITY_LIQUIBASE_SCHEMA, "micronaut/security/db/changelog/db.security-1.xml");
         securityEventsTemplates.put(LOGIN_EVENT_PUBLISHER, "micronaut/security/${auth}/${lang}/${db}/event/LoginEventPublisher${ext}");
         securityEventsTemplates.put(LOGIN_EVENT_LISTENER, "micronaut/security/${auth}/${lang}/${db}/event/LoginEventListener${ext}");
+
+        distributedTracingTemplates.put(DISTRIBUTED_TRACING_ZIPKIN, "micronaut/commons/tracing/zipkin.yml");
+        distributedTracingTemplates.put(DISTRIBUTED_TRACING_JAEGER, "micronaut/commons/tracing/jaeger.yml");
     }
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)

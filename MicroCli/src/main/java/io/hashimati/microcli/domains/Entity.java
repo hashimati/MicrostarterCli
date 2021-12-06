@@ -42,6 +42,7 @@ public class Entity
     private boolean isGraphQl;
     private boolean cached;
     private boolean micrometer;
+    private boolean tracingEnabled;
     public String getName() {
         return name;
 
@@ -274,5 +275,13 @@ public class Entity
 
     public void setMicrometer(boolean micrometer) {
         this.micrometer = micrometer;
+    }
+
+    public boolean isTracingEnabled() {
+        return tracingEnabled;
+    }
+
+    public void setTracingEnabled(boolean tracingEnabled) {
+        this.tracingEnabled = tracingEnabled;
     }
 }

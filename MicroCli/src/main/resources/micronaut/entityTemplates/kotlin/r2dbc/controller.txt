@@ -28,7 +28,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun save(@Body ${entityName}: ${className}):  Mono<${className}> {
+    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}: ${className}):  Mono<${className}> {
 
         log.info("Saving ${className} :{}", ${entityName})
         return ${entityName}Service.save(${entityName})
@@ -45,7 +45,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
         content = [Content(mediaType = "application/json")]
     )
 
-    fun findById(id:Long): Mono<${className}> {
+    fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") id:Long): Mono<${className}> {
         log.info("Finding ${className}: {}", id )
         return ${entityName}Service.findById(id)
     }
@@ -60,7 +60,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
             content = [Content(mediaType = "boolean")]
     )
 
-    fun deleteById(id:Long): Mono<Boolean> {
+    fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id")id:Long): Mono<Boolean> {
         log.info("Deleting ${className}: {}", id)
         return  ${entityName}Service.deleteById(id)
     }
@@ -88,7 +88,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun update(@Body ${entityName}: ${className}):Mono<${className}>
+    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}):Mono<${className}>
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName})

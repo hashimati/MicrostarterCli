@@ -888,8 +888,8 @@ public class FeaturesFactory {
         features.put("tracing-jaeger", new Feature(){{
             setName("tracing-jaeger");
 
-            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")" +
-                    "    implementation(\"io.micronaut:micronaut-tracing\")");
+            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")\n" +
+                    "    runtimeOnly(\"io.jaegertracing:jaeger-thrift\")");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut</groupId>\n" +
                     "\t\t<artifactId>micronaut-tracing</artifactId>\n" +
@@ -902,6 +902,41 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
 
+        }});
+        features.put("gcp-cloud-trace", new Feature(){{
+            setName("gcp-cloud-trace");
+
+            setGradle("        implementation(\"io.micronaut.gcp:micronaut-gcp-tracing\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.gcp</groupId>\n" +
+                    "\t\t<artifactId>micronaut-gcp-tracing</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("zipkin-jaeger", new Feature(){{
+            setName("zipkin-jaeger");
+
+            setGradle("    implementation(\"io.micronaut:micronaut-tracing\")" +
+                    "    runtimeOnly(\"io.zipkin.brave:brave-instrumentation-http\")\n" +
+                    "    runtimeOnly(\"io.zipkin.reporter2:zipkin-reporter\")\n" +
+                    "    implementation(\"io.opentracing.brave:brave-opentracing\")\n" +
+
+                    "\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut</groupId>\n" +
+                    "\t\t<artifactId>micronaut-tracing</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.opentracing.brave</groupId>\n" +
+                    "\t\t<artifactId>brave-opentracing</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.zipkin.reporter2</groupId>\n" +
+                    "\t\t<artifactId>zipkin-reporter</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
         }});
 
 
