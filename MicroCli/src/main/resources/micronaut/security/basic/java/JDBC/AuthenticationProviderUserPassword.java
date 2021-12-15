@@ -29,7 +29,7 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
     private UserRepository userRepository;
 
     @Inject
-    private ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher<LoginEvent> eventPublisher;
 
     @Inject
     private PasswordEncoderService passwordEncoderService;

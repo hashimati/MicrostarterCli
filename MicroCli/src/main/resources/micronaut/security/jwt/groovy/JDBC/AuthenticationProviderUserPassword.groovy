@@ -31,7 +31,7 @@ class AuthenticationProviderUserPassword implements AuthenticationProvider {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
-    private ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher<LoginEvent> eventPublisher;
 
     @Inject
     private PasswordEncoderService passwordEncoderService;

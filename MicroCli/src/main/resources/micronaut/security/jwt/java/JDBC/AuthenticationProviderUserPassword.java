@@ -32,7 +32,7 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
     private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
-    private ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher<LoginEvent> eventPublisher;
 
     @Inject
     private PasswordEncoderService passwordEncoderService;
