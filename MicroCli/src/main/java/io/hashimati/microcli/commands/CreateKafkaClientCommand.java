@@ -78,7 +78,7 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
 
         }
         String packageName = PromptGui.inputText("pack", "Enter the class's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
-        String className = PromptGui.inputText("className", "Enter the class name: ", "KafkaListener").getInput();
+        String className = PromptGui.inputText("className", "Enter the class name: ", "KafkaClient").getInput();
         String topic = PromptGui.inputText("topic", "Enter the topic name", className).getInput();
         if(entityName == null)
         {
