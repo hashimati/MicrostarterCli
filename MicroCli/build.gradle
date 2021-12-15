@@ -73,7 +73,7 @@ dependencies {
 //
 // com/artifact/info.picocli/picocli-shell-jline3
     // compile group: 'info.picocli', name: 'picocli-shell-jline3', version: '4.1.4'
-    compile group: 'de.codeshelf.consoleui', name: 'consoleui', version: '0.0.13'
+    implementation group: 'de.codeshelf.consoleui', name: 'consoleui', version: '0.0.13'
     implementation 'jline:jline:2.14.6'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
