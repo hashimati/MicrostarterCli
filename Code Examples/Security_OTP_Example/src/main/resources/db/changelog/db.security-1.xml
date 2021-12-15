@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="Ahmed">
+        <createTable tableName="users" remarks="A table to store all users records">
+            <column name="id" type="bigint">
+                <constraints unique="true" nullable="false" primaryKey="true"/>
+            </column>
+            <column name="dateCreated" type="datetime">
+        </column>
+            <column name="dateUpdated" type="datetime">
+        </column>
+            <column name="username" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="oneTimePassword" type="varchar(255)" defaultValue="null">
+            </column>
+            <column name="roles" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="active" type="boolean">
+                <constraints/>
+            </column>
+            <column name="disabled" type="boolean">
+                <constraints/>
+            </column>
+            <column name="locked" type="boolean">
+                <constraints/>
+            </column>
+            <column name="expiration" type="datetime">
+            </column>
+            <column name="passwordExpiration" type="datetime">
+            </column>
+            <column name="oneTimePasswordExpiry" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="lastTimeLogin" type="datetime">
+            </column>
+            <column name="lastTimeTryToLogin" type="datetime">
+            </column>
+            <column name="lastLoginStatus" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="activationCode" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="resetPasswordCode" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addAutoIncrement columnDataType="bigint" columnName="id" incrementBy="1" startWith="1" tableName="users"/>
+        <createTable tableName="refreshTokens">
+            <column name="id" type="bigint">
+                <constraints unique="true" nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="refreshToken" type="varchar(255)">
+                <constraints/>
+            </column>
+            <column name="dateCreated" type="datetime">
+            </column>
+            <column name="dateUpdated" type="datetime">
+            </column>
+            <column name="revoked" type="boolean">
+                <constraints/>
+            </column>
+        </createTable> 
+    </changeSet>
+    
+</databaseChangeLog>
+
+
