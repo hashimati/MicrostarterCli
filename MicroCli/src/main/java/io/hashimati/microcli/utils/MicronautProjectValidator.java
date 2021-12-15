@@ -272,9 +272,9 @@ public class MicronautProjectValidator {
         );
 
         if(index < 0)
-            gradleContentAsList.add(dependencies.getV2() + 1, "\t"+newDependencies.trim());
+            gradleContentAsList.add(dependencies.getV2() + 1, "\t\t"+newDependencies.trim());
         else
-            gradleContentAsList.add(dependencies.getV3() -1, "\t"+newDependencies.trim());
+            gradleContentAsList.add(dependencies.getV3() -1, "\t\t"+newDependencies.trim());
 
 
 
@@ -284,7 +284,7 @@ public class MicronautProjectValidator {
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
+            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent);
 
             return true & sortGradleDependencies();
         }catch(Exception ex)
