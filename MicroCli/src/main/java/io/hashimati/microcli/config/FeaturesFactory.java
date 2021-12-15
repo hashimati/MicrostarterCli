@@ -107,7 +107,7 @@ public class FeaturesFactory {
                             "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                             "                  <version>${micronaut.data.version}</version>\n" +
                             "                </path>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.2.1");
 
         }});
 
@@ -121,7 +121,7 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-r2dbc-core</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.2.1");
 
 
         }});
@@ -186,6 +186,24 @@ public class FeaturesFactory {
         }});
 
 
+        features.put("cassandra", new Feature(){{
+            setName("cassandra");
+            setGradle("    implementation(\"io.micronaut.cassandra:micronaut-cassandra\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.cassandra</groupId>\n" +
+                    "\t\t<artifactId>micronaut-cassandra</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("redis-lettuce", new Feature(){{
+            setName("redis-lettuce");
+            setGradle("    implementation(\"io.micronaut.redis:micronaut-redis-lettuce\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.redis</groupId>\n" +
+                    "\t\t<artifactId>micronaut-redis-lettuce</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
         features.put("liquibase", new Feature(){{
             setName("liquibase");
             getMaven().add("\t<dependency>\n" +
