@@ -1,3 +1,14 @@
 micronaut:
   application:
     name: micronautThymeleaf
+
+---
+micronaut:
+  router:
+    static-resources:
+      default:
+        mapping: "/static/**"
+      '*':
+        paths:
+          - "classpath:static"
+        enabled: true
