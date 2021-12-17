@@ -66,6 +66,30 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+            LAMBDA_FUNCTION_SAVE_REQUEST = "lambda_save_request",
+            LAMBDA_FUNCTION_UPDATE_REQUEST = "lambda_update_request",
+            LAMBDA_FUNCTION_DELETE_REQUEST = "lambda_delete_request",
+            LAMBDA_FUNCTION_FIND_REQUEST = "lambda_find_request",
+            LAMBDA_FUNCTION_FINDALL_REQUEST = "lambda_findall_request",
+
+            AZURE_FUNCTION_SAVE_REQUEST = "AZURE_save_request",
+            AZURE_FUNCTION_UPDATE_REQUEST = "AZURE_update_request",
+            AZURE_FUNCTION_DELETE_REQUEST = "AZURE_delete_request",
+            AZURE_FUNCTION_FIND_REQUEST = "AZURE_find_request",
+            AZURE_FUNCTION_FINDALL_REQUEST = "AZURE_findall_request",
+
+
+            GOOGLE_FUNCTION_SAVE_REQUEST = "GOOGLE_save_request",
+            GOOGLE_FUNCTION_UPDATE_REQUEST = "GOOGLE_update_request",
+            GOOGLE_FUNCTION_DELETE_REQUEST = "GOOGLE_delete_request",
+            GOOGLE_FUNCTION_FIND_REQUEST = "GOOGLE_find_request",
+            GOOGLE_FUNCTION_FINDALL_REQUEST = "GOOGLE_findall_request",
+
+            ORACLE_FUNCTION_SAVE_REQUEST = "ORACLE_save_request",
+            ORACLE_FUNCTION_UPDATE_REQUEST = "ORACLE_update_request",
+            ORACLE_FUNCTION_DELETE_REQUEST = "ORACLE_delete_request",
+            ORACLE_FUNCTION_FIND_REQUEST = "ORACLE_find_request",
+            ORACLE_FUNCTION_FINDALL_REQUEST = "ORACLE_findall_request",
 
             R2DBC_CONTROLLER = "r2dbc_controller",
             R2DBC_SERVICE = "r2dbc_service",
@@ -307,6 +331,11 @@ public class TemplatesService {
         javaTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/java/r2dbc/service.txt");
         javaTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/java/r2dbc/jdbcRepository.txt");
         javaTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/java/r2dbc/client.txt");
+        javaTemplates.put(LAMBDA_FUNCTION_FINDALL_REQUEST, "micronaut/functions/aws/java/FindAllRequestHander.java");
+        javaTemplates.put(LAMBDA_FUNCTION_SAVE_REQUEST, "micronaut/functions/aws/java/SaveRequestHander.java");
+        javaTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/java/DeleteRequestHander.java");
+        javaTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/java/FindByIdRequestHander.java");
+        javaTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/java/UpdateRequestHander.java");
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -372,6 +401,12 @@ public class TemplatesService {
         groovyTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/groovy/r2dbc/service.txt");
         groovyTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/groovy/r2dbc/jdbcRepository.txt");
         groovyTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/groovy/r2dbc/client.txt");
+        groovyTemplates.put(LAMBDA_FUNCTION_FINDALL_REQUEST, "micronaut/functions/aws/groovy/FindAllRequestHander.groovy");
+        groovyTemplates.put(LAMBDA_FUNCTION_SAVE_REQUEST, "micronaut/functions/aws/groovy/SaveRequestHander.groovy");
+        groovyTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/groovy/DeleteRequestHander.groovy");
+        groovyTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/groovy/FindByIdRequestHander.groovy");
+        groovyTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/groovy/UpdateRequestHander.groovy");
+
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
@@ -431,6 +466,11 @@ public class TemplatesService {
         kotlinTemplates.put(R2DBC_SERVICE, "micronaut/entityTemplates/kotlin/r2dbc/service.txt");
         kotlinTemplates.put(R2DBC_REPOSITORY, "micronaut/entityTemplates/kotlin/r2dbc/jdbcRepository.txt");
         kotlinTemplates.put(R2DBC_CLIENT, "micronaut/entityTemplates/kotlin/r2dbc/client.txt");
+        kotlinTemplates.put(LAMBDA_FUNCTION_FINDALL_REQUEST, "micronaut/functions/aws/kotlin/FindAllRequestHander.kt");
+        kotlinTemplates.put(LAMBDA_FUNCTION_SAVE_REQUEST, "micronaut/functions/aws/kotlin/SaveRequestHander.kt");
+        kotlinTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/kotlin/DeleteRequestHander.kt");
+        kotlinTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/kotlin/FindByIdRequestHander.kt");
+        kotlinTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/kotlin/UpdateRequestHander.kt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");

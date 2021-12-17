@@ -45,7 +45,13 @@ public class MicronautProjectValidator {
     }
 
     public static boolean isValidProject() throws FileNotFoundException {
-        return getProjectInfo() != null && getProjectInfo().getApplicationType().equalsIgnoreCase("default");
+        return getProjectInfo() != null && (getProjectInfo().getApplicationType().equalsIgnoreCase("default") || getProjectInfo().getApplicationType().equalsIgnoreCase("function"));
+    }
+    public static boolean isApplication() throws FileNotFoundException {
+        return getProjectInfo().getApplicationType().equalsIgnoreCase("default");
+    }
+    public static boolean isFunction() throws FileNotFoundException{
+        return getProjectInfo().getApplicationType().equalsIgnoreCase("function");
     }
 
 
@@ -398,6 +404,7 @@ public class MicronautProjectValidator {
         String cwd = System.getProperty("user.dir");
         File  micronautCli = new File(cwd + "/micronaut-cli.yml");
         if(!micronautCli.exists()) return null;
+
         Yaml yaml = new Yaml();
         String content = GeneratorUtils.getFileContent(micronautCli);
 
@@ -409,7 +416,7 @@ public class MicronautProjectValidator {
 
 
         return (projectInfo = yaml.loadAs(content, ProjectInfo.class))
-                .getApplicationType().equalsIgnoreCase("default")?projectInfo:null;
+                .getApplicationType().equalsIgnoreCase("default") || projectInfo.getApplicationType().equalsIgnoreCase("function")?projectInfo:null;
     }
 
     public static String getMainPackage() throws IOException {

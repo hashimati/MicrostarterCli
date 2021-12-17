@@ -367,78 +367,81 @@ public class CreateEntityCommand implements Callable<Integer> {
                 GeneratorUtils.createFile(System.getProperty("user.dir")+servicePath + "/"+entity.getName()+"Service"+
                         extension, serviceFileContent);
 
+                if(MicronautProjectValidator.isApplication())
+                {                //============================
 
-                //============================
+                    String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
-                String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
-
-                String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>() {{
-                    put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
-                    put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
-                }});
-                GeneratorUtils.createFile(System.getProperty("user.dir") + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
-
-
-                ////==========
-                String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
-
-
-                String clientPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>() {{
-                    put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
-                    put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
-                }});
-                GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
-                configurationInfo.getEntities().add(entity);
-
-                if (graphql) {
-                    entity.setGraphQl(true);
-                    String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(configurationInfo.getEntities(), lang);
-
-                    String factoryPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GRAPHQL_PATH, new HashMap<String, String>() {{
+                    String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>() {{
                         put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/QueryFactory" + extension, factoyFileContent);
+                    GeneratorUtils.createFile(System.getProperty("user.dir") + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
 
 
-                    String resolverFileContent = micronautEntityGenerator.generateGraphQLResolver(entity, lang);
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
+                    ////==========
+                    String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
 
 
-                    String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
-                    String graphQLSchema = micronautEntityGenerator.generateGraphQLSchema(entity);
-                    GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
+                    String clientPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>() {{
+                        put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                        put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                    }});
+                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
+                    configurationInfo.getEntities().add(entity);
+
+                    if (graphql) {
+                        entity.setGraphQl(true);
+                        String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(configurationInfo.getEntities(), lang);
+
+                        String factoryPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GRAPHQL_PATH, new HashMap<String, String>() {{
+                            put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                            put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                        }});
+                        GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/QueryFactory" + extension, factoyFileContent);
 
 
-                    String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
-                    String graphQLQuery = micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
-                    GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
+                        String resolverFileContent = micronautEntityGenerator.generateGraphQLResolver(entity, lang);
+                        GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
 
+
+                        String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
+                        String graphQLSchema = micronautEntityGenerator.generateGraphQLSchema(entity);
+                        GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
+
+
+                        String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
+                        String graphQLQuery = micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
+                        GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
+
+                    }
+                    //========
+                    String controllertest = micronautEntityGenerator.generateTestController(entity, lang, configurationInfo.getProjectInfo().getTestFramework());
+                    String langDir = configurationInfo.getProjectInfo().getSourceLanguage();
+                    switch (configurationInfo.getProjectInfo().getTestFramework().toLowerCase()) {
+                        case "spock":
+                            extension = ".groovy";
+                            langDir = "groovy";
+                            break;
+                        case "kotest":
+                            extension = ".kt";
+                            langDir = "kotlin";
+                            break;
+                        default:
+                            extension = extension;
+                            break;
+                    }
+                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/test/" + langDir + "/" + GeneratorUtils.packageToPath(entity.getRestPackage()) + "/" + entity.getName() + "ControllerTest" + extension, controllertest);
+                }
+                else if(MicronautProjectValidator.isFunction())
+                {
+                    //todo create RequestHandler for lambda
                 }
 
 
                 ///====== Generate Randomizer
                 String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);
                 GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/test/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage() + ".utils") + "/Randomizer" + extension, randromizerFileContent);
-
-                //========
-                String controllertest = micronautEntityGenerator.generateTestController(entity, lang, configurationInfo.getProjectInfo().getTestFramework());
-                String langDir = configurationInfo.getProjectInfo().getSourceLanguage();
-                switch (configurationInfo.getProjectInfo().getTestFramework().toLowerCase()) {
-                    case "spock":
-                        extension = ".groovy";
-                        langDir = "groovy";
-                        break;
-                    case "kotest":
-                        extension = ".kt";
-                        langDir = "kotlin";
-                        break;
-                    default:
-                        extension = extension;
-                        break;
-                }
-                GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/test/" + langDir + "/" + GeneratorUtils.packageToPath(entity.getRestPackage()) + "/" + entity.getName() + "ControllerTest" + extension, controllertest);
-
 
                 if (Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase())) {
                     HashMap<String, String> mapper;

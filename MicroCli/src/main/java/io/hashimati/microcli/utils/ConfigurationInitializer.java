@@ -67,7 +67,7 @@ public class ConfigurationInitializer {
 
         if(projectInfo == null || !MicronautProjectValidator.isValidProject())
         {
-            printlnErr("The current directory is not a directory of a Micronaut Application project");
+            printlnErr("The current directory is not a directory of a Micronaut Application/Function project");
             System.exit(0);
         }
         else if(projectInfo.getFeatures().contains("properties")){
@@ -540,23 +540,25 @@ public class ConfigurationInitializer {
             }
         }
 
+        if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
+        {
+            if(!projectInfo.getFeatures().contains("openapi"))
+            {
 
-      if(!projectInfo.getFeatures().contains("openapi"))
-      {
+                projectInfo.getFeatures().add("openapi");
+                MicronautProjectValidator.addOpenapi();
+                MicronautProjectValidator.addExposingSwaggerUI();
+                MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
 
-          projectInfo.getFeatures().add("openapi");
-          MicronautProjectValidator.addOpenapi();
-          MicronautProjectValidator.addExposingSwaggerUI();
-          MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
-
-          templatesService.loadTemplates(null);
-          String openAPIProperties = templatesService.loadTemplateContent
-                 (templatesService.getProperties().get(OPENAPI_yml));
-          MicronautProjectValidator.appendToProperties(openAPIProperties);
+                templatesService.loadTemplates(null);
+                String openAPIProperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(OPENAPI_yml));
+                MicronautProjectValidator.appendToProperties(openAPIProperties);
 
 
 
-      }
+            }
+        }
         if(!projectInfo.getFeatures().contains("openrewrite"))
         {
             projectInfo.getFeatures().add("openrewrite");

@@ -17,6 +17,8 @@ import java.util.concurrent.Callable;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+
+
 @Command(name = "configure", description = {"This command will configure the Micronaut application with MicroCli command.", "To create the configuration file."})
 public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
