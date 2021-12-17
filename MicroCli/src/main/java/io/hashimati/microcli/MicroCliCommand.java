@@ -57,7 +57,7 @@ public class MicroCliCommand implements Runnable {
                 " | |  | | | (__| | | (_) | | |____| |____ _| |_ \n" +
                 " |_|  |_|_|\\___|_|  \\___/   \\_____|______|_____|\n" +
                 "                                                                                      \n" +
-                "(MicroCLI v0.0.1)\n");
+                "(MicroCLI v0.0.2)\n");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
