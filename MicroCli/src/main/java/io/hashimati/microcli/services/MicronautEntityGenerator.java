@@ -7,6 +7,7 @@ import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
@@ -352,7 +353,7 @@ public class MicronautEntityGenerator
         binder.put("jpa", isJpa);
         binder.put("jdbc", isJdbc);
         binder.put("normal", (isJpa == false && isJdbc == false));
-
+        binder.put("openApi", MicronautProjectValidator.getProjectInfo().getApplicationType().equalsIgnoreCase("default"));
         binder.put("collectionName", entity.getCollectionName()); 
         binder.put("className",entity.getName() );
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));

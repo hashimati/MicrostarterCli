@@ -7,21 +7,23 @@ ${jpa?'import io.micronaut.data.annotation.DateCreated;' :''}
 ${jpa?'import io.micronaut.data.annotation.DateUpdated;' :''}
 import lombok.*;
 import javax.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
+<% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema;" %>
 ${containDate?'import java.util.Date;':''}
 import java.util.*;
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*;' :''}
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+
+<% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
+<% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
+<% if(openApi) out.print "@Schema(name="${className}", description="${className} Description")" %>
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-@Schema(name="${className}", description="${className} Description")
-<% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
-<% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 public class ${className}{
     <% if(jpa) out.print '@Id '%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE) '%>

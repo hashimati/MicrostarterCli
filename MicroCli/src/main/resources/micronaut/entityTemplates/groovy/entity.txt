@@ -9,17 +9,19 @@ ${jpa?'import javax.persistence.*':''};
 ${jdbc?'import io.micronaut.data.annotation.*;' :''}
 ${jpa?'import io.micronaut.data.annotation.DateCreated' :''}
 ${jpa?'import io.micronaut.data.annotation.DateUpdated' :''}
-import io.swagger.v3.oas.annotations.media.Schema
+<% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema" %>
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
 
 ${containDate?'import java.util.Date':''}
 import java.util.*
 
-@CompileStatic
-@Canonical
-@Schema(name="${className}", description="${className} Description")
+
+
+<% if(openApi) out.print "@Schema(name="${className}", description="${className} Description")" %>
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
 <% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
+@CompileStatic
+@Canonical
 class ${className}{
     <% if(jpa) out.print '@Id'%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.SEQUENCE)' %>
