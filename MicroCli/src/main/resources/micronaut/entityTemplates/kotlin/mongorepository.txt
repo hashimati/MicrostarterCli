@@ -16,6 +16,8 @@ import jakarta.inject.Singleton
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.UUID
+
 @Singleton
 class ${entityClass}Repository(private val mongoClient:MongoClient, private val mongodbConfiguration:MongodbConfiguration ) {
 
@@ -49,8 +51,7 @@ class ${entityClass}Repository(private val mongoClient:MongoClient, private val 
         log.info("Saving ${entityClass}: {}",o )
         if(object.getId() == null)
         {
-            return <% print reactor? "Mono" : "Single" %>.just(object)
-                .onErrorReturn{<% print reactor? "" : "_->" %>o}
+           o?.id = UUID.randomUUID().toString()
         }
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(o)
         ).map{_ ->o}

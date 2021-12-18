@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.UUID;
 
 @Singleton
 public class ${entityClass}Repository {
@@ -57,8 +58,7 @@ public class ${entityClass}Repository {
         log.info("Saving ${entityClass} : {}", object);
         if(object.getId() == null)
         {
-            return <% print reactor? "Mono" : "Single" %>.just(object)
-                    .onErrorReturn(<% print reactor? "" : "fail->" %> object);
+            object.setId(UUID.randomUUID().toString());
         }
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(object)
         ).map(success ->object);
