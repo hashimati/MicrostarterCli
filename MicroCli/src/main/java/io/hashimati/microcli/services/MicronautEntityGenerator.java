@@ -5,9 +5,11 @@ import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
+import io.hashimati.microcli.exceptions.NotImplementedException;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
+import io.micronaut.aop.exceptions.UnimplementedAdviceException;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
@@ -54,6 +56,7 @@ public class MicronautEntityGenerator
             setRepoPackage("com.ahmed.ah1.repo");
             setServicePackage("com.ahmed.ah1.services");
             setRestPackage("com.ahmed.ah1.resources");
+
 
             getAttributes().add(new EntityAttribute(){{
                 setName("ie");
@@ -1195,6 +1198,33 @@ public class MicronautEntityGenerator
 
 
 
+    }
+
+    /**
+     * All possible keys should be called
+     * @param entity
+     * @param language
+     * @param templateKey : SAVE, DELETE UPDATE, FIND, FIND ALL.
+     * @return the generate Template
+     * @throws Exception
+     */
+    public String generateFunction(Entity entity, String language,String templateKey ) throws Exception {
+        HashMap<String, String> binder = new HashMap<String, String>();
+        binder.putIfAbsent("pack", entity.getFunctionPackage());
+        binder.put("inputImport", entity.getEntityPackage() + "." + entity.getName());
+        binder.put("Input", entity.getName());
+        binder.put("Output", entity.getName());
+        binder.put("block", entity.getReactiveFramework().equalsIgnoreCase("reactor")?".block": "getBlocking()");
+        return generateFromTemplate(entity, language, binder, templateKey);
+    }
+    public String generateAzureFunction(Entity entity, String language) throws Exception {
+        throw new NotImplementedException("Not Implemented");
+    }
+    public String generateGoogleFunction(Entity entity, String language) throws Exception {
+        throw new NotImplementedException("Not Implemented");
+    }
+    public String generateOracleFunction(Entity entity, String language) throws Exception {
+        throw new NotImplementedException("Not Implemented");
     }
 //    @Inject
 //    private GeneratorUtils generatorUtils;

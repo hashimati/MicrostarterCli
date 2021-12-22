@@ -23,7 +23,8 @@ public class Entity
 {
 
     private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
-    graphqlpackage,
+    graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,
+
 
     reactiveFramework,
 
@@ -201,7 +202,11 @@ public class Entity
         this.setRestPackage(new StringBuilder().append(defaultPackage).append(".controllers").toString());
         this.setClientPackage(new StringBuilder().append(defaultPackage).append(".clients").toString());
         this.setGraphqlpackage(new StringBuilder().append(defaultPackage).append(".graphqls").toString());
-
+        this.setFunctionPackage(new StringBuilder().append(defaultPackage).append(".function").toString());
+        this.setLambdaPackage(String.format("%s.aws", getFunctionPackage()));
+        setOraclePackage(String.format("%s.oracle", getFunctionPackage()));
+        setGooglePackage(String.format("%s.google", getFunctionPackage()));
+        setAzurePackage((String.format("%s.azure", getFunctionPackage())));
     }
     @JsonIgnore
     public String getEntitiesImport(String defaultPackage)
@@ -283,5 +288,45 @@ public class Entity
 
     public void setTracingEnabled(boolean tracingEnabled) {
         this.tracingEnabled = tracingEnabled;
+    }
+
+    public String getFunctionPackage() {
+        return functionPackage;
+    }
+
+    public void setFunctionPackage(String functionPackage) {
+        this.functionPackage = functionPackage;
+    }
+
+    public String getLambdaPackage() {
+        return lambdaPackage;
+    }
+
+    public void setLambdaPackage(String lambdaPackage) {
+        this.lambdaPackage = lambdaPackage;
+    }
+
+    public String getOraclePackage() {
+        return oraclePackage;
+    }
+
+    public void setOraclePackage(String oraclePackage) {
+        this.oraclePackage = oraclePackage;
+    }
+
+    public String getAzurePackage() {
+        return azurePackage;
+    }
+
+    public void setAzurePackage(String azurePackage) {
+        this.azurePackage = azurePackage;
+    }
+
+    public String getGooglePackage() {
+        return googlePackage;
+    }
+
+    public void setGooglePackage(String googlePackage) {
+        this.googlePackage = googlePackage;
     }
 }

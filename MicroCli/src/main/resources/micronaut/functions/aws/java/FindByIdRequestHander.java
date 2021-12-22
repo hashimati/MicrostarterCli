@@ -11,7 +11,7 @@ public class ${Input}SaveRequestHandler extends MicronautRequestHandler<${Input}
 
     @Override
     public ${Output} execute(${Input} input) {
-        return ${Input.toLowerCase()}Service.findById(input);
+        return ${Input.toLowerCase()}Service.findById(input)${block};
     }
 
 }

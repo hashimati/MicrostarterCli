@@ -12,7 +12,7 @@ public class ${Input}SaveRequestHandler extends MicronautRequestHandler<String, 
 
     @Override
     public Iterable<${Output}> execute(String input) {
-        return ${Input.toLowerCase()}Service.findAll();
+        return ${Input.toLowerCase()}Service.findAll()${block};
     }
 
 }

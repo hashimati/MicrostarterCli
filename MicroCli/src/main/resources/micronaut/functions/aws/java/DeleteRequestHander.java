@@ -14,7 +14,7 @@ public class ${Input}SaveRequestHandler extends MicronautRequestHandler<${Input}
 
     @Override
     public Boolean execute(${Input} input) {
-        return ${Input.toLowerCase()}Service.deleteById(input);
+        return ${Input.toLowerCase()}Service.deleteById(input)${block};
     }
 
 }
