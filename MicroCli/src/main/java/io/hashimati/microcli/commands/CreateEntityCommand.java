@@ -436,6 +436,83 @@ public class CreateEntityCommand implements Callable<Integer> {
                 else if(MicronautProjectValidator.isFunction())
                 {
                     //todo create RequestHandler for lambda
+                    ProjectInfo projectInfo = configurationInfo.getProjectInfo();
+                    // generate Lambda functions
+
+                    String save, update, delete, find, findall;
+                    if(projectInfo.getApplicationType().contains("aws-lambda")){
+                        save =micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_SAVE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+                                extension, save);
+                        delete=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_DELETE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+                                extension, delete);
+                        find= micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_FIND_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+                                extension, find);
+                        findall=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_FINDALL_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+                                extension, findall);
+                        update=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_UPDATE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+                                extension, update);
+                    }
+
+                    // generate Oracle functions
+                    if(projectInfo.getApplicationType().contains("oracle-function")){
+                        save = micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_SAVE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+                                extension, save);
+                        delete=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_DELETE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+                                extension, delete);
+                        find=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_FIND_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+                                extension, find);
+                        findall=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_FINDALL_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+                                extension, findall);
+                        update=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_UPDATE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+                                extension, update);
+                    }
+
+                    // generate Azure functions
+                    if(projectInfo.getApplicationType().contains("azure-function")){
+                        save =  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_SAVE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+                                extension, save);
+                        delete=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_DELETE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+                                extension, delete);
+                        find=   micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_FIND_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+                                extension, find);
+                        findall=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_FINDALL_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+                                extension, findall);
+                        update=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_UPDATE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+                                extension, update);
+                    }
+                    // generate Goolge functions
+                    if(projectInfo.getApplicationType().contains("google-cloud-function")){
+                        save =  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_SAVE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+                                extension, save);
+                        delete=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_DELETE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+                                extension, delete);
+                        find= micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_FIND_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+                                extension, find);
+                        findall=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_FINDALL_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+                                extension, findall);
+                        update=   micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_UPDATE_REQUEST);
+                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+                                extension, update);
+                    }
                 }
 
 
