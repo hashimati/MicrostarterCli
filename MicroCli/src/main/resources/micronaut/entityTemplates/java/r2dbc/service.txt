@@ -75,5 +75,5 @@ public class ${className}Service {
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(${entityName}Repository.update(${entityName}));
 
     }
-
+${methods}
 }

@@ -24,6 +24,8 @@ public class EntityAttribute {
     private boolean jdbc;
     private boolean jpa;
 
+    private boolean findByMethod;
+    private boolean findAllMethod;
     private String backendDataRun;
 
     private EntityConstraints constraints;
@@ -278,5 +280,21 @@ public class EntityAttribute {
 
     public void setEnumuration(boolean enumuration) {
         this.enumuration = enumuration;
+    }
+
+    public boolean isFindByMethod() {
+        return findByMethod;
+    }
+
+    public void setFindByMethod(boolean findByMethod) {
+        this.findByMethod = findByMethod;
+    }
+
+    public boolean isFindAllMethod() {
+        return findAllMethod;
+    }
+
+    public void setFindAllMethod(boolean findAllMethod) {
+        this.findAllMethod = findAllMethod;
     }
 }

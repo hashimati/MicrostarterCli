@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 <% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
 <% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
-<% if(openApi) out.print "@Schema(name="${className}", description="${className} Description")" %>
+<% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
 @Data
 @ToString
 @NoArgsConstructor

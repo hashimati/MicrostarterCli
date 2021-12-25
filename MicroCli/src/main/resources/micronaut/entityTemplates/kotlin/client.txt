@@ -26,5 +26,7 @@ interface ${classNameA}Client {
 
     @Put("/update")
     fun update(@Body ${entityName}: ${className}):${className}
+
+${methods}
 }
 

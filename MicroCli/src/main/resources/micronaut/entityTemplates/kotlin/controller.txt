@@ -93,7 +93,12 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
         return ${entityName}Service.update(${entityName})
 
     }
+
+${methods}
+
     companion object {
             val log :Logger = LoggerFactory.getLogger(${className}Controller::class.java)
     }
+
+
  }

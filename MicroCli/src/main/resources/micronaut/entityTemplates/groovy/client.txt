@@ -28,6 +28,6 @@ interface ${classNameA}Client {
 
     @Put("/update")
     ${className} update(@Body ${className} ${entityName})
-
+${methods}
 }
 

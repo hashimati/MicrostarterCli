@@ -27,5 +27,6 @@ interface ${classNameA}Client {
 
     @Put("/update")
     fun update(@Body ${entityName}: ${className}):Mono<${className}>
+${methods}
 }
 

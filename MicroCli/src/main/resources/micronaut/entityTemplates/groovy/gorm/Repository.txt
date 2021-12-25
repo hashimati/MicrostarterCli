@@ -13,4 +13,5 @@ interface ${entityClass}Repository {
     List<${entityClass}> list()
     Long count()
     void delete(Serializable id)
+${methods}
 }

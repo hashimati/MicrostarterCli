@@ -25,5 +25,7 @@ public interface ${classNameA}Client {
 
     @Put("/update")
     public ${className} update(@Body ${className} ${entityName});
+
+${methods}
 }
 

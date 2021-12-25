@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
+
 @Singleton
 public class TemplatesService {
 
@@ -66,6 +68,21 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+            FIND_BY_DATA_REPO= "FIND_BY_DATA_REPO",
+            FIND_BY_R2DBC_REPO = "FIND_BY_R2DBC_REPO",
+            FIND_BY_MONGODB_REPO = "FIND_BY_MONGODB_REPO",
+            FIND_BY_SERVICE ="FIND_BY_SERVICE",
+            FIND_BY_CONTROLLER = "FIND_BY_CONTROLLER",
+            FIND_BY_CLIENT ="FIND_BY_CLIENT",
+            FIND_BY_GRAPHQL = "FIND_BY_GRAPHQL",
+            FIND_ALL_BY_DATA_REPO= "FIND_ALL_BY_DATA_REPO",
+            FIND_ALL_BY_R2DBC_REPO = "FIND_ALL_BY_R2DBC_REPO",
+            FIND_ALL_BY_MONGODB_REPO = "FIND_ALL_BY_MONGODB_REPO",
+            FIND_All_BY_SERVICE ="FIND_All_BY_SERVICE",
+            FIND_All_BY_CONTROLLER = "FIND_All_BY_CONTROLLER",
+            FIND_All_BY_CLIENT ="FIND_All_BY_CLIENT",
+            FIND_All_BY_GRAPHQL = "FIND_All_BY_GRAPHQL",
+
             LAMBDA_FUNCTION_SAVE_REQUEST = "lambda_save_request",
             LAMBDA_FUNCTION_UPDATE_REQUEST = "lambda_update_request",
             LAMBDA_FUNCTION_DELETE_REQUEST = "lambda_delete_request",
@@ -336,6 +353,23 @@ public class TemplatesService {
         javaTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/java/DeleteRequestHander.java");
         javaTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/java/FindByIdRequestHander.java");
         javaTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/java/UpdateRequestHander.java");
+        javaTemplates.put(FIND_BY_DATA_REPO,"micronaut/entityTemplates/java/methods/Repository/FindBy/data.txt");
+        javaTemplates.put(FIND_BY_MONGODB_REPO, "micronaut/entityTemplates/java/methods/Repository/FindBy/mongodb.txt");
+        javaTemplates.put(FIND_BY_R2DBC_REPO, "micronaut/entityTemplates/java/methods/Repository/FindBy/r2dbc");
+        javaTemplates.put(FIND_ALL_BY_DATA_REPO,"micronaut/entityTemplates/java/methods/Repository/FindAllBy/data.txt");
+        javaTemplates.put(FIND_ALL_BY_MONGODB_REPO, "micronaut/entityTemplates/java/methods/Repository/FindAllBy/mongodb.txt");
+        javaTemplates.put(FIND_ALL_BY_R2DBC_REPO, "micronaut/entityTemplates/java/methods/Repository/FindAllBy/r2dbc");
+        javaTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/java/methods/Service/FindBy.txt");
+        javaTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/java/methods/Service/FindBy.txt");
+        javaTemplates.put(FIND_All_BY_SERVICE, "micronaut/entityTemplates/java/methods/Service/FindAllBy.txt");
+        javaTemplates.put(FIND_BY_CONTROLLER, "micronaut/entityTemplates/java/methods/Controllers/FindBy.txt");
+        javaTemplates.put(FIND_All_BY_CONTROLLER, "micronaut/entityTemplates/java/methods/Controllers/FindAllBy.txt");
+        javaTemplates.put(FIND_BY_GRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/FindBy.txt");
+        javaTemplates.put(FIND_All_BY_GRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/FindAllBy.txt");
+        javaTemplates.put(FIND_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/FindBy.txt");
+        javaTemplates.put(FIND_All_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/FindAllBy.txt");
+
+
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -599,6 +633,8 @@ public class TemplatesService {
        });
     }
 
+
+
     public String loadTemplateContent(String path){
         ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
        StringBuilder template = new StringBuilder();
@@ -617,6 +653,20 @@ public class TemplatesService {
         }
 
         return template.toString();
+    }
+
+    public String getKeyByLanguage(String lang, String key)
+    {
+        switch (lang)
+        {
+            case JAVA_LANG:
+                return javaTemplates.get(key);
+            case GROOVY_LANG:
+                return groovyTemplates.get(key);
+            case KOTLIN_LANG:
+                return kotlinTemplates.get(key);
+        }
+        return "";
     }
     @Deprecated
     public void auxLoadTemplates(List<String> fileNames, HashMap<String, String> templates, String root)

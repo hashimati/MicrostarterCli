@@ -6,8 +6,7 @@ import com.mongodb.reactivestreams.client.MongoCollection;
 import ${entityPackage}.${entityClass};
 <% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
-import org.bson.BsonDocument;
-import org.bson.BsonString;
+import org.bson.*;
 import ${projectPackage}.config.MongodbConfiguration;
 
 import org.slf4j.Logger;
@@ -93,4 +92,5 @@ public class ${entityClass}Repository {
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().findOneAndReplace(document,object ));
 
      }
+${methods}
 }

@@ -9,5 +9,5 @@ import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
 
 @R2dbcRepository(dialect = Dialect.${dialect})
 public interface ${className}Repository extends ReactiveStreamsCrudRepository<${className}, Long> {
-    ${methods}
+${methods}
 }

@@ -9,5 +9,5 @@ import java.util.*;
 
 @Repository
 public interface ${className}Repository extends CrudRepository<${className}, Long> {
-    ${methods}
+${methods}
 }

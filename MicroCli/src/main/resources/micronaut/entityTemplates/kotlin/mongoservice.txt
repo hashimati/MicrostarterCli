@@ -48,6 +48,8 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
         return ${entityName}Repository.update(object)
     }
 
+${methods}
+
   companion object {
         val log :Logger = LoggerFactory.getLogger(${className}Service::class.java)
     }

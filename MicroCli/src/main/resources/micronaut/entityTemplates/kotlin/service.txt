@@ -61,7 +61,7 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
 
     }
 
-
+${methods}
       companion object {
             val log :Logger = LoggerFactory.getLogger(${className}Service::class.java)
         }

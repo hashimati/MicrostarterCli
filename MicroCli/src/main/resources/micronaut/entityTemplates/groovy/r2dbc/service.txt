@@ -64,4 +64,5 @@ class ${className}Service {
         return ${entityName}Repository.update(${entityName})
 
     }
+${methods}
 }

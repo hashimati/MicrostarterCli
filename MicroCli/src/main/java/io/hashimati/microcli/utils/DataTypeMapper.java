@@ -115,4 +115,19 @@ public class DataTypeMapper
         put("string", "String");
         put("date", "String");
     }};
+
+
+    public final static HashMap<String ,String> bsonMapper = new HashMap<String, String>(){{
+
+        putIfAbsent("int", "BsonInt64");
+        put("byte", "BsonInt64");
+        put("long", "BsonInt64");
+        put("short", "BsonInt64");
+        put("boolean", "BsonBoolean");
+        put("char", "BsonString");
+        put("float", "BsonDouble");
+        put("double", "BsonDouble");
+        put("string", "BsonString");
+        put("date", "BsonTimestamp");
+    }};
 }

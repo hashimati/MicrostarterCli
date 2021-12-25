@@ -43,5 +43,5 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
     boolean delete${className}(long id){
       return ${entityName}Service.deleteById(id);
     }
-
+${methods}
 }

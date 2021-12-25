@@ -119,6 +119,6 @@ public class ${className}Controller {
 
     }
 
-
+${methods}
 }
 

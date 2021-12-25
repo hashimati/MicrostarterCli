@@ -43,4 +43,6 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
       return ${entityName}Service.deleteById(id);
     }
 
+${methods}
+
 }

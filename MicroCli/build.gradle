@@ -101,6 +101,8 @@ dependencies {
     implementation group: 'io.leego', name: 'banana', version: '2.1.0'
     implementation 'com.querydsl:querydsl-apt:5.0.0'
     implementation 'com.querydsl:querydsl-collections:5.0.0'
+
+    implementation 'io.vavr:vavr:1.0.0-alpha-4'
 }
 
 test.classpath += configurations.developmentOnly

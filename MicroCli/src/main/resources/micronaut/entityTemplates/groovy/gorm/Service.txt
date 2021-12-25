@@ -70,4 +70,6 @@ class ${className}Service {
         ${updates}
         return obj.save(flush:true);
     }
+
+${methods}
 }

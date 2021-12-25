@@ -38,4 +38,5 @@ class ${className}QueryResolver(private val ${entityName}Repository :${className
     fun delete${className}(id: Long) : Boolean{
       return ${entityName}Service.deleteById(id);
     }
+${methods}
 }

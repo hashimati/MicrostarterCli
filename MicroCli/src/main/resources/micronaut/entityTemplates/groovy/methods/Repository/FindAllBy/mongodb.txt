@@ -1,0 +1,5 @@
+    public <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAll(${type} input)
+    {
+        log.info("Finding All ${entityClass} ")
+        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find())
+    }

@@ -58,4 +58,6 @@ class ${className}Service {
     	    log.info("Updating ${className}: {}", ${entityName})
     	    return ${entityName}Repository.update(${entityName})
     }
+
+${methods}
 }

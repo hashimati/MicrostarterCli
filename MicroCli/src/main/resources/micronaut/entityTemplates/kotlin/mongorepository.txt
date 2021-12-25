@@ -91,6 +91,8 @@ class ${entityClass}Repository(private val mongoClient:MongoClient, private val 
 
     }
 
+${methods}
+
       companion object {
             val log :Logger = LoggerFactory.getLogger(${entityClass}Repository::class.java)
         }

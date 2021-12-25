@@ -43,5 +43,6 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
     boolean delete${className}(${idType} id){
       return ${entityName}Service.deleteById(id).<% print reactor? "block" : "blockingGet" %>();
     }
+${methods}
 
 }

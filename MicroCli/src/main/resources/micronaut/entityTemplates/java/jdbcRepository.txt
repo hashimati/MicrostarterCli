@@ -11,5 +11,5 @@ import io.micronaut.data.repository.CrudRepository;
 @Repository
 @JdbcRepository(dialect = Dialect.${dialect})
 public interface ${className}Repository extends CrudRepository<${className}, Long> {
-    ${methods}
+${methods}
 }

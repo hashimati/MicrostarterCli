@@ -28,5 +28,6 @@ interface ${classNameA}Client {
 
     @Put("/update")
     fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}>
+${methods}
 }
 

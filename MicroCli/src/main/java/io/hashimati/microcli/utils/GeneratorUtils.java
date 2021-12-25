@@ -328,4 +328,10 @@ public class GeneratorUtils
 
         }
     }
+
+
+    public static String appendCodeToScope(String orginalCode, String code){
+
+        return new StringBuilder().append(orginalCode.substring(0, orginalCode.lastIndexOf("}"))).append(code).append("\n}").toString();
+    }
 }

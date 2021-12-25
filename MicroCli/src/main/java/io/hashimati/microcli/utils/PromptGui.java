@@ -60,6 +60,7 @@ public class PromptGui {
     }
 
 
+
     public static ListResult dataTypePrompt(List<String> enums) throws IOException {
         ConsolePrompt prompt = new ConsolePrompt();
         PromptBuilder promptBuilder = prompt.getPromptBuilder();
@@ -89,7 +90,8 @@ public class PromptGui {
 
     }
 
-    
+
+
     
     
     public static ListResult createListPrompt(String name, String message,  String... enums) throws IOException {

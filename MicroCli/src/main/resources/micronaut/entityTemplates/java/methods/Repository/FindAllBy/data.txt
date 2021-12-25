@@ -1,0 +1,1 @@
+    public Iterable<$Entity> findBy${Attribute}(${type} ${attr});
