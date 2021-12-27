@@ -1,6 +1,7 @@
 package io.hashimati.microcli.services;
 
 import com.google.googlejavaformat.java.FormatterException;
+import com.querydsl.codegen.NamingFunction;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.constants.ProjectConstants;
@@ -462,7 +463,7 @@ public class MicronautEntityGenerator
         {
             HashMap<String, Object> attributeBinder = new HashMap<>(){{
                 put("Entity", entity.getName());
-                put("Attribute", ea.getName());
+                put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("type",DataTypeMapper.wrapperMapper.get(ea.getType().toLowerCase()));
                 put("attr", NameUtils.camelCase(ea.getName()));
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
@@ -785,7 +786,7 @@ public class MicronautEntityGenerator
                 put("tableName", entity.getCollectionName());
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 put("micrometer", entity.isMicrometer());
-                put("Attribute", ea.getName());
+                put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
 
             }};
@@ -908,7 +909,8 @@ public class MicronautEntityGenerator
 
 
             HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
-                put("servicePackage", entity.getServicePackage());
+                put("controllerPackage", entity.getRestPackage());
+                put("servicePackage", entity.getRestPackage());
                 put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
                 put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
                 put("entityName", entity.getName().toLowerCase());
@@ -918,7 +920,7 @@ public class MicronautEntityGenerator
                 put("tableName", entity.getCollectionName());
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 put("micrometer", entity.isMicrometer());
-                put("Attribute", ea.getName());
+                put("Attribute", NameUtils.camelCase( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
 
             }};
@@ -943,7 +945,7 @@ public class MicronautEntityGenerator
         binder.put("entities", entity.getName().toLowerCase());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("jaeger", entity.isTracingEnabled());
-        binder.put("methods", "");
+        binder.put("methods", methods);
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         String serviceTemplate ;

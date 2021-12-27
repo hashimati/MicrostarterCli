@@ -26,6 +26,7 @@ import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
+import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -299,9 +300,10 @@ public class CreateEntityCommand implements Callable<Integer> {
                         if(Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId()))
                         {
 
-                            var method = PromptGui.createChoiceResult("methods", "Implement the following:", "findAllBy"+entityAttribute.getName(), "findBy"+entityAttribute.getName());
-                            entityAttribute.setFindAllMethod(method.getSelectedIds().contains("findAllBy"+entityAttribute.getName()));
-                            entityAttribute.setFindByMethod(method.getSelectedIds().contains("findBy"+entityAttribute.getName()));
+                            String n = NameUtils.capitalize(entityAttribute.getName()); 
+                            var method = PromptGui.createChoiceResult("methods", "Implement the following:", "findAllBy"+n, "findBy"+n);
+                            entityAttribute.setFindAllMethod(method.getSelectedIds().contains("findAllBy"+n));
+                            entityAttribute.setFindByMethod(method.getSelectedIds().contains("findBy"+n));
 
                     }
 

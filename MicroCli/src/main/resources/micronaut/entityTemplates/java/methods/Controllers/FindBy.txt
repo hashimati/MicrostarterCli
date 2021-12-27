@@ -9,7 +9,6 @@
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     public ${returnType} findBy${Attribute}(${attributeType} input){
           log.info("Finding ${className} By ${Attribute}: {}", input);
           return ${entityName}Service.findBy${Attribute}(input);
