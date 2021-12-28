@@ -1098,7 +1098,7 @@ public class MicronautEntityGenerator
 
 
 
-        //Todo implement methods. 
+        //Todo implement methods.
 
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );

@@ -1,1 +1,1 @@
-    public Flux<$Entity> findALLBy${Attribute}(${type} ${attr})
+    public Flux<$Entity> findAllBy${Attribute}(${type} ${attr})
