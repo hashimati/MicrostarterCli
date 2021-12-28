@@ -4,3 +4,4 @@
           log.info("Finding ${className} By ${Attribute}: {}", input);
           return ${entityName}Repository.findAllBy${Attribute}(input);
     }
+

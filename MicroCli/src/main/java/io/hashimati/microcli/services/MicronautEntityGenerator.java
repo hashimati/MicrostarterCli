@@ -763,14 +763,17 @@ public class MicronautEntityGenerator
 
         String returnType = entity.getName();
         String returnTypeList = "Iterable<"+entity.getName() + ">";
+        String blocking = ".orElse(null)";
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
+            blocking = "";
         }
-        else{
+        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb")){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
+            blocking = "";
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
@@ -790,6 +793,7 @@ public class MicronautEntityGenerator
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
 
             }};
+            sBinder.put("blocking", blocking);
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
             if (ea.isFindAllMethod())
@@ -901,7 +905,7 @@ public class MicronautEntityGenerator
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
         }
-        else{
+        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") ){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
         }
@@ -920,7 +924,7 @@ public class MicronautEntityGenerator
                 put("tableName", entity.getCollectionName());
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 put("micrometer", entity.isMicrometer());
-                put("Attribute", NameUtils.camelCase( ea.getName()));
+                put("Attribute", NameUtils.capitalize( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
 
             }};
@@ -987,13 +991,59 @@ public class MicronautEntityGenerator
 
         if(entity.isGorm() && language.equalsIgnoreCase(GROOVY_LANG))
             return generateClientGorm(entity, language);
+        String methods = "";
+        Tuple2<String, String> findTemplates = getFindTemplates(language,"client");
+
+        String returnType = entity.getName();
+        String returnTypeList = "Iterable<"+entity.getName() + ">";
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        {
+            returnType = "Mono<"+ entity.getName() + ">";
+            returnTypeList = "Flux<"+ entity.getName() + ">";
+        }
+        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") ){
+            returnType = "Single<"+ entity.getName() + ">";
+            returnTypeList = "Flowable<"+ entity.getName() + ">";
+        }
+        for(EntityAttribute ea : entity.getAttributes()) {
+
+
+            HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
+                put("controllerPackage", entity.getRestPackage());
+                put("servicePackage", entity.getRestPackage());
+                put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
+                put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
+                put("entityName", entity.getName().toLowerCase());
+                put("className", entity.getName());
+                put("jaeger", entity.isTracingEnabled());
+                put("cached", entity.isCached());
+                put("tableName", entity.getCollectionName());
+                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                put("micrometer", entity.isMicrometer());
+                put("Attribute", NameUtils.capitalize( ea.getName()));
+                put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
+
+            }};
+            sBinder.put("returnType", returnType);
+            sBinder.put("returnTypeList", returnTypeList);
+            if (ea.isFindAllMethod())
+            {
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+            }
+            if(ea.isFindByMethod()){
+
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+            }
+
+        }
+
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("entities", entity.getName().toLowerCase());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-        binder.put("methods", "");
+        binder.put("methods", methods);
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
@@ -1047,6 +1097,8 @@ public class MicronautEntityGenerator
     public String generateGraphQLResolver(Entity entity, String language) throws IOException, ClassNotFoundException {
 
 
+
+        //Todo implement methods. 
 
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );

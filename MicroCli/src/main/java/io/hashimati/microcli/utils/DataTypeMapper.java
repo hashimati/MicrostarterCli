@@ -20,6 +20,7 @@ public class DataTypeMapper
         put("double", "Double");
         put("string", "String");
         put("date", "Date");
+        put("String", "String");
     }};
 
     public final static HashMap<String ,String> mysqlMapper = new HashMap<String, String>(){{

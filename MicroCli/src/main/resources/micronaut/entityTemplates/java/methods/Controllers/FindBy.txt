@@ -13,3 +13,5 @@
           log.info("Finding ${className} By ${Attribute}: {}", input);
           return ${entityName}Service.findBy${Attribute}(input);
     }
+
+
