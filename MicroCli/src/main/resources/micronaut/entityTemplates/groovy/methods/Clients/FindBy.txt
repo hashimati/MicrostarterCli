@@ -1,3 +1,3 @@
 
     @Get("/findAllBy${Attribute}")
-    public ${returnType} findBy${Attribute}(${attributeType} input)
+    ${returnType} findBy${Attribute}(${attributeType} input)

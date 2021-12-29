@@ -1,1 +1,1 @@
-    public Optional<${Entity}> findBy${Attribute}(${type} ${attr})
+    Optional<${Entity}> findBy${Attribute}(${type} ${attr})

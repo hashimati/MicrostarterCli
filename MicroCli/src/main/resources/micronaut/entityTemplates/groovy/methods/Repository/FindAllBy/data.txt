@@ -1,1 +1,1 @@
-    public Iterable<$Entity> findAllBy${Attribute}(${type} ${attr})
+    Iterable<$Entity> findAllBy${Attribute}(${type} ${attr})

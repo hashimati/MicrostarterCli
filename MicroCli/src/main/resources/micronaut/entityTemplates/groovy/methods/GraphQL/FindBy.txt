@@ -1,5 +1,6 @@
+
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save.findById'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by '+Attribute+'")' %>
-    public ${returnType} findBy${Attribute}(${attributeType} input){
+    ${returnType} findBy${Attribute}(${attributeType} input){
           log.info("Finding ${className} By ${Attribute}: {}", input)
           return ${entityName}Service.findBy${Attribute}(input)
     }
