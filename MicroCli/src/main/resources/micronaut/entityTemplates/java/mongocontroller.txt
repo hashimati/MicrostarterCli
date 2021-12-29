@@ -111,4 +111,6 @@ public class ${className}Controller {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName});
     }
+
+${methods}
 }

@@ -2,6 +2,6 @@
     {
         log.info("Finding All ${entityClass} ")
         BsonDocument document = new BsonDocument()
-        document.append("${attr}", new ${bsonType}(${attr}))
-        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find())
+        document.append("${attr}", new ${bsonType}(input))
+        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find(document))
     }

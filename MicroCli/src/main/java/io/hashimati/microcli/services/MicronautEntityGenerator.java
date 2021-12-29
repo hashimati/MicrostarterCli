@@ -468,7 +468,7 @@ public class MicronautEntityGenerator
                 put("attr", NameUtils.camelCase(ea.getName()));
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 put("entityClass", entity.getName());
-                put("bsonType", DataTypeMapper.bsonMapper.get(ea.getType()));
+                put("bsonType", DataTypeMapper.bsonMapper.get(ea.getType().toLowerCase()));
             }};
             if(ea.isFindByMethod())
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV1()).make(attributeBinder).toString()).toString();
