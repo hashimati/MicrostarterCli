@@ -1,6 +1,6 @@
     <% print reactor? "Mono" : "Single" %><${entityClass}> findBy${Attribute}(final ${type} ${attr}){
-            log.info("Finding ${entityClass} by Id : {}", ${attr})
-        final BsonDocument document = new BsonDocument()
+        log.info("Finding ${entityClass} by Id : {}", ${attr})
+        BsonDocument document = new BsonDocument()
         document.append("${attr}", new ${bsonType}(${attr}))
         return findAs<% print reactor? "Mono" : "Single" %>(document)
     }

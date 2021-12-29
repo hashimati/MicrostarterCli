@@ -1,0 +1,1 @@
+    fun findAllBy${Attribute}(${attr} : ${type}) : Iterable<$Entity>

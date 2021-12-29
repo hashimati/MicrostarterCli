@@ -1,0 +1,7 @@
+    fun findAllBy${Attribute}(input : ${type}) : <% print reactor? "Flux" : "Flowable" %><${entityClass}>
+    {
+        log.info("Finding All ${entityClass} by ${Attribute}")
+        var document: BsonDocument = BsonDocument()
+        document.append("${attr}",${bsonType}(${attr}))
+        return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find())
+    }

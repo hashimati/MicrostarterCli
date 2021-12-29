@@ -1,0 +1,3 @@
+
+    @Get("/findAllBy${Attribute}")
+    fun findBy${Attribute}(input : ${attributeType}) : ${returnType}
