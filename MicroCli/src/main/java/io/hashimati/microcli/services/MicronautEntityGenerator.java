@@ -1100,6 +1100,57 @@ public class MicronautEntityGenerator
 
         //Todo implement methods.
 
+
+        String methods = "";
+        Tuple2<String, String> findTemplates = getFindTemplates(language,"graphql");
+
+        String returnType = entity.getName();
+        String returnTypeList = "Iterable<"+entity.getName() + ">";
+        String blockSingle = "";
+        String blockIter = "";
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        {
+            blockSingle = ".block()";
+            blockIter = ".toIterable()";
+        }
+        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb")){
+            blockSingle = ".getBlocking()";
+            blockIter = ".blockingIterable()";
+        }
+        for(EntityAttribute ea : entity.getAttributes()) {
+
+
+            HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
+                put("servicePackage", entity.getServicePackage());
+                put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
+                put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
+                put("entityName", entity.getName().toLowerCase());
+                put("className", entity.getName());
+                put("pack", entity.getGraphqlpackage());
+                put("cached", entity.isCached());
+                put("tableName", entity.getCollectionName());
+                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                put("micrometer", entity.isMicrometer());
+                put("Attribute", NameUtils.capitalize(ea.getName()));
+                put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
+
+
+            }};
+            sBinder.put("blockSingle", blockSingle);
+            sBinder.put("blockIter", blockIter);
+            sBinder.put("returnType", returnType);
+            sBinder.put("returnTypeList", returnTypeList);
+            if (ea.isFindAllMethod())
+            {
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+            }
+            if(ea.isFindByMethod()){
+
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+            }
+
+        }
+
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );
         binder.put("entityName", entity.getName().toLowerCase());
@@ -1108,7 +1159,7 @@ public class MicronautEntityGenerator
         binder.put("servicePackage", entity.getServicePackage());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer()) ;
-        binder.put("methods", "");
+        binder.put("methods", methods);
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
 
@@ -1373,14 +1424,50 @@ public class MicronautEntityGenerator
         String methods = gqEntities.stream().map(x->{
 
             HashMap<String, String> map = new HashMap<>();
+            String findAllTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(FIND_All_BY_GRAPHQL));
+            String findByTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(FIND_BY_GRAPHQL));
+            String findOne = "", findAll = "";
+            for(EntityAttribute ea : x.getAttributes())
+            {
+               // String findMethods ="";
+                HashMap<String, Object> sBinder = new HashMap<>();
+
+                sBinder.put("className", x.getName());
+                sBinder.put("Attribute", NameUtils.capitalize(ea.getName()));
+                sBinder.put("Type", DataTypeMapper.graphqlMapper.get(ea.getType().toLowerCase()));
+
+
+                if(ea.isFindByMethod())
+                {
+                    try {
+                        findOne += new SimpleTemplateEngine().createTemplate(findByTemplate).make(sBinder).toString();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(ea.isFindAllMethod())
+                {
+                    try {
+                        findAll += new SimpleTemplateEngine().createTemplate(findAllTemplate).make(sBinder).toString();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             map.put("className", x.getName());
             if(x.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
                 map.put("idType", "String");
             else
                 map.put("idType", "Int");
+
             try {
                 return new SimpleTemplateEngine()
-                        .createTemplate(methodTemplate).make(map).toString();
+                        .createTemplate(methodTemplate).make(map).toString() + findOne + findAll;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
                 return "";

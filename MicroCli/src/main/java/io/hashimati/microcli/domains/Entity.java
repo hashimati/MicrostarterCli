@@ -119,9 +119,28 @@ public class Entity
                 ", repoPackage='" + repoPackage + '\'' +
                 ", servicePackage='" + servicePackage + '\'' +
                 ", restPackage='" + restPackage + '\'' +
+                ", clientPackage='" + clientPackage + '\'' +
+                ", exceptionPackage='" + exceptionPackage + '\'' +
+                ", exceptionHandlerPackage='" + exceptionHandlerPackage + '\'' +
+                ", graphqlpackage='" + graphqlpackage + '\'' +
+                ", functionPackage='" + functionPackage + '\'' +
+                ", lambdaPackage='" + lambdaPackage + '\'' +
+                ", oraclePackage='" + oraclePackage + '\'' +
+                ", azurePackage='" + azurePackage + '\'' +
+                ", googlePackage='" + googlePackage + '\'' +
+                ", reactiveFramework='" + reactiveFramework + '\'' +
                 ", databaseType='" + databaseType + '\'' +
                 ", collectionName='" + collectionName + '\'' +
+                ", databaseName='" + databaseName + '\'' +
+                ", gorm=" + gorm +
+                ", dialect='" + dialect + '\'' +
+                ", frameworkType='" + frameworkType + '\'' +
                 ", attributes=" + attributes +
+                ", liquibaseSequence=" + liquibaseSequence +
+                ", isGraphQl=" + isGraphQl +
+                ", cached=" + cached +
+                ", micrometer=" + micrometer +
+                ", tracingEnabled=" + tracingEnabled +
                 '}';
     }
 

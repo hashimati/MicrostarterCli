@@ -567,7 +567,8 @@ public class TemplatesService {
         graphqlTemplates.put(GRAPHQL_MUTATION, "micronaut/entityTemplates/graphql/mutation.txt");
         graphqlTemplates.put(GRAPHQL_QUERY, "micronaut/entityTemplates/graphql/query.txt");
         graphqlTemplates.put(GRAPHQL_QUERY_METHOD, "micronaut/entityTemplates/graphql/queryMethods.txt");
-
+        graphqlTemplates.put(FIND_BY_GRAPHQL, "micronaut/entityTemplates/graphql/findBy.txt");
+        graphqlTemplates.put(FIND_All_BY_GRAPHQL, "micronaut/entityTemplates/graphql/findAllBy.txt");
 
         liquibaseTemplates.put(LIQUIBASE_FOREIGNKEY,"micronaut/entityTemplates/sql/liquibase/foreignKey_template.xml");
         liquibaseTemplates.put(LIQUIBASE_CATALOG,"micronaut/entityTemplates/sql/liquibase/catalog_template.xml");

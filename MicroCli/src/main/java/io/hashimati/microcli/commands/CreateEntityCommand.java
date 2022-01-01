@@ -400,10 +400,11 @@ public class CreateEntityCommand implements Callable<Integer> {
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
                     GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
-
+                    configurationInfo.getEntities().add(entity);
 
                     if (graphql) {
                         entity.setGraphQl(true);
+
                         String factoyFileContent = micronautEntityGenerator.generateGraphQLFactory(configurationInfo.getEntities(), lang);
 
                         String factoryPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GRAPHQL_PATH, new HashMap<String, String>() {{
@@ -593,7 +594,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                     }
                 }
             }
-            configurationInfo.getEntities().add(entity);
+
 //            configurationInfo.getEntities().add(entity);
             configurationInfo.writeToFile();
 

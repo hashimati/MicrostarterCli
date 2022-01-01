@@ -1,6 +1,5 @@
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects by '+Attribute+'")' %>
-    public ${returnTypeList} findAllBy${Attribute}(${attributeType} input){
-          log.info("Finding all ${className} By ${Attribute}: {}", input);
-          return ${entityName}Service.findAllBy${Attribute}(input);
+    public ${returnTypeList} findAll${className}By${Attribute}(${attributeType} input){
+          return ${entityName}Service.findAllBy${Attribute}(input)${blockIter};
     }

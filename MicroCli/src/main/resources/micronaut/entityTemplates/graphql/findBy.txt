@@ -1,0 +1,2 @@
+
+    find${className}By${Attribute}(input:${Type}):${className}!
