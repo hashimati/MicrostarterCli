@@ -9,9 +9,9 @@
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${returnType} findBy${Attribute}(${attributeType} input){
-          log.info("Finding ${className} By ${Attribute}: {}", input)
-          return ${entityName}Service.findBy${Attribute}(input)
+    ${returnType} findBy${Attribute}(${attributeType} query){
+          log.info("Finding ${className} By ${Attribute}: {}", query)
+          return ${entityName}Service.findBy${Attribute}(query)
     }
 
 

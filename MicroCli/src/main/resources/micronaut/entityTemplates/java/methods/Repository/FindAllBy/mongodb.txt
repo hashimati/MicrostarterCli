@@ -1,7 +1,7 @@
-    public <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAllBy${Attribute}(${type} input)
+    public <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAllBy${Attribute}(${type} query)
     {
         log.info("Finding All ${entityClass} ");
         final BsonDocument document = new BsonDocument();
-        document.append("${attr}", new ${bsonType}(input));
+        document.append("${attr}", new ${bsonType}(query));
         return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find(document));
     }

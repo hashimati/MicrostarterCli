@@ -1,0 +1,16 @@
+    @Get("/findBy${Attribute}")
+    @Operation(summary = "Getting a ${entityName} by Id",
+        description = "A REST service, which retrieves a ${className} object by ${Attribute}.",
+        operationId = "FindById${className}"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+   ${entityClass} findBy${Attribute}(<% if(jaeger) out.print '@SpanTag("findById.'+Attribute+'")'%> @Parameter("${Attribute}") ${type} query)
+    {
+        log.info("Finding ${className} By ${Attribute}: {}", query);
+
+        return ${entityName}Service.findBy${Attribute}(query)
+    }
