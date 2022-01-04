@@ -124,7 +124,7 @@ mc entity -e fruit --graphql
 ```shell
 > mc configure
 ```
-The "configure" command prepares a Micronaut application to be used by MicrostarterCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicrostarterCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
+The "configure" command prepares a Micronaut application to be used by MicrostarterCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicrostarterCli application will check if the application type is supported by MicrostarterCli and determines generating Micronaut components flow. 
 
 The "Configure" command adds the necessary features and configurations that are required by other command to the Micronaut Application. When a user runs the command it will ask the user to configure the below: 
 
