@@ -1,5 +1,5 @@
-# MicroCli
-MicroCli is a command-line rapid development tool for Micronaut applications. It helps developers to cut the development time and focus on the application logic by generating Micronaut components and configurations using ready-built templates. This tool is a [Micronaut](https://github.com/micronaut-projects)/[PicoCLI](https://github.com/remkop/picocli) application powered with [ConsoleUI](https://github.com/awegmann/consoleui)
+# MicrostarterCLI
+MicrostarterCli is a command-line rapid development tool for Micronaut applications. It helps developers to cut the development time and focus on the application logic by generating Micronaut components and configurations using ready-built templates. This tool is a [Micronaut](https://github.com/micronaut-projects)/[PicoCLI](https://github.com/remkop/picocli) application powered with [ConsoleUI](https://github.com/awegmann/consoleui)
 
 
 
@@ -40,9 +40,9 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 #### 1. Languages 
 | Language | Notes |
 | :--: | :--: | 
-| java | MicroCli will detected the language from micronaut-cli.yml file | 
-| groovy | MicroCli will detected the language from micronaut-cli.yml file |
-| kotlin | MicroCli will detected the language from micronaut-cli.yml file | 
+| java | MicrostarterCli will detected the language from micronaut-cli.yml file | 
+| groovy | MicrostarterCli will detected the language from micronaut-cli.yml file |
+| kotlin | MicrostarterCli will detected the language from micronaut-cli.yml file | 
 
 #### 2. Database
 | Database | Type | Features | Notes |
@@ -95,7 +95,7 @@ MicroCli is a command-line rapid development tool for Micronaut applications. It
 | Basics | | 
 
 #### 9. Banners. 
-The MicroCli uses [Banana](https://github.com/yihleego/banana) to generate banners. 
+The MicrostarterCli uses [Banana](https://github.com/yihleego/banana) to generate banners. 
 
 ####
 
@@ -104,15 +104,15 @@ The MicroCli uses [Banana](https://github.com/yihleego/banana) to generate banne
 
 As a getting started steps, we will generate an application using The Micronaut Launch. Then, we will generate a Fruit entity, repository, service, REST API, and GraphQL endpoints.
 
-1. Download the MicroCli. 
+1. Download the MicrostarterCli. 
 2. Generate a Micronaut Application using [Micronaut Launch](https://launch.micronaut.io) or [Micronaut CLI](https://micronaut.io/download/). 
-3. Unzip MicroCli in the Micronaut Application or configure it in you environment.  
+3. Unzip MicrostarterCli in the Micronaut Application or configure it in you environment.  
 4. Open the Terminal/Command Prompt. And, navigate to the project's directory. 
 5. Run this command to start generating the Fruit entity
 ```shell
 mc entity -e fruit --graphql
 ```
-6. MicroCli application will launch. 
+6. MicrostarterCli application will launch. 
 7. Select the instructions as in this GIF: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
 
@@ -124,7 +124,7 @@ mc entity -e fruit --graphql
 ```shell
 > mc configure
 ```
-The "configure" command prepares a Micronaut application to be used by MicroCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicroCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
+The "configure" command prepares a Micronaut application to be used by MicrostarterCli's commands. The command should be run once. The first action that "configure" command does is reading "micronaut-cli.yml" file and collects the application's information. Based on the infomration in the "miconaut-cli.yml", MicrostarterCli application will check if the application type is supported by Microcli and determines generating Micronaut components flow. 
 
 The "Configure" command adds the necessary features and configurations that are required by other command to the Micronaut Application. When a user runs the command it will ask the user to configure the below: 
 
@@ -163,7 +163,7 @@ In the other hand, the "configure" does the below configurations by default:
 
 ```
 5. Adding Lombok to the Micornaut-java application if the Micronaut application doesn't contain Lombok. 
-6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file contains the application informations from "micronaut-cli.yml" file and tarcks all the actions that users do using the MicroCli tool.
+6. Creates "MicoCliConfig.json" file. The "MicroCliConfig.json" file contains the application informations from "micronaut-cli.yml" file and tarcks all the actions that users do using the MicrostarterCli tool.
 
 The "configure" command runs implicitly if the user runs [Entity Command](#entity). 
 
@@ -452,7 +452,7 @@ The developers can add relationship between two generated entities. The command 
 <a name="messaging"></a>
 ## Messaging
 
-The developers can use Messaging commands to generated producer/consumer components for the entities generated using "entity" command. MicroCli supports the following messaging systems: 
+The developers can use Messaging commands to generated producer/consumer components for the entities generated using "entity" command. MicrostarterCli supports the following messaging systems: 
 1. Kafka. 
 2. RabbitMQ. 
 3. Nats
@@ -649,7 +649,7 @@ pubsub-client - pubsubClient - PubSubClient
 <a name="security"></a>
 ## Security Command
 
-MicroCli helps to bootstrap the security authentication mechanisim using the "security" command. The MicroCli supports the following Mechanisim: 
+MicrostarterCli helps to bootstrap the security authentication mechanisim using the "security" command. The MicrostarterCli supports the following Mechanisim: 
 1. Basic. 
 2. Session.
 3. JWT. 
