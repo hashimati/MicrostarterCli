@@ -114,6 +114,13 @@ public class CreateEntityCommand implements Callable<Integer> {
 
             }
 
+            if(ProjectConstants.javaKeywords.contains(entityName.toLowerCase())
+            || ProjectConstants.kotlinKeywords.contains(entityName.toLowerCase())
+            || ProjectConstants.groovyKeywords.contains(entityName.toLowerCase()))
+            {
+                PromptGui.printlnErr("Please, avoid to use java, kotlin, or groovy languages keywords!");
+                return 0;
+            }
             Entity entity = new Entity();
 
             entity.setName(StringUtils.capitalize(entityName));
@@ -195,6 +202,13 @@ public class CreateEntityCommand implements Callable<Integer> {
                         PromptGui.printlnErr("The attribute's Name is already exist!");
                         continue attributeLoop; 
                     };
+                    if(ProjectConstants.javaKeywords.contains(entityAttribute.getName().toLowerCase())
+                            || ProjectConstants.kotlinKeywords.contains(entityAttribute.getName().toLowerCase())
+                            || ProjectConstants.groovyKeywords.contains(entityAttribute.getName().toLowerCase()))
+                    {
+                        PromptGui.printlnErr("Please, avoid to use java, kotlin, or groovy languages keywords!");
+                        continue attributeLoop;
+                    }
                     //todo Enter attribute Type:
 
                     ListResult attrTypeResult = PromptGui.dataTypePrompt(configurationInfo.getEnums().stream().map(x->x.getName()).collect(Collectors.toList()));

@@ -453,6 +453,38 @@ public class ProjectConstants {
 
 
 
+
+    public static List<String> javaKeywords = Arrays.asList(
+            "abstract", "assert", "boolean",
+            "break", "byte", "case", "catch", "char", "class", "const",
+            "continue", "default", "do", "double", "else", "extends", "false",
+            "final", "finally", "float", "for", "goto", "if", "implements",
+            "import", "instanceof", "int", "interface", "long", "native",
+            "new", "null", "package", "private", "protected", "public",
+            "return", "short", "static", "strictfp", "super", "switch",
+            "synchronized", "this", "throw", "throws", "transient", "true",
+            "try", "var", "void", "volatile", "while" , "record");
+    public static List<String> groovyKeywords = Arrays.asList("as\tclass\tbreak\tcontinue\tdo\telse\tfor\tfun\tfalse\tif\tin\tinterface\tsuper\treturn\tobject\tpackage\tnull\tis\ttry\tthrow\ttrue\tthis\ttypeof\ttypealias\twhen\twhile\tval\tvar".split("\t"));
+
+    public static List<String> kotlinKeywords = Arrays.asList(("abstract \tas \tassert\n" +
+            "boolean \tbreak \tbyte\n" +
+            "case \tcatch \tchar\n" +
+            "class \tconst \tcontinue\n" +
+            "def \tdefault \tdo\n" +
+            "double \telse \tenum\n" +
+            "extends \tfalse \tfinal\n" +
+            "finally \tfloat \tfor\n" +
+            "goto \tif \timplements\n" +
+            "import \tin \tinstanceof\n" +
+            "int \tinterface \tlong\n" +
+            "native \tnew \tnull\n" +
+            "package \tprivate \tprotected\n" +
+            "public \treturn \tshort\n" +
+            "static \tstrictfp \tsuper\n" +
+            "switch \tsynchronized \tthis\n" +
+            "threadsafe \tthrow \tthrows\n" +
+            "transient \ttrue \ttry\n" +
+            "void \tvolatile \twhile").replace("\n", "\t").replace(" ", "").split("\t"));
 }
 
 
