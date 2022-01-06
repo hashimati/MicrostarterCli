@@ -559,18 +559,20 @@ public class ConfigurationInitializer {
 
             }
         }
-        if(!projectInfo.getFeatures().contains("openrewrite"))
-        {
-            projectInfo.getFeatures().add("openrewrite");
-            Feature openrewrite = features.get("openrewrite");
-            MicronautProjectValidator.addDependency(openrewrite);
-            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
-            {
-                //if(openrewrite.getGradleTask()!= null && !openrewrite.getGradleTask().isBlank())
-                    MicronautProjectValidator.addingTaskToGradleFile(openrewrite.getGradleTask());
-            }
 
-        }
+        //removing rewrite
+//        if(!projectInfo.getFeatures().contains("openrewrite"))
+//        {
+//            projectInfo.getFeatures().add("openrewrite");
+//            Feature openrewrite = features.get("openrewrite");
+//            MicronautProjectValidator.addDependency(openrewrite);
+//            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
+//            {
+//                //if(openrewrite.getGradleTask()!= null && !openrewrite.getGradleTask().isBlank())
+//                    MicronautProjectValidator.addingTaskToGradleFile(openrewrite.getGradleTask());
+//            }
+//
+//        }
 
 
         try {

@@ -870,13 +870,13 @@ public class FeaturesFactory {
 
         features.put("openrewrite", new Feature(){{
             setName("openrewrite");
-            setGradle("    rewrite(\"org.openrewrite.recipe:rewrite-micronaut:1.0.0\")");
+            setGradle("    rewrite(\"org.openrewrite.recipe:rewrite-micronaut:1.3.0\")");
             getMavenProperties().putIfAbsent("openrewrite.maven.plugin.version", "4.9.0");
             getMavenProperties().putIfAbsent("rewrite-micronaut.version", "1.0.0");
             setGradleTask("rewrite {\n" +
                     "    activeRecipe(\"org.openrewrite.java.micronaut.Micronaut2to3Migration\")\n" +
                     "}");
-            getGradlePlugins().add("    id(\"org.openrewrite.rewrite\") version \"5.7.0\"");
+            getGradlePlugins().add("    id(\"org.openrewrite.rewrite\") version \"5.12.0\"");
 
         }});
 
