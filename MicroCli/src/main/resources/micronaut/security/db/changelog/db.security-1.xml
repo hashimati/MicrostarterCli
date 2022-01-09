@@ -65,7 +65,15 @@
             <column name="revoked" type="boolean">
                 <constraints/>
             </column>
-        </createTable> 
+        </createTable>
+        <createTable tableName="Roles">
+            <column name="id" type="bigint">
+                <constraints unique="true" nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(25)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
     </changeSet>
     
 </databaseChangeLog>

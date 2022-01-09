@@ -6,6 +6,7 @@ import io.micronaut.data.r2dbc.annotation.R2dbcRepository;
 import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
 <% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
+${moreImports}
 
 @R2dbcRepository(dialect = Dialect.${dialect})
 public interface ${className}Repository extends ReactiveStreamsCrudRepository<${className}, Long> {

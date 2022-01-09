@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 import ${entityPackage};
 <% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
-
+${moreImports}
 
 @Client("/api/${entities}")
 public interface ${classNameA}Client {

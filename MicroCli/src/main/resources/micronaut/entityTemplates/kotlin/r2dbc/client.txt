@@ -9,6 +9,7 @@ import jakarta.inject.Inject
 import ${entityPackage}
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+${moreImports}
 
 @Client("/api/${entities}")
 interface ${classNameA}Client {

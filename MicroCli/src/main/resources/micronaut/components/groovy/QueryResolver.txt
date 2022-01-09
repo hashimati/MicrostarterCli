@@ -8,7 +8,7 @@ import ${servicePackage}.${className}Service
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-
+${moreImports}
 @Singleton
 class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
 

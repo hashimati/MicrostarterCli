@@ -9,6 +9,7 @@ import ${repoPackage}
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton

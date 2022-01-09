@@ -6,6 +6,7 @@ import io.micronaut.data.model.*
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.repository.CrudRepository
 import java.util.*
+${moreImports}
 
 @Repository
 interface ${className}Repository extends CrudRepository<${className}, Long> {

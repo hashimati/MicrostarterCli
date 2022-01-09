@@ -6,7 +6,7 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.inject.Inject;
 import ${entityPackage};
-
+${moreImports}
 
 @Client("/api/${entities}")
 public interface ${classNameA}Client {

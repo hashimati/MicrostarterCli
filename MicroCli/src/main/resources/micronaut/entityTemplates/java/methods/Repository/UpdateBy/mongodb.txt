@@ -1,0 +1,8 @@
+     public Mono<Long> update${Attribute}(${type} query, ${update} )
+     {
+         log.info("Updating by ${Attribute} : {}", query);
+         BsonDocument document = new BsonDocument();
+         document.append("${attribute}", new ${queryBsonDocument}(query));
+         BsonDocument update = new BsonDocument()${appendUpdates};
+         return Mono.from(getCollection().updateMany(document, update)).map(x->x.getMatchedCount());
+     }

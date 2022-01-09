@@ -8,6 +8,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test;
+${moreImports}
 
 @MicronautTest
 class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient ) {

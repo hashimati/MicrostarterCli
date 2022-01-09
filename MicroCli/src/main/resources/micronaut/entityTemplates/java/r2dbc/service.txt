@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.transaction.Transactional;
 import ${entityPackage};
 import ${repoPackage};
-
+${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton

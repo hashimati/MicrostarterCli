@@ -26,9 +26,12 @@ public class EntityAttribute {
 
     private boolean findByMethod;
     private boolean findAllMethod;
+    private boolean findByUpdate;
+
     private String backendDataRun;
 
     private EntityConstraints constraints;
+
 
     public EntityAttribute()
     {}

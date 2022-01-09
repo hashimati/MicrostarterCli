@@ -7,6 +7,8 @@ import ${repositoryPackage}.${className}Repository;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.*;
 import jakarta.inject.Inject;
+
+
 @MicronautTest
 public class ${className}RepositoryTest {
 

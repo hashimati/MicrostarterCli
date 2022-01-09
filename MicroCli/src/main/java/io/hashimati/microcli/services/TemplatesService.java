@@ -82,6 +82,12 @@ public class TemplatesService {
             FIND_All_BY_CONTROLLER = "FIND_All_BY_CONTROLLER",
             FIND_All_BY_CLIENT ="FIND_All_BY_CLIENT",
             FIND_All_BY_GRAPHQL = "FIND_All_BY_GRAPHQL",
+            UPDATE_BY_DATA_REPO = "UPDATE_BY_DATA_REPO",
+            UPDATE_BY_MONOGO_REPO ="UPDATE_BY_MONOGO_REPO",
+            UPDATE_BY_SERVICE = "UPDATE_BY_SERVICE",
+            UPDATE_BY_CONTROLLER = "UPDATE_BY_CONTROLLER",
+            UPDATE_BY_CLIENT = "UPDATE_BY_CLIENT",
+
 
             LAMBDA_FUNCTION_SAVE_REQUEST = "lambda_save_request",
             LAMBDA_FUNCTION_UPDATE_REQUEST = "lambda_update_request",
@@ -368,8 +374,8 @@ public class TemplatesService {
         javaTemplates.put(FIND_All_BY_GRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/FindAllBy.txt");
         javaTemplates.put(FIND_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/FindBy.txt");
         javaTemplates.put(FIND_All_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/FindAllBy.txt");
-
-
+        javaTemplates.put(UPDATE_BY_DATA_REPO, "micronaut/entityTemplates/java/methods/Repository/UpdateBy/data.txt");
+        javaTemplates.put(UPDATE_BY_MONOGO_REPO, "micronaut/entityTemplates/java/methods/Repository/UpdateBy/mongodb.txt");
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");

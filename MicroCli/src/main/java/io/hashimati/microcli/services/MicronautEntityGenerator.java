@@ -1,8 +1,8 @@
 package io.hashimati.microcli.services;
 
 import com.google.googlejavaformat.java.FormatterException;
-import com.querydsl.codegen.NamingFunction;
 import groovy.lang.Tuple2;
+import groovy.lang.Tuple3;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.*;
@@ -10,13 +10,10 @@ import io.hashimati.microcli.exceptions.NotImplementedException;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
-import io.micronaut.aop.exceptions.UnimplementedAdviceException;
 import io.micronaut.core.naming.NameUtils;
-import io.vavr.Tuple;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -458,7 +455,7 @@ public class MicronautEntityGenerator
 
         String methods = "";
         // Creating extra methods
-        Tuple2<String, String> findMethodTemplates =  getFindMethodTemplates(entity, language);
+        Tuple3<String, String, String> findMethodTemplates =  getFindUpdateDeleteMethodsTemplates(entity, language);
         for(EntityAttribute ea : entity.getAttributes())
         {
             HashMap<String, Object> attributeBinder = new HashMap<>(){{
@@ -469,20 +466,65 @@ public class MicronautEntityGenerator
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 put("entityClass", entity.getName());
                 put("bsonType", DataTypeMapper.bsonMapper.get(ea.getType().toLowerCase()));
+                put("moreImports", "");
             }};
             if(ea.isFindByMethod())
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV1()).make(attributeBinder).toString()).toString();
             if(ea.isFindAllMethod())
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV2()).make(attributeBinder).toString()).toString();
         }
+
         // end creating extra methods.
+        if(!entity.getUpdateByMethods().isEmpty()){
+
+            var update = entity.getUpdateByMethods();
+            for(String u : update.keySet())
+            {
+                EntityAttribute query = entity.getAttributeByName(u);
+                String updates = entity.getUpdateByMethods().get(u).stream()
+                        .map(x->entity.getAttributeByName(x))
+                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+
+                String appendUpdates = "";
+                if(entity.getDatabaseType().equalsIgnoreCase("mongodb"))
+                {
+                    //.append("name", new BsonString(name))
+                    final String template = ".append(\"${attr}\", new ${bson}(${attr}))";
+                    appendUpdates = entity.getUpdateByMethods().get(u).stream()
+                            .map(x->entity.getAttributeByName(x))
+                            .map(x->{
+                                HashMap<String , String> bind = new HashMap<>(){{
+                                    put("attr", x.getName());
+                                    put("bson", DataTypeMapper.bsonMapper.get(x.getType().toLowerCase()));
+
+                                }};
+                                try {
+                                    return new SimpleTemplateEngine().createTemplate(template).make(bind).toString();
+                                } catch (ClassNotFoundException e) {
+                                    return "";
+                                } catch (IOException e) {
+                                    return "";
+                                }
+                            }).reduce((x,y) -> x + y).orElse("");
+                }
+                HashMap<String, String> ubinder = new HashMap<>(){{
+                    put("Attribute", NameUtils.capitalize(u) );
+                    put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
+                    put("updates", updates );
+                    put("attribute", u);
+
+                    put("block", "");
+                }};
+                ubinder. put("appendUpdates", appendUpdates);
+                methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV3()).make(ubinder).toString()).toString();
+            }
+        }
 
 
 
         if(relations != null)
         {
-
-
             String annotationTemplate = templatesService.loadTemplateContent(getTemplatPath(JOIN_ANNOTATION, language));
             String joinMethodsTemplate = templatesService.loadTemplateContent(getTemplatPath(JOIN_METHODS, language));
 
@@ -525,7 +567,7 @@ public class MicronautEntityGenerator
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
-
+                binder.put("moreImports", "");
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
 
@@ -550,7 +592,8 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
-                    repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+                binder.put("moreImports", "");
+                repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                     return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
 
               //  }
@@ -564,6 +607,7 @@ public class MicronautEntityGenerator
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
+                binder.put("moreImports", "");
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
 
 
@@ -578,6 +622,7 @@ public class MicronautEntityGenerator
                 binder.put("methods", methods);
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
+                binder.put("moreImports", "");
                 String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
 
 
@@ -599,6 +644,7 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("methods", methods);
+                binder.put("moreImports", "");
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -616,6 +662,7 @@ public class MicronautEntityGenerator
                 binder.put("collectionName", entity.getCollectionName());
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
+                binder.put("moreImports", "");
                 String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
 
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -625,13 +672,13 @@ public class MicronautEntityGenerator
         return "";
     }
 
-    private Tuple2<String, String> getFindMethodTemplates(Entity entity, String language) {
+    private Tuple3<String, String, String> getFindUpdateDeleteMethodsTemplates(Entity entity, String language) {
 
 
 
         String findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_BY_DATA_REPO));
         String findAlltemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_ALL_BY_DATA_REPO));
-
+        String updateTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_DATA_REPO));
 
         if(entity.getDatabaseType().equalsIgnoreCase("mongodb")){
             findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_BY_MONGODB_REPO));
@@ -651,7 +698,7 @@ public class MicronautEntityGenerator
             }
         }
 
-       return Tuple2.tuple(findtemplate, findAlltemplate);
+       return Tuple3.tuple(findtemplate, findAlltemplate, updateTemplate);
     }
 
     public String generateEntityException(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -750,6 +797,7 @@ public class MicronautEntityGenerator
         binder.put("tableName", entity.getCollectionName()) ;
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer());
+        binder.put("moreImports", "");
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -791,7 +839,7 @@ public class MicronautEntityGenerator
                 put("micrometer", entity.isMicrometer());
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
-
+                put("moreImports", "");
             }};
             sBinder.put("blocking", blocking);
             sBinder.put("returnType", returnType);
@@ -817,7 +865,7 @@ public class MicronautEntityGenerator
         binder.put("tableName", entity.getCollectionName()) ;
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer());
-
+        binder.put("moreImports", "");
         String serviceTemplate = "";
         String templatePath="";
 
@@ -879,7 +927,7 @@ public class MicronautEntityGenerator
         binder.put("methods", "");
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
-
+        binder.put("moreImports", "");
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
         String controllerTemplate = templatesService.loadTemplateContent(templatePath);
@@ -926,7 +974,7 @@ public class MicronautEntityGenerator
                 put("micrometer", entity.isMicrometer());
                 put("Attribute", NameUtils.capitalize( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
-
+                put("moreImports", "");
             }};
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
@@ -951,6 +999,7 @@ public class MicronautEntityGenerator
         binder.put("jaeger", entity.isTracingEnabled());
         binder.put("methods", methods);
         binder.put("className", entity.getName());
+        binder.put("moreImports", "");
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         String serviceTemplate ;
         String templatePath="";
@@ -980,7 +1029,7 @@ public class MicronautEntityGenerator
         binder.put("className",  entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("methods", "");
-
+        binder.put("moreImports", "");
         String templatePath= getTemplatPath(GORM_CLIENT, language.toLowerCase());
         String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
@@ -1022,7 +1071,7 @@ public class MicronautEntityGenerator
                 put("micrometer", entity.isMicrometer());
                 put("Attribute", NameUtils.capitalize( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
-
+                put("moreImports", "");
             }};
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
@@ -1046,6 +1095,7 @@ public class MicronautEntityGenerator
         binder.put("methods", methods);
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
+        binder.put("moreImports", "");
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
 
         if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()))
@@ -1133,7 +1183,7 @@ public class MicronautEntityGenerator
                 put("micrometer", entity.isMicrometer());
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
-
+                put("moreImports", "");
 
             }};
             sBinder.put("blockSingle", blockSingle);
@@ -1354,7 +1404,7 @@ public class MicronautEntityGenerator
         binder.put("className", entity.getName());
         binder.put("entityName", entity.getName().toLowerCase());
         binder.put("afterBeforeMethods", "");
-
+        binder.put("moreImports", "");
         String keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         switch(testFramework.toLowerCase())
         {

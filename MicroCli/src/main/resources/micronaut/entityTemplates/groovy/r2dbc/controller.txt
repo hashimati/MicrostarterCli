@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 <% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
 <% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
+${moreImports}
 
 @Controller("/api/${entities}")
 class ${className}Controller {

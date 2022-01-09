@@ -19,6 +19,7 @@ import ${servicePackage}
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+${moreImports}
 
 @ExecuteOn(TaskExecutors.IO)
 @Controller("/api/${entityName}")

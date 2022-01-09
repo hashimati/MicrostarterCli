@@ -100,24 +100,21 @@ public class CreateEntityCommand implements Callable<Integer> {
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
         ansi().eraseScreen();
-        try
-        {
-           // To get the current configuration and to configure the project if it's not previously configured.
-            configurationInfo=  new ConfigureCommand().call();
-
+        try {
+            // To get the current configuration and to configure the project if it's not previously configured.
+            configurationInfo = new ConfigureCommand().call();
 
 
             // Reading name if the name is entered in the parameters.
-            if(entityName == null) {
+            if (entityName == null) {
 
                 entityName = PromptGui.inputText("entity", "Enter the entity's Name:", "MyEntity").getInput();
 
             }
 
-            if(ProjectConstants.javaKeywords.contains(entityName.toLowerCase())
-            || ProjectConstants.kotlinKeywords.contains(entityName.toLowerCase())
-            || ProjectConstants.groovyKeywords.contains(entityName.toLowerCase()))
-            {
+            if (ProjectConstants.javaKeywords.contains(entityName.toLowerCase())
+                    || ProjectConstants.kotlinKeywords.contains(entityName.toLowerCase())
+                    || ProjectConstants.groovyKeywords.contains(entityName.toLowerCase())) {
                 PromptGui.printlnErr("Please, avoid to use java, kotlin, or groovy languages keywords!");
                 return 0;
             }
@@ -127,29 +124,21 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             // reading collections/table name if the user didn't provide it .
-            if(collectionName == null)
-            {
+            if (collectionName == null) {
                 String defaultValue = "";
-                if(entityName.endsWith("ay") || entityName.endsWith("ey") || entityName.endsWith("iy")|| entityName.endsWith("oy")|| entityName.endsWith("uy")
-            ||entityName.endsWith("ao") || entityName.endsWith("eo") || entityName.endsWith("io")|| entityName.endsWith("oo")|| entityName.endsWith("uo"))
-                {
-                    defaultValue = entityName.toLowerCase()+"s";
-                }
-                else if(entityName.endsWith("y"))
-                {
-                    defaultValue = entityName.toLowerCase().substring(0, entityName.toLowerCase().lastIndexOf("y"))+"ies";
-                }
-                else if(entityName.endsWith("o") || entityName.endsWith("s"))
-                {
-                    defaultValue = entityName.toLowerCase()+"es";
-                }
-                else
-                {
-                    defaultValue = entityName.toLowerCase()+"s";
+                if (entityName.endsWith("ay") || entityName.endsWith("ey") || entityName.endsWith("iy") || entityName.endsWith("oy") || entityName.endsWith("uy")
+                        || entityName.endsWith("ao") || entityName.endsWith("eo") || entityName.endsWith("io") || entityName.endsWith("oo") || entityName.endsWith("uo")) {
+                    defaultValue = entityName.toLowerCase() + "s";
+                } else if (entityName.endsWith("y")) {
+                    defaultValue = entityName.toLowerCase().substring(0, entityName.toLowerCase().lastIndexOf("y")) + "ies";
+                } else if (entityName.endsWith("o") || entityName.endsWith("s")) {
+                    defaultValue = entityName.toLowerCase() + "es";
+                } else {
+                    defaultValue = entityName.toLowerCase() + "s";
 
                 }
 
-                collectionName  = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
+                collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
             }
             entity.setDatabaseName(configurationInfo.getDatabaseName());
             entity.setReactiveFramework(configurationInfo.getReactiveFramework());
@@ -182,36 +171,35 @@ public class CreateEntityCommand implements Callable<Integer> {
              */
 
 
-            attributeLoop: for(;;) {
+            attributeLoop:
+            for (; ; ) {
                 ConfirmResult takeAttributeConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add an attribute?", NO);
 
-                if(takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
-                {
+                if (takeAttributeConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO) {
                     break attributeLoop;
-                }
-                else{
+                } else {
                     EntityAttribute entityAttribute = new EntityAttribute();
                     //todo Enter attribute Name.
 
                     InputResult attrNameResult = PromptGui.inputText("attributeName", "Enter the attribute name", "attribute");
                     entityAttribute.setName(attrNameResult.getInput());
 
-                    if(entity.getAttributes().stream().map(x->x.getName().toLowerCase()).collect(Collectors.toList()).contains(
+                    if (entity.getAttributes().stream().map(x -> x.getName().toLowerCase()).collect(Collectors.toList()).contains(
                             entityAttribute.getName().toLowerCase()
-                    )){
+                    )) {
                         PromptGui.printlnErr("The attribute's Name is already exist!");
-                        continue attributeLoop; 
-                    };
-                    if(ProjectConstants.javaKeywords.contains(entityAttribute.getName().toLowerCase())
+                        continue attributeLoop;
+                    }
+                    ;
+                    if (ProjectConstants.javaKeywords.contains(entityAttribute.getName().toLowerCase())
                             || ProjectConstants.kotlinKeywords.contains(entityAttribute.getName().toLowerCase())
-                            || ProjectConstants.groovyKeywords.contains(entityAttribute.getName().toLowerCase()))
-                    {
+                            || ProjectConstants.groovyKeywords.contains(entityAttribute.getName().toLowerCase())) {
                         PromptGui.printlnErr("Please, avoid to use java, kotlin, or groovy languages keywords!");
                         continue attributeLoop;
                     }
                     //todo Enter attribute Type:
 
-                    ListResult attrTypeResult = PromptGui.dataTypePrompt(configurationInfo.getEnums().stream().map(x->x.getName()).collect(Collectors.toList()));
+                    ListResult attrTypeResult = PromptGui.dataTypePrompt(configurationInfo.getEnums().stream().map(x -> x.getName()).collect(Collectors.toList()));
 //                            PromptGui.createListPrompt("attributeType", "Select Attribute Type:",
 //
 //                            "String",
@@ -224,109 +212,130 @@ public class CreateEntityCommand implements Callable<Integer> {
 //                                    "double",
 //                                    "Date");
 
-                    if(!Arrays.asList("String", "boolean", "short", "int", "long", "float", "double", "Date").contains(attrTypeResult.getSelectedId()))
-                    {
+                    if (!Arrays.asList("String", "boolean", "short", "int", "long", "float", "double", "Date").contains(attrTypeResult.getSelectedId())) {
                         entityAttribute.setEnumuration(true);
                         entityAttribute.setPremetive(false);
+                        entityAttribute.setTypePackage(configurationInfo.getProjectInfo().getDefaultPackage() + ".enums." + entityAttribute.getName());
                     }
-
                     entityAttribute.setType(attrTypeResult.getSelectedId());
                     //todo Enter ask for Validation
                     //todo take validation
-                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to "+attrNameResult.getInput()+"?", NO);
+                    ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to " + attrNameResult.getInput() + "?", NO);
 
-                        if(validationConfirm.getConfirmed() == YES){
-                            EntityConstraints   entityConstraints = new EntityConstraints();
-                            entityConstraints.setEnabled(true);
-                            //ask if it's required
-                            ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribute", "Required?", NO);
-                            entityConstraints.setRequired(requiredValidationConfirm.getConfirmed() == YES);
+                    if (validationConfirm.getConfirmed() == YES) {
+                        EntityConstraints entityConstraints = new EntityConstraints();
+                        entityConstraints.setEnabled(true);
+                        //ask if it's required
+                        ConfirmResult requiredValidationConfirm = PromptGui.createConfirmResult("attribute", "Required?", NO);
+                        entityConstraints.setRequired(requiredValidationConfirm.getConfirmed() == YES);
 
 
-                            switch(entityAttribute.getType().toLowerCase()){
-                                case "string":
-                                    ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribute", "Unique?", NO);
-                                    entityConstraints.setUnique(uniqueValidationConfirm.getConfirmed() == YES);
+                        switch (entityAttribute.getType().toLowerCase()) {
+                            case "string":
+                                ConfirmResult uniqueValidationConfirm = PromptGui.createConfirmResult("attribute", "Unique?", NO);
+                                entityConstraints.setUnique(uniqueValidationConfirm.getConfirmed() == YES);
 
-                                    entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?", NO).getConfirmed() == YES);
+                                entityConstraints.setNotEmpty(PromptGui.createConfirmResult("notEmpty", "Couldn't be empty?", NO).getConfirmed() == YES);
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a minimum length?", NO).getConfirmed() == YES)
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a minimum length?", NO).getConfirmed() == YES) {
+                                    InputResult minSize = PromptGui.readNumber("min", "Enter the minimum length", "1");
+                                    entityConstraints.setMin(Long.parseLong(minSize.getInput()));
+                                }
 
-                                    {
-                                        InputResult minSize = PromptGui.readNumber("min", "Enter the minimum length", "1");
-                                        entityConstraints.setMin(Long.parseLong(minSize.getInput()));
-                                    }
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a maximum length?", NO).getConfirmed() == YES) {
+                                    InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum Length", "100");
+                                    entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
+                                }
+                                entityConstraints.setEmail(PromptGui.createConfirmResult("email", "Is Email?", NO).getConfirmed() == YES);
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a maximum length?", NO).getConfirmed() == YES) {
-                                        InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum Length", "100");
-                                        entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
-                                    }
-                                    entityConstraints.setEmail(PromptGui.createConfirmResult("email", "Is Email?", NO).getConfirmed() == YES);
-
-                                    if(!entityConstraints.isEmail()){
-                                        if(PromptGui.createConfirmResult("regex", "Regex?", NO).getConfirmed() == YES)
-                                        {
-                                            entityConstraints.setPattern(PromptGui.inputText("regex", "Enter the regex:","").getInput());
-
-                                        }
+                                if (!entityConstraints.isEmail()) {
+                                    if (PromptGui.createConfirmResult("regex", "Regex?", NO).getConfirmed() == YES) {
+                                        entityConstraints.setPattern(PromptGui.inputText("regex", "Enter the regex:", "").getInput());
 
                                     }
 
-                                    break;
+                                }
 
-                                case "byte":
-                                case "short":
-                                case "int":
-                                case "long":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES)
-                                    {
-                                        InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
-                                        entityConstraints.setMin(Long.parseLong(minSize.getInput()));
-                                    }
+                                break;
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
-                                        InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
-                                        entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
-                                    }
-                                    break;
-                                case "float":
-                                case "double":
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES)
-                                    {
-                                        InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
-                                        entityConstraints.setDecimalMin(Double.parseDouble(minSize.getInput()));
-                                    }
+                            case "byte":
+                            case "short":
+                            case "int":
+                            case "long":
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES) {
+                                    InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
+                                    entityConstraints.setMin(Long.parseLong(minSize.getInput()));
+                                }
 
-                                    if(PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
-                                        InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
-                                        entityConstraints.setDecimalMax(Double.parseDouble(maxSize.getInput()));
-                                    }
-                                    break;
-                                case "date":
-                                    if(PromptGui.createConfirmResult("minimum", "Is Future?", NO).getConfirmed() == YES) {
-                                        entityConstraints.setFuture(true);
-                                    }
-                                    break;
-                            }
-                            entityAttribute.setConstraints(entityConstraints);
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
+                                    InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
+                                    entityConstraints.setMax(Long.parseLong(maxSize.getInput()));
+                                }
+                                break;
+                            case "float":
+                            case "double":
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a Minimum number?", NO).getConfirmed() == YES) {
+                                    InputResult minSize = PromptGui.readNumber("min", "Enter the minimum number", "1");
+                                    entityConstraints.setDecimalMin(Double.parseDouble(minSize.getInput()));
+                                }
+
+                                if (PromptGui.createConfirmResult("minimum", "Do you want to enter a Maximum number?", NO).getConfirmed() == YES) {
+                                    InputResult maxSize = PromptGui.readNumber("min", "Enter the maximum number", "100");
+                                    entityConstraints.setDecimalMax(Double.parseDouble(maxSize.getInput()));
+                                }
+                                break;
+                            case "date":
+                                if (PromptGui.createConfirmResult("minimum", "Is Future?", NO).getConfirmed() == YES) {
+                                    entityConstraints.setFuture(true);
+                                }
+                                break;
                         }
+                        entityAttribute.setConstraints(entityConstraints);
+                    }
 
-                        if(Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId()))
-                        {
+                    if (Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
 
-                            String n = NameUtils.capitalize(entityAttribute.getName()); 
-                            var method = PromptGui.createChoiceResult("methods", "Implement the following:", "findAllBy"+n, "findBy"+n);
-                            entityAttribute.setFindAllMethod(method.getSelectedIds().contains("findAllBy"+n));
-                            entityAttribute.setFindByMethod(method.getSelectedIds().contains("findBy"+n));
+                        String n = NameUtils.capitalize(entityAttribute.getName());
+                        var method = PromptGui.createChoiceResult("methods", "Implement the following:", "findAllBy" + n, "findBy" + n);
+                        entityAttribute.setFindAllMethod(method.getSelectedIds().contains("findAllBy" + n));
+                        entityAttribute.setFindByMethod(method.getSelectedIds().contains("findBy" + n));
 
                     }
 
-                        //todo take validation
+                    //todo take validation
                     entity.getAttributes().add(entityAttribute);
 
                 }
             }
 
+            //Todo Update By Attribute
+            if (!entity.getAttributes().isEmpty())
+           {
+               String[] attributes = entity.getAttributes().stream().map(x->x.getName()).collect(Collectors.toList()).toArray(new String[entity.getAttributes().size()]);
+               updateByLoop:
+               for(;;)
+               {
+                   var toAddUpdateBy = PromptGui.createConfirmResult("toAddUpdateBy", "Do you want to add updateBy{Attribute}() method?", NO);
+                   if(toAddUpdateBy.getConfirmed() == NO)
+                       break updateByLoop;
+                   else {
+                       var queryAttr = PromptGui.createListPrompt("queryAttribute", "Select the query attribute: ",attributes).getSelectedId();
+                       if(entity.getUpdateByMethods().containsKey(queryAttr))
+                       {
+                           PromptGui.printlnErr("updateBy"+NameUtils.capitalize(queryAttr)+"() is already selected.");
+                           continue updateByLoop;
+                       }
+                       var updateAttributes = PromptGui.createChoiceResult("updateAttributes", "Select the attributes you want to update: ", attributes).getSelectedIds();
+
+                       if(updateAttributes.isEmpty()){
+                           PromptGui.printlnErr("You should select at least one attribute. ");
+                           continue updateByLoop;
+                       }
+                       entity.getUpdateByMethods().putIfAbsent(queryAttr, updateAttributes);
+                   }
+               }
+
+           }
             if(caffeine)
             {
                 entity.setCached(true);

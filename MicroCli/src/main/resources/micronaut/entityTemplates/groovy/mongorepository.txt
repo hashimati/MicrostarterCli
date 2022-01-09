@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import jakarta.inject.Singleton;
 import jakarta.inject.Inject
 import java.util.UUID;
+${moreImports}
 
 @Singleton
 class ${entityClass}Repository {

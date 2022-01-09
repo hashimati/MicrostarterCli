@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils
 import grails.gorm.transactions.Transactional
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton

@@ -5,6 +5,7 @@ import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client
 import java.util.List
+${moreImports}
 
 @Client("/api/${entityName}")
 interface ${className}Client {

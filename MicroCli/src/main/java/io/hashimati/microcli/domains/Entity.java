@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.Visitor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 //@Data
@@ -24,6 +26,8 @@ public class Entity
 
     private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
     graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,
+
+
 
 
 
@@ -45,6 +49,7 @@ public class Entity
     private boolean cached;
     private boolean micrometer;
     private boolean tracingEnabled;
+    private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     public String getName() {
         return name;
 
@@ -348,5 +353,17 @@ public class Entity
 
     public void setGooglePackage(String googlePackage) {
         this.googlePackage = googlePackage;
+    }
+
+    public HashMap<String, HashSet<String>> getUpdateByMethods() {
+        return updateByMethods;
+    }
+
+    public void setUpdateByMethods(HashMap<String, HashSet<String>> updateByMethods) {
+        this.updateByMethods = updateByMethods;
+    }
+
+    public EntityAttribute getAttributeByName(String name){
+        return attributes.stream().filter(x->x.getName().equals(name)).findFirst().orElse(null);
     }
 }

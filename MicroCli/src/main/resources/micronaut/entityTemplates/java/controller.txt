@@ -17,7 +17,7 @@ import jakarta.inject.Inject;
 
 import ${entityPackage};
 import ${servicePackage};
-
+${moreImports}
 
 @Controller("/api/${entities}")
 public class ${className}Controller {
