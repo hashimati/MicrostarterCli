@@ -1,4 +1,4 @@
-     public Mono<Long> update${Attribute}(${type} query, ${update} )
+     public Mono<Long> update${Attribute}(${type} query, ${updates} )
      {
          log.info("Updating by ${Attribute} : {}", query);
          BsonDocument document = new BsonDocument();

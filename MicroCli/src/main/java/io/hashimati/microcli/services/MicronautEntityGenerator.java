@@ -513,7 +513,7 @@ public class MicronautEntityGenerator
                     put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
                     put("updates", updates );
                     put("attribute", u);
-
+                    put("queryBsonDocument",DataTypeMapper.bsonMapper.get(query.getType().toLowerCase() ));
                     put("block", "");
                 }};
                 ubinder. put("appendUpdates", appendUpdates);
@@ -683,6 +683,7 @@ public class MicronautEntityGenerator
         if(entity.getDatabaseType().equalsIgnoreCase("mongodb")){
             findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_BY_MONGODB_REPO));
             findAlltemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_ALL_BY_MONGODB_REPO));
+            updateTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_MONOGO_REPO));
 
         }
         else {
