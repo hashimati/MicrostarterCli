@@ -892,7 +892,7 @@ public class MicronautEntityGenerator
     private Tuple2<String, String> getFindTemplates(String language, String type) {
         String find = "";
         String findAll = "";
-
+        String update = "";
         switch (type) {
             case "service":
                 find = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_SERVICE));

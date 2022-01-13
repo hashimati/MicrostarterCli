@@ -1,8 +1,8 @@
-     public Mono<Long> update${Attribute}(${type} query, ${updates} )
+     public public <% print reactor? "Mono" : "Single" %><Long> update${Attribute}(${type} query, ${updates} )
      {
          log.info("Updating by ${Attribute} : {}", query);
          BsonDocument document = new BsonDocument();
          document.append("${attribute}", new ${queryBsonDocument}(query));
          BsonDocument update = new BsonDocument()${appendUpdates};
-         return Mono.from(getCollection().updateMany(document, update)).map(x->x.getMatchedCount());
+         return public <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().updateMany(document, update)).map(x->x.getMatchedCount());
      }

@@ -87,7 +87,7 @@ public class TemplatesService {
             UPDATE_BY_SERVICE = "UPDATE_BY_SERVICE",
             UPDATE_BY_CONTROLLER = "UPDATE_BY_CONTROLLER",
             UPDATE_BY_CLIENT = "UPDATE_BY_CLIENT",
-
+            UPDATE_BY_GRRAPHQL = "UPDATE_BY_CLIENT",
 
             LAMBDA_FUNCTION_SAVE_REQUEST = "lambda_save_request",
             LAMBDA_FUNCTION_UPDATE_REQUEST = "lambda_update_request",
@@ -376,6 +376,11 @@ public class TemplatesService {
         javaTemplates.put(FIND_All_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/FindAllBy.txt");
         javaTemplates.put(UPDATE_BY_DATA_REPO, "micronaut/entityTemplates/java/methods/Repository/UpdateBy/data.txt");
         javaTemplates.put(UPDATE_BY_MONOGO_REPO, "micronaut/entityTemplates/java/methods/Repository/UpdateBy/mongodb.txt");
+        javaTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/java/methods/Service/UpdateBy.txt");
+        javaTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/java/methods/Controllers/UpdateBy.txt");
+        javaTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/UpdateBy.txt");
+        javaTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/UpdateBy.txt");
+
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -446,6 +451,27 @@ public class TemplatesService {
         groovyTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/groovy/DeleteRequestHander.groovy");
         groovyTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/groovy/FindByIdRequestHander.groovy");
         groovyTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/groovy/UpdateRequestHander.groovy");
+        groovyTemplates.put(FIND_BY_DATA_REPO,"micronaut/entityTemplates/groovy/methods/Repository/FindBy/data.txt");
+        groovyTemplates.put(FIND_BY_MONGODB_REPO, "micronaut/entityTemplates/groovy/methods/Repository/FindBy/mongodb.txt");
+        groovyTemplates.put(FIND_BY_R2DBC_REPO, "micronaut/entityTemplates/groovy/methods/Repository/FindBy/r2dbc");
+        groovyTemplates.put(FIND_ALL_BY_DATA_REPO,"micronaut/entityTemplates/groovy/methods/Repository/FindAllBy/data.txt");
+        groovyTemplates.put(FIND_ALL_BY_MONGODB_REPO, "micronaut/entityTemplates/groovy/methods/Repository/FindAllBy/mongodb.txt");
+        groovyTemplates.put(FIND_ALL_BY_R2DBC_REPO, "micronaut/entityTemplates/groovy/methods/Repository/FindAllBy/r2dbc");
+        groovyTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/groovy/methods/Service/FindBy.txt");
+        groovyTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/groovy/methods/Service/FindBy.txt");
+        groovyTemplates.put(FIND_All_BY_SERVICE, "micronaut/entityTemplates/groovy/methods/Service/FindAllBy.txt");
+        groovyTemplates.put(FIND_BY_CONTROLLER, "micronaut/entityTemplates/groovy/methods/Controllers/FindBy.txt");
+        groovyTemplates.put(FIND_All_BY_CONTROLLER, "micronaut/entityTemplates/groovy/methods/Controllers/FindAllBy.txt");
+        groovyTemplates.put(FIND_BY_GRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/FindBy.txt");
+        groovyTemplates.put(FIND_All_BY_GRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/FindAllBy.txt");
+        groovyTemplates.put(FIND_BY_CLIENT, "micronaut/entityTemplates/groovy/methods/Clients/FindBy.txt");
+        groovyTemplates.put(FIND_All_BY_CLIENT, "micronaut/entityTemplates/groovy/methods/Clients/FindAllBy.txt");
+        groovyTemplates.put(UPDATE_BY_DATA_REPO, "micronaut/entityTemplates/groovy/methods/Repository/UpdateBy/data.txt");
+        groovyTemplates.put(UPDATE_BY_MONOGO_REPO, "micronaut/entityTemplates/groovy/methods/Repository/UpdateBy/mongodb.txt");
+        groovyTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/groovy/methods/Service/UpdateBy.txt");
+        groovyTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/groovy/methods/Controllers/UpdateBy.txt");
+        groovyTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/groovy/methods/Clients/UpdateBy.txt");
+        groovyTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/UpdateBy.txt");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -511,6 +537,27 @@ public class TemplatesService {
         kotlinTemplates.put(LAMBDA_FUNCTION_DELETE_REQUEST, "micronaut/functions/aws/kotlin/DeleteRequestHander.kt");
         kotlinTemplates.put(LAMBDA_FUNCTION_FIND_REQUEST, "micronaut/functions/aws/kotlin/FindByIdRequestHander.kt");
         kotlinTemplates.put(LAMBDA_FUNCTION_UPDATE_REQUEST, "micronaut/functions/aws/kotlin/UpdateRequestHander.kt");
+        kotlinTemplates.put(FIND_BY_DATA_REPO,"micronaut/entityTemplates/kotlin/methods/Repository/FindBy/data.txt");
+        kotlinTemplates.put(FIND_BY_MONGODB_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/FindBy/mongodb.txt");
+        kotlinTemplates.put(FIND_BY_R2DBC_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/FindBy/r2dbc");
+        kotlinTemplates.put(FIND_ALL_BY_DATA_REPO,"micronaut/entityTemplates/kotlin/methods/Repository/FindAllBy/data.txt");
+        kotlinTemplates.put(FIND_ALL_BY_MONGODB_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/FindAllBy/mongodb.txt");
+        kotlinTemplates.put(FIND_ALL_BY_R2DBC_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/FindAllBy/r2dbc");
+        kotlinTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/kotlin/methods/Service/FindBy.txt");
+        kotlinTemplates.put(FIND_BY_SERVICE, "micronaut/entityTemplates/kotlin/methods/Service/FindBy.txt");
+        kotlinTemplates.put(FIND_All_BY_SERVICE, "micronaut/entityTemplates/kotlin/methods/Service/FindAllBy.txt");
+        kotlinTemplates.put(FIND_BY_CONTROLLER, "micronaut/entityTemplates/kotlin/methods/Controllers/FindBy.txt");
+        kotlinTemplates.put(FIND_All_BY_CONTROLLER, "micronaut/entityTemplates/kotlin/methods/Controllers/FindAllBy.txt");
+        kotlinTemplates.put(FIND_BY_GRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/FindBy.txt");
+        kotlinTemplates.put(FIND_All_BY_GRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/FindAllBy.txt");
+        kotlinTemplates.put(FIND_BY_CLIENT, "micronaut/entityTemplates/kotlin/methods/Clients/FindBy.txt");
+        kotlinTemplates.put(FIND_All_BY_CLIENT, "micronaut/entityTemplates/kotlin/methods/Clients/FindAllBy.txt");
+        kotlinTemplates.put(UPDATE_BY_DATA_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/UpdateBy/data.txt");
+        kotlinTemplates.put(UPDATE_BY_MONOGO_REPO, "micronaut/entityTemplates/kotlin/methods/Repository/UpdateBy/mongodb.txt");
+        kotlinTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/kotlin/methods/Service/UpdateBy.txt");
+        kotlinTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/kotlin/methods/Controllers/UpdateBy.txt");
+        kotlinTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/kotlin/methods/Clients/UpdateBy.txt");
+        kotlinTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/UpdateBy.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");

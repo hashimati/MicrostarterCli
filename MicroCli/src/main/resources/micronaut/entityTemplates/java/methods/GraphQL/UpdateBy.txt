@@ -1,0 +1,6 @@
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.updateBy'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for updating a '+entityName+' object by '+Attribute+'")' %>
+    public ${returnType} updateBy${Attribute}(${type} query,  ${updates})
+    {
+        return ${entityName}Service.updateBy${Attribute}(query, ${updatesVariables});
+    }
