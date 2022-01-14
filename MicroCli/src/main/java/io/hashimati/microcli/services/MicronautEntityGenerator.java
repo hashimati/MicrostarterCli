@@ -746,7 +746,7 @@ public class MicronautEntityGenerator
     public String generateEntityRepositoryTest(Entity entity, String language) throws IOException, ClassNotFoundException {
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("className",entity.getName() );
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("repositoryPackage",entity.getRepoPackage() );
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
@@ -784,13 +784,13 @@ public class MicronautEntityGenerator
 
        String updates = entity.getAttributes().stream()
                 .map(x->
-                        new StringBuilder().append("\t\tobj.").append(x.getName()).append("=").append(entity.getName().toLowerCase()).append(".").append(x.getName()).toString()
+                        new StringBuilder().append("\t\tobj.").append(x.getName()).append("=").append(NameUtils.camelCase(entity.getName(), true)).append(".").append(x.getName()).toString()
                 ).reduce("", (x, y)-> new StringBuilder(x).append("\n").append(y).toString());
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className", entity.getName());
         binder.put("updates", updates);
         binder.put("methods", "");
@@ -808,20 +808,24 @@ public class MicronautEntityGenerator
         }
 
         String methods = "";
-        Tuple2<String, String> findTemplates = getFindTemplates(language,"service");
+        var findUpdateTemplates = getFindUpdateTemplates(language,"service");
 
         String returnType = entity.getName();
+        String updateReturnType = "Long";
         String returnTypeList = "Iterable<"+entity.getName() + ">";
         String blocking = ".orElse(null)";
+
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
+            updateReturnType = "Mono<Long>";
             blocking = "";
         }
         else if (entity.getDatabaseType().equalsIgnoreCase("mongodb")){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
+            updateReturnType = "Single<Long>";
             blocking = "";
         }
         for(EntityAttribute ea : entity.getAttributes()) {
@@ -831,7 +835,7 @@ public class MicronautEntityGenerator
                 put("servicePackage", entity.getServicePackage());
                 put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
                 put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
-                put("entityName", entity.getName().toLowerCase());
+                put("entityName", NameUtils.camelCase(entity.getName(), true));
                 put("className", entity.getName());
 
                 put("cached", entity.isCached());
@@ -847,19 +851,49 @@ public class MicronautEntityGenerator
             sBinder.put("returnTypeList", returnTypeList);
             if (ea.isFindAllMethod())
             {
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
             }
             if(ea.isFindByMethod()){
 
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
             }
 
         }
+        if(!entity.getUpdateByMethods().isEmpty()){
+
+            var update = entity.getUpdateByMethods();
+            for(String u : update.keySet())
+            {
+                EntityAttribute query = entity.getAttributeByName(u);
+                String updates = entity.getUpdateByMethods().get(u).stream()
+                        .map(x->entity.getAttributeByName(x))
+                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+
+                String updatesVariables = entity.getUpdateByMethods().get(u).stream()
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+                HashMap<String, Object> ubinder = new HashMap<>(){{
+                    put("micrometer", entity.isMicrometer());
+                    put("servicePackage", entity.getServicePackage() );
+                    put("entityName", NameUtils.camelCase(entity.getName(), true));
+                    put("Attribute", NameUtils.capitalize(u) );
+                    put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
+                    put("updates", updates );
+                    put("updatesVariables", updatesVariables);
+                    put("block", "");
+                }};
+                ubinder.put("returnType", updateReturnType);
+                methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+            }
+        }
+
+
+
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className", entity.getName());
         binder.put("methods", methods);
         binder.put("cached", entity.isCached());
@@ -889,7 +923,7 @@ public class MicronautEntityGenerator
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
 
-    private Tuple2<String, String> getFindTemplates(String language, String type) {
+    private Tuple3<String, String, String> getFindUpdateTemplates(String language, String type) {
         String find = "";
         String findAll = "";
         String update = "";
@@ -897,23 +931,28 @@ public class MicronautEntityGenerator
             case "service":
                 find = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_SERVICE));
                 findAll = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_All_BY_SERVICE));
+                update = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_SERVICE));
             break;
             case "controller":
                 find = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_CONTROLLER));
                 findAll = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_All_BY_CONTROLLER));
+                update = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_CONTROLLER));
                 break;
             case "client":
                 find = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_CLIENT));
                 findAll = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_All_BY_CLIENT));
+                update = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_CLIENT));
+
                 break;
             case "graphql":
                 find = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_GRAPHQL));
                 findAll = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_All_BY_GRAPHQL));
+                update = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_GRAPHQL));
                 break;
 
 
         }
-        return Tuple2.tuple(find, findAll);
+        return Tuple2.tuple(find, findAll, update);
 
     }
 
@@ -922,7 +961,7 @@ public class MicronautEntityGenerator
         binder.put("controllerPackage", entity.getRestPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("jaeger", entity.isTracingEnabled());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("methods", "");
@@ -945,18 +984,22 @@ public class MicronautEntityGenerator
 
         }
         String methods = "";
-        Tuple2<String, String> findTemplates = getFindTemplates(language,"controller");
+        var findUpdateTemplates = getFindUpdateTemplates(language,"controller");
 
         String returnType = entity.getName();
+        String updateReturnType = "Long";
         String returnTypeList = "Iterable<"+entity.getName() + ">";
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
+            updateReturnType = "Mono<Long>";
         }
         else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") ){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
+            updateReturnType = "Single<Long>";
+
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
@@ -966,7 +1009,7 @@ public class MicronautEntityGenerator
                 put("servicePackage", entity.getRestPackage());
                 put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
                 put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
-                put("entityName", entity.getName().toLowerCase());
+                put("entityName", NameUtils.camelCase(entity.getName(), true));
                 put("className", entity.getName());
                 put("jaeger", entity.isTracingEnabled());
                 put("cached", entity.isCached());
@@ -981,21 +1024,70 @@ public class MicronautEntityGenerator
             sBinder.put("returnTypeList", returnTypeList);
             if (ea.isFindAllMethod())
             {
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
             }
             if(ea.isFindByMethod()){
 
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
             }
 
         }
+        if(!entity.getUpdateByMethods().isEmpty()){
+
+            var update = entity.getUpdateByMethods();
+            for(String u : update.keySet())
+            {
+                EntityAttribute query = entity.getAttributeByName(u);
+                String updates = entity.getUpdateByMethods().get(u).stream()
+                        .map(x->entity.getAttributeByName(x))
+                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+
+                String updatesVariables = entity.getUpdateByMethods().get(u).stream()
+                        .map(x-> {
+
+                            String template = "body.get${key}()";
+
+                            var b = new HashMap<String, String>(){{
+                                put("key",NameUtils.capitalize(x));
+                            }};
+                            try {
+                                return new SimpleTemplateEngine().createTemplate(template).make(b).toString();
+                            } catch (ClassNotFoundException e) {
+                                return "";
+                            } catch (IOException e) {
+                                return "";
+                            }
+                        })
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+                HashMap<String, Object> ubinder = new HashMap<>(){{
+                    put("micrometer", entity.isMicrometer());
+                    put("servicePackage", entity.getServicePackage() );
+                    put("entityName", NameUtils.camelCase(entity.getName(), true));
+                    put("Attribute", NameUtils.capitalize(u) );
+                    put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
+                    put("updates", updates );
+                    put("className", entity.getName());
+                    put("jaeger", entity.isTracingEnabled());
+                    put("controllerPackage", entity.getRestPackage());
+                    put("updatesVariables", updatesVariables);
+                    put("block", "");
+                }};
+                ubinder.put("updates",entity.getUpdateByMethods().get(u).stream()
+                       .reduce((x,y)-> x + ", "+y).orElse("") );
+                ubinder.put("returnType", updateReturnType);
+                methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+            }
+        }
+
+
 
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("controllerPackage", entity.getRestPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("servicePackage", entity.getServicePackage()+"."+entity.getName()+"Service");
-        binder.put("entityName", entity.getName().toLowerCase());
-        binder.put("entities", entity.getName().toLowerCase());
+        binder.put("entityName",NameUtils.camelCase(entity.getName(), true));
+        binder.put("entities", NameUtils.camelCase(entity.getName(), true));
         binder.put("micrometer", entity.isMicrometer());
         binder.put("jaeger", entity.isTracingEnabled());
         binder.put("methods", methods);
@@ -1026,7 +1118,7 @@ public class MicronautEntityGenerator
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className",  entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("methods", "");
@@ -1042,18 +1134,21 @@ public class MicronautEntityGenerator
         if(entity.isGorm() && language.equalsIgnoreCase(GROOVY_LANG))
             return generateClientGorm(entity, language);
         String methods = "";
-        Tuple2<String, String> findTemplates = getFindTemplates(language,"client");
+        var findUpdateTemplates = getFindUpdateTemplates(language,"client");
 
         String returnType = entity.getName();
+        String updateReturnType = "Long";
         String returnTypeList = "Iterable<"+entity.getName() + ">";
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
+            updateReturnType = "Mono<Long>";
         }
         else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") ){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
+            updateReturnType = "Single<Mono>";
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
@@ -1063,7 +1158,7 @@ public class MicronautEntityGenerator
                 put("servicePackage", entity.getRestPackage());
                 put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
                 put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
-                put("entityName", entity.getName().toLowerCase());
+                put("entityName", NameUtils.camelCase(entity.getName(), true));
                 put("className", entity.getName());
                 put("jaeger", entity.isTracingEnabled());
                 put("cached", entity.isCached());
@@ -1078,20 +1173,47 @@ public class MicronautEntityGenerator
             sBinder.put("returnTypeList", returnTypeList);
             if (ea.isFindAllMethod())
             {
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
             }
             if(ea.isFindByMethod()){
 
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
             }
 
         }
 
+        if(!entity.getUpdateByMethods().isEmpty()){
+
+            var update = entity.getUpdateByMethods();
+            for(String u : update.keySet())
+            {
+                EntityAttribute query = entity.getAttributeByName(u);
+                String updates = entity.getUpdateByMethods().get(u).stream()
+                        .map(x->entity.getAttributeByName(x))
+                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .reduce((x,y)-> x + ", "+y).orElse("");
+
+
+                HashMap<String, Object> ubinder = new HashMap<>(){{
+                    put("entityName", NameUtils.camelCase(entity.getName(), true));
+                    put("Attribute", NameUtils.capitalize(u) );
+                    put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
+                    put("className", entity.getName());
+                    put("block", "");
+                }};
+
+                ubinder.put("returnType", updateReturnType);
+                methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+            }
+        }
+
+
+
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("clientPackage", entity.getClientPackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
-        binder.put("entityName", entity.getName().toLowerCase());
-        binder.put("entities", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
+        binder.put("entities", NameUtils.camelCase(entity.getName(), true));
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("methods", methods);
         binder.put("className",  entity.getName());
@@ -1153,7 +1275,7 @@ public class MicronautEntityGenerator
 
 
         String methods = "";
-        Tuple2<String, String> findTemplates = getFindTemplates(language,"graphql");
+        var findTemplates = getFindUpdateTemplates(language,"graphql");
 
         String returnType = entity.getName();
         String returnTypeList = "Iterable<"+entity.getName() + ">";
@@ -1175,7 +1297,7 @@ public class MicronautEntityGenerator
                 put("servicePackage", entity.getServicePackage());
                 put("entityPackage", entity.getEntityPackage() + "." + entity.getName());
                 put("repoPackage", entity.getRepoPackage() + "." + entity.getName() + "Repository");
-                put("entityName", entity.getName().toLowerCase());
+                put("entityName", NameUtils.camelCase(entity.getName(), true));
                 put("className", entity.getName());
                 put("pack", entity.getGraphqlpackage());
                 put("cached", entity.isCached());
@@ -1204,7 +1326,7 @@ public class MicronautEntityGenerator
 
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className",  entity.getName());
         binder.put("domainPackage", entity.getEntityPackage());
         binder.put("servicePackage", entity.getServicePackage());
@@ -1403,7 +1525,7 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
         binder.put("className", entity.getName());
-        binder.put("entityName", entity.getName().toLowerCase());
+        binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("afterBeforeMethods", "");
         binder.put("moreImports", "");
         String keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;

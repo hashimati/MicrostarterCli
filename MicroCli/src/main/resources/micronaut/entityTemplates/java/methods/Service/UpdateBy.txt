@@ -3,5 +3,5 @@
     public ${returnType} updateBy${Attribute}(${type} query,  ${updates})
     {
         log.info("update by {}", query);
-        return ${entityName}Repository.updateBy${Attribute}(query, ${updatesVariables});
+        return ${entityName}Repository.updateBy${Attribute}(query, ${updatesVariables})${block};
     }

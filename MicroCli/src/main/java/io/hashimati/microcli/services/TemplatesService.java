@@ -87,7 +87,7 @@ public class TemplatesService {
             UPDATE_BY_SERVICE = "UPDATE_BY_SERVICE",
             UPDATE_BY_CONTROLLER = "UPDATE_BY_CONTROLLER",
             UPDATE_BY_CLIENT = "UPDATE_BY_CLIENT",
-            UPDATE_BY_GRRAPHQL = "UPDATE_BY_CLIENT",
+            UPDATE_BY_GRAPHQL = "UPDATE_BY_GRAPHQL",
 
             LAMBDA_FUNCTION_SAVE_REQUEST = "lambda_save_request",
             LAMBDA_FUNCTION_UPDATE_REQUEST = "lambda_update_request",
@@ -379,7 +379,7 @@ public class TemplatesService {
         javaTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/java/methods/Service/UpdateBy.txt");
         javaTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/java/methods/Controllers/UpdateBy.txt");
         javaTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/java/methods/Clients/UpdateBy.txt");
-        javaTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/UpdateBy.txt");
+        javaTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/UpdateBy.txt");
 
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
@@ -471,7 +471,7 @@ public class TemplatesService {
         groovyTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/groovy/methods/Service/UpdateBy.txt");
         groovyTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/groovy/methods/Controllers/UpdateBy.txt");
         groovyTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/groovy/methods/Clients/UpdateBy.txt");
-        groovyTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/UpdateBy.txt");
+        groovyTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/UpdateBy.txt");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -557,7 +557,7 @@ public class TemplatesService {
         kotlinTemplates.put(UPDATE_BY_SERVICE, "micronaut/entityTemplates/kotlin/methods/Service/UpdateBy.txt");
         kotlinTemplates.put(UPDATE_BY_CONTROLLER, "micronaut/entityTemplates/kotlin/methods/Controllers/UpdateBy.txt");
         kotlinTemplates.put(UPDATE_BY_CLIENT, "micronaut/entityTemplates/kotlin/methods/Clients/UpdateBy.txt");
-        kotlinTemplates.put(UPDATE_BY_GRRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/UpdateBy.txt");
+        kotlinTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/UpdateBy.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");

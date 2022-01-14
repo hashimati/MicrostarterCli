@@ -1,3 +1,3 @@
 
     @Put("/updateBy${Attribute}")
-    public ${returnType} update${Attribute}(${type} query,  ${updates});
+    public ${returnType} update${Attribute}(@QueryValue("query") ${type} query,  @Body ${className} body);

@@ -5,14 +5,14 @@
     @Put("/updateBy${Attribute}")
     @Version("1")
     @Operation(summary = "Updating a ${entityName}.",
-            description = "A REST service, which updates a ${className} objects to the database by ${Attribute}.",
+            description = "A REST service, which updates a ${className} objects to the database by ${Attribute}, This service will only update these attributes {${updates}}.",
             operationId = "Update${className}by${Attribute}"
     )
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public ${returnType} update${Attribute}(<% if(jaeger) out.print '@SpanTag("updateupdateby.'+Attribute+'.'+entityName+'")'%> ${type} query,  ${updates})
+    public ${returnType} update${Attribute}(<% if(jaeger) out.print '@SpanTag("updateupdateby.'+Attribute+'.'+entityName+'")'%> @QueryValue("query") ${type} query,  @Body ${className} body)
     {
         log.info("update {}", query);
         return ${entityName}Service.updateBy${Attribute}(query, ${updatesVariables});
