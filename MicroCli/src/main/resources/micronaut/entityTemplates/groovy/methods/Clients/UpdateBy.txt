@@ -1,0 +1,3 @@
+
+    @Put("/updateBy${Attribute}")
+    ${returnType} update${Attribute}(@QueryValue("query") ${type} query,  @Body ${className} body)

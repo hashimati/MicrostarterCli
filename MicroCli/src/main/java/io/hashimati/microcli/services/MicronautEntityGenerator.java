@@ -1047,9 +1047,13 @@ public class MicronautEntityGenerator
                         .map(x-> {
 
                             String template = "body.get${key}()";
+                            if(language.equalsIgnoreCase(KOTLIN_LANG))
+                            {
+                                template = "body.${key}";
+                            }
 
                             var b = new HashMap<String, String>(){{
-                                put("key",NameUtils.capitalize(x));
+                                put("key",language.equalsIgnoreCase(KOTLIN_LANG)? x: NameUtils.capitalize(x));
                             }};
                             try {
                                 return new SimpleTemplateEngine().createTemplate(template).make(b).toString();

@@ -1,0 +1,2 @@
+
+    fun updateBy${Attribute}(query:${type}, ${updates}) ${block}:Long

@@ -1,0 +1,2 @@
+
+    Long updateBy${Attribute}(${type} query, ${updates})${block}
