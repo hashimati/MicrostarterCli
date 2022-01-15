@@ -1275,10 +1275,12 @@ public class MicronautEntityGenerator
 
 
         String methods = "";
-        var findTemplates = getFindUpdateTemplates(language,"graphql");
+        var findUpdateTemplates = getFindUpdateTemplates(language,"graphql");
 
         String returnType = entity.getName();
         String returnTypeList = "Iterable<"+entity.getName() + ">";
+        String updateReturnType = "Long";
+
         String blockSingle = "";
         String blockIter = "";
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
@@ -1315,14 +1317,64 @@ public class MicronautEntityGenerator
             sBinder.put("returnTypeList", returnTypeList);
             if (ea.isFindAllMethod())
             {
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV2()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
             }
             if(ea.isFindByMethod()){
 
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findTemplates.getV1()).make(sBinder)).toString();
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
             }
 
         }
+
+
+//        if(!entity.getUpdateByMethods().isEmpty()){
+//
+//            var update = entity.getUpdateByMethods();
+//            for(String u : update.keySet())
+//            {
+//                EntityAttribute query = entity.getAttributeByName(u);
+//                String updates = entity.getUpdateByMethods().get(u).stream()
+//                        .map(x->entity.getAttributeByName(x))
+//                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+//                        .reduce((x,y)-> x + ", "+y).orElse("");
+//
+//                String updatesVariables = entity.getUpdateByMethods().get(u).stream()
+//                        .map(x-> {
+//
+//                            String template = "body.get${key}()";
+//
+//                            var b = new HashMap<String, String>(){{
+//                                put("key",NameUtils.capitalize(x));
+//                            }};
+//                            try {
+//                                return new SimpleTemplateEngine().createTemplate(template).make(b).toString();
+//                            } catch (ClassNotFoundException e) {
+//                                return "";
+//                            } catch (IOException e) {
+//                                return "";
+//                            }
+//                        })
+//                        .reduce((x,y)-> x + ", "+y).orElse("");
+//                HashMap<String, Object> ubinder = new HashMap<>(){{
+//                    put("pack", entity.getEntityPackage());
+//                    put("micrometer", entity.isMicrometer());
+//                    put("servicePackage", entity.getServicePackage() );
+//                    put("entityName", NameUtils.camelCase(entity.getName(), true));
+//                    put("Attribute", NameUtils.capitalize(u) );
+//                    put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
+//                    put("updates", updates );
+//                    put("className", entity.getName());
+//                    put("jaeger", entity.isTracingEnabled());
+//                    put("controllerPackage", entity.getRestPackage());
+//                    put("updatesVariables", updatesVariables);
+//                }};
+//                ubinder.put("block", blockSingle);
+//                ubinder.put("returnType", updateReturnType);
+//                methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+//            }
+//        }
+//
+
 
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("pack", entity.getGraphqlpackage() );
@@ -1333,6 +1385,7 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer()) ;
         binder.put("methods", methods);
+        binder.put("moreImports", "");
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
 
@@ -1593,6 +1646,7 @@ public class MicronautEntityGenerator
         List<Entity> gqEntities = entities.stream().filter(x -> x.isGraphQl()).collect(Collectors.toList());
 
 
+
         String methodTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_QUERY_METHOD));
         String methods = gqEntities.stream().map(x->{
 
@@ -1659,6 +1713,7 @@ public class MicronautEntityGenerator
 
 
         String mutationMethodTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_MUTATION));
+        String updateTemplate =templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(UPDATE_BY_GRAPHQL));
 
         String mutationMethods = gqEntities.stream().map(x->{
 
@@ -1682,6 +1737,31 @@ public class MicronautEntityGenerator
                 return "";
             }
         }).reduce("", (x,y)-> new StringBuilder().append(x).append("\n").append(y).toString());
+
+//        mutationMethods += "\n" + gqEntities.stream().filter(x->!x.getUpdateByMethods().isEmpty())
+//                        .map(entity->{
+//                            String entityUpdateMthods =
+//                                    entity.getUpdateByMethods().keySet().stream().map(
+//                                            e->{
+//                                                HashMap<String, String> binder = new HashMap<>(){{
+//                                                    put("className", entity.getName());
+//                                                    put("Type", DataTypeMapper.graphqlMapper.get(entity.getAttributeByName(e).getType().toLowerCase()));
+//                                                    put("Attribute", NameUtils.capitalize(e));
+//                                                }};
+//                                                try {
+//                                                    return new SimpleTemplateEngine().createTemplate(updateTemplate).make(binder).toString();
+//                                                } catch (ClassNotFoundException ex) {
+//                                                    return "";
+//                                                } catch (IOException ex) {
+//                                                    return "";
+//                                                }
+//                                            }
+//                                    ).reduce((x,y) -> x+y).orElse("");
+//
+//                            return entityUpdateMthods;
+//                        }).reduce((x,y)->x + y).orElse("");
+//
+
         map.put("mutationMethods", mutationMethods);
         return new SimpleTemplateEngine()
                 .createTemplate(queryTemplates).make(map).toString();
