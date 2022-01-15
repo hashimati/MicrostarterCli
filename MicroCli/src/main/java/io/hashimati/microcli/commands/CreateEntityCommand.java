@@ -296,7 +296,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                     if (Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
 
                         String n = NameUtils.capitalize(entityAttribute.getName());
-                        var method = PromptGui.createChoiceResult("methods", "Implement the following:", "findAllBy" + n, "findBy" + n);
+                        var method = PromptGui.createChoiceResult("methods", "Implement the following methods, REST endpoints, and GraphQL:", "findAllBy" + n, "findBy" + n);
                         entityAttribute.setFindAllMethod(method.getSelectedIds().contains("findAllBy" + n));
                         entityAttribute.setFindByMethod(method.getSelectedIds().contains("findBy" + n));
 
@@ -315,7 +315,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                updateByLoop:
                for(;;)
                {
-                   var toAddUpdateBy = PromptGui.createConfirmResult("toAddUpdateBy", "Do you want to add updateBy{Attribute}() method?", NO);
+                   var toAddUpdateBy = PromptGui.createConfirmResult("toAddUpdateBy", "Do you want to add updateBy{Attribute}() method & REST Services?", NO);
                    if(toAddUpdateBy.getConfirmed() == NO)
                        break updateByLoop;
                    else {
