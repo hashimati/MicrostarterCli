@@ -6,12 +6,14 @@ import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "event", description = {"To create event component."})
+@Command(name = "event", aliases = {"create-event", "createEvent"}, description = {"To create event component."})
 public class CreateEventCommand implements Callable<Integer> {
 
     @Option(names = {"--name", "-n"}, description = "Event's name")
     @Override
     public Integer call() throws Exception {
+
+
         return null;
     }
 }
