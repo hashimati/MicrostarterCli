@@ -108,6 +108,7 @@ public class MicronautComponentGenerator {
 
     }
 
+
     public String generateKafkaConsumer(String classPackage,String className, String groupId, String topic, Entity entity,String lang, boolean micrometers){
         HashMap<String, Object> map = new HashMap<>();
         map.put("pack", classPackage);
@@ -201,6 +202,24 @@ public class MicronautComponentGenerator {
         return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
     }
 
+    public String generateEventPublisher(String pack, String className, String eventName, String lang){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pack", pack);
+        map.put("className", className);
+        map.put("eventName", eventName);
+
+        return generate(TemplatesService.EVENT_PUBLISHER, map, lang);
+
+    }
+    public String generateEventListener(String pack, String className, String eventName, String lang){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pack", pack);
+        map.put("className", className);
+        map.put("eventName", eventName);
+
+        return generate(TemplatesService.EVENT_LISTENER, map, lang);
+
+    }
 
     public String generate(String key,HashMap<String, Object> map,  String lang)
     {
