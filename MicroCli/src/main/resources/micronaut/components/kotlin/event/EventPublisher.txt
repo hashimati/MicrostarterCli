@@ -1,0 +1,25 @@
+package ${pack}.events
+
+import ${pack}.domains.${className}
+import io.micronaut.context.event.ApplicationEventPublisher
+import io.micronaut.scheduling.annotation.Async
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import org.slf4j.LoggerFactory
+
+@Singleton
+class ${className}Publisher {
+
+    @Inject
+    internal var eventPublisher: ApplicationEventPublisher<${className}>? = null
+
+    fun publishEvent(${eventName}: ${className}) {
+        log.info("Publishing ${className} event: {}", ${eventName})
+        //todo: add your logic here.
+        eventPublisher!!.publishEvent(${eventName} )
+   }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(${className}Publisher::class.java)
+    }
+}

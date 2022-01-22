@@ -1,0 +1,25 @@
+package ${pack}.events;
+
+import ${pack}.domains.${className};
+import io.micronaut.context.event.ApplicationEventPublisher;
+import io.micronaut.scheduling.annotation.Async;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Singleton
+public class ${className}Publisher
+{
+    private static final Logger log = LoggerFactory.getLogger(${className}Publisher.class);
+    @Inject
+    ApplicationEventPublisher eventPublisher;
+
+    @Async
+    public void publishEvent(${className} ${eventName}) {
+        log.info("Publishing ${className} event: {}", ${eventName});
+        //Todo: Write your logic here
+
+        eventPublisher.publishEvent(${eventName});
+    }
+}
