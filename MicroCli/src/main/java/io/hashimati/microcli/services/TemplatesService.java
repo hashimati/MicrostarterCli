@@ -50,6 +50,7 @@ public class TemplatesService {
             CLIENT = "client",
             CONTROLLER = "controller",
             JDBC_REPOSITORY = "jdbcRepository",
+            DATA_MONGODB_REPOSITORY = "DATA_MONGODB_REPOSITORY",
             JOIN_ANNOTATION = "joinAnnotation",
             JOIN_METHODS = "joinMethods",
             ENTITY = "entity",
@@ -383,6 +384,7 @@ public class TemplatesService {
         javaTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/java/methods/GraphQL/UpdateBy.txt");
         javaTemplates.put(EVENT_LISTENER, "micronaut/components/java/event/EventListener.txt");
         javaTemplates.put(EVENT_PUBLISHER, "micronaut/components/java/event/EventPublisher.txt");
+        javaTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/java/MongoDataRepository.txt");
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -476,6 +478,7 @@ public class TemplatesService {
         groovyTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/groovy/methods/GraphQL/UpdateBy.txt");
         groovyTemplates.put(EVENT_LISTENER, "micronaut/components/groovy/event/EventListener.txt");
         groovyTemplates.put(EVENT_PUBLISHER, "micronaut/components/groovy/event/EventPublisher.txt");
+        groovyTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/groovy/MongoDataRepository.txt");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -564,6 +567,7 @@ public class TemplatesService {
         kotlinTemplates.put(UPDATE_BY_GRAPHQL, "micronaut/entityTemplates/kotlin/methods/GraphQL/UpdateBy.txt");
         kotlinTemplates.put(EVENT_LISTENER, "micronaut/components/kotlin/event/EventListener.txt");
         kotlinTemplates.put(EVENT_PUBLISHER, "micronaut/components/kotlin/event/EventPublisher.txt");
+        kotlinTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/kotlin/MongoDataRepository.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");

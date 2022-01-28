@@ -16,10 +16,10 @@ interface ${classNameA}Client {
     fun save(${entityName}:${classNameA}): ${className}
 
     @Get("/get")
-    fun findById(@Parameter("id") id:Long): ${className}
+    fun findById(@Parameter("id") id:${idType}): ${className}
 
     @Delete("/delete/{id}")
-    fun deleteById(@PathVariable("id") id: Long): Boolean
+    fun deleteById(@PathVariable("id") id: ${idType}): Boolean
 
     @Get("/findAll")
     fun findAll():Iterable<${className}>

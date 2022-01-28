@@ -144,9 +144,10 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setReactiveFramework(configurationInfo.getReactiveFramework());
             entity.setCollectionName(collectionName);
             entity.setDatabaseType(configurationInfo.getDatabaseType());
-
+            entity.setMnData(configurationInfo.isMnData());
 
             entity.setFrameworkType(configurationInfo.getDataBackendRun());
+
             entity.setGorm(configurationInfo.isGorm());
             //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
@@ -380,7 +381,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                 GeneratorUtils.createFile(System.getProperty("user.dir")+"/"+repoPath+ "/"+entity.getName()+"Repository"+extension, repositoryFileContent);
 
-                if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb"))
+                if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb") && !configurationInfo.isMnData())
                 {
                     templatesService.loadTemplates(null);
                     String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent

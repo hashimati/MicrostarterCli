@@ -180,7 +180,7 @@ public class ConfigurationInitializer {
                     options.add("R2DBC");
                 ListResult databaseBackend = PromptGui.createListPrompt("databaseBackend", "Select Database Backend: ", options.toArray(new String[options.size()]));
                 configurationInfo.setDataBackendRun(databaseBackend.getSelectedId());
-
+                configurationInfo.setMnData(!configurationInfo.getDataBackendRun().equalsIgnoreCase("GORM"));
 
 
                 ListResult dataMigrationTool = PromptGui.createListPrompt("databaseMigration", "Select Data Migration: ", "liquibase", "Flyway", "none");
@@ -313,10 +313,30 @@ public class ConfigurationInitializer {
                 projectInfo.dumpToFile();
             }
             else {
-               // configurationInfo.setDataBackendRun("none");
-                projectInfo.getFeatures().add("mongo-reactive");
-                configurationInfo.setDataBackendRun("mongoReactive");
-                MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
+
+                ArrayList<String> options = new ArrayList<String>();
+                options.add("data-mongodb");
+                options.add("mongo-reactive");
+
+
+                ListResult databaseBackend = PromptGui.createListPrompt("databaseBackend", "Select Database Backend: ", options.toArray(new String[options.size()]));
+                configurationInfo.setDataBackendRun(databaseBackend.getSelectedId());
+
+                // configurationInfo.setDataBackendRun("none");
+                if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb")) {
+                    projectInfo.getFeatures().add("data-mongodb");
+                    projectInfo.getFeatures().add("mongo-sync");
+                    MicronautProjectValidator.addDependency(features.get("data-mongodb"));
+                    MicronautProjectValidator.addDependency(features.get("mongo-sync"));
+                    configurationInfo.setMnData(true);
+                }
+                else {
+                    projectInfo.getFeatures().add("mongo-reactive");
+                    configurationInfo.setDataBackendRun("mongoReactive");
+                    MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
+                    configurationInfo.setMnData(false);
+
+                }
 //                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
                 projectInfo.getFeatures().add("testcontainers");
                 MicronautProjectValidator.addDependency(features.get("testcontainers"));
@@ -329,33 +349,40 @@ public class ConfigurationInitializer {
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
 
+                //to add the database name if the back is data-mongodb.
+                if(configurationInfo.isMnData())
+                    mongoProperties =mongoProperties.replace("\n","")+ "/"+configurationInfo.getDatabaseName();
+
+
                 MicronautProjectValidator.appendToProperties(mongoProperties);
 
-                String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
-                        (templatesService.getProperties().get(MDB_yml));
-                String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String> (){{
-                    put("dbName", configurationInfo.getDatabaseName());
-                }});
-                MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
+                if(!configurationInfo.isMnData()) {
+                    String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
+                            (templatesService.getProperties().get(MDB_yml));
+                    String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String>() {{
+                        put("dbName", configurationInfo.getDatabaseName());
+                    }});
+                    MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
 
-                String mongodbConfigurationTemplate  = "";
-                String ext = projectInfo.getSourceLanguage();
-                switch (projectInfo.getSourceLanguage().toLowerCase()){
-                    case JAVA_LANG:
-                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(MONGODB_CONFIGURATION));
-                        break;
-                    case GROOVY_LANG:
-                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getGroovyTemplates().get(MONGODB_CONFIGURATION));
-                        break;
-                    case KOTLIN_LANG:
-                        mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getKotlinTemplates().get(MONGODB_CONFIGURATION));
-                        ext = "kt";
-                        break;
+                    String mongodbConfigurationTemplate = "";
+                    String ext = projectInfo.getSourceLanguage();
+                    switch (projectInfo.getSourceLanguage().toLowerCase()) {
+                        case JAVA_LANG:
+                            mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(MONGODB_CONFIGURATION));
+                            break;
+                        case GROOVY_LANG:
+                            mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getGroovyTemplates().get(MONGODB_CONFIGURATION));
+                            break;
+                        case KOTLIN_LANG:
+                            mongodbConfigurationTemplate = templatesService.loadTemplateContent(templatesService.getKotlinTemplates().get(MONGODB_CONFIGURATION));
+                            ext = "kt";
+                            break;
+                    }
+                    String mongoConfigurationContent = GeneratorUtils.generateFromTemplate(mongodbConfigurationTemplate, new HashMap<String, String>() {{
+                        put("projectPackage", projectInfo.getDefaultPackage());
+                    }});
+                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + projectInfo.getSourceLanguage() + "/" + GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()) + "/config/MongodbConfiguration." + ext, mongoConfigurationContent);
                 }
-                String mongoConfigurationContent = GeneratorUtils.generateFromTemplate(mongodbConfigurationTemplate, new HashMap<String, String> (){{
-                    put("projectPackage", projectInfo.getDefaultPackage());
-                }});
-                GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/"+ projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+ "/config/MongodbConfiguration."+ ext , mongoConfigurationContent);
                 if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
                     if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?", NO).getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
                     {

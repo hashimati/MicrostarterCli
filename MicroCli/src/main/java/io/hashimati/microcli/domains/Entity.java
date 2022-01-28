@@ -45,6 +45,7 @@ public class Entity
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
     private int liquibaseSequence;
 
+    private boolean mnData;
     private boolean isGraphQl;
     private boolean cached;
     private boolean micrometer;
@@ -365,5 +366,13 @@ public class Entity
 
     public EntityAttribute getAttributeByName(String name){
         return attributes.stream().filter(x->x.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public boolean isMnData() {
+        return mnData;
+    }
+
+    public void setMnData(boolean mnData) {
+        this.mnData = mnData;
     }
 }

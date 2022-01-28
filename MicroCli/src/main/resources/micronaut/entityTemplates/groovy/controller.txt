@@ -57,7 +57,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") long id){
+    ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") ${idType} id){
 
         log.info("Finding ${className} By Id: {}", id);
         return ${entityName}Service.findById(id)
@@ -76,7 +76,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    Boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") long id){
+    Boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") ${idType} id){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id);
     }

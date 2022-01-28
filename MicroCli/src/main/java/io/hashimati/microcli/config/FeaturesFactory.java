@@ -184,6 +184,24 @@ public class FeaturesFactory {
                     "\t\t<scope>test</scope>\n" +
                     "\t</dependency>");
         }});
+        features.put("data-mongodb", new Feature(){{
+
+            setName("data-mongodb");
+            setGradle("    implementation(\"io.micronaut.data:micronaut-data-mongodb:3.3.0-M1\")\n");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-document-processor:3.3.0-M1\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.data</groupId>\n" +
+                    "\t\t<artifactId>micronaut-data-mongodb</artifactId>\n" +
+                    "\t\t<version>3.3.0-M1</version>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setAnnotationMaven("\t<path>\n" +
+                    "\t\t<groupId>io.micronaut.data</groupId>\n" +
+                    "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
+                    "\t\t<version>3.3.0-M1</version>\n" +
+                    "\t</path>");
+
+        }});
 
 
         features.put("cassandra", new Feature(){{

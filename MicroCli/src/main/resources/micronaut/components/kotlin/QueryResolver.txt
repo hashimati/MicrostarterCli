@@ -13,7 +13,7 @@ ${moreImports}
 class ${className}QueryResolver(private val ${entityName}Repository :${className}Repository)  : GraphQLQueryResolver, GraphQLMutationResolver{
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    fun find${className}ById(id: Long): ${className}
+    fun find${className}ById(id: ${idType}): ${className}
     {
         return ${entityName}Service.findById(id).get();
     }
@@ -36,7 +36,7 @@ class ${className}QueryResolver(private val ${entityName}Repository :${className
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    fun delete${className}(id: Long) : Boolean{
+    fun delete${className}(id: ${idType}) : Boolean{
       return ${entityName}Service.deleteById(id);
     }
 ${methods}

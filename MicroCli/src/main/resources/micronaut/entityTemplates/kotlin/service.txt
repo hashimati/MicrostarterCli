@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
+<% if(transactional) out.print '@Transactional'%>
 @Singleton
-@Transactional
 class ${className}Service(private val ${entityName}Repository: ${className}Repository)  {
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
@@ -26,13 +26,13 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    fun findById(id:Long): ${className} {
+    fun findById(id:${idType}): ${className} {
         log.info("Finding ${className} by id:{}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    fun deleteById(id:Long): Boolean {
+    fun deleteById(id:${idType}): Boolean {
         try{
 
             ${entityName}Repository.deleteById(id)

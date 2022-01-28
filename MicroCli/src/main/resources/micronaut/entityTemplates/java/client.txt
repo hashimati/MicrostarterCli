@@ -15,10 +15,10 @@ public interface ${classNameA}Client {
     public ${className} save(${classNameA} ${entityName});
 
     @Get("/get")
-    public ${className} findById(@Parameter("id") long id);
+    public ${className} findById(@Parameter("id") ${idType} id);
 
     @Delete("/delete/{id}")
-    public boolean deleteById(@PathVariable("id") long id);
+    public boolean deleteById(@PathVariable("id") ${idType} id);
 
     @Get("/findAll")
     public Iterable<${className}> findAll();
