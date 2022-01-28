@@ -484,7 +484,6 @@ public class ConfigurationInitializer {
 
 
                 projectInfo.getFeatures().add("tracing-jaeger");
-                MicronautProjectValidator.addDependency(features.get("tracing"));
                 MicronautProjectValidator.addDependency(features.get("tracing-jaeger"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
@@ -499,7 +498,6 @@ public class ConfigurationInitializer {
             else if(tracing.getSelectedId().equalsIgnoreCase("zipkin")){
 
                 projectInfo.getFeatures().add("tracing-zipkin");
-                MicronautProjectValidator.addDependency(features.get("tracing"));
                 MicronautProjectValidator.addDependency(features.get("tracing-zipkin"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));

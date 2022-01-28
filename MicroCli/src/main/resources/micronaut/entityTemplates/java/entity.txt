@@ -33,12 +33,8 @@ public class ${className}{
     <% if(jdbc) out.println 'private Long id;'%>
     <% if(normal) out.println 'private String id;' %>
     ${instances}
-    <% if(jdbc) out.print '@DateCreated ' %>
-    <% if(jdbc) out.println 'private Date dateCreated;' %>
-    <% if(jdbc) out.print  '@DateUpdated ' %>
-    <% if(jdbc) out.println 'private Date dateUpdated;' %>
-    <% if(jpa || mongo) out.print '@DateCreated ' %>
-    <% if(jpa || mongo) out.println 'private Date dateCreated;' %>
-    <% if(jpa || mongo) out.print '@DateUpdated ' %>
-    <% if(jpa || mongo) out.println 'private Date dateUpdated;' %>
+    <% if(jdbc || jpa || mongo) out.print '@DateCreated ' %>
+    <% if(jdbc || jpa || mongo) out.println 'private Date dateCreated;' %>
+    <% if(jdbc|| jpa || mongo) out.print '@DateUpdated ' %>
+    <% if(jdbc || jpa || mongo) out.println 'private Date dateUpdated;' %>
 }

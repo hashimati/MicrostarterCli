@@ -1,18 +1,17 @@
 package ${entitypackage}
 ${importedPackages}
 ${jpa?'import javax.persistence.*':''}
-${jdbc?'import io.micronaut.data.annotation.*;' :''}
-${jpa?'import io.micronaut.data.annotation.DateCreated' :''}
-${jpa?'import io.micronaut.data.annotation.DateUpdated' :''}
+${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*;' :''}
 import javax.validation.constraints.*
 ${containDate?'import java.util.Date':''}
 import java.util.List
+
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema" %>
-${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
+${jdbc || mongo?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
 import com.fasterxml.jackson.annotation.JsonProperty
 
 <% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
-<% if(jdbc) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
-data class ${className}(<% if(jpa) out.print '@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long'%> <% if(normal) out.println 'var id:String'%> <% if(jdbc) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO) var id: Long'%>
+<% if(jdbc || mongo) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
+data class ${className}(<% if(jpa) out.print '@Id @GeneratedValue(strategy = GeneratedValue.Type.SEQUENCE) var id: Long'%>  <% if(jdbc) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO) var id: Long'%> <% if(mongo) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO)%> <% if(normal) out.println 'var id:String'%>
 ${instances})
