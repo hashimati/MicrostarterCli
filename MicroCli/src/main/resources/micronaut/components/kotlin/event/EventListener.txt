@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 class ${className}Listener() : ApplicationEventListener<${className}> {
 
     override fun onApplicationEvent(${eventName}: ${className}) {
-        log.info("Listening to ${className} ${eventName}: {}", ${eventName})
+        log.info("Listening ${className} event: {}", ${eventName})
         //todo add your logic here.
     }
 

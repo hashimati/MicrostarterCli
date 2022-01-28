@@ -1,4 +1,4 @@
-package ${pack}.event
+package ${pack}.events
 
 import ${pack}.domains.${className}
 import io.micronaut.context.event.ApplicationEventListener
@@ -14,7 +14,7 @@ class ${className}Listener implements ApplicationEventListener<${className}>  {
     
     @Override
     public void onApplicationEvent(${className} ${eventName}) {
-        log.info("Saving login event: {}", event)
+        log.info("Listening ${className} event {}", ${eventName})
         //TODO: write your logic here
 
     }

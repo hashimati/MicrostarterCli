@@ -7,6 +7,7 @@ import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import io.micronaut.core.naming.NameUtils;
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -44,6 +45,11 @@ public class CreateEventCommand implements Callable<Integer> {
         }
         ProjectInfo projectInfo = configurationInfo.getProjectInfo();
 
+        if(configurationInfo.getEntities().isEmpty())
+        {
+            PromptGui.println("Please, use \"entity\" command to an event class." , Ansi.Color.MAGENTA);
+            return 0;
+        }
         String eventName = PromptGui.createListPrompt("event", "Select Event Type: ",
                 configurationInfo.getEntities().stream().map(x->x.getName()).collect(Collectors.toList())
                         .toArray(new String[configurationInfo.getEntities().size()])).getSelectedId();
@@ -53,7 +59,7 @@ public class CreateEventCommand implements Callable<Integer> {
 
         String publisherContent = micronautComponentGenerator.generateEventPublisher(projectInfo.getDefaultPackage(), eventName, NameUtils.camelCase(eventName), projectInfo.getSourceLanguage());
 
-        String listenerContent = micronautComponentGenerator.generateEventPublisher(projectInfo.getDefaultPackage(), eventName, NameUtils.camelCase(eventName), projectInfo.getSourceLanguage());
+        String listenerContent = micronautComponentGenerator.generateEventListener(projectInfo.getDefaultPackage(), eventName, NameUtils.camelCase(eventName), projectInfo.getSourceLanguage());
 
 
         String parent = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.GENERAL_PATH, new HashMap<String, String>(){{
@@ -61,11 +67,11 @@ public class CreateEventCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
 
-        createFile(System.getProperty("user.dir")+parent+ "/"+eventName+"Publisher"+extension, publisherContent);
-        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/"+eventName+"Publisher"+extension + "\"");
+        createFile(System.getProperty("user.dir")+parent+ "/events/"+eventName+"Publisher"+extension, publisherContent);
+        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/events/"+eventName+"Publisher"+extension + "\"");
 
-        createFile(System.getProperty("user.dir")+parent+ "/"+eventName+"Listener"+extension, listenerContent);
-        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/"+eventName+"Listener"+extension + "\"");
+        createFile(System.getProperty("user.dir")+parent+ "/events/"+eventName+"Listener"+extension, listenerContent);
+        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/events/"+eventName+"Listener"+extension + "\"");
 
         return null;
     }

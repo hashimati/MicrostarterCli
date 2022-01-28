@@ -124,35 +124,40 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
             // reading collections/table name if the user didn't provide it .
-            if (collectionName == null) {
-                String defaultValue = "";
-                if (entityName.endsWith("ay") || entityName.endsWith("ey") || entityName.endsWith("iy") || entityName.endsWith("oy") || entityName.endsWith("uy")
-                        || entityName.endsWith("ao") || entityName.endsWith("eo") || entityName.endsWith("io") || entityName.endsWith("oo") || entityName.endsWith("uo")) {
-                    defaultValue = entityName.toLowerCase() + "s";
-                } else if (entityName.endsWith("y")) {
-                    defaultValue = entityName.toLowerCase().substring(0, entityName.toLowerCase().lastIndexOf("y")) + "ies";
-                } else if (entityName.endsWith("o") || entityName.endsWith("s")) {
-                    defaultValue = entityName.toLowerCase() + "es";
-                } else {
-                    defaultValue = entityName.toLowerCase() + "s";
+            if(!noEndpoint)
+            {
+                if (collectionName == null) {
+                    String defaultValue = "";
+                    if (entityName.endsWith("ay") || entityName.endsWith("ey") || entityName.endsWith("iy") || entityName.endsWith("oy") || entityName.endsWith("uy")
+                            || entityName.endsWith("ao") || entityName.endsWith("eo") || entityName.endsWith("io") || entityName.endsWith("oo") || entityName.endsWith("uo")) {
+                        defaultValue = entityName.toLowerCase() + "s";
+                    } else if (entityName.endsWith("y")) {
+                        defaultValue = entityName.toLowerCase().substring(0, entityName.toLowerCase().lastIndexOf("y")) + "ies";
+                    } else if (entityName.endsWith("o") || entityName.endsWith("s")) {
+                        defaultValue = entityName.toLowerCase() + "es";
+                    } else {
+                        defaultValue = entityName.toLowerCase() + "s";
 
+                    }
+
+                    collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
                 }
+                else  collectionName = "none";
+                entity.setCollectionName(collectionName);
 
-                collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
-            }
+
+
+            }      //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
+            entity.setDatabaseType(configurationInfo.getDatabaseType());
+            entity.setFrameworkType(configurationInfo.getDataBackendRun());
             entity.setDatabaseName(configurationInfo.getDatabaseName());
             entity.setReactiveFramework(configurationInfo.getReactiveFramework());
-            entity.setCollectionName(collectionName);
-            entity.setDatabaseType(configurationInfo.getDatabaseType());
             entity.setMnData(configurationInfo.isMnData());
-
-            entity.setFrameworkType(configurationInfo.getDataBackendRun());
-
             entity.setGorm(configurationInfo.isGorm());
-            //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
-            entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
             entity.setMicrometer(configurationInfo.isMicrometer());
             entity.setTracingEnabled(configurationInfo.isTracingEnabled());
+            entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
+
 
 
 
@@ -294,6 +299,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                         entityAttribute.setConstraints(entityConstraints);
                     }
 
+                    if(!noEndpoint)
                     if (Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
 
                         String n = NameUtils.capitalize(entityAttribute.getName());
@@ -310,7 +316,7 @@ public class CreateEntityCommand implements Callable<Integer> {
             }
 
             //Todo Update By Attribute
-            if (!entity.getAttributes().isEmpty())
+            if(!noEndpoint) if (!entity.getAttributes().isEmpty())
            {
                String[] attributes = entity.getAttributes().stream().map(x->x.getName()).collect(Collectors.toList()).toArray(new String[entity.getAttributes().size()]);
                updateByLoop:
@@ -337,6 +343,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                }
 
            }
+            if(!noEndpoint)
             if(caffeine)
             {
                 entity.setCached(true);
@@ -359,10 +366,10 @@ public class CreateEntityCommand implements Callable<Integer> {
                 put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                 put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
             }});
+            GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+extension, entityFileContent);
 
             if(!noEndpoint) {
 
-                GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+extension, entityFileContent);
 
 
                 //===============
@@ -424,7 +431,6 @@ public class CreateEntityCommand implements Callable<Integer> {
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
                     GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
-                    configurationInfo.getEntities().add(entity);
 
                     if (graphql) {
                         entity.setGraphQl(true);
@@ -618,8 +624,8 @@ public class CreateEntityCommand implements Callable<Integer> {
                     }
                 }
             }
+            configurationInfo.getEntities().add(entity);
 
-//            configurationInfo.getEntities().add(entity);
             configurationInfo.writeToFile();
 
 
