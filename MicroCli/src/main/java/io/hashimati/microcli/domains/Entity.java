@@ -50,6 +50,7 @@ public class Entity
     private boolean cached;
     private boolean micrometer;
     private boolean tracingEnabled;
+    private boolean noEndpoints;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     public String getName() {
         return name;
@@ -374,5 +375,13 @@ public class Entity
 
     public void setMnData(boolean mnData) {
         this.mnData = mnData;
+    }
+
+    public void setNoEndpoints(boolean noEndpoints) {
+        this.noEndpoints = noEndpoints;
+    }
+
+    public boolean isNoEndpoints() {
+        return noEndpoints;
     }
 }

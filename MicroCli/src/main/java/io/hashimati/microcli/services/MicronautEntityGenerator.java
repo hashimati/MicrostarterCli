@@ -352,11 +352,11 @@ public class MicronautEntityGenerator
         binder.put("entityAnnotation",entityAnnotation );
         binder.put("tableAnnotation","" );
         binder.put("entitypackage", entity.getEntityPackage());
-        binder.put("jpa", isJpa);
-        binder.put("jdbc", isJdbc);
-        binder.put("mongo", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml));
-        binder.put("normal", (isJpa == false && isJdbc == false));
-        binder.put("openApi", MicronautProjectValidator.getProjectInfo().getApplicationType().equalsIgnoreCase("default"));
+        binder.put("jpa", isJpa && !entity.isNoEndpoints());
+        binder.put("jdbc", isJdbc && !entity.isNoEndpoints());
+        binder.put("mongo", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isNoEndpoints());
+        binder.put("normal", (isJpa == false && isJdbc == false) && !entity.isNoEndpoints());
+        binder.put("openApi", MicronautProjectValidator.getProjectInfo().getApplicationType().equalsIgnoreCase("default") && !entity.isNoEndpoints());
         binder.put("collectionName", entity.getCollectionName()); 
         binder.put("className",entity.getName() );
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));

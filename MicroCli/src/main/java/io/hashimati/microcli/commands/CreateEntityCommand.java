@@ -122,7 +122,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
             entity.setName(StringUtils.capitalize(entityName));
 
-
+            entity.setNoEndpoints(noEndpoint);
             // reading collections/table name if the user didn't provide it .
             if(!noEndpoint)
             {
