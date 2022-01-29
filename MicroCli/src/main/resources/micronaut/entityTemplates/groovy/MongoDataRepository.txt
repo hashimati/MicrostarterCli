@@ -3,7 +3,7 @@ package ${entityRepositoryPackage}
 import ${importEntity}
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.*
-import io.micronaut.data.mongodb.annotation.MongoRepository;
+import io.micronaut.data.mongodb.annotation.MongoRepository
 import io.micronaut.data.repository.CrudRepository
 import java.util.*
 import org.bson.types.ObjectId
