@@ -932,11 +932,11 @@ public class FeaturesFactory {
 //        }});
         features.put("tracing-jaeger", new Feature(){{
             setName("tracing-jaeger");
-            setGradle("        implementation(\"io.micronaut.tracing:tracing-jaeger\")\n");
+            setGradle("        implementation(\"io.micronaut.tracing:micronaut-tracing-jaeger\")\n");
 
             getMaven().add(" \t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.tracing</groupId>\n" +
-                    "\t\t<artifactId>tracing-jaeger</artifactId>\n" +
+                    "\t\t<artifactId>micronaut-tracing-jaeger</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
 
@@ -955,11 +955,11 @@ public class FeaturesFactory {
         features.put("tracing-zipkin", new Feature(){{
             setName("tracing-zipkin");
 
-            setGradle("    implementation(\"io.micronaut.tracing:tracing-zipkin\")");
+            setGradle("    implementation(\"io.micronaut.tracing:micronaut-tracing-zipkin\")");
 
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.tracing</groupId>\n" +
-                    "\t\t<artifactId>tracing-zipkin</artifactId>\n" +
+                    "\t\t<artifactId>micronaut-tracing-zipkin</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
 
