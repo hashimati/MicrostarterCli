@@ -1,0 +1,24 @@
+micronaut:
+  application:
+    name: acmeDemo
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+    enabled: false
+  server:
+    ssl:
+      enabled: 'true'
+      keyStore:
+        path: classpath:server.jks
+        password: Hello@12342
+        type: JKS
+      build-self-signed: true
+netty:
+  default:
+    allocator:
+      max-order: 3
