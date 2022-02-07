@@ -14,18 +14,18 @@ ${moreImports}
 public interface ${classNameA}Client {
 
     @Post("/save")
-    public <% print reactor? "Mono" : "Single" %><${className}> save(${classNameA} ${entityName});
+    public <% print reactor? "Mono" : "Single" %><${className}> save(${classNameA} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Get("/get")
-    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") String id);
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(@Parameter("id") String id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Delete("/delete/{id}")
-    public boolean deleteById(@PathVariable("id") String id);
+    public boolean deleteById(@PathVariable("id") String id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Get("/findAll")
-    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll();
+    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>);
 
     @Put("/update")
-    public <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName});
+    public <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 }
 

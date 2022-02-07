@@ -46,6 +46,7 @@ public class ConfigurationInfo {
     private boolean caffeine;
     boolean gorm;
     private boolean securityEnable;
+    private String securityStrategy; //jwt, basic, session.
     private String authenticationStrategy;
     private String tracingFramework;
     private boolean tracingEnabled;

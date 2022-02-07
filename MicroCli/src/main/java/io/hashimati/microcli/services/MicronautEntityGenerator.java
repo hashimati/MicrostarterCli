@@ -363,6 +363,8 @@ public class MicronautEntityGenerator
         binder.put("importedPackages",importedPackages );
         binder.put("containDate", containDate);
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
 
         String templatePath= getTemplatPath(TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
 
@@ -813,6 +815,8 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -859,7 +863,11 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
+
             }};
+            sBinder.put("principle", entity.isSecurityEnabled());
+            sBinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+
             sBinder.put("blocking", blocking);
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
@@ -896,6 +904,8 @@ public class MicronautEntityGenerator
                     put("updatesVariables", updatesVariables);
                     put("block", "");
                 }};
+                ubinder.put("principle", entity.isSecurityEnabled());
+                ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("returnType", updateReturnType);
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
             }
@@ -917,6 +927,8 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String serviceTemplate = "";
         String templatePath="";
 
@@ -983,6 +995,8 @@ public class MicronautEntityGenerator
         binder.put("className", entity.getName());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("moreImports", "");
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
         String controllerTemplate = templatesService.loadTemplateContent(templatePath);
@@ -1035,6 +1049,10 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
+                put("principle", entity.isSecurityEnabled());
+                put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+
+
             }};
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
@@ -1093,6 +1111,8 @@ public class MicronautEntityGenerator
                     put("updatesVariables", updatesVariables);
                     put("block", "");
                 }};
+                ubinder.put("principle", entity.isSecurityEnabled());
+                ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("updates",entity.getUpdateByMethods().get(u).stream()
                        .reduce((x,y)-> x + ", "+y).orElse("") );
                 ubinder.put("returnType", updateReturnType);
@@ -1115,6 +1135,8 @@ public class MicronautEntityGenerator
         binder.put("className", entity.getName());
         binder.put("moreImports", "");
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String serviceTemplate ;
         String templatePath="";
         switch (entity.getDatabaseType().toLowerCase())
@@ -1144,6 +1166,8 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("methods", "");
         binder.put("moreImports", "");
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String templatePath= getTemplatPath(GORM_CLIENT, language.toLowerCase());
         String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
@@ -1192,6 +1216,9 @@ public class MicronautEntityGenerator
             }};
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
+            sBinder.put("principle", entity.isSecurityEnabled());
+            sBinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+
             if (ea.isFindAllMethod())
             {
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
@@ -1222,7 +1249,8 @@ public class MicronautEntityGenerator
                     put("className", entity.getName());
                     put("block", "");
                 }};
-
+                ubinder.put("principle", entity.isSecurityEnabled());
+                ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("returnType", updateReturnType);
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
             }
@@ -1241,6 +1269,8 @@ public class MicronautEntityGenerator
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
         binder.put("moreImports", "");
+        binder.put("principle", entity.isSecurityEnabled());
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
 
         if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()) && !entity.isMnData())

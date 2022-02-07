@@ -12,19 +12,19 @@ ${moreImports}
 public interface ${classNameA}Client {
 
     @Post("/save")
-    public ${className} save(${classNameA} ${entityName});
+    public ${className} save(${classNameA} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Get("/get")
-    public ${className} findById(@Parameter("id") ${idType} id);
+    public ${className} findById(@Parameter("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Delete("/delete/{id}")
-    public boolean deleteById(@PathVariable("id") ${idType} id);
+    public boolean deleteById(@PathVariable("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
     @Get("/findAll")
-    public Iterable<${className}> findAll();
+    public Iterable<${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>);
 
     @Put("/update")
-    public ${className} update(@Body ${className} ${entityName});
+    public ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
 
 ${methods}
 }

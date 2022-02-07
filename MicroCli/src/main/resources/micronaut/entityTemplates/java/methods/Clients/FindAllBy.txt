@@ -1,3 +1,3 @@
 
     @Get("/findAllBy${Attribute}")
-    public ${returnTypeList} findAllBy${Attribute}(${attributeType} query);
+    public ${returnTypeList} findAllBy${Attribute}(${attributeType} query<% if(header) out.print ',  @Header("Authorization") String authorization'%>);

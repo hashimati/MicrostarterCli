@@ -57,7 +57,8 @@ public class SecurityGenerator {
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
         configurationInfo.setSecurityRoles(roles);
-
+        configurationInfo.setSecurityEnable(true);
+        configurationInfo.setSecurityStrategy(strategy);
         MicronautProjectValidator.addDependency(features.get("jasypt"));
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-annotations"))
         {

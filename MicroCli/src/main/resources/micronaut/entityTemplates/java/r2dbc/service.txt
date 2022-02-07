@@ -3,6 +3,7 @@ package ${servicePackage};
 
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*;' %>
 import j.inject.Inject;
+<% if(principle) out.print 'import java.security.Principal;' %>
 import jakarta.inject.Singleton;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class ${className}Service {
     @Inject private ${className}Repository ${entityName}Repository;
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
-    public <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}){
+    public <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName} if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
@@ -33,14 +34,14 @@ public class ${className}Service {
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    public <% print reactor? "Mono" : "Single" %><${className}> findById(long id){
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(long idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Finding ${className} By Id: {}", id);
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(${entityName}Repository.findById(id));
     }
 
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(long id){
+    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(long idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
         try{
             ${entityName}Repository.deleteById(id);
@@ -56,12 +57,12 @@ public class ${className}Service {
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll() {
+    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(if(principle) out.print 'Principle principle'%> <% if(header) out.print ',  String authorization'%>) {
         log.info("Find All");
       return <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(${entityName}Repository.findAll());
     }
 
-    public <% print reactor? "Mono" : "Single" %><Boolean> existsById(Long id)
+    public <% print reactor? "Mono" : "Single" %><Boolean> existsById(Long idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>)
     {
         log.info("Check if id exists: {}", id);
         return  <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(${entityName}Repository.existsById(id));

@@ -50,6 +50,8 @@ public class Entity
     private boolean cached;
     private boolean micrometer;
     private boolean tracingEnabled;
+    private boolean securityEnabled;
+    private String securityStrategy;
     private boolean noEndpoints;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     public String getName() {
@@ -383,5 +385,21 @@ public class Entity
 
     public boolean isNoEndpoints() {
         return noEndpoints;
+    }
+
+    public boolean isSecurityEnabled() {
+        return securityEnabled;
+    }
+
+    public void setSecurityEnabled(boolean securityEnabled) {
+        this.securityEnabled = securityEnabled;
+    }
+
+    public String getSecurityStrategy() {
+        return securityStrategy;
+    }
+
+    public void setSecurityStrategy(String securityStrategy) {
+        this.securityStrategy = securityStrategy;
     }
 }

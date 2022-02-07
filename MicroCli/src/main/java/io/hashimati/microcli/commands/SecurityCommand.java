@@ -27,9 +27,9 @@ import java.util.concurrent.Callable;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static org.fusesource.jansi.Ansi.ansi;
 
-@Command(name = "security", description = {"To enable Security", "This command will generate the security files based the configuration, and selected security mechanism."})
+@Command(name = "security", description = {"To enable Security", "This command will generate the security files based the configuration, and selected security mechanism."},
+subcommands = SSLCommand.class)
 public class SecurityCommand implements Callable<Integer> {
-
 
     @Inject
     private SecurityGenerator securityGenerator;
