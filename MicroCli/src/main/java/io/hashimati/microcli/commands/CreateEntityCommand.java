@@ -157,7 +157,8 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setMicrometer(configurationInfo.isMicrometer());
             entity.setTracingEnabled(configurationInfo.isTracingEnabled());
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
-
+            entity.setSecurityStrategy(configurationInfo.getSecurityStrategy());
+            entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
 
 
 

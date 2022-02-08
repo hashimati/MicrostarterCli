@@ -21,7 +21,7 @@ public class ${className}Service {
     @Inject private ${className}Repository ${entityName}Repository;
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
-    public ${className} save(${className} ${entityName}if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
+    public ${className} save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
@@ -31,13 +31,13 @@ public class ${className}Service {
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    public ${className} findById(${idType} idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
+    public ${className} findById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Finding ${className} By Id: {}", id);
         return ${entityName}Repository.findById(id).orElse(null);
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    public boolean deleteById(${idType} idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>){
+    public boolean deleteById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
         try{
             ${entityName}Repository.deleteById(id);
@@ -53,12 +53,12 @@ public class ${className}Service {
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    public Iterable<${className}> findAll(if(principle) out.print 'Principle principle'%> <% if(header) out.print ',  String authorization'%>) {
+    public Iterable<${className}> findAll(<%if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
         log.info("Find All");
       return  ${entityName}Repository.findAll();
     }
 
-    public boolean existsById(${idType} idif(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>)
+    public boolean existsById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
     {
         log.info("Check if id exists: {}", id);
         return  ${entityName}Repository.existsById(id);
@@ -66,7 +66,7 @@ public class ${className}Service {
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
-    public ${className} update(${className} ${entityName}if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  String authorization'%>)
+    public ${className} update(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
     {
         log.info("update {}", ${entityName});
         return ${entityName}Repository.update(${entityName});

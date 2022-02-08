@@ -40,12 +40,12 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    public ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName} <% if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    public ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName} <% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
 
         //saving Object
-        return ${entityName}Service.save(${entityName});
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
 
 
@@ -62,8 +62,8 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") ${idType} id<% if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
-        return ${entityName}Service.findById(id);
+    public ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+        return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -79,9 +79,9 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") ${idType} id<% if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    public boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
-        return  ${entityName}Service.deleteById(id);
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -95,9 +95,9 @@ public class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
-    public Iterable<${className}> findAll(<% if(principle) out.print 'Principle principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    public Iterable<${className}> findAll(<% if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("find All");
-        return ${entityName}Service.findAll();
+        return ${entityName}Service.findAll(<% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>);
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -112,10 +112,10 @@ public class ${className}Controller {
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principle principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
+    public ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("update {}", ${entityName});
-        return ${entityName}Service.update(${entityName});
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
 
     }
 
