@@ -14,4 +14,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
 <% if(jdbc || mongo) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 public record ${className}(<% if(jpa) out.print '@Id @GeneratedValue(strategy = GeneratedValue.Type.SEQUENCE) Long id'%>  <% if(jdbc) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO) Long id'%> <% if(mongo) out.print '@Id @GeneratedValue(GeneratedValue.Type.AUTO)%> <% if(normal) out.println 'String id'%>
-${instances})
+<% if(jdbc || jpa || mongo) out.print ', @DateCreated private Date dateCreated' %> <% if(jdbc|| jpa || mongo) out.print ', @DateUpdated private Date dateUpdated' %>${instances}){
+
+}
