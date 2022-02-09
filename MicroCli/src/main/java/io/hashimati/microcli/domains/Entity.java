@@ -53,6 +53,7 @@ public class Entity
     private boolean securityEnabled;
     private String securityStrategy;
     private boolean noEndpoints;
+    private String javaVersion;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     public String getName() {
         return name;
@@ -401,5 +402,13 @@ public class Entity
 
     public void setSecurityStrategy(String securityStrategy) {
         this.securityStrategy = securityStrategy;
+    }
+
+    public String getJavaVersion() {
+        return javaVersion;
+    }
+
+    public void setJavaVersion(String javaVersion) {
+        this.javaVersion = javaVersion;
     }
 }

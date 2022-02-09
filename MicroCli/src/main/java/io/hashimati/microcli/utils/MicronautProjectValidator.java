@@ -8,6 +8,9 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.TemplatesService;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -383,6 +386,32 @@ public class MicronautProjectValidator {
         return false;
     }
 
+    public static String getJavaVersion() throws IOException, XmlPullParserException {
+        String buildContent ="";
+        if(isGradle()){
+            buildContent = getGradleFileContent();
+            String theLine =  "sourceCompatibility = JavaVersion.toVersion(\"11\")";
+            String target = "JavaVersion.toVersion";
+            Scanner sc = new Scanner(buildContent);
+            while( (theLine = sc.nextLine()) != null){
+                if(theLine.contains("JavaVersion.toVersion")){
+                    String version = theLine.substring(theLine.indexOf("JavaVersion.toVersion"))
+                            .replace("JavaVersion.toVersion(\"", "")
+                            .replace("\")", "");
+                    return version;
+                }
+            }
+            return "11";
+        }
+        else {
+            String cwd = System.getProperty("user.dir");
+            File  pom = new File(cwd + "/pom.xml");
+            MavenXpp3Reader mavenreader = new MavenXpp3Reader();
+            Model mavenPom = mavenreader.read(new FileInputStream(pom));
+            return mavenPom.getProperties().getProperty("jdk.version", "11") ;
+        }
+
+    }
 
     private static String getGradleFileContent() throws FileNotFoundException {
         String cwd = System.getProperty("user.dir");

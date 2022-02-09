@@ -51,7 +51,7 @@ public class ConfigurationInfo {
     private String tracingFramework;
     private boolean tracingEnabled;
     private boolean mnData;
-
+    private String javaVersion;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();

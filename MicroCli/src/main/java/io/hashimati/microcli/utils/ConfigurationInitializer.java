@@ -96,6 +96,7 @@ public class ConfigurationInitializer {
                 configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromGradle());
             }
 
+            configurationInfo.setJavaVersion(MicronautProjectValidator.getJavaVersion());
 
 //            AtomicBoolean isDatabaseConfiguredByDefault = new AtomicBoolean(false);
 //            Arrays.asList("h2", "reactive-mongo", "postgres", "sqlserver", "oracle", "cassandra","neo4j").forEach(

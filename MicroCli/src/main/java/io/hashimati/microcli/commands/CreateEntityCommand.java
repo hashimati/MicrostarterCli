@@ -159,7 +159,7 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setPackages(configurationInfo.getProjectInfo().getDefaultPackage());
             entity.setSecurityStrategy(configurationInfo.getSecurityStrategy());
             entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
-
+            entity.setJavaVersion(configurationInfo.getJavaVersion());
 
 
 
