@@ -54,6 +54,7 @@ public class TemplatesService {
             JOIN_ANNOTATION = "joinAnnotation",
             JOIN_METHODS = "joinMethods",
             ENTITY = "entity",
+            ENTITY_RECORD = "entity_record",
             EXCEPTION_HANDLER = "entityExceptionHandler",
             GENERAL_EXCEPTION = "entityGeneralException",
             REPOSITORY_TEST = "EntityRepositoryTest",
@@ -300,6 +301,7 @@ public class TemplatesService {
         javaTemplates.put(CLIENT, "micronaut/entityTemplates/java/client.txt");
         javaTemplates.put(CONTROLLER, "micronaut/entityTemplates/java/controller.txt");
         javaTemplates.put(ENTITY, "micronaut/entityTemplates/java/entity.txt");
+        javaTemplates.put(ENTITY_RECORD, "micronaut/entityTemplates/java/entityRecord.txt");
         javaTemplates.put(EXCEPTION_HANDLER, "micronaut/entityTemplates/java/entityExceptionHandler.txt");
         javaTemplates.put(GENERAL_EXCEPTION, "micronaut/entityTemplates/java/entityGeneralException.txt");
         javaTemplates.put(ENUM, "micronaut/entityTemplates/java/enum.txt");
