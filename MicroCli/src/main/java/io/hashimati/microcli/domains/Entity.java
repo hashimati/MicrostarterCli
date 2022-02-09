@@ -54,6 +54,7 @@ public class Entity
     private String securityStrategy;
     private boolean noEndpoints;
     private String javaVersion;
+    private boolean javaRecord;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     public String getName() {
         return name;
@@ -410,5 +411,13 @@ public class Entity
 
     public void setJavaVersion(String javaVersion) {
         this.javaVersion = javaVersion;
+    }
+
+    public boolean isJavaRecord() {
+        return javaRecord;
+    }
+
+    public void setJavaRecord(boolean javaRecord) {
+        this.javaRecord = javaRecord;
     }
 }

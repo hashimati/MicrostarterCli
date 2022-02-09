@@ -59,6 +59,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
     @Option(names = {"--entity-name", "-e", "-n"},  description = "Entity's Name")
     private String entityName;
+    @Option(names = {"--record", "-r"},description = "To declare an entity as Java Records.")
+    private boolean record;
     private TemplatesService templatesService = new TemplatesService() ;
 
     @Option(names = {"--collection-name", "-c"}, description = "Entity's collection/table name")
@@ -147,7 +149,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
-            }      //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
+            }
+            //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
             entity.setDatabaseType(configurationInfo.getDatabaseType());
             entity.setFrameworkType(configurationInfo.getDataBackendRun());
             entity.setDatabaseName(configurationInfo.getDatabaseName());
@@ -160,6 +163,17 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setSecurityStrategy(configurationInfo.getSecurityStrategy());
             entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
             entity.setJavaVersion(configurationInfo.getJavaVersion());
+
+            //support records list
+            var rs = Arrays.asList("14","15", "16", "17");
+            if(rs.contains(entity.getJavaVersion()))
+            {
+                if(!record){
+                   var result =  PromptGui.createConfirmResult("recode", "Do you want to user Java Records? ",YES);
+                   record = result.getConfirmed() == YES? true:false;
+                }
+                entity.setJavaRecord(record);
+            }
 
 
 
