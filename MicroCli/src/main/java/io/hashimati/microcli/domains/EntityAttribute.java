@@ -147,11 +147,14 @@ public class EntityAttribute {
         }
     }
 
-    public String getDeclaration(String lang)
+    public String getDeclaration(String lang, boolean isRecord)
     {
         String constraintsDeclaration="";
 
 
+        if(lang.equalsIgnoreCase(JAVA_LANG) && isRecord){
+            lang = lang+"Record";
+        }
         String elementCollectionAnnotation = "\t@ElementCollection(fetch = FetchType.EAGER)\n";
         if(array)
         {
@@ -182,8 +185,10 @@ public class EntityAttribute {
                 return ((jpa && array)?elementCollectionAnnotation:"")+"\t" +type + " " + name +";\n";
             case KOTLIN_LANG:
                 return ((jpa && array)?elementCollectionAnnotation:"")+"\t" +"var" + " " + name + ":" + StringUtils.capitalize(type) +"\n";
+            default:
+                return ((jpa && array)?elementCollectionAnnotation:"") +type + " " + name +" ";
         }
-        return "";
+        //  return "";
     }
     public String graphQLDeclaration()
     {

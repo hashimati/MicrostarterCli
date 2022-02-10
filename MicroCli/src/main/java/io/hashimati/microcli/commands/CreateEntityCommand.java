@@ -164,9 +164,8 @@ public class CreateEntityCommand implements Callable<Integer> {
             entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
             entity.setJavaVersion(configurationInfo.getJavaVersion());
 
-            //support records list
-            var rs = Arrays.asList("14","15", "16", "17");
-            if(rs.contains(entity.getJavaVersion()))
+
+            if(entity.getJavaVersion().matches("^(1[4-9]|[2-9][0-9])$"))
             {
                 if(!record){
                    var result =  PromptGui.createConfirmResult("recode", "Do you want to user Java Records? ",YES);
@@ -174,6 +173,8 @@ public class CreateEntityCommand implements Callable<Integer> {
                 }
                 entity.setJavaRecord(record);
             }
+            else
+                entity.setJavaRecord(false);
 
 
 

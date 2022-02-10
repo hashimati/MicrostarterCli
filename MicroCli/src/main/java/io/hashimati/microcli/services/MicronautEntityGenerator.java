@@ -178,7 +178,7 @@ public class MicronautEntityGenerator
                      //   attrContraint.replace(attrContraint.lastIndexOf(","), attrContraint.lastIndexOf(","), "").append("\n");
                         contraints.append(attrContraint.toString());
                     }
-                attributeDeclaration +=eA.getDeclaration(language);
+                attributeDeclaration +=eA.getDeclaration(language,false);
                 if(!eA.isPremetive() && eA.getTypePackage()!= null )
                 {
                     importedPackages += eA.getPackageSyntax(language)+"\n";
@@ -211,7 +211,7 @@ public class MicronautEntityGenerator
 
         if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
             return generateEntityGorm(entity, relations, language);
-        String declarrationSperator = language.equalsIgnoreCase(KOTLIN_LANG)? ",": "\n";
+        String declarrationSperator = language.equalsIgnoreCase(KOTLIN_LANG) || (language.equalsIgnoreCase(JAVA_LANG) && entity.isJavaRecord())? ",": "\n";
         Set<EntityRelation> entityRelations = getRelations(entity, relations);
         String attributesDeclaration ="";
         String importedPackages = entity.getEntitiesImport(entity.getEntityPackage().replace(".domains", ""));
@@ -266,7 +266,7 @@ public class MicronautEntityGenerator
                 }
 
             }
-            attributeDeclaration +=eA.getDeclaration(language) + declarrationSperator;
+            attributeDeclaration +=eA.getDeclaration(language, entity.isJavaRecord()) + declarrationSperator;
             if(!eA.isPremetive() && eA.getTypePackage()!= null )
             {
                importedPackages += eA.getPackageSyntax(language)+"\n";
@@ -347,7 +347,7 @@ public class MicronautEntityGenerator
 
         }
 
-        if(language.equalsIgnoreCase(KOTLIN_LANG))
+        if(language.equalsIgnoreCase(KOTLIN_LANG) || entity.isJavaRecord())
             attributesDeclaration =attributesDeclaration.trim().isEmpty()?"": ", " + attributesDeclaration;
         binder.put("entityAnnotation",entityAnnotation );
         binder.put("tableAnnotation","" );
@@ -366,7 +366,7 @@ public class MicronautEntityGenerator
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
 
-        String templatePath= getTemplatPath(TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
+        String templatePath= getTemplatPath(entity.isJavaRecord()?TemplatesService.ENTITY_RECORD:TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
 
 
         String entityTemplate  =templatesService.loadTemplateContent(templatePath);
@@ -486,7 +486,7 @@ public class MicronautEntityGenerator
                 EntityAttribute query = entity.getAttributeByName(u);
                 String updates = entity.getUpdateByMethods().get(u).stream()
                         .map(x->entity.getAttributeByName(x))
-                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .map(x-> x.getDeclaration(language, false).replace("private","").replace(";", "").trim())
                         .reduce((x,y)-> x + ", "+y).orElse("");
 
                 String appendUpdates = "";
@@ -889,7 +889,7 @@ public class MicronautEntityGenerator
                 EntityAttribute query = entity.getAttributeByName(u);
                 String updates = entity.getUpdateByMethods().get(u).stream()
                         .map(x->entity.getAttributeByName(x))
-                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .map(x-> x.getDeclaration(language, false).replace("private","").replace(";", "").trim())
                         .reduce((x,y)-> x + ", "+y).orElse("");
 
                 String updatesVariables = entity.getUpdateByMethods().get(u).stream()
@@ -1074,7 +1074,7 @@ public class MicronautEntityGenerator
                 EntityAttribute query = entity.getAttributeByName(u);
                 String updates = entity.getUpdateByMethods().get(u).stream()
                         .map(x->entity.getAttributeByName(x))
-                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .map(x-> x.getDeclaration(language, false).replace("private","").replace(";", "").trim())
                         .reduce((x,y)-> x + ", "+y).orElse("");
 
                 String updatesVariables = entity.getUpdateByMethods().get(u).stream()
@@ -1238,7 +1238,7 @@ public class MicronautEntityGenerator
                 EntityAttribute query = entity.getAttributeByName(u);
                 String updates = entity.getUpdateByMethods().get(u).stream()
                         .map(x->entity.getAttributeByName(x))
-                        .map(x-> x.getDeclaration(language).replace("private","").replace(";", "").trim())
+                        .map(x-> x.getDeclaration(language, false).replace("private","").replace(";", "").trim())
                         .reduce((x,y)-> x + ", "+y).orElse("");
 
 
