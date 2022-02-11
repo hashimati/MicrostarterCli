@@ -1081,13 +1081,17 @@ public class MicronautEntityGenerator
                         .map(x-> {
 
                             String template = "body.get${key}()";
+                            if(entity.isJavaRecord())
+                            {
+                                template = "body.${key}()";
+                            }
                             if(language.equalsIgnoreCase(KOTLIN_LANG))
                             {
                                 template = "body.${key}";
                             }
 
                             var b = new HashMap<String, String>(){{
-                                put("key",language.equalsIgnoreCase(KOTLIN_LANG)? x: NameUtils.capitalize(x));
+                                put("key",language.equalsIgnoreCase(KOTLIN_LANG) || entity.isJavaRecord()? x: NameUtils.capitalize(x));
                             }};
                             try {
                                 return new SimpleTemplateEngine().createTemplate(template).make(b).toString();
@@ -1303,6 +1307,9 @@ public class MicronautEntityGenerator
 
 
         HashMap<String, Object> binder = new HashMap<>();
+        System.out.println(gqEntities);
+        System.out.println(gqEntities.get(0));
+        System.out.println(gqEntities.get(0).getGraphqlpackage());
         binder.put("pack", gqEntities.get(0).getGraphqlpackage() );
 
 
