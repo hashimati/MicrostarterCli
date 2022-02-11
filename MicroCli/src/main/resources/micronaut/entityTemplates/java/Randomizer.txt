@@ -21,93 +21,67 @@ public class Randomizer<T> {
         this.tClass = t;
         this.rnd = new Random();
     }
-    public T getRandomInstance() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
-        T t = this.tClass.newInstance();
-        List<Field> fields  = Arrays.asList(tClass.getDeclaredFields())
-                .stream().filter(f-> (!f.getName().equalsIgnoreCase("id")
-                && !f.getName().equalsIgnoreCase("datecreated")
-                && !f.getName().equalsIgnoreCase("dateupdated")))
-                .collect(Collectors.toList());
-        for (Field f : fields) {
-            f.setAccessible(true);
 
-            if (String.class.equals(f.getType())) {
-                try {
-                    f.set(t, "Test"+new Random().nextInt(100));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Date.class.equals(f.getType())){
-                try{
-                    f.set(t, new Date());
+    public HashMap<String, ?> getRandomInstance() throws NoSuchFieldException, IllegalAccessException {
+       HashMap<String, Object > randomObject = new HashMap<>();
+       List<Field> fields  = Arrays.asList(tClass.getDeclaredFields())
+               .stream().filter(f-> (!f.getName().equalsIgnoreCase("id")
+                       && !f.getName().equalsIgnoreCase("datecreated")
+                       && !f.getName().equalsIgnoreCase("dateupdated")))
+               .collect(Collectors.toList());
+       for (Field f : fields) {
 
-                }
-                catch(IllegalAccessException e)
-                {
-                    e.printStackTrace();
-                }
-            } else if (Character.TYPE.equals(f.getType())) {
-                try {
-                    f.setChar(t, (char) rnd.nextInt(100));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Byte.TYPE.equals(f.getType())) {
-                try {
-                    f.setByte(t, (byte) rnd.nextInt(100));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Short.TYPE.equals(f.getType())) {
-                try {
-                    f.setShort(t, (short) rnd.nextInt(100));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Integer.TYPE.equals(f.getType())) {
-                try {
-                    f.setInt(t, rnd.nextInt(100));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Long.TYPE.equals(f.getType().getName())) {
-                try {
-                    f.setLong(t, rnd.nextLong());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Boolean.TYPE.equals(f.getType())) {
-                try {
-                    f.setBoolean(t, rnd.nextBoolean());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Double.TYPE.equals(f.getType())) {
-                try {
-                    f.setDouble(t, rnd.nextDouble());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Float.TYPE.equals(f.getType())) {
-                try {
-                    f.setFloat(t, rnd.nextFloat());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-            else if(f.getType().isEnum())
-            {
-                try {
-                    String value = getEnumValues(f.getType())[0].name();
-                    f.set(t, Enum.valueOf((Class<Enum>) f.getType(),  value));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.gc();
-        }
-        return t;
-    }
+           if (String.class.equals(f.getType())) {
+
+                   randomObject.put(f.getName(), "Test"+new Random().nextInt(100));
+
+           } else if (Date.class.equals(f.getType())){
+                   randomObject.putIfAbsent(f.getName(), new Date());
+
+
+           } else if (Character.TYPE.equals(f.getType())) {
+                   randomObject.putIfAbsent(f.getName(), (char) rnd.nextInt(100));
+
+           } else if (Byte.TYPE.equals(f.getType())) {
+
+                   randomObject.putIfAbsent(f.getName(), (byte) rnd.nextInt(100));
+
+           } else if (Short.TYPE.equals(f.getType())) {
+
+                   randomObject.putIfAbsent(f.getName(), (short) rnd.nextInt(100));
+
+           } else if (Integer.TYPE.equals(f.getType())) {
+
+                   randomObject.putIfAbsent(f.getName(), rnd.nextInt(100));
+
+           } else if (Long.TYPE.equals(f.getType().getName())) {
+
+                   randomObject.putIfAbsent(f.getName(), rnd.nextLong());
+
+           } else if (Boolean.TYPE.equals(f.getType())) {
+
+               randomObject.putIfAbsent(f.getName(), rnd.nextBoolean());
+
+           } else if (Double.TYPE.equals(f.getType())) {
+
+                   randomObject.putIfAbsent(f.getName(), rnd.nextDouble());
+
+           } else if (Float.TYPE.equals(f.getType())) {
+
+               randomObject.putIfAbsent(f.getName(), rnd.nextFloat());
+
+           }
+           else if(f.getType().isEnum())
+           {
+
+                   String value = getEnumValues(f.getType())[0].name();
+                   randomObject.put(f.getName(), Enum.valueOf((Class<Enum>) f.getType(),  value));
+
+           }
+           System.gc();
+       }
+       return randomObject;
+   }
     private static <E extends Enum> E[] getEnumValues(Class<?> enumClass)
             throws NoSuchFieldException, IllegalAccessException {
         Field f = enumClass.getDeclaredField(enumClass.getDeclaredFields()[0].getName());
