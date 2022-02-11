@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.version.annotation.Version;
 import io.micronaut.http.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,7 @@ import ${entityPackage};
 import ${servicePackage};
 ${moreImports}
 
+@Tag(name = "${className}")
 @Controller("/api/${entities}")
 public class ${className}Controller {
 

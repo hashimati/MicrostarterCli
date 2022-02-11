@@ -12,11 +12,13 @@ import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.tags.Tag;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 ${moreImports}
 
+@Tag(name = "${className}")
 @Controller("/api/${entities}")
 class ${className}Controller {
 
