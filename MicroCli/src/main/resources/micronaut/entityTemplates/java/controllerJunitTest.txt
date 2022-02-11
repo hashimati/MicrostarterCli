@@ -23,41 +23,42 @@ class ${className}ControllerTest {
     @Client("/api/${entityName}")
     HttpClient client;
 
-    ${className} ${entityName};
-
+    HashMap<String, Object> randomObject;
 
 
     @Test
     void save() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
-        ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance();
-        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName});
-        this.${entityName} = client.toBlocking().retrieve(request, ${className}.class);
-        assertNotNull(${entityName});
+        Randomizer randomizer= new Randomizer<Fruit>(Fruit.class);
+
+        randomObject = randomizer.getRandomInstance();
+        HttpRequest<HashMap<String, Object>> request = HttpRequest.POST("/save", randomObject);
+        this.randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
     }
 
     @Test
     void findById() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
         save();
-        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.${entityName}.getId());
-        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
-        assertNotNull(${entityName});
-        assertEquals(${entityName}.getId() , this.${entityName}.getId());
+        HttpRequest<HashMap<String, Object>> request = HttpRequest.GET("/get?id="+this.randomObject.get("id"));
+        HashMap<String, Object> randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
     }
 
     @Test
     void deleteById() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
         save();
-        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.${entityName}.getId());
+        System.out.println(this.randomObject.get("id"));
+        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.randomObject.get("id"));
         Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+        System.out.println(body);
         assertTrue(body.booleanValue());
     }
 
     @Test
     void findAll() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
-
         save();
-        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
-        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        HttpRequest<Iterable<Fruit>> request = HttpRequest.GET("/findAll");
+        Iterable<Fruit> list = client.toBlocking().retrieve(request, Iterable.class);
         System.out.println(list);
         assertNotNull(list);
 
@@ -66,11 +67,9 @@ class ${className}ControllerTest {
     @Test
     void update() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
         save();
-        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.${entityName});
-        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
-        assertNotNull(${entityName});
+        HttpRequest<HashMap<String, Object>> request = HttpRequest.PUT("/update", this.randomObject);
+        HashMap<String, Object> randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
     }
-
-    ${afterBeforeMethods}
-
 }
+
