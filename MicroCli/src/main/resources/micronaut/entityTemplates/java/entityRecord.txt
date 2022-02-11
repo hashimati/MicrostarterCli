@@ -1,4 +1,4 @@
-package ${entitypackage}
+package ${entitypackage};
 ${importedPackages}
 ${jpa?'import javax.persistence.*;':''}
 ${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*;' :''}
