@@ -371,6 +371,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                 binder.putIfAbsent("tableName", entity.getCollectionName());
                 MicronautProjectValidator.appendToProperties( new SimpleTemplateEngine().createTemplate(caffineTepmlate).make(binder).toString());
             }
+            configurationInfo.getEntities().add(entity);
 
 
             String lang =  configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase();
@@ -640,7 +641,6 @@ public class CreateEntityCommand implements Callable<Integer> {
                     }
                 }
             }
-            configurationInfo.getEntities().add(entity);
 
             configurationInfo.writeToFile();
 
