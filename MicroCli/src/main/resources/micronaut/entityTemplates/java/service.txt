@@ -25,8 +25,8 @@ public class ${className}Service {
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
-        ${entityName}Repository.save(${entityName});
-        return ${entityName};
+        return ${entityName}Repository.save(${entityName});
+
     }
 
     <% if(cached) out.print '@Cacheable' %>

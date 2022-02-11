@@ -23,8 +23,8 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
     fun save(${entityName}: ${className}):  Mono<${className}> {
         log.info("Saving ${className} :{}", ${entityName})
-        ${entityName}Repository.save(${entityName})
-        return ${entityName}
+      return ${entityName}Repository.save(${entityName})
+
     }
 
     <% if(cached) out.print '@Cacheable' %>
