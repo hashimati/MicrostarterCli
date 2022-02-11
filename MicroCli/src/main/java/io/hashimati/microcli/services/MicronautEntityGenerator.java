@@ -347,8 +347,10 @@ public class MicronautEntityGenerator
 
         }
 
-        if(language.equalsIgnoreCase(KOTLIN_LANG) || entity.isJavaRecord())
-            attributesDeclaration =attributesDeclaration.trim().isEmpty()?"": ", " + attributesDeclaration;
+        if(language.equalsIgnoreCase(KOTLIN_LANG) || entity.isJavaRecord()) {
+            attributesDeclaration = (attributesDeclaration.trim().isEmpty() ? "" : ", " + attributesDeclaration).replace("\n", " ");
+
+        }
         binder.put("entityAnnotation",entityAnnotation );
         binder.put("tableAnnotation","" );
         binder.put("entitypackage", entity.getEntityPackage());
@@ -1307,9 +1309,6 @@ public class MicronautEntityGenerator
 
 
         HashMap<String, Object> binder = new HashMap<>();
-        System.out.println(gqEntities);
-        System.out.println(gqEntities.get(0));
-        System.out.println(gqEntities.get(0).getGraphqlpackage());
         binder.put("pack", gqEntities.get(0).getGraphqlpackage() );
 
 
