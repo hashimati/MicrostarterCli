@@ -7,7 +7,7 @@ import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
-
+import java.util.HashMap;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 ${moreImports}
@@ -28,7 +28,7 @@ class ${className}ControllerTest {
 
     @Test
     void save() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
-        Randomizer randomizer= new Randomizer<Fruit>(Fruit.class);
+        Randomizer randomizer= new Randomizer<${className}>(${className}.class);
 
         randomObject = randomizer.getRandomInstance();
         HttpRequest<HashMap<String, Object>> request = HttpRequest.POST("/save", randomObject);
@@ -57,8 +57,8 @@ class ${className}ControllerTest {
     @Test
     void findAll() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
         save();
-        HttpRequest<Iterable<Fruit>> request = HttpRequest.GET("/findAll");
-        Iterable<Fruit> list = client.toBlocking().retrieve(request, Iterable.class);
+        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
         System.out.println(list);
         assertNotNull(list);
 
