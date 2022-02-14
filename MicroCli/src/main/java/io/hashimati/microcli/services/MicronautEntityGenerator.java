@@ -1350,6 +1350,7 @@ public class MicronautEntityGenerator
             blockSingle = ".getBlocking()";
             blockIter = ".blockingIterable()";
         }
+        boolean principal = entity.isSecurityEnabled();
         for(EntityAttribute ea : entity.getAttributes()) {
 
 
@@ -1368,11 +1369,13 @@ public class MicronautEntityGenerator
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
 
+
             }};
             sBinder.put("blockSingle", blockSingle);
             sBinder.put("blockIter", blockIter);
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
+            sBinder.put("principal", principal);
             if (ea.isFindAllMethod())
             {
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
@@ -1445,6 +1448,7 @@ public class MicronautEntityGenerator
         binder.put("micrometer", entity.isMicrometer()) ;
         binder.put("methods", methods);
         binder.put("moreImports", "");
+        binder.put("principal", entity.isSecurityEnabled());
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
 
