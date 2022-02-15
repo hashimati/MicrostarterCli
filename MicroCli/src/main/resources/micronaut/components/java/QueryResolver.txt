@@ -15,6 +15,8 @@ public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLM
     @Inject
     private ${className}Service ${entityName}Service;
 
+    <% if(principal) out.print '@Inject private DefaultSecurityService defaultSecurityService;' %>
+
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     public ${className} find${className}ById(${idType} id)
     {
