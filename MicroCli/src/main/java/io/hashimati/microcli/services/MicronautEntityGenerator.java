@@ -1376,6 +1376,7 @@ public class MicronautEntityGenerator
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
             sBinder.put("principal", principal);
+            sBinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
             if (ea.isFindAllMethod())
             {
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
@@ -1451,7 +1452,7 @@ public class MicronautEntityGenerator
         binder.put("principal", entity.isSecurityEnabled());
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
-
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
 
         String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isMnData() && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 

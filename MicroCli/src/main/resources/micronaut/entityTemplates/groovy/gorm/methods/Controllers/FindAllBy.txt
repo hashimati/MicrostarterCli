@@ -9,8 +9,8 @@
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    List<${entityClass}> findAllBy${Attribute}(${type} query){
-          log.info("Finding all ${className} By ${Attribute}: {}", query)
+    List<${entityClass}> findAllBy${Attribute}(${type} query<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+          log.info("Finding all ${className} By ${Attribute}: {}", query<% if(header) out.print ',  @Header("Authorization") String authorization'%>)
           return ${entityName}Service.findAllBy${Attribute}(query)
     }
 

@@ -1,6 +1,6 @@
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.updateby.'+Attribute+'", percentiles =[ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
-    ${returnType} updateBy${Attribute}(${type} query,  ${updates})
+    ${returnType} updateBy${Attribute}(${type} query,  ${updates}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
     {
         log.info("update by {}", query)
         return ${entityName}Repository.updateBy${Attribute}(query, ${updatesVariables})${block}

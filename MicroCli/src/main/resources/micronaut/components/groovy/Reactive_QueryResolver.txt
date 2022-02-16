@@ -5,6 +5,7 @@ import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+<% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -15,28 +16,29 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
 
     @Inject
     ${className}Service ${entityName}Service
+    <% if(principal) out.print '@Inject private DefaultSecurityService defaultSecurityService' %>
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     ${className} find${className}ById(${idType} id)
     {
-        return ${entityName}Service.findById(id).<% print reactor? "block" : "blockingGet" %>()
+        return ${entityName}Service.findById(id<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>).<% print reactor? "block" : "blockingGet" %>()
     }
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     Iterable<${className}> findAll${className}()
     {
-        return ${entityName}Service.findAll().<% print reactor? "toIterable" : "blockingIterable" %>()
+        return ${entityName}Service.findAll(<% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>).<% print reactor? "toIterable" : "blockingIterable" %>()
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     ${className} save${className}(${className} ${entityName}){
-        return ${entityName}Service.save(${entityName}).<% print reactor? "block" : "blockingGet" %>();
+        return ${entityName}Service.save(${entityName}<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>).<% print reactor? "block" : "blockingGet" %>();
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
     ${className} update${className}(${className} ${entityName})
     {
-        return  ${entityName}Service.update(${entityName}).<% print reactor? "block" : "blockingGet" %>();
+        return  ${entityName}Service.update(${entityName}<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>).<% print reactor? "block" : "blockingGet" %>();
 
     }
 

@@ -1,3 +1,3 @@
 
     @Get("/findAllBy${Attribute}")
-    List<${entityClass}> findAllBy${Attribute}(${type} query)
+    List<${entityClass}> findAllBy${Attribute}(${type} query<% if(header) out.print ', @Header("Authorization") String authorization'%>)

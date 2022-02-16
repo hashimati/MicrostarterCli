@@ -8,7 +8,7 @@
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
-   ${entityClass} findBy${Attribute}(<% if(jaeger) out.print '@SpanTag("findById.'+Attribute+'")'%> @Parameter("${Attribute}") ${type} query)
+   ${entityClass} findBy${Attribute}(<% if(jaeger) out.print '@SpanTag("findById.'+Attribute+'")'%> @Parameter("${Attribute}") ${type} query<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("Finding ${className} By ${Attribute}: {}", query);
 

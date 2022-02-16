@@ -1,6 +1,6 @@
 
         <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
-        List<${entityClass}> findAllBy${Attribute}(${type} query)
+        List<${entityClass}> findAllBy${Attribute}(${type} query<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
             log.info("Find All By ${Attribute}")
             return ${entityName}Repository.findAllBy${Attribute}(query)
         }

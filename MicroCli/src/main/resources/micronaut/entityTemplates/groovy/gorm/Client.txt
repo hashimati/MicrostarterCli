@@ -11,18 +11,18 @@ ${moreImports}
 interface ${className}Client {
 
     @Post("/save")
-    ${className} save(@Body ${className} ${entityName})
+    ${className} save(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
 
     @Get("/get")
-    ${className} findById(@Parameter("id") long id)
+    ${className} findById(@Parameter("id") long id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
 
     @Delete("/delete/{id}")
-    boolean deleteById(@PathVariable("id") long id)
+    boolean deleteById(@PathVariable("id") long id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
 
     @Get("/findAll")
-    List<${className}> findAll()
+    List<${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>)
 
     @Put("/update")
-    ${className} update(@Body ${className} ${entityName})
+    ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
 ${methods}
 }

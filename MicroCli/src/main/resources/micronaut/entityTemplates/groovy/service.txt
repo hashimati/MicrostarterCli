@@ -19,7 +19,7 @@ class ${className}Service {
     @Inject ${className}Repository ${entityName}Repository
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
-    ${className} save(${className} ${entityName}){
+    ${className} save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Saving  ${className} : {}", ${entityName})
          //TODO insert your logic here!
          //saving Object
@@ -29,13 +29,13 @@ class ${className}Service {
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    ${className} findById(${idType} id){
+    ${className} findById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Finding ${className} By Id: {}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    boolean deleteById(${idType} id){
+    boolean deleteById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         try
         {
             ${entityName}Repository.deleteById(id);
@@ -51,13 +51,13 @@ class ${className}Service {
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles =[ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    Iterable<${className}> findAll() {
+    Iterable<${className}> findAll(<%if(principle) out.print 'Principal principle'%> <% if(header) out.print ', String authorization'%>) {
         log.info("Find All")
       return  ${entityName}Repository.findAll();
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
-    ${className} update(${className} ${entityName})
+    ${className} update(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
     {
         log.info("update {}", ${entityName})
         return ${entityName}Repository.update(${entityName})
