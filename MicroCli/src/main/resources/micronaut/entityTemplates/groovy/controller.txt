@@ -6,6 +6,7 @@ import io.micronaut.core.version.annotation.Version
 import jakarta.inject.Singleton
 import ${entityPackage}
 import ${servicePackage}
+<% if(principle) out.print 'import java.security.Principal' %>
 import jakarta.inject.Inject
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

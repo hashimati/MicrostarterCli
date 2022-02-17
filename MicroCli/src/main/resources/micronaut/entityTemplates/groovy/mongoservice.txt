@@ -5,6 +5,7 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import ${entityPackage}
 import ${repoPackage}
+<% if(principle) out.print 'import java.security.Principal' %>
 <% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>

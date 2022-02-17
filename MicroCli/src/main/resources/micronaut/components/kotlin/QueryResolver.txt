@@ -5,38 +5,38 @@ import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
-
+<% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
 import jakarta.inject.Singleton;
 ${moreImports}
 
 @Singleton
-class ${className}QueryResolver(private val ${entityName}Repository :${className}Repository)  : GraphQLQueryResolver, GraphQLMutationResolver{
+class ${className}QueryResolver(private val ${entityName}Service :${className}Service<% if(principal) out.print ', private val defaultSecurityService:DefaultSecurityService' %>)  : GraphQLQueryResolver, GraphQLMutationResolver{
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     fun find${className}ById(id: ${idType}): ${className}
     {
-        return ${entityName}Service.findById(id).get();
+        return ${entityName}Service.findById(id<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>).get();
     }
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
     fun findAll${className}() : Iterable<${className}>
     {
-            return ${entityName}Service.findAll();
+            return ${entityName}Service.findAll(<% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save", description = "Observing all service metric for saving '+entityName+' object")' %>
     fun save${className}(${entityName}: ${className}):${className}{
-        return ${entityName}Service.save(${entityName});
+        return ${entityName}Service.save(${entityName}<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.update", description = "Observing all service metric for update a '+entityName+' object")' %>
-    fun update${className}(${entityName}: ${className} ):${className}
+    fun update${className}(${entityName}: ${className} <% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>):${className}
     {
         return  ${entityName}Service.update(${entityName});
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    fun delete${className}(id: ${idType}) : Boolean{
+    fun delete${className}(id: ${idType}<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>) : Boolean{
       return ${entityName}Service.deleteById(id);
     }
 ${methods}

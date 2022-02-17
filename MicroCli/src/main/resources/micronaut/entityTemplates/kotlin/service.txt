@@ -1,7 +1,7 @@
 package ${servicePackage}
 
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
-
+<% if(principle) out.print 'import java.security.Principal' %>
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import javax.transaction.Transactional
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 class ${className}Service(private val ${entityName}Repository: ${className}Repository)  {
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
-    fun save(${entityName}: ${className}):  ${className} {
+    fun save(${entityName}: ${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):  ${className} {
         log.info("Saving ${className} :{}", ${entityName})
         return ${entityName}Repository.save(${entityName})
 
@@ -26,13 +26,13 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    fun findById(id:${idType}): ${className} {
+    fun findById(id:${idType}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>): ${className} {
         log.info("Finding ${className} by id:{}", id)
         return ${entityName}Repository.findById(id).orElse(null)
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    fun deleteById(id:${idType}): Boolean {
+    fun deleteById(id:${idType}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>): Boolean {
         try{
 
             ${entityName}Repository.deleteById(id)
@@ -48,13 +48,13 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    fun  findAll():Iterable<${className}> {
+    fun  findAll(<%if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):Iterable<${className}> {
         log.info("Find All")
       return  ${entityName}Repository.findAll()
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", description = "Observing all service metric for update a '+entityName+' object")' %>
-    fun update( ${entityName}:${className}):${className}
+    fun update( ${entityName}:${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):${className}
     {
         log.info("update {}", ${entityName})
         return ${entityName}Repository.update(${entityName})

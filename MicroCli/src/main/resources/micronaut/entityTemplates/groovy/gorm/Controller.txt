@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.*
 import java.util.List
 import jakarta.inject.Inject
 import org.slf4j.Logger;
+<% if(principle) out.print 'import java.security.Principal;' %>
 import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content

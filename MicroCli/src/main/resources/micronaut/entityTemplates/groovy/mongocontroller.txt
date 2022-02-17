@@ -6,6 +6,7 @@ import jakarta.inject.Inject
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.micronaut.scheduling.TaskExecutors;
+<% if(principle) out.print 'import java.security.Principal' %>
 import io.micronaut.scheduling.annotation.ExecuteOn;
 <% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>

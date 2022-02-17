@@ -15,19 +15,19 @@ ${moreImports}
 interface ${classNameA}Client {
 
     @Post("/save")
-    fun save(${entityName}:${classNameA}): Mono<${className}>
+    fun save(${entityName}:${classNameA}<% if(header) out.print ', @Header("Authorization") authorization:String '%>): Mono<${className}>
 
     @Get("/get")
-    fun findById(@Parameter("id") id:Long): Mono<${className}>
+    fun findById(@Parameter("id") id:Long<% if(header) out.print ', @Header("Authorization") authorization:String '%>): Mono<${className}>
 
     @Delete("/delete/{id}")
-    fun deleteById(@PathVariable("id") id: Long): Mono<Boolean>
+    fun deleteById(@PathVariable("id") id: Long<% if(header) out.print ', @Header("Authorization") authorization:String '%>): Mono<Boolean>
 
     @Get("/findAll")
-    fun findAll():Flux<${className}>
+    fun findAll(<% if(header) out.print '@Header("Authorization") authorization:String '%>):Flux<${className}>
 
     @Put("/update")
-    fun update(@Body ${entityName}: ${className}):Mono<${className}>
+    fun update(@Body ${entityName}: ${className}<% if(header) out.print ', @Header("Authorization") authorization:String '%>):Mono<${className}>
 ${methods}
 }
 

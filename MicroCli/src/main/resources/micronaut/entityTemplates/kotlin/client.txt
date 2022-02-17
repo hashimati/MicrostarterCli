@@ -13,19 +13,19 @@ ${moreImports}
 interface ${classNameA}Client {
 
     @Post("/save")
-    fun save(${entityName}:${classNameA}): ${className}
+    fun save(${entityName}:${classNameA}<% if(header) out.print ', @Header("Authorization") authorization:String '%>): ${className}
 
     @Get("/get")
-    fun findById(@Parameter("id") id:${idType}): ${className}
+    fun findById(@Parameter("id") id:${idType}<% if(header) out.print ', @Header("Authorization") authorization:String '%>): ${className}
 
     @Delete("/delete/{id}")
-    fun deleteById(@PathVariable("id") id: ${idType}): Boolean
+    fun deleteById(@PathVariable("id") id: ${idType}<% if(header) out.print ', @Header("Authorization") authorization:String '%>): Boolean
 
     @Get("/findAll")
-    fun findAll():Iterable<${className}>
+    fun findAll(<% if(header) out.print '@Header("Authorization") authorization:String '%>):Iterable<${className}>
 
     @Put("/update")
-    fun update(@Body ${entityName}: ${className}):${className}
+    fun update(@Body ${entityName}: ${className}<% if(header) out.print ', @Header("Authorization") authorization:String '%>):${className}
 
 ${methods}
 }

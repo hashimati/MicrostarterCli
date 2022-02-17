@@ -3,7 +3,7 @@ package ${controllerPackage}
 
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
-
+<% if(principle) out.print 'import java.security.Principal' %>
 import jakarta.inject.Inject
 import io.reactivex.Single
 import io.reactivex.Flowable

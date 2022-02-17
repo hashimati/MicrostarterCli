@@ -4,6 +4,7 @@ import io.micronaut.http.annotation.*
 import ${entityPackage}
 import ${servicePackage}
 import io.swagger.v3.oas.annotations.Operation
+<% if(principle) out.print 'import java.security.Principal' %>
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -32,7 +33,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}: ${className}):  Mono<${className}> {
+    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):  Mono<${className}> {
 
         log.info("Saving ${className} :{}", ${entityName})
         return ${entityName}Service.save(${entityName})
@@ -49,7 +50,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
         content = [Content(mediaType = "application/json")]
     )
 
-    fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") id:Long): Mono<${className}> {
+    fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") id:Long<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>): Mono<${className}> {
         log.info("Finding ${className}: {}", id )
         return ${entityName}Service.findById(id)
     }
@@ -64,7 +65,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
             content = [Content(mediaType = "boolean")]
     )
 
-    fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id")id:Long): Mono<Boolean> {
+    fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id")id:Long<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>): Mono<Boolean> {
         log.info("Deleting ${className}: {}", id)
         return  ${entityName}Service.deleteById(id)
     }
@@ -78,7 +79,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun findAll():Flux<${className}>{
+    fun findAll(<% if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):Flux<${className}>{
         log.info("find All")
         return ${entityName}Service.findAll()
     }
@@ -92,7 +93,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}):Mono<${className}>
+    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):Mono<${className}>
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName})
