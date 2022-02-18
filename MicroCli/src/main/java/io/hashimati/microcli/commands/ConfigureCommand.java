@@ -7,12 +7,15 @@ package io.hashimati.microcli.commands;
  * @email: hashimati.ahmed@gmail.com
  */
 
+import de.codeshelf.consoleui.elements.ConfirmChoice;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.utils.ConfigurationInitializer;
 import io.hashimati.microcli.utils.GradleReaderException;
+import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
 
+import javax.inject.Inject;
 import java.util.concurrent.Callable;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -26,6 +29,9 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //    @Inject
 //    private ConfigurationInitializer configurationInitializer;
 //    @Override
+
+    @Inject
+    private SecurityCommand securityCommand;
     public ConfigurationInfo call() throws Exception {
 
         AnsiConsole.systemInstall();
@@ -48,6 +54,9 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //        String name = lineReader.readLine(prompt2);
         try {
             new  ConfigurationInitializer().init();
+//            if(PromptGui.createConfirmResult("security", "Do you want to configure security?", ConfirmChoice.ConfirmationValue.NO).getConfirmed() == ConfirmChoice.ConfirmationValue.YES){
+//                securityCommand.call();
+//            }
         } catch (GradleReaderException e) {
             e.printStackTrace();
         }
