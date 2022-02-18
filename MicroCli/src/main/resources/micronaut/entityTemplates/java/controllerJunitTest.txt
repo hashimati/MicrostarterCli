@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient;'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials;'%>
 <%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken;'%>
 ${moreImports}
 

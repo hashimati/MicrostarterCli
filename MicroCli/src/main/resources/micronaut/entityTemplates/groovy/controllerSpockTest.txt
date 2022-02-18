@@ -3,13 +3,18 @@ package ${defaultPackage}.controllers
 import ${defaultPackage}.domains.${className}
 import ${defaultPackage}.utils.Randomizer
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.MutableHttpRequest
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
+<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
 ${moreImports}
 import jakarta.inject.Inject
+
 
 @MicronautTest
 class ${className}ControllerTest extends Specification{
@@ -23,13 +28,15 @@ class ${className}ControllerTest extends Specification{
     @Client("/api/${entityName}")
     HttpClient client;
 
+    <% if(header) out.print ''@Inject SecurityClient securityClient'%>
 
     ${className} body;
 
     def saving()
     {
         ${className} ${entityName} = new Randomizer<${className}>( ${className}.class).getRandomInstance();;
-        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName});
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName})<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         this.body = client.toBlocking().retrieve(request, ${className}.class);
     }
 
@@ -43,8 +50,8 @@ class ${className}ControllerTest extends Specification{
 
     def 'test finding ${entityName} by Id'() {
         saving()
-
-        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.body.getId());
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/get?id="+this.body.getId())<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         ${className} body = client.toBlocking().retrieve(request, ${className}.class);
 
         expect:
@@ -54,7 +61,8 @@ class ${className}ControllerTest extends Specification{
 //
     def 'test deleting ${entityName} by id'() {
         saving();
-        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.body.id);
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.DELETE("/delete/"+this.body.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
 
         Boolean body= client.toBlocking().retrieve(request, Boolean.class);
 
@@ -68,7 +76,8 @@ class ${className}ControllerTest extends Specification{
     void 'test finding all'() {
 
         saving();
-        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll");
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
         System.out.println(list);
         expect:
@@ -79,8 +88,8 @@ class ${className}ControllerTest extends Specification{
 
     void 'test updating ${entityName}'() {
         saving();
-        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body);
-
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
         expect:
         ${entityName} != null;

@@ -3,10 +3,13 @@ package ${defaultPackage}.controllers
 import ${defaultPackage}.domains.${className}
 import ${defaultPackage}.utils.Randomizer
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.MutableHttpRequest
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Test
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
 <%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
 ${moreImports}
 import jakarta.inject.Inject
@@ -38,7 +41,7 @@ class ${className}ControllerTest {
 
         save();
         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
-        HttpRequest<${className}> request = HttpRequest.GET("/get?id="+this.body.getId());
+        MutableHttpRequest<Object> request = HttpRequest.GET("/get?id="+this.body.getId());
         ${className} body = client.toBlocking().retrieve(request, ${className}.class)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         assert body != null
         assert body.getId() == this.body.getId();
@@ -48,7 +51,7 @@ class ${className}ControllerTest {
     void deleteById() {
         save();
         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
-        HttpRequest<Boolean> request = HttpRequest.DELETE("/delete/"+this.body.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        MutableHttpRequest<Object> request = HttpRequest.DELETE("/delete/"+this.body.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
 
         Boolean body= client.toBlocking().retrieve(request, Boolean.class);
 
@@ -62,7 +65,7 @@ class ${className}ControllerTest {
 
         save();
         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
-        HttpRequest<Iterable<${className}>> request = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        MutableHttpRequest<Object> request = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
         System.out.println(list);
         assert list != null;
