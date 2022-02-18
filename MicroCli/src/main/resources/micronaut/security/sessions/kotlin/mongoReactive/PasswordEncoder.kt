@@ -1,3 +1,4 @@
+package ${securityPackage}
 
 interface PasswordEncoder {
     fun encode(rawPassword: String?): String?

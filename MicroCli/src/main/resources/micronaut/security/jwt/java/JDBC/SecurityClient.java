@@ -2,7 +2,7 @@ package ${securityPackage};
 
 
 import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.security.authentication.UsernamePasswordCredentials;
 import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken;
@@ -11,6 +11,6 @@ import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken;
 public interface SecurityClient {
 
 
-    @Get("/login")
+    @Post("/login")
     public BearerAccessRefreshToken login(@Body  UsernamePasswordCredentials credentials);
 }
