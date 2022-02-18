@@ -7,7 +7,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.security.authentication.UsernamePasswordCredentials;
 import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken;
 
-@Client
+@Client("/api/security/")
 public interface SecurityClient {
 
 

@@ -9,7 +9,7 @@ import io.micronaut.security.authentication.UsernamePasswordCredentials
 import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken
 
 
-@Client
+@Client("/api/security/")
 interface SecurityClient {
 
 
