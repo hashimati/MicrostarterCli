@@ -4,6 +4,8 @@ import io.micronaut.http.annotation.*
 import ${entityPackage}
 import ${servicePackage}
 <% if(principle) out.print 'import java.security.Principal' %>
+<% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule' %>
+<% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION'%>
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -24,6 +26,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
     @Post("/save")
     @Operation(summary = "Creating a ${entityName} and Storing in the database",
             description = "A REST service, which saves ${className} objects to the database."
@@ -40,6 +43,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
     @Get("/get")
     @Operation(summary = "Getting a ${entityName} by Id",
         description = "A REST service, which retrieves a ${className} object by Id."
@@ -54,6 +58,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
     @Delete("/delete/{id}")
     @Operation(summary = "Deleting a ${entityName} by ID",
             description = "A REST service, which deletes ${className} object from the database."
@@ -69,6 +74,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
     @Get("/findAll")
     @Operation(summary = "Retrieving all ${entityName} objects as Json",
             description = "A REST service, which returns all ${className} objects from the database."
@@ -83,6 +89,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
     @Put("/update")
     @Operation(summary = "Updating a ${entityName}.",
             description = "A REST service, which update a ${className} objects to the database."
