@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Optional;
 
+import static io.hashimati.microcli.services.TemplatesService.REFRESH_TOKEN_REPOSITORY;
+import static io.hashimati.microcli.services.TemplatesService.SECURITY_CLIENT;
+
 @Singleton
 public class SecurityGenerator {
 
@@ -40,7 +43,11 @@ public class SecurityGenerator {
                         setType("String");
                     }}.getFinalStaticDeclaration(configurationInfo.getProjectInfo().getSourceLanguage(), new StringBuilder().append("\"").append(x).append("\"").toString()))
                     .reduce((x, y) -> new StringBuilder(x).append(y).toString()).get();
-
+        if(!strategy.equalsIgnoreCase("jwt"))
+        {
+            templatesService.getSecurityTemplates().remove(SECURITY_CLIENT);
+            templatesService.getSecurityTemplates().remove(REFRESH_TOKEN_REPOSITORY);
+        }
         auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
         auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
         auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
@@ -53,7 +60,7 @@ public class SecurityGenerator {
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
 
         }
-        if(persistRefreshToken)
+        if(persistRefreshToken && strategy.equalsIgnoreCase("jwt"))
             auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
         configurationInfo.setSecurityRoles(roles);
@@ -77,6 +84,15 @@ public class SecurityGenerator {
             );
 
         }}
+        else if(strategy.equalsIgnoreCase("basic")){
+            if(!configurationInfo.getProjectInfo().getFeatures().contains("security"))
+            {
+                configurationInfo.getProjectInfo().getFeatures().add("security");
+                MicronautProjectValidator.addDependency(features.get("security"));
+
+
+            }
+        }
         else if(strategy.equalsIgnoreCase("oauth")){
             if(!configurationInfo.getProjectInfo().getFeatures().contains("security-oauth2"))
             {

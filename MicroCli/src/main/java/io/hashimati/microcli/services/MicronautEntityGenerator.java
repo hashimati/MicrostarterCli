@@ -1646,7 +1646,7 @@ public class MicronautEntityGenerator
         binder.put("afterBeforeMethods", "");
         binder.put("moreImports", "");
         binder.put("header", entity.isSecurityEnabled() && entity.getSecurityStrategy().toLowerCase().contains("jwt"));
-        binder.put("basic", entity.isSecurityEnabled() && entity.getSecurityStrategy().toLowerCase().contains("jwt"));
+        binder.put("basic", entity.isSecurityEnabled() && !entity.getSecurityStrategy().toLowerCase().contains("jwt"));
 
         String keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         switch(testFramework.toLowerCase())
