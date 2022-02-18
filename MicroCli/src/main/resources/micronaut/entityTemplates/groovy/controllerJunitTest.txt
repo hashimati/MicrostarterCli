@@ -21,7 +21,7 @@ class ${className}ControllerTest {
     @Inject
     @Client("/api/${entityName}")
     HttpClient client;
-    <% if(header) out.print ''@Inject SecurityClient securityClient;'%>
+    <% if(header) out.print '@Inject SecurityClient securityClient;'%>
 
     ${className} body;
     @Test

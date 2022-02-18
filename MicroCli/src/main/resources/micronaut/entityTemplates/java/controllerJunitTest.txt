@@ -28,7 +28,7 @@ class ${className}ControllerTest {
     HttpClient client;
 
     HashMap<String, Object> randomObject;
-    <% if(header) out.print ''@Inject SecurityClient securityClient;'%>
+    <% if(header) out.print '@Inject SecurityClient securityClient;'%>
 
     @Test
     void save() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
