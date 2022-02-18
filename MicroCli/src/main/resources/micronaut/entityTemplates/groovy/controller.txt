@@ -7,6 +7,7 @@ import jakarta.inject.Singleton
 import ${entityPackage}
 import ${servicePackage}
 <% if(principle) out.print 'import java.security.Principal' %>
+<% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>
 <% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION'%>
 import jakarta.inject.Inject
