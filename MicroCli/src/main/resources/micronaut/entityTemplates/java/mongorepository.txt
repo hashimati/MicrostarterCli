@@ -56,10 +56,6 @@ public class ${entityClass}Repository {
     {
 
         log.info("Saving ${entityClass} : {}", object);
-        if(object.getId() == null)
-        {
-            object.setId(UUID.randomUUID().toString());
-        }
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(object)
         ).map(success ->object);
     }
