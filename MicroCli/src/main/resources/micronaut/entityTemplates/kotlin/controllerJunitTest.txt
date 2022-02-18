@@ -6,12 +6,15 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
+<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test;
 ${moreImports}
 
 @MicronautTest
-class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient ) {
+class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient<% if(header) out.print ', private val  securityClient:SecurityClient'%> ) {
 
     lateinit var ${entityName}:${className};
 
@@ -20,7 +23,8 @@ class ${className}ControllerTest(@Client("/api/${entityName}") private val clien
     @Test
     fun save() {
         var ${entityName}:${className} =  Randomizer<${className}>(${className}::class.java).randomInstance;
-        var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName});
+        <% if(header) out.print 'var token:BearerAccessRefreshToken = securityClient.login(new UsernamePasswordCredentials("admin", "admin"))'%>
+        var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName})<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>
         this.${entityName} = client.toBlocking().retrieve(request, ${className}::class.java)
         assertNotNull(${entityName});
     }
@@ -28,7 +32,8 @@ class ${className}ControllerTest(@Client("/api/${entityName}") private val clien
     @Test
     fun findById() {
         save();
-        var request :HttpRequest<${className}>  = HttpRequest.GET("/get?id="+this.${entityName}.id);
+        <% if(header) out.print 'var token:BearerAccessRefreshToken = securityClient.login(new UsernamePasswordCredentials("admin", "admin"))'%>
+        var request :HttpRequest<${className}>  = HttpRequest.GET("/get?id="+this.${entityName}.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>
         var ${entityName}:${className} = client.toBlocking().retrieve(request, ${className}::class.java);
         assertNotNull(${entityName});
         assertEquals(${entityName}.id , this.${entityName}.id);
@@ -37,7 +42,8 @@ class ${className}ControllerTest(@Client("/api/${entityName}") private val clien
     @Test
     fun deleteById() {
         save();
-        var request:HttpRequest<Boolean>  = HttpRequest.DELETE("/delete/"+this.${entityName}.id);
+        <% if(header) out.print 'var token:BearerAccessRefreshToken = securityClient.login(new UsernamePasswordCredentials("admin", "admin"))'%>
+        var request:HttpRequest<Boolean>  = HttpRequest.DELETE("/delete/"+this.${entityName}.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         var body: Boolean? = client.toBlocking().retrieve(request, Boolean::class.java);
         assertTrue(body == true);
     }
@@ -46,7 +52,8 @@ class ${className}ControllerTest(@Client("/api/${entityName}") private val clien
     fun findAll(){
 
         save();
-        var request:HttpRequest<Iterable<${className}>>  = HttpRequest.GET("/findAll");
+        <% if(header) out.print 'var token:BearerAccessRefreshToken = securityClient.login(new UsernamePasswordCredentials("admin", "admin"))'%>
+        var request:HttpRequest<Iterable<${className}>>  = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         var list : Iterable<*>? = client.toBlocking().retrieve(request, Iterable::class.java)
         assertNotNull(list)
 
@@ -55,7 +62,8 @@ class ${className}ControllerTest(@Client("/api/${entityName}") private val clien
     @Test
     fun update() {
         save();
-        var request:HttpRequest<${className}> = HttpRequest.PUT("/update", this.${entityName});
+        <% if(header) out.print 'var token:BearerAccessRefreshToken = securityClient.login(new UsernamePasswordCredentials("admin", "admin"))'%>
+        var request:HttpRequest<${className}> = HttpRequest.PUT("/update", this.${entityName})<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
         var ${entityName}: ${className}  = client.toBlocking().retrieve(request, ${className}::class.java);
         assertNotNull(${entityName});
     }
