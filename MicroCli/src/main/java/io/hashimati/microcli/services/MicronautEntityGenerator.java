@@ -1637,7 +1637,7 @@ public class MicronautEntityGenerator
     }
     public String generateTestController(Entity entity , String language, String testFramework) throws IOException, ClassNotFoundException{
 
-        HashMap<String, String> binder = new HashMap<String, String>();
+        HashMap<String, Object> binder = new HashMap<String, Object>();
         binder.putIfAbsent("controllerPackage", entity.getRestPackage());
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
@@ -1645,6 +1645,9 @@ public class MicronautEntityGenerator
         binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("afterBeforeMethods", "");
         binder.put("moreImports", "");
+        binder.put("header", entity.isSecurityEnabled() && entity.getSecurityStrategy().toLowerCase().contains("jwt"));
+        binder.put("basic", entity.isSecurityEnabled() && entity.getSecurityStrategy().toLowerCase().contains("jwt"));
+
         String keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         switch(testFramework.toLowerCase())
         {
@@ -1659,7 +1662,10 @@ public class MicronautEntityGenerator
             default:
                 keyTemplate = TemplatesService.CONTROLLER_UNIT_TEST;
         }
-        return generateFromTemplate(entity, language, binder, keyTemplate);
+        return new SimpleTemplateEngine()
+                .createTemplate(
+                        templatesService.loadTemplateContent(getTemplatPath(keyTemplate, language.toLowerCase())))
+                .make(binder).toString();
     }
 
     public String generateEnumGraphQL(EnumClass enumClass) throws IOException, ClassNotFoundException {
