@@ -113,7 +113,7 @@ As a getting started steps, we will generate an application using The Micronaut 
 mc entity -e fruit --graphql
 ```
 6. MicrostarterCli application will launch. 
-7. Select the instructions as in this GIF: 
+7. Follow the instructions as in this GIF: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
 
 
