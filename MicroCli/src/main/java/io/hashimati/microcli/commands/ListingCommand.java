@@ -7,6 +7,7 @@ import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 import java.io.File;
 import java.util.Arrays;
@@ -15,17 +16,22 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static io.hashimati.microcli.utils.PromptGui.print;
+import static io.hashimati.microcli.utils.PromptGui.println;
 import static org.fusesource.jansi.Ansi.Color.*;
 
 @Command(name= "ls", description = "Displays a list of configured components.")
 public class ListingCommand implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-e"}, description = "Displays the list of entities")
+    @Option(names = {"-e"}, description = "Displays the list of entities")
     private boolean entities;
-    @CommandLine.Option(names = {"-paths"}, description = "Displays all paths")
+    @Option(names = {"-paths"}, description = "Displays all paths")
     private boolean paths;
-    @CommandLine.Option(names = {"-roles"}, description = "Displays all roles")
+    @Option(names = {"-roles"}, description = "Displays all roles")
     private boolean roles;
+
+    @Option(names = {"-features"}, description = "Displays all roles")
+    private boolean features;
     @Override
     public Integer call() throws Exception {
         AnsiConsole.systemInstall();
@@ -35,7 +41,7 @@ public class ListingCommand implements Callable<Integer> {
 
         if(!configurationFile.exists()){
 
-            PromptGui.println("The project is not configured. Please, run \"configure\" command", YELLOW);
+            println("The project is not configured. Please, run \"configure\" command", YELLOW);
             return 0;
         }
         else {
@@ -48,24 +54,24 @@ public class ListingCommand implements Callable<Integer> {
 
             if(!configurationInfo.getEntities().isEmpty())
               configurationInfo.getEntities().forEach(x->{
-                  PromptGui.println(x.getName(), color);
+                  println(x.getName(), color);
                   if(paths)
                   {
                       Ansi.Color color2 = colorList.get(new Random().nextInt(colorList.size()));
 
                       x.getUrls()
-                              .forEach(y-> PromptGui.println("path= "+y.getUrl() + ", method= "+y.getMethod(), color2));
+                              .forEach(y-> println("path= "+y.getUrl() + ", method= "+y.getMethod(), color2));
                   }
               });
             else
-                PromptGui.println("There is no entity!", color);
+                println("There is no entity!", color);
 
         }
         if(roles)
         {
             Ansi.Color color = colorList.get(new Random().nextInt(colorList.size()));
             configurationInfo.getSecurityRoles().forEach(x->{
-                PromptGui.println(x, color);
+                println(x, color);
 
             });
 
@@ -79,13 +85,14 @@ public class ListingCommand implements Callable<Integer> {
             Ansi.Color labelcolor = colorList.get(new Random().nextInt(colorList.size()));
             Ansi.Color pmColor = colorList.get(new Random().nextInt(colorList.size()));
             configurationInfo.getEntities().forEach(x->{
-                PromptGui.println(x.getName()+":", labelcolor);
+                println(x.getName()+":", labelcolor);
                 if(paths)
                 {
                     Ansi.Color color2 = colorList.get(new Random().nextInt(colorList.size()));
 
                     x.getUrls()
-                            .forEach(y->{ PromptGui.print("path= ", pmColor);PromptGui.print(y.getUrl(), color2 ); PromptGui.print(", Method= ", pmColor); PromptGui.print(y.getMethod().toString(), color2);
+                            .forEach(y->{ print("path= ", pmColor);
+                                print(y.getUrl(), color2 ); print(", Method= ", pmColor); print(y.getMethod().toString(), color2);
                                 System.out.println();count.getAndIncrement();});
                 }
             });
@@ -93,9 +100,9 @@ public class ListingCommand implements Callable<Integer> {
             if(configurationInfo.getProjectInfo().getFeatures().contains("openapi"))
             {
 
-                PromptGui.println("OpenApi: ", labelcolor);
-                PromptGui.println("/swagger/views/swagger-ui/index.html", pmColor);
-                PromptGui.println("/swagger/views/rapidoc/index.html", pmColor);
+                println("OpenApi: ", labelcolor);
+                println("/swagger/views/swagger-ui/index.html", pmColor);
+                println("/swagger/views/rapidoc/index.html", pmColor);
                 count.addAndGet(2);
 
 
@@ -104,14 +111,23 @@ public class ListingCommand implements Callable<Integer> {
             if(configurationInfo.isGraphQlSupport())
             {
 
-                PromptGui.println("Graphql: ", labelcolor);
-                PromptGui.println("/graphiql", pmColor);
-                PromptGui.println("/graphql", pmColor);
+                println("Graphql: ", labelcolor);
+                println("/graphiql", pmColor);
+                println("/graphql", pmColor);
                 count.addAndGet(2);
             }
             if(count.get() == 0){
-                PromptGui.println("There is no path", labelcolor);
+                println("There is no path", labelcolor);
             }
+        }
+        if(features)
+        {
+            Ansi.Color fColor = colorList.get(new Random().nextInt(colorList.size()));
+            Ansi.Color cColor =colorList.get(new Random().nextInt(colorList.size()));
+            print("Features = { " , cColor);
+            print(configurationInfo.getProjectInfo().getFeatures().stream()
+                    .reduce((x,y)->x+", " + y).get(), fColor);
+            print("}", cColor) ;
         }
         return 0;
     }

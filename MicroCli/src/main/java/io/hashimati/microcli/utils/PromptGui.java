@@ -149,7 +149,7 @@ public class PromptGui {
     {
         AnsiConsole.systemInstall();
         System.out.print(ansi().bold().fg(color).a(message));
-      //  setToDefault();
+       setToDefault();
 
     }
     public static void printlnErr(String message)
