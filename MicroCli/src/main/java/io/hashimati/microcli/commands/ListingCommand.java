@@ -71,10 +71,10 @@ public class ListingCommand implements Callable<Integer> {
         {
             if(!configurationInfo.getSecurityRoles().isEmpty()){
             Ansi.Color color = colorList.get(new Random().nextInt(colorList.size()));
-            configurationInfo.getSecurityRoles().forEach(x->{
-                println(x, color);
-
-            });
+                Ansi.Color color1 = colorList.get(new Random().nextInt(colorList.size()));
+                print("Roles= {", color1) ;
+                print(configurationInfo.getSecurityRoles().stream().reduce((x,y)->x+", "+ y).get(), colorList.get(new Random().nextInt(colorList.size())));
+                print("}", color1);
             }
             else
                 PromptGui.print("There is no security roles!", colorList.get(new Random().nextInt(colorList.size())));
