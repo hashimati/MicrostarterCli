@@ -56,7 +56,7 @@ public class ConfigurationInfo {
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
     private boolean configured;
-    private List<String> securityRoles;
+    private List<String> securityRoles = new ArrayList<>();
     public ConfigurationInfo visit(Visitor<ConfigurationInfo> visitor)
     {
         return visitor.visit(this);
