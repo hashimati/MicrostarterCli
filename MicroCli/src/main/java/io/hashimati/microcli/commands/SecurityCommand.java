@@ -22,12 +22,13 @@ import picocli.CommandLine.Command;
 import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.Callable;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static org.fusesource.jansi.Ansi.ansi;
 
-@Command(name = "security", description = {"To enable Security", "This command will generate the security files based the configuration, and selected security mechanism."})//,subcommands = SSLCommand.class)
+@Command(name = "security", description = {"To enable Security", "This command will generate the security files based the configuration, and selected security mechanism."} , subcommands = {InterceptURLCommand.class})//,subcommands = SSLCommand.class)
 public class SecurityCommand implements Callable<Integer> {
 
     @Inject
@@ -58,8 +59,9 @@ public class SecurityCommand implements Callable<Integer> {
         boolean persistRefreshToken = true; //todo: to add this option in the future; strategy.equalsIgnoreCase("jwt")? PromptGui.createConfirmResult("refreshToken","Do you want to persist Refresh Token" ).getConfirmed() == ConfirmChoice.ConfirmationValue.YES:false;
 
 
-        ArrayList<String> roles = new ArrayList<>();
+        HashSet<String> roles = new HashSet<>();
 
+        roles.add("ADMIN_ROLE");
         for(;;){
             ConfirmResult addRoleConfirm = PromptGui.createConfirmResult("addRole", "Do you want to add Role?", NO);
             if(addRoleConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.NO)

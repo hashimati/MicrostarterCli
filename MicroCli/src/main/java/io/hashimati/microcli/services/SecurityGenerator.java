@@ -16,10 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 import static io.hashimati.microcli.services.TemplatesService.REFRESH_TOKEN_REPOSITORY;
 import static io.hashimati.microcli.services.TemplatesService.SECURITY_CLIENT;
@@ -32,7 +29,7 @@ public class SecurityGenerator {
     private TemplatesService templatesService;
 
 
-    public void generateSecurityFiles(String strategy, ArrayList<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
+    public void generateSecurityFiles(String strategy, HashSet<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
         HashMap<String, Feature> features = FeaturesFactory.features();
 
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
