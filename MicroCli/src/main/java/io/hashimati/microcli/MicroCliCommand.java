@@ -43,7 +43,8 @@ import picocli.CommandLine.Option;
         ReportCommand.class,
         ContactCommand.class,
         ConfigureMetricsCommand.class,
-        CreateEventCommand.class
+        CreateEventCommand.class,
+        ListingCommand.class
 
 })
 public class MicroCliCommand implements Runnable {

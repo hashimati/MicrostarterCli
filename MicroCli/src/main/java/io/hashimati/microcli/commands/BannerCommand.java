@@ -72,6 +72,7 @@ public class BannerCommand implements Callable<Integer> {
             System.out.println("Preview: ");
             System.out.println(finalBanner);
             ListResult confirmBanner = PromptGui.createListPrompt("confirmBanner", "Generate banner?", "yes", "no", "cancel");
+
             switch (confirmBanner.getSelectedId())
             {
                 case "yes":

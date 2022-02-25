@@ -263,7 +263,9 @@ public class AddAttributeCommand implements Callable<Integer> {
             }
         }
         configurationInfo.writeToFile();
+        PromptGui.setToDefault();
         System.gc();
+
         return 0;
     }
 }

@@ -63,6 +63,12 @@ public class ListingCommand implements Callable<Integer> {
         }
         if(roles)
         {
+            Ansi.Color color = colorList.get(new Random().nextInt(colorList.size()));
+            configurationInfo.getSecurityRoles().forEach(x->{
+                PromptGui.println(x, color);
+
+            });
+
 
         }
 
@@ -70,22 +76,26 @@ public class ListingCommand implements Callable<Integer> {
         if(paths && !entities && configurationInfo != null)
         {
             AtomicInteger count = new AtomicInteger();
-            Ansi.Color color = colorList.get(new Random().nextInt(colorList.size()));
+            Ansi.Color labelcolor = colorList.get(new Random().nextInt(colorList.size()));
+            Ansi.Color pmColor = colorList.get(new Random().nextInt(colorList.size()));
             configurationInfo.getEntities().forEach(x->{
-                PromptGui.println(x.getName(), color);
+                PromptGui.println(x.getName()+":", labelcolor);
                 if(paths)
                 {
                     Ansi.Color color2 = colorList.get(new Random().nextInt(colorList.size()));
 
                     x.getUrls()
-                            .forEach(y->{ PromptGui.println("path= "+y.getUrl() + ", method= "+y.getMethod(), color2); count.getAndIncrement();});
+                            .forEach(y->{ PromptGui.print("path= ", pmColor);PromptGui.print(y.getUrl(), color2 ); PromptGui.print(", Method= ", pmColor); PromptGui.print(y.getMethod().toString(), color2);
+                                System.out.println();count.getAndIncrement();});
                 }
             });
 
             if(configurationInfo.getProjectInfo().getFeatures().contains("openapi"))
             {
-                PromptGui.println("/swagger/views/swagger-ui/index.html", color);
-                PromptGui.println("/swagger/views/rapidoc/index.html", color);
+
+                PromptGui.println("OpenApi: ", labelcolor);
+                PromptGui.println("/swagger/views/swagger-ui/index.html", pmColor);
+                PromptGui.println("/swagger/views/rapidoc/index.html", pmColor);
                 count.addAndGet(2);
 
 
@@ -94,12 +104,13 @@ public class ListingCommand implements Callable<Integer> {
             if(configurationInfo.isGraphQlSupport())
             {
 
-                PromptGui.println("/graphiql", color);
-                PromptGui.println("/graphql", color);
+                PromptGui.println("Graphql: ", labelcolor);
+                PromptGui.println("/graphiql", pmColor);
+                PromptGui.println("/graphql", pmColor);
                 count.addAndGet(2);
             }
             if(count.get() == 0){
-                PromptGui.println("There is no path", color);
+                PromptGui.println("There is no path", labelcolor);
             }
         }
         return 0;
