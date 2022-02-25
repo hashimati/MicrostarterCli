@@ -56,6 +56,8 @@ public class Entity
     private String javaVersion;
     private boolean javaRecord;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
+    private ArrayList<URL> urls = new ArrayList<>();
+
     public String getName() {
         return name;
 
@@ -419,5 +421,13 @@ public class Entity
 
     public void setJavaRecord(boolean javaRecord) {
         this.javaRecord = javaRecord;
+    }
+
+    public ArrayList<URL> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(ArrayList<URL> urls) {
+        this.urls = urls;
     }
 }

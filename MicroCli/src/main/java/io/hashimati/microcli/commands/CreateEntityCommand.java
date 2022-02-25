@@ -28,6 +28,7 @@ import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.http.HttpMethod;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
@@ -46,6 +47,7 @@ import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENT
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.PromptGui.createListPrompt;
 import static io.hashimati.microcli.utils.PromptGui.println;
+import static io.micronaut.http.HttpMethod.*;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -432,10 +434,60 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                     String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
+                    entity.getUrls().add(new URL(){{
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"get");
+                        setMethod(GET);
+                    }});
+
+                    entity.getUrls().add(new URL(){{
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"findAll");
+                        setMethod(GET);
+                    }});
+
+                    entity.getUrls().add(new URL(){{
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"save");
+                        setMethod(POST);
+                    }});
+
+                    entity.getUrls().add(new URL(){{
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"update");
+                        setMethod(PUT);
+                    }});
+                    entity.getUrls().add(new URL(){{
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/delete/{id}");
+                        setMethod(DELETE);
+                    }});
+
+                    entity.getAttributes().stream()
+                            .forEach(x->{
+                                if(x.isFindByMethod())
+                                {
+                                    entity.getUrls().add(new URL(){{
+                                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findBy"+NameUtils.capitalize(x.getName()));
+                                        setMethod(DELETE);
+                                    }});
+                                }
+                                if(x.isFindAllMethod())
+                                {
+                                    entity.getUrls().add(new URL(){{
+                                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findAllBy"+NameUtils.capitalize(x.getName()));
+                                        setMethod(DELETE);
+                                    }});
+                                }
+
+                            });
+                    entity.getUpdateByMethods().keySet().forEach(x->{
+                        entity.getUrls().add(new URL(){{
+                            setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/updateBy"+NameUtils.capitalize(x));
+                            setMethod(DELETE);
+                        }});
+                    });
                     String controllerPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.CONTROLLER_PATH, new HashMap<String, String>() {{
                         put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
+
+
                     GeneratorUtils.createFile(System.getProperty("user.dir") + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
 
 
