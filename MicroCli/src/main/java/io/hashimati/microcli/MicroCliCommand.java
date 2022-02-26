@@ -60,7 +60,7 @@ public class MicroCliCommand implements Runnable {
                 " |_|  |_|_|\\___|_|  \\___/|___/\\__\\__,_|_|   \\__\\___|_|     \\_____|_|_|\n" +
                 "                                                                      \n" +
                 "                                                                      \n" +
-                "(Microstarter CLI v0.0.4)\n");
+                "(Microstarter CLI v0.0.5)\n");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
