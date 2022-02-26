@@ -1,0 +1,6 @@
+--- #Intercept URL Map
+micronaut:
+  security:
+    intercept-url-map:
+${patterns}
+--- #End Intercept URL Map
