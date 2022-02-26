@@ -144,6 +144,8 @@ public class TemplatesService {
             SECURITY_USER_MONGO_CONTROLLER= "sec_user_mongo_controller",
             SECURITY_JWT_PROPERTIES = "security_jwt_properties",
             SECURITY_SESSION_PROPERTIES = "security_session_properties",
+            SECURITY_INTERCEPT_URL ="SECURITY_INTERCEPT_URL",
+            SECURITY_INTERCEPT_URL_PATTERN = "SECURITY_INTERCEPT_URL_PATTERN",
             SECURITY_LIQUIBASE_CONFIG = "Liquibase_config",
             SECURITY_LIQUIBASE_SCHEMA = "liquibase_schema",
             LOGIN_EVENT_LISTENER = "login_event_Listerner",
@@ -682,6 +684,8 @@ public class TemplatesService {
         securityTemplates.put(SECURITY_FACTORY ,"micronaut/security/${auth}/${lang}/${db}/SecurityFactory${ext}");
         securityPropertiesTemplates.put(SECURITY_JWT_PROPERTIES, "micronaut/security/jwt_properties.yml");
         securityPropertiesTemplates.put(SECURITY_SESSION_PROPERTIES, "micronaut/security/session_properties.yml");
+        securityPropertiesTemplates.put(SECURITY_INTERCEPT_URL, "micronaut/security/InterceptURL.yml");
+        securityPropertiesTemplates.put(SECURITY_INTERCEPT_URL_PATTERN, "micronaut/security/InterceptURLPattern.yml");
         securityLiquibase.put(SECURITY_LIQUIBASE_CONFIG, "micronaut/security/db/liquibase-changelog.xml");
         securityLiquibase.put(SECURITY_LIQUIBASE_SCHEMA, "micronaut/security/db/changelog/db.security-1.xml");
         securityEventsTemplates.put(LOGIN_EVENT_PUBLISHER, "micronaut/security/${auth}/${lang}/${db}/event/LoginEventPublisher${ext}");

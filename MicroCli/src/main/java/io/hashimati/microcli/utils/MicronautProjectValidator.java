@@ -808,6 +808,20 @@ public class MicronautProjectValidator {
         }
         return false;
     }
+    public static boolean writeProperties(String properties) throws IOException {
+        //todo
+        String propertiesPath = "src/main/resources/application.yml";
+        return GeneratorUtils.dumpContentToFile(propertiesPath, properties) ;
+    }
+    public static String getPropertiesContent(){
+        String propertiesPath = "src/main/resources/application.yml";
+        try {
+                return GeneratorUtils.getFileContent(new File(propertiesPath)).replaceAll("^\\s+","");
+        } catch (FileNotFoundException e) {
+                return "";
+        }
+
+    }
     public static boolean formattingYamlFile(String path) throws IOException {
 //        InputStream inputStream = new FileInputStream(new File(path));
         YamlReader reader = new YamlReader(new FileReader(path));
