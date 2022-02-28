@@ -435,22 +435,22 @@ public class CreateEntityCommand implements Callable<Integer> {
                     String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"get");
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/get");
                         setMethod(GET);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"findAll");
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findAll");
                         setMethod(GET);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"save");
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/save");
                         setMethod(POST);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"update");
+                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/update");
                         setMethod(PUT);
                     }});
                     entity.getUrls().add(new URL(){{
