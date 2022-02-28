@@ -1,5 +1,4 @@
       -
         pattern: ${pattern}
         http-method: ${method}
-        access:
-${roles}
+        access: ${roles}

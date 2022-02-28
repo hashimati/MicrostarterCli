@@ -56,7 +56,10 @@ public class InterceptURLCommand implements Callable<Integer>
             PromptGui.printlnWarning("Please, configure security first.");
             return 0;
         }
-       String entityName =  PromptGui.createListPrompt("entity", "Select an entity: ", configurationInfo.getEntities().stream().filter(x-> !x.isNoEndpoints()).map(x->x.getName()).collect(Collectors.toList()).toArray(new String[]{})).getSelectedId();
+        List<String> urlsScope = configurationInfo.getEntities().stream().filter(x -> !x.isNoEndpoints()).map(x -> x.getName()).collect(Collectors.toList());
+        urlsScope.add("/GraphQL");
+        urlsScope.add("/OpenAPI");
+       String entityName =  PromptGui.createListPrompt("entity", "Select an entity: ", urlsScope.toArray(new String[]{})).getSelectedId();
 
         ArrayList<URL> urls = configurationInfo.getEntities().stream().filter(x -> x.getName().equals(entityName)).findFirst()
                 .get().getUrls();
@@ -66,7 +69,13 @@ public class InterceptURLCommand implements Callable<Integer>
          }};
          roles.addAll(configurationInfo.getSecurityRoles());
 
-        urls.stream().forEach(x->{
+         if(entityName.equals("/GraphQL")){
+             //todo securing graphql
+         }
+         else if(entityName.equals("/OpenAPI")){
+             // todo securing OpenAPI. 
+         }
+        else urls.stream().forEach(x->{
             try {
                 String securedRule = PromptGui.createListPrompt("Type", "Choose secured rules for: " + x.getUrl(), "isAnonymous()", "isAuthenticated()", "Choose Roles").getSelectedId();
 
@@ -96,7 +105,7 @@ public class InterceptURLCommand implements Callable<Integer>
                     HashMap<String, Object> binder = new HashMap<String, Object>();
                     binder.put("pattern", "\""+x.getUrl()+"\"");
                     binder.put("method", "\""+x.getMethod().name().toUpperCase(Locale.ROOT)+"\"");
-                    binder.put("roles",x.getRoles().stream().map(y-> "\t\t\t\t\t- "+y) .reduce((a,b)->a + "\n" + b).orElse(""));
+                    binder.put("roles","["+x.getRoles().stream().map(y-> "\"" + y+"\"") .reduce((a,b)->a + ", " + b).orElse("") + "]");
                     try {
                         return new SimpleTemplateEngine().createTemplate(interceptURLPatternTemplate).make(binder).toString();
                     } catch (ClassNotFoundException e) {
