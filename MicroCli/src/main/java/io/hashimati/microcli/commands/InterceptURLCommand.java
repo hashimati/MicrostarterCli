@@ -67,13 +67,13 @@ public class InterceptURLCommand implements Callable<Integer>
 
          var roles =  new ArrayList<String>(){{
          }};
-         roles.addAll(configurationInfo.getSecurityRoles());
+         roles.addAll(configurationInfo.getSecurityRoles().stream().filter(x->!x.equalsIgnoreCase("ADMIN_ROLE")).collect(Collectors.toList()));
 
          if(entityName.equals("/GraphQL")){
              //todo securing graphql
          }
          else if(entityName.equals("/OpenAPI")){
-             // todo securing OpenAPI. 
+             // todo securing OpenAPI.
          }
         else urls.stream().forEach(x->{
             try {
@@ -82,6 +82,7 @@ public class InterceptURLCommand implements Callable<Integer>
 
                 if(securedRule.equals("Choose Roles")) {
                     var selectedRoles = PromptGui.createChoiceResult("roles", "Choose roles for: " + x.getUrl(), roles.toArray(new String[]{})).getSelectedIds();
+                    selectedRoles.add("ADMIN_ROLE");
                     x.setRoles(selectedRoles);
                 }
                 else{
