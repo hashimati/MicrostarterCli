@@ -15,8 +15,10 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
+import io.hashimati.microcli.domains.URL;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.TemplatesService;
+import io.micronaut.http.HttpMethod;
 import io.micronaut.runtime.Micronaut;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
@@ -35,6 +37,8 @@ import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstant
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
 import static io.hashimati.microcli.utils.PromptGui.*;
+import static io.micronaut.http.HttpMethod.GET;
+import static io.micronaut.http.HttpMethod.POST;
 
 
 @Singleton
@@ -558,6 +562,20 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
                 configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
                 projectInfo.dumpToFile();
+                configurationInfo.getUrls().add(
+                        new URL(){{
+                            setScope("/GraphQL");
+                            setUrl("/graphiql");
+                            setMethod(GET);
+
+
+                        }});
+                configurationInfo.getUrls().add(new URL(){{
+                    setScope("/GraphQL");
+                    setUrl("" +
+                            "/graphql");
+                    setMethod(POST);
+                }});
 
                 templatesService.loadTemplates(null);
                 String graphQLproperties = templatesService.loadTemplateContent
@@ -584,6 +602,20 @@ public class ConfigurationInitializer {
 
 
             }
+            configurationInfo.getUrls().add(
+                    new URL(){{
+                        setScope("/OpenAPI");
+                        setMethod(GET);
+                        setUrl("/swagger/views/swagger-ui/index.html");
+                    }}
+            );
+            configurationInfo.getUrls().add(
+                    new URL(){{
+                        setScope("/OpenAPI");
+                        setMethod(GET);
+                        setUrl("/swagger/views/rapidoc/index.html");
+                    }}
+            );
         }
 
         //removing rewrite

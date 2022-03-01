@@ -62,6 +62,7 @@ public class ConfigurationInfo {
         return visitor.visit(this);
     }
 
+    private HashSet<URL> urls = new HashSet<>();
 
 
     public String toJson() throws JsonProcessingException {

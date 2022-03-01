@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.hashimati.microcli.services.TemplatesService.SECURITY_INTERCEPT_URL;
 import static io.hashimati.microcli.services.TemplatesService.SECURITY_INTERCEPT_URL_PATTERN;
@@ -41,7 +42,10 @@ public class InterceptURLCommand implements Callable<Integer>
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
         ConfigurationInfo  configurationInfo = null;
         List<Ansi.Color> colorList = Arrays.asList(MAGENTA, CYAN, GREEN, BLUE, WHITE, YELLOW);
-
+        String interceptURLTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL));
+        String interceptURLPatternTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL_PATTERN));
+        String patterns = "";
+        HashSet<URL> applicationURLs = new HashSet<>();
         if(!configurationFile.exists()){
 
             println("The project is not configured. Please, run \"configure\" command", YELLOW);
@@ -56,37 +60,36 @@ public class InterceptURLCommand implements Callable<Integer>
             PromptGui.printlnWarning("Please, configure security first.");
             return 0;
         }
-        List<String> urlsScope = configurationInfo.getEntities().stream().filter(x -> !x.isNoEndpoints()).map(x -> x.getName()).collect(Collectors.toList());
-        urlsScope.add("/GraphQL");
-        urlsScope.add("/OpenAPI");
-       String entityName =  PromptGui.createListPrompt("entity", "Select an entity: ", urlsScope.toArray(new String[]{})).getSelectedId();
+        Set<String> urlsScope = configurationInfo.getEntities().stream().filter(x -> !x.isNoEndpoints()).map(x -> x.getName()).collect(Collectors.toSet());
+        urlsScope.addAll(configurationInfo.getUrls().stream().map(x->x.getScope()).collect(Collectors.toList()));
+       String entityName =  PromptGui.createListPrompt("entity", "Select the scope of Urls: ", urlsScope.toArray(new String[]{})).getSelectedId();
 
-        ArrayList<URL> urls = configurationInfo.getEntities().stream().filter(x -> x.getName().equals(entityName)).findFirst()
-                .get().getUrls();
+
 
 
          var roles =  new ArrayList<String>(){{
          }};
          roles.addAll(configurationInfo.getSecurityRoles().stream().filter(x->!x.equalsIgnoreCase("ADMIN_ROLE")).collect(Collectors.toList()));
-
-         if(entityName.equals("/GraphQL")){
+        ArrayList<URL> urls = new ArrayList<>();
+         if(Arrays.asList("/GraphQL", "/OpenAPI", "/Security", "/metrics").contains(entityName)){
              //todo securing graphql
+             urls.addAll( configurationInfo.getUrls().stream().filter(x->x.getScope().equalsIgnoreCase(entityName  )).collect(Collectors.toList()));
          }
-         else if(entityName.equals("/OpenAPI")){
-             // todo securing OpenAPI.
+        else {
+             urls = configurationInfo.getEntities().stream().filter(x -> x.getName().equals(entityName)).findFirst()
+                     .get().getUrls();
          }
-        else urls.stream().forEach(x->{
+        urls.stream().forEach(x -> {
             try {
                 String securedRule = PromptGui.createListPrompt("Type", "Choose secured rules for: " + x.getUrl(), "isAnonymous()", "isAuthenticated()", "Choose Roles").getSelectedId();
 
 
-                if(securedRule.equals("Choose Roles")) {
+                if (securedRule.equals("Choose Roles")) {
                     var selectedRoles = PromptGui.createChoiceResult("roles", "Choose roles for: " + x.getUrl(), roles.toArray(new String[]{})).getSelectedIds();
                     selectedRoles.add("ADMIN_ROLE");
                     x.setRoles(selectedRoles);
-                }
-                else{
-                    x.setRoles(new HashSet<String>(){{
+                } else {
+                    x.setRoles(new HashSet<String>() {{
                         add(securedRule);
                     }});
                 }
@@ -95,13 +98,14 @@ public class InterceptURLCommand implements Callable<Integer>
                 e.printStackTrace();
             }
         });
-
-
         configurationInfo.writeToFile();
-        String interceptURLTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL));
-        String interceptURLPatternTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL_PATTERN));
-        String patterns = "";
-        patterns = urls.stream().filter(x-> !x.getRoles().isEmpty())
+
+         applicationURLs.addAll(configurationInfo.getEntities().stream()
+                .filter(x -> !x.getUrls().isEmpty())
+                .map(x -> x.getUrls())
+                .flatMap(x -> x.stream())
+                .collect(Collectors.toList()));
+        patterns = applicationURLs.stream().filter(x-> !x.getRoles().isEmpty())
                 .map(x->{
                     HashMap<String, Object> binder = new HashMap<String, Object>();
                     binder.put("pattern", "\""+x.getUrl()+"\"");

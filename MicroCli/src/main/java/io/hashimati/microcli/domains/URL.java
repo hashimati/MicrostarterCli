@@ -13,6 +13,7 @@ import java.util.HashSet;
 @AllArgsConstructor
 @NoArgsConstructor
 public class URL {
+    private String scope ;
     private String url;
     private HttpMethod method;
     private HashSet<String> roles = new HashSet<String>();
