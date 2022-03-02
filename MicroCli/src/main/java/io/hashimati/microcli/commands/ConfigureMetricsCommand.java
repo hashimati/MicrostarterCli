@@ -6,11 +6,13 @@ import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
+import io.hashimati.microcli.domains.URL;
 import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
+import io.micronaut.http.HttpMethod;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.concurrent.Callable;
 
 import static io.hashimati.microcli.services.TemplatesService.*;
+import static io.micronaut.http.HttpMethod.GET;
 
 @Command(name = "configure-metrics", aliases = {"metrics"}, description = "To configure Metrics Registries.")
 public class ConfigureMetricsCommand implements Callable<Integer> {
@@ -79,9 +82,17 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
         if(registry.equalsIgnoreCase("prometheus"))
         {
+            configurationInfo.setPrometheus(true);
+            configurationInfo.getUrls().add(new URL(){{
+                setMethod(GET);
+                setScope("/metrics");
+                setUrl("/metrics/prometheus");
+            }});
 
             if(configurationInfo.isPrometheus()){
                 PromptGui.printlnWarning("\"Prometheus\" is already configured!");
+
+                configurationInfo.writeToFile();
                 return 0;
             }
             if(!projectInfo.getFeatures().contains("micrometer-prometheus"))
