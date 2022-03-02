@@ -45,7 +45,7 @@ public class InterceptURLCommand implements Callable<Integer>
         String interceptURLTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL));
         String interceptURLPatternTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL_PATTERN));
         String patterns = "";
-        HashSet<URL> applicationURLs = new HashSet<>();
+        LinkedHashSet<URL> applicationURLs = new LinkedHashSet<>();
         if(!configurationFile.exists()){
 
             println("The project is not configured. Please, run \"configure\" command", YELLOW);
@@ -105,6 +105,7 @@ public class InterceptURLCommand implements Callable<Integer>
                 .map(x -> x.getUrls())
                 .flatMap(x -> x.stream())
                 .collect(Collectors.toList()));
+         applicationURLs.addAll(configurationInfo.getUrls());
         patterns = applicationURLs.stream().filter(x-> !x.getRoles().isEmpty())
                 .map(x->{
                     HashMap<String, Object> binder = new HashMap<String, Object>();
