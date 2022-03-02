@@ -143,6 +143,27 @@ public class ConfigurationInitializer {
                     configurationInfo.setReactiveFramework("rxjava3");
             }
 
+            String port = inputText("port", "Enter the port number between 0 - 65535: ", "8080").getInput();
+            try{
+                int portInt = Integer.parseInt(port);
+                if(portInt < 0 || portInt > 65535)
+                {
+                    configurationInfo.setPort(8080);
+                    PromptGui.printlnWarning(port +" is not valid port number. The port is set to 8080.");
+                }
+                configurationInfo.setPort( portInt);
+
+
+            }
+            catch (Exception ex)
+            {
+                configurationInfo.setPort(8080);
+                PromptGui.printlnWarning(port +" is not valid port number. The port is set to 8080.");
+
+            }
+            MicronautProjectValidator.appendToProperties("---\n" +
+                    "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
+                    "---");
             //Getting Database Name;
             InputResult  databaseNameResult = PromptGui.inputText("databaseName", "Enter the database name: ", "MyDatabase");
             configurationInfo.setDatabaseName( databaseNameResult.getInput());

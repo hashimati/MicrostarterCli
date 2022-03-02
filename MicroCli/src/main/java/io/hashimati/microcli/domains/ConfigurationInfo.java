@@ -39,6 +39,8 @@ public class ConfigurationInfo {
             dataMigrationTool, //liquibase, Flyway
             messaging,
             graphQLIntegrationLib;
+
+    private int port;
     boolean graphQlSupport;
     private String reactiveFramework;
     private boolean micrometer;
