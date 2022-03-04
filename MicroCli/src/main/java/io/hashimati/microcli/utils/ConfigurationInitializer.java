@@ -113,7 +113,7 @@ public class ConfigurationInitializer {
 //            );
 
 
-            String port = inputText("port", "Enter the server ./grport number between 0 - 65535: ", "8080").getInput();
+            String port = inputText("port", "Enter the server port number between 0 - 65535: ", "8080").getInput();
             try{
                 int portInt = Integer.parseInt(port);
                 if(portInt < 0 || portInt > 65535)
