@@ -11,7 +11,7 @@ import ${entityPackage}
 import ${servicePackage}
 
 
-@Controller("/api/${entityName}s")
+@Controller("/api/v1/${entityName}s")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
 

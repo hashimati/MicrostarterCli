@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 ${moreImports}
 
 @Tag(name = "${className}")
-@Controller("/api/${entities}")
+@Controller("/api/v1/${entities}")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
 

@@ -10,7 +10,7 @@ import ${entityPackage};
 <% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
 ${moreImports}
 
-@Client("/api/${entities}")
+@Client("/api/v1/${entities}")
 public interface ${classNameA}Client {
 
     @Post("/save")

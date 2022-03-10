@@ -7,7 +7,7 @@ import io.micronaut.http.client.annotation.Client
 import java.util.List
 ${moreImports}
 
-@Client("/api/${entityName}")
+@Client("/api/v1/${entityName}")
 interface ${className}Client {
 
     @Post("/save")

@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 ${moreImports}
 
 @ExecuteOn(TaskExecutors.IO)
-@Controller("/api/${entityName}")
+@Controller("/api/v1/${entityName}")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>

@@ -12,7 +12,6 @@ import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import groovy.lang.Tuple2;
-import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.domains.EntityAttribute;

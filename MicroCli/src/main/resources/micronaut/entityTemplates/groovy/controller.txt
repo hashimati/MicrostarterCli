@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 ${moreImports}
 
 @Tag(name = "${className}")
-@Controller("/api/${entities}")
+@Controller("/api/v1/${entities}")
 class ${className}Controller {
 
     @Inject ${className}Service ${entityName}Service;

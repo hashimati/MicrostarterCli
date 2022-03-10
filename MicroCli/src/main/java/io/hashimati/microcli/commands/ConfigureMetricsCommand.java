@@ -12,9 +12,7 @@ import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
-import io.micronaut.http.HttpMethod;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;

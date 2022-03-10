@@ -6,12 +6,11 @@ package io.hashimati.microcli.commands;
  * @twitter: @hashimati
  * @email: hashimati.ahmed@gmail.com
  */
+
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
-import de.codeshelf.consoleui.prompt.ExpandableChoiceResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
-import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.config.Feature;
@@ -28,27 +27,23 @@ import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.http.HttpMethod;
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
-import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.services.TemplatesService.*;
-import static io.hashimati.microcli.utils.PromptGui.createListPrompt;
 import static io.hashimati.microcli.utils.PromptGui.println;
 import static io.micronaut.http.HttpMethod.*;
-import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -435,26 +430,26 @@ public class CreateEntityCommand implements Callable<Integer> {
                     String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/get");
+                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/get");
                         setMethod(GET);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findAll");
+                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/findAll");
                         setMethod(GET);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/save");
+                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/save");
                         setMethod(POST);
                     }});
 
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/update");
+                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/update");
                         setMethod(PUT);
                     }});
                     entity.getUrls().add(new URL(){{
-                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/delete/{id}");
+                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/delete/{id}");
                         setMethod(DELETE);
                     }});
 
@@ -463,14 +458,14 @@ public class CreateEntityCommand implements Callable<Integer> {
                                 if(x.isFindByMethod())
                                 {
                                     entity.getUrls().add(new URL(){{
-                                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findBy"+NameUtils.capitalize(x.getName()));
+                                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/findBy"+NameUtils.capitalize(x.getName()));
                                         setMethod(DELETE);
                                     }});
                                 }
                                 if(x.isFindAllMethod())
                                 {
                                     entity.getUrls().add(new URL(){{
-                                        setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/findAllBy"+NameUtils.capitalize(x.getName()));
+                                        setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/findAllBy"+NameUtils.capitalize(x.getName()));
                                         setMethod(DELETE);
                                     }});
                                 }
@@ -478,7 +473,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                             });
                     entity.getUpdateByMethods().keySet().forEach(x->{
                         entity.getUrls().add(new URL(){{
-                            setUrl("/api/"+NameUtils.camelCase(entity.getName(), true)+"/updateBy"+NameUtils.capitalize(x));
+                            setUrl("/api/v1/"+NameUtils.camelCase(entity.getName(), true)+"/updateBy"+NameUtils.capitalize(x));
                             setMethod(DELETE);
                         }});
                     });

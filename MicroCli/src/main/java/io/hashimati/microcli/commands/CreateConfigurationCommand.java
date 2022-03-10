@@ -1,7 +1,6 @@
 package io.hashimati.microcli.commands;
 
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

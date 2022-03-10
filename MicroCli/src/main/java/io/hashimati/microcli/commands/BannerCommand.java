@@ -2,17 +2,15 @@ package io.hashimati.microcli.commands;
 /*
  * @author Ahmed Al Hashmi
  */
+
 import de.codeshelf.consoleui.elements.ConfirmChoice;
-import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.domains.ConfigurationInfo;
-import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.utils.AsciiUtils;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
-import org.slf4j.helpers.NOPLogger;
 
 import java.io.File;
 import java.util.ArrayList;

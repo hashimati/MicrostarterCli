@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 ${moreImports}
 
 @MicronautTest
-class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient<% if(header) out.print ', private val  securityClient:SecurityClient'%> ) {
+class ${className}ControllerTest(@Client("/api/v1/${entityName}") private val client: HttpClient<% if(header) out.print ', private val  securityClient:SecurityClient'%> ) {
 
     lateinit var ${entityName}:${className};
 

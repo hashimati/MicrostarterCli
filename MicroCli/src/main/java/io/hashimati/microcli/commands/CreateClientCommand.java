@@ -6,13 +6,13 @@ package io.hashimati.microcli.commands;
  * @twitter: @hashimati
  * @email: hashimati.ahmed@gmail.com
  */
+
 import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;

@@ -24,7 +24,7 @@ import ${servicePackage};
 ${moreImports}
 
 @Tag(name = "${className}")
-@Controller("/api/${entities}")
+@Controller("/api/v1/${entities}")
 public class ${className}Controller {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Controller.class);

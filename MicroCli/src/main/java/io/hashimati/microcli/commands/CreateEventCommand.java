@@ -9,7 +9,6 @@ import io.hashimati.microcli.utils.PromptGui;
 import io.micronaut.core.naming.NameUtils;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.utils.GeneratorUtils.createFile;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
-import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 @Command(name = "event", aliases = {"create-event", "createEvent"}, description = {"To create event component."})
 public class CreateEventCommand implements Callable<Integer> {

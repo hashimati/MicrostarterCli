@@ -7,11 +7,9 @@ package io.hashimati.microcli.commands;
  * @email: hashimati.ahmed@gmail.com
  */
 
-import de.codeshelf.consoleui.elements.ConfirmChoice;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.utils.ConfigurationInitializer;
 import io.hashimati.microcli.utils.GradleReaderException;
-import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine.Command;
 

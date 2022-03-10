@@ -21,7 +21,7 @@ ${moreImports}
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 
 @Tag(name = "${className}")
-@Controller("/api/${entities}")
+@Controller("/api/v1/${entities}")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
 

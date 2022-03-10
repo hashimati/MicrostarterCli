@@ -6,11 +6,11 @@ package io.hashimati.microcli.commands;
  * @twitter: @hashimati
  * @email: hashimati.ahmed@gmail.com
  */
+
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.EnumClass;
 import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
-import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

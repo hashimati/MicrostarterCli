@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ${className}ControllerTest {
 
     @Inject
-    @Client("/api/${entityName}")
+    @Client("/api/v1/${entityName}")
     HttpClient client;
 
     HashMap<String, Object> randomObject;

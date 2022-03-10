@@ -25,7 +25,7 @@ class ${className}ControllerTest extends Specification{
 
 
     @Inject
-    @Client("/api/${entityName}")
+    @Client("/api/v1/${entityName}")
     HttpClient client;
 
     <% if(header) out.print ''@Inject SecurityClient securityClient'%>

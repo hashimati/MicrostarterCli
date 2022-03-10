@@ -10,7 +10,7 @@ ${moreImports}
 import ${entityPackage}
 
 
-@Client("/api/${entities}")
+@Client("/api/v1/${entities}")
 interface ${classNameA}Client {
 
     @Post("/save")

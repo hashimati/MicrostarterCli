@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 ${moreImports}
 
 @Tag(name = "${className}")
-@Controller("/api/${entityName}")
+@Controller("/api/v1/${entityName}")
 class ${className}Controller {
 
     static final Logger log = LoggerFactory.getLogger(${className}Controller.class);

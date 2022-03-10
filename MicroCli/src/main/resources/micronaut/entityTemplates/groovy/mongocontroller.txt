@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 ${moreImports}
 
 @ExecuteOn(TaskExecutors.IO)
-@Controller("/api/${entityName}")
+@Controller("/api/v1/${entityName}")
 class ${className}Controller {
 
     static final Logger log = LoggerFactory.getLogger(${className}Controller.class);

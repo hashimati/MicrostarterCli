@@ -9,7 +9,7 @@ import jakarta.inject.Inject
 import ${entityPackage}
 ${moreImports}
 
-@Client("/api/${entities}")
+@Client("/api/v1/${entities}")
 interface ${classNameA}Client {
 
     @Post("/save")

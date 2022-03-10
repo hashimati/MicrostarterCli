@@ -12,7 +12,7 @@ ${moreImports}
 
 
 @MicronautTest
-class ${className}ControllerTest(@Client("/api/${entityName}") private val client: HttpClient ):StringSpec( {
+class ${className}ControllerTest(@Client("/api/v1/${entityName}") private val client: HttpClient ):StringSpec( {
 
     lateinit var ${entityName}:${className};
     fun save() {
