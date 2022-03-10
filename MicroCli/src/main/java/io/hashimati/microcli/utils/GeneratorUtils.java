@@ -28,12 +28,17 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
@@ -166,10 +171,12 @@ public class GeneratorUtils
     public static boolean deleteFile(String path)  {
         File file = new File(path);
         try {
-             FileUtils.forceDelete(file);
+            Files.delete(Path.of(path));
+
              printlnSuccess("Deleted: " + file.getAbsolutePath());
              return true;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -328,10 +335,77 @@ public class GeneratorUtils
 
         }
     }
-
-
     public static String appendCodeToScope(String orginalCode, String code){
 
         return new StringBuilder().append(orginalCode.substring(0, orginalCode.lastIndexOf("}"))).append(code).append("\n}").toString();
     }
+
+    public static  boolean writeBytesToFile(String path, byte[] bytes)
+    {
+        try {
+            Files.write(Path.of(path), bytes);
+
+            return true;
+        } catch (IOException e) {
+          return false;
+        }
+    }
+    public static boolean unzipFile(String filePath)
+    {
+
+        // check out https://www.baeldung.com/java-compress-and-uncompress
+
+        try {
+            File file = new File(filePath);
+            File outFolder = new File(getCurrentWorkingPath());
+            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+            byte[] buffer = new byte[1024];
+            ZipEntry zipEntry = null;
+            while((zipEntry = zipInputStream.getNextEntry()) != null) {
+                File newFile = newFile(outFolder, zipEntry);
+                if (zipEntry.isDirectory()) {
+                    if (!newFile.isDirectory() && !newFile.mkdirs()) {
+                        throw new IOException("Failed to create directory " + newFile);
+                    }
+                } else {
+                    // fix for Windows-created archives
+                    File parent = newFile.getParentFile();
+                    if (!parent.isDirectory() && !parent.mkdirs()) {
+                        throw new IOException("Failed to create directory " + parent);
+                    }
+
+                    // write file content
+                    FileOutputStream fos = new FileOutputStream(newFile);
+                    int len;
+                    while ((len = zipInputStream.read(buffer)) > 0) {
+                        fos.write(buffer, 0, len);
+                    }
+                    fos.close();
+                }
+            }
+            zipInputStream.closeEntry();
+            zipInputStream.close();
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
+        File destFile = new File(destinationDir, zipEntry.getName());
+
+        String destDirPath = destinationDir.getCanonicalPath();
+        String destFilePath = destFile.getCanonicalPath();
+
+        if (!destFilePath.startsWith(destDirPath + File.separator)) {
+            throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+        }
+
+        return destFile;
+    }
+    public static String getCurrentWorkingPath(){
+        return System.getProperty("user.dir");
+    }
+
 }
