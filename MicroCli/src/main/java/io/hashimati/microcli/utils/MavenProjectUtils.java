@@ -92,7 +92,7 @@ public class MavenProjectUtils {
 //        writeModelToPom(path, model);
 //        // System.out.println("is instance = "+ (plugin.getConfiguration() instanceof Xpp3Dom));
 
-        GeneratorUtils.dumpContentToFile(path, MicronautProjectValidator.getPomFileContent().replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n                    </annotationProcessorPaths>"));
+        GeneratorUtils.dumpContentToFile(path, MicronautProjectValidator.getPomFileContent(path).replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n                    </annotationProcessorPaths>"));
         return true;
     }
 

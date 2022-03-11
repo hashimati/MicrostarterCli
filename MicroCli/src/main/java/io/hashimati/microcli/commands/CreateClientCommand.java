@@ -13,6 +13,7 @@ import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -28,11 +29,17 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 public class CreateClientCommand implements Callable<Integer> {
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()) );
+        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)) );
         String packageName = PromptGui.inputText("pack", "Enter the client's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
         String className = PromptGui.inputText("className", "Enter client name: ", "MyClient").getInput();
@@ -49,7 +56,7 @@ public class CreateClientCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(path+controllerPath+ "/"+className+extension, content);
 
         printlnSuccess(className + " is create successfully!");
         setToDefault();

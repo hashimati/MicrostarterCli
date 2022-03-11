@@ -32,7 +32,8 @@ public class CreateEnumCommand implements Callable<Integer> {
    
     @Option(names={"-n", "--name"}, description = "Enumeration class name")
     private String name;
-
+    @Option(names = "--path", description = "To specify the working directory.")
+    private String path;
 
     @Option(names = {"-o", "--options"}, description = {"Enumeration values ", "You can use commas without spaces to add multiple values.", "For Example, -o FOO,BAR,BOO"}, split =",")
     private HashSet<String> values ;
@@ -42,7 +43,12 @@ public class CreateEnumCommand implements Callable<Integer> {
     MicronautEntityGenerator micronautEntityGenerator;
     @Override
     public Integer call() throws Exception {
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;
         if(!configurationFile.exists()){
            configurationInfo =  new ConfigureCommand().call();
@@ -88,7 +94,7 @@ public class CreateEnumCommand implements Callable<Integer> {
                     extension = ".java";
                     break;
             }
-            String outPutPath = System.getProperty("user.dir")+enumFilePath+"/"+name+extension;
+            String outPutPath = path+enumFilePath+"/"+name+extension;
 
 
             GeneratorUtils.createFile(outPutPath.replace("\\", "/"), micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase()));
@@ -98,13 +104,13 @@ public class CreateEnumCommand implements Callable<Integer> {
 //                System.out.println(micronautEntityGenerator.generateEnum(enumClass, "kotlin"));
                 if(!isExist)
                     configurationInfo.getEnums().add(enumClass);
-                configurationInfo.writeToFile();
+                configurationInfo.writeToFile(path);
 
 
                 //if graphql is supported
             if(configurationInfo.isGraphQlSupport())
             {
-                String enumGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(name).append(".graphqls").toString();
+                String enumGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append(name).append(".graphqls").toString();
                 String enumContent =micronautEntityGenerator.generateEnumGraphQL(enumClass);
                 GeneratorUtils.createFile(enumGraphQlFilename, enumContent);
             }

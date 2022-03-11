@@ -29,11 +29,17 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 public class CreateSingletonCommand implements Callable<Integer> {
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()) );
+        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)) );
         String packageName = PromptGui.inputText("pack", "Enter the singleton's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
         String className = PromptGui.inputText("className", "Enter singleton name: ", "MySingleton").getInput();
@@ -48,7 +54,7 @@ public class CreateSingletonCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(path+controllerPath+ "/"+className+extension, content);
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();

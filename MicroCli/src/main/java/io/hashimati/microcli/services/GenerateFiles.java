@@ -30,6 +30,8 @@ public class GenerateFiles implements  Runnable {
     @Parameters(interactive = true, description = "Enter Name", index = "0", descriptionKey = "enter Name")
     public String b;
 
+    @Option(names = "--path")
+    private String path;
 
 
     @Option(names = {"-v", "--verbose"}, description="Verbose option")
@@ -42,10 +44,10 @@ public class GenerateFiles implements  Runnable {
         String currentWorkingDirectory = System.getProperty("user.dir");
         System.out.println(templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(CONTROLLER)));
         if (verbose) {
-            System.out.println("Is real Project:"+ MicronautProjectValidator.isMavenOrGradle());
-            System.out.println("Main Files: "+ MicronautProjectValidator.getMainPackage());
-            System.out.println("Dependencies: " + MicronautProjectValidator.getGradleDependencies());
-            System.out.println("Maven Dependencies " + MicronautProjectValidator.getMavenDependencies());
+            System.out.println("Is real Project:"+ MicronautProjectValidator.isMavenOrGradle(path));
+            System.out.println("Main Files: "+ MicronautProjectValidator.getMainPackage(path));
+            System.out.println("Dependencies: " + MicronautProjectValidator.getGradleDependencies(path));
+            System.out.println("Maven Dependencies " + MicronautProjectValidator.getMavenDependencies(path));
         }
     }
 }

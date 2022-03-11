@@ -72,11 +72,11 @@ public class ConfigurationInfo {
        return om.writeValueAsString(this);
     }
 
-    public boolean writeToFile() {
+    public boolean writeToFile(String path) {
         PrintWriter pw = null;
         try {
 
-            File configurationFile = new File(getConfigurationFileName());
+            File configurationFile = new File(getConfigurationFileName(path));
             boolean isAlreadyExist = configurationFile.exists();
 
             pw = new PrintWriter(configurationFile);
@@ -103,8 +103,8 @@ public class ConfigurationInfo {
         }
     }
 
-    public  static String getConfigurationFileName() {
-        return "MicroCliConfig.json";
+    public  static String getConfigurationFileName(String path) {
+        return path +"/"+ "MicroCliConfig.json";
     }
 
     public static ConfigurationInfo fromFile(File microCliConfig) throws JsonProcessingException, FileNotFoundException {

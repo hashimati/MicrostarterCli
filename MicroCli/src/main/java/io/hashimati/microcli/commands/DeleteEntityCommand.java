@@ -6,13 +6,13 @@ package io.hashimati.microcli.commands;
  * @twitter: @hashimati
  * @email: hashimati.ahmed@gmail.com
  */
+
 import groovy.lang.Tuple2;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
-import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
@@ -31,13 +31,19 @@ public class DeleteEntityCommand implements Callable<Integer> {
     @CommandLine.Option(names={"-e", "--entity"})
     private String entityName;
 
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private LiquibaseGenerator liquibaseGenerator;
     private ConfigurationInfo configurationInfo;
     @Override
     public Integer call() throws Exception {
-        configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
+        configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
         Optional<Entity> entityOptional =configurationInfo
                 .getEntities()
                 .stream()
@@ -47,7 +53,7 @@ public class DeleteEntityCommand implements Callable<Integer> {
 
         if(entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
-            String path = System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase() + "/" +
+            String path = this.path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase() + "/" +
                     GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())
                     + "/";
 
@@ -72,7 +78,7 @@ public class DeleteEntityCommand implements Callable<Integer> {
             {
                 if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
 
-                    Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                    Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog(path);
                     GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
 
 
@@ -103,12 +109,12 @@ public class DeleteEntityCommand implements Callable<Integer> {
                     }
                     configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
                     entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
-                    Tuple2<String, String> addColumns = liquibaseGenerator.generateDropTableChangeSet(entity, mapper, configurationInfo.getLiquibaseSequence() );
+                    Tuple2<String, String> addColumns = liquibaseGenerator.generateDropTableChangeSet(path,entity, mapper, configurationInfo.getLiquibaseSequence() );
                     GeneratorUtils.createFile(addColumns.getV1(), addColumns.getV2());
                 }
             }
             configurationInfo.getEntities().remove(entity);
-            configurationInfo.writeToFile();
+            configurationInfo.writeToFile(path);
             printlnSuccess("The job is completed");
             setToDefault();
         }

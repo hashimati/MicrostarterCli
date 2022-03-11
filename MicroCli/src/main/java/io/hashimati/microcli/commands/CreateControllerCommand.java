@@ -12,6 +12,7 @@ import io.hashimati.microcli.services.MicronautComponentGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -26,13 +27,19 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 
 @Command(name = "create-controller", aliases = {"controller", "c", "control"}, description = {"To create controller component."})
 public class CreateControllerCommand implements Callable<Integer> {
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;
         if(!configurationFile.exists()){
             configurationInfo =  new ConfigureCommand().call();
@@ -56,7 +63,7 @@ public class CreateControllerCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(path+controllerPath+ "/"+className+extension, content);
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();

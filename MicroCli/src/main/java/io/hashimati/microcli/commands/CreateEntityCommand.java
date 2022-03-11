@@ -53,7 +53,8 @@ public class CreateEntityCommand implements Callable<Integer> {
 //
 //    @Option(names = {"--multiple", "-m"}, defaultValue = "1", description = "The number of the entities that you want to define")
 //    private String multiple;
-
+@Option(names = "--path", description = "To specify the working directory.")
+private String path;
     @Option(names = {"--entity-name", "-e", "-n"},  description = "Entity's Name")
     private String entityName;
     @Option(names = {"--record", "-r"},description = "To declare an entity as Java Records.")
@@ -86,7 +87,6 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
-    private final HashMap<String, Feature> features = FeaturesFactory.features();
 
     public CreateEntityCommand() throws FileNotFoundException {
     }
@@ -95,13 +95,18 @@ public class CreateEntityCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
 
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
         ansi().eraseScreen();
         try {
             // To get the current configuration and to configure the project if it's not previously configured.
             configurationInfo = new ConfigureCommand().call();
+            HashMap<String, Feature> features = FeaturesFactory.features(configurationInfo.getProjectInfo());
 
 
             // Reading name if the name is entered in the parameters.
@@ -380,7 +385,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                 put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                 put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
             }});
-            GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+extension, entityFileContent);
+            GeneratorUtils.createFile(path+entityPath+ "/"+entity.getName()+extension, entityFileContent);
 
             if(!noEndpoint) {
 
@@ -400,7 +405,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
 
 
-                GeneratorUtils.createFile(System.getProperty("user.dir")+"/"+repoPath+ "/"+entity.getName()+"Repository"+extension, repositoryFileContent);
+                GeneratorUtils.createFile(path+"/"+repoPath+ "/"+entity.getName()+"Repository"+extension, repositoryFileContent);
 
                 if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb") && !configurationInfo.isMnData())
                 {
@@ -421,10 +426,10 @@ public class CreateEntityCommand implements Callable<Integer> {
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                 }});
 
-                GeneratorUtils.createFile(System.getProperty("user.dir")+servicePath + "/"+entity.getName()+"Service"+
+                GeneratorUtils.createFile(path+servicePath + "/"+entity.getName()+"Service"+
                         extension, serviceFileContent);
 
-                if(MicronautProjectValidator.isApplication())
+                if(MicronautProjectValidator.isApplication(path))
                 {                //============================
 
                     String controllerFileContent = micronautEntityGenerator.generateController(entity, lang);
@@ -483,7 +488,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                     }});
 
 
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
+                    GeneratorUtils.createFile(path + controllerPath + "/" + entity.getName() + "Controller" + extension, controllerFileContent);
 
 
                     ////==========
@@ -494,7 +499,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                         put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
+                    GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
 
                     if (graphql) {
                         entity.setGraphQl(true);
@@ -505,19 +510,19 @@ public class CreateEntityCommand implements Callable<Integer> {
                             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                         }});
-                        GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/QueryFactory" + extension, factoyFileContent);
+                        GeneratorUtils.createFile(path + factoryPath + "/QueryFactory" + extension, factoyFileContent);
 
 
                         String resolverFileContent = micronautEntityGenerator.generateGraphQLResolver(entity, lang);
-                        GeneratorUtils.createFile(System.getProperty("user.dir") + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
+                        GeneratorUtils.createFile(path + factoryPath + "/" + entity.getName() + "QueryResolver" + extension, resolverFileContent);
 
 
-                        String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
+                        String entityGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
                         String graphQLSchema = micronautEntityGenerator.generateGraphQLSchema(entity);
                         GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
 
 
-                        String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
+                        String queryGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append("queries.graphqls").toString();
                         String graphQLQuery = micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
                         GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
 
@@ -538,9 +543,9 @@ public class CreateEntityCommand implements Callable<Integer> {
                             extension = extension;
                             break;
                     }
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/test/" + langDir + "/" + GeneratorUtils.packageToPath(entity.getRestPackage()) + "/" + entity.getName() + "ControllerTest" + extension, controllertest);
+                    GeneratorUtils.createFile(path + "/src/test/" + langDir + "/" + GeneratorUtils.packageToPath(entity.getRestPackage()) + "/" + entity.getName() + "ControllerTest" + extension, controllertest);
                 }
-                else if(MicronautProjectValidator.isFunction())
+                else if(MicronautProjectValidator.isFunction(path))
                 {
                     //todo create RequestHandler for lambda
                     ProjectInfo projectInfo = configurationInfo.getProjectInfo();
@@ -549,88 +554,88 @@ public class CreateEntityCommand implements Callable<Integer> {
                     String save, update, delete, find, findall;
                     if(projectInfo.getApplicationType().contains("aws-lambda")){
                         save =micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_SAVE_REQUEST);
-                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
                                 extension, save);
                         delete=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_DELETE_REQUEST);
-                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
                                 extension, delete);
                         find= micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_FIND_REQUEST);
-                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
                                 extension, find);
                         findall=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_FINDALL_REQUEST);
-                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
                                 extension, findall);
                         update=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), LAMBDA_FUNCTION_UPDATE_REQUEST);
-                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
                                 extension, update);
                     }
 
                     // generate Oracle functions
 //                    if(projectInfo.getApplicationType().contains("oracle-function")){
 //                        save = micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_SAVE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
 //                                extension, save);
 //
 //                        delete=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_DELETE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
 //                                extension, delete);
 //
 //                        find=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_FIND_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
 //                                extension, find);
 //
 //                        findall=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_FINDALL_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
 //                                extension, findall);
 //
 //                        update=micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), ORACLE_FUNCTION_UPDATE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
 //                                extension, update);
 //                    }
 
                     // generate Azure functions
 //                    if(projectInfo.getApplicationType().contains("azure-function")){
 //                        save =  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_SAVE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
 //                                extension, save);
 //
 //                        delete=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_DELETE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
 //                                extension, delete);
 //
 //                        find=   micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_FIND_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
 //                                extension, find);
 //
 //                        findall=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_FINDALL_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
 //                                extension, findall);
 //
 //                        update=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), AZURE_FUNCTION_UPDATE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
 //                                extension, update);
 //                    }
                     // generate Goolge functions
 //                    if(projectInfo.getApplicationType().contains("google-cloud-function")){
 //
 //                        save =  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_SAVE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "SaveRequestHandler"+
 //                                extension, save);
 //
 //                        delete=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_DELETE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "DeleteRequestHandler"+
 //                                extension, delete);
 //
 //                        find= micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_FIND_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindRequestHandler"+
 //                                extension, find);
 //
 //                        findall=  micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_FINDALL_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "FindAllRequestHandler"+
 //                                extension, findall);
 //
 //                        update=   micronautEntityGenerator.generateFunction(entity, projectInfo.getSourceLanguage(), GOOGLE_FUNCTION_UPDATE_REQUEST);
-//                        GeneratorUtils.createFile(System.getProperty("user.dir")+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
+//                        GeneratorUtils.createFile(path+ "/src/main/" + projectInfo.getSourceLanguage()+GeneratorUtils.packageToPath(entity.getLambdaPackage()) + "/" + entity.getName()+ "UpdateRequestHandler"+
 //                                extension, update);
 //                    }
                 }
@@ -638,7 +643,7 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                 ///====== Generate Randomizer
                 String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);
-                GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/test/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage() + ".utils") + "/Randomizer" + extension, randromizerFileContent);
+                GeneratorUtils.createFile(path + "/src/test/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage() + ".utils") + "/Randomizer" + extension, randromizerFileContent);
 
                 if (Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase())) {
                     HashMap<String, String> mapper;
@@ -668,13 +673,13 @@ public class CreateEntityCommand implements Callable<Integer> {
 
                     if (configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")) {
 
-                        Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                        Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog(path);
                         GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
 
 
                         configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence() + 1);
                         entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
-                        Tuple2<String, String> schema = liquibaseGenerator.generateSchema(configurationInfo.getEntities(), configurationInfo.getRelations(), mapper, configurationInfo.getLiquibaseSequence());
+                        Tuple2<String, String> schema = liquibaseGenerator.generateSchema(path,configurationInfo.getEntities(), configurationInfo.getRelations(), mapper, configurationInfo.getLiquibaseSequence());
                         GeneratorUtils.createFile(schema.getV1(), schema.getV2());
                     }
                     if (configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")) {
@@ -689,7 +694,7 @@ public class CreateEntityCommand implements Callable<Integer> {
                 }
             }
 
-            configurationInfo.writeToFile();
+            configurationInfo.writeToFile(path);
 
 
           //  System.out.println(entityFileContent + "\n" + repositoryFileContent +"\n" + serviceFileContent + "\n" + controllerFileContent + "\n" + clientFileContent);

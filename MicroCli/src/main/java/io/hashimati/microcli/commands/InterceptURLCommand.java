@@ -34,12 +34,17 @@ public class InterceptURLCommand implements Callable<Integer>
 
     @Inject
     private TemplatesService templatesService;
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo = null;
         List<Ansi.Color> colorList = Arrays.asList(MAGENTA, CYAN, GREEN, BLUE, WHITE, YELLOW);
         String interceptURLTemplate = templatesService.loadTemplateContent(templatesService.getSecurityPropertiesTemplates().get(SECURITY_INTERCEPT_URL));
@@ -98,7 +103,7 @@ public class InterceptURLCommand implements Callable<Integer>
                 e.printStackTrace();
             }
         });
-        configurationInfo.writeToFile();
+        configurationInfo.writeToFile(path);
 
          applicationURLs.addAll(configurationInfo.getEntities().stream()
                 .filter(x -> !x.getUrls().isEmpty())

@@ -27,13 +27,18 @@ public class CreateEventCommand implements Callable<Integer> {
     @Option(names = {"--name", "-n"}, description = "Event's name")
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
-
+    @Option(names = "--path", description = "To specify the working directory.")
+    private String path;
 
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;
         if(!configurationFile.exists()){
             configurationInfo =  new ConfigureCommand().call();
@@ -65,11 +70,11 @@ public class CreateEventCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
 
-        createFile(System.getProperty("user.dir")+parent+ "/events/"+eventName+"Publisher"+extension, publisherContent);
-        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/events/"+eventName+"Publisher"+extension + "\"");
+        createFile(path+parent+ "/events/"+eventName+"Publisher"+extension, publisherContent);
+        printlnSuccess("Created " + "\"" + path+parent+ "/events/"+eventName+"Publisher"+extension + "\"");
 
-        createFile(System.getProperty("user.dir")+parent+ "/events/"+eventName+"Listener"+extension, listenerContent);
-        printlnSuccess("Created " + "\"" + System.getProperty("user.dir")+parent+ "/events/"+eventName+"Listener"+extension + "\"");
+        createFile(path+parent+ "/events/"+eventName+"Listener"+extension, listenerContent);
+        printlnSuccess("Created " + "\"" + path+parent+ "/events/"+eventName+"Listener"+extension + "\"");
 
         return null;
     }

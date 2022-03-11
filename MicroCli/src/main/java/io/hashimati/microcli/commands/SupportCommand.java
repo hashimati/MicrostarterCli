@@ -2,6 +2,7 @@ package io.hashimati.microcli.commands;
 
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -16,11 +17,18 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 @Command(name = "support", aliases = {"donate"}, description = {"To sponsor or support the MicroCli project.", "Thanks in advance!"})
 public class SupportCommand implements Callable<Integer> {
+    @CommandLine.Option(names = "--path")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
         AnsiConsole.systemInstall();
         ansi().eraseScreen();
-        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName(path));
         ListResult supportResult = PromptGui.createListPrompt("support", "Support us on:", "Ko-fi", "BuyMeACoffee","Patreon",  "Paypal");
         String support = supportResult.getSelectedId();
 

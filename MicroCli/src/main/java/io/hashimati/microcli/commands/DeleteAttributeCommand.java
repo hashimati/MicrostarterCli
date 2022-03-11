@@ -35,7 +35,8 @@ public class DeleteAttributeCommand implements Callable<Integer>
 {
     @Option(names = {"-e", "--entity"})
     private String entityName;
-
+    @Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
@@ -43,10 +44,14 @@ public class DeleteAttributeCommand implements Callable<Integer>
     private LiquibaseGenerator liquibaseGenerator;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
 
         AnsiConsole.systemInstall();
-        ConfigurationInfo configurationInfo =ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+        ConfigurationInfo configurationInfo =ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
 
         if(configurationInfo.getEntities().isEmpty())
         {
@@ -83,7 +88,7 @@ public class DeleteAttributeCommand implements Callable<Integer>
         {
             if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
 
-                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog(path);
                 GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
 
 
@@ -115,13 +120,13 @@ public class DeleteAttributeCommand implements Callable<Integer>
 
                 configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
                 entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
-                Tuple2<String, String> addColumns = liquibaseGenerator.generateDeleteColumnChangeSet(entity,selected, mapper, configurationInfo.getLiquibaseSequence() );
+                Tuple2<String, String> addColumns = liquibaseGenerator.generateDeleteColumnChangeSet(path,entity,selected, mapper, configurationInfo.getLiquibaseSequence() );
                 GeneratorUtils.createFile(addColumns.getV1(), addColumns.getV2());
             }
         }
 
-        GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
-        configurationInfo.writeToFile();
+        GeneratorUtils.createFile(path+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
+        configurationInfo.writeToFile(path);
         printlnSuccess("The job is completed");
         System.gc();
         return 0;

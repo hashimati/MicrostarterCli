@@ -28,11 +28,17 @@ import static io.hashimati.microcli.utils.PromptGui.setToDefault;
 public class CreateJobCommand implements Callable<Integer> {
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;
         if(!configurationFile.exists()){
             configurationInfo =  new ConfigureCommand().call();
@@ -54,7 +60,7 @@ public class CreateJobCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(path+controllerPath+ "/"+className+extension, content);
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();

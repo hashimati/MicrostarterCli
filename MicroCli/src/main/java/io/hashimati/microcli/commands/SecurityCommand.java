@@ -13,10 +13,12 @@ import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.services.SecurityGenerator;
+import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -33,12 +35,18 @@ public class SecurityCommand implements Callable<Integer> {
 
     @Inject
     private SecurityGenerator securityGenerator;
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
         AnsiConsole.systemInstall();
         ansi().eraseScreen();
-        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName(path));
         if(!configurationFile.exists()){
             PromptGui.printlnWarning("run \"configure\" command first!");
             return 0;
@@ -86,7 +94,7 @@ public class SecurityCommand implements Callable<Integer> {
                 break;
         }
         try {
-            securityGenerator.generateSecurityFiles(strategy.toLowerCase(), roles, persistRefreshToken );
+            securityGenerator.generateSecurityFiles(path, strategy.toLowerCase(), roles, persistRefreshToken );
         } catch (GradleReaderException e) {
 
         }

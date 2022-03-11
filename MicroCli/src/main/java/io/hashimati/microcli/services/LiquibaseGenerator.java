@@ -42,7 +42,7 @@ public class LiquibaseGenerator
     private TemplatesService templatesService;
 
 
-    public String generateAttribute(Entity entity) throws IOException, ClassNotFoundException {
+    public String generateAttribute(String path, Entity entity) throws IOException, ClassNotFoundException {
 
         //<column name="${columnName}" type="${type}"/>
 
@@ -119,9 +119,9 @@ public class LiquibaseGenerator
         return null;
     }
 
-    public String generateTable(Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws IOException, ClassNotFoundException {
+    public String generateTable(String path, Entity entity, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper) throws IOException, ClassNotFoundException {
         //todo
-        String entityColumns = generateAttribute(entity);
+        String entityColumns = generateAttribute(path, entity);
 
         String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_TABLE));
 
@@ -132,12 +132,12 @@ public class LiquibaseGenerator
         }});
     }
 
-    public Tuple2<String, String> generateAddColumnChangeSet(Entity entity, ArrayList<EntityAttribute> attributes, HashMap<String, String> erMapper, int changeSetId) throws Exception {
+    public Tuple2<String, String> generateAddColumnChangeSet(String path, Entity entity, ArrayList<EntityAttribute> attributes, HashMap<String, String> erMapper, int changeSetId) throws Exception {
         //todo
         Entity e = new Entity();
         e.setName(entity.getName());
         e.setAttributes(attributes);
-        String entityColumns = generateAttribute(entity);
+        String entityColumns = generateAttribute(path, entity);
 
         String tableTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_ADD_COLUMN));
 
@@ -156,13 +156,13 @@ public class LiquibaseGenerator
             put("username", NameUtils.capitalize(System.getProperty("user.name")));
 
         }});
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        StringBuilder filePath = new StringBuilder(path ).append("/src/main/resources/db/changelog/");
         String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
 
         //todo XML FORMATTER
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
     }
-    public String generateChangeSet(HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws  IOException, ClassNotFoundException{
+    public String generateChangeSet(String path, HashSet<Entity> entityList, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws  IOException, ClassNotFoundException{
 
         String changeSetTemplate = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_SCHEMA));
 
@@ -171,7 +171,7 @@ public class LiquibaseGenerator
         entityList.stream().filter(x->x.getLiquibaseSequence()== changeSetId).map(x-> {
             try {
 
-                return generateTable(x, relations, erMapper);
+                return generateTable(path, x, relations, erMapper);
             } catch (IOException e) {
                 e.printStackTrace();
                 return "";
@@ -196,23 +196,23 @@ public class LiquibaseGenerator
        return "";
     }
 
-    public Tuple2<String, String> generateCatalog()
+    public Tuple2<String, String> generateCatalog(String path)
     {
 
-        return Tuple.tuple(System.getProperty("user.dir") +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
+        return Tuple.tuple(path +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
 
 
     }
-    public Tuple2<String, String> generateSchema(HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws Exception {
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+    public Tuple2<String, String> generateSchema(String path, HashSet<Entity> entities, ArrayList<EntityRelation> relations, HashMap<String, String> erMapper, int changeSetId) throws Exception {
+        StringBuilder filePath = new StringBuilder(path ).append("/src/main/resources/db/changelog/");
         String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
-        String content = generateChangeSet(entities, relations, erMapper, changeSetId);
+        String content = generateChangeSet(path, entities, relations, erMapper, changeSetId);
 
         //todo XML FORMATTER
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
     }
 
-    public Tuple2<String, String> generateForeignKey(Entity e1, Entity e2, EntityRelation relation, int changeSetId) throws Exception {
+    public Tuple2<String, String> generateForeignKey(String path, Entity e1, Entity e2, EntityRelation relation, int changeSetId) throws Exception {
 
 
         String template = templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_FOREIGNKEY));
@@ -241,7 +241,7 @@ public class LiquibaseGenerator
         }});
 
 
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        StringBuilder filePath = new StringBuilder(path ).append("/src/main/resources/db/changelog/");
         String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId);
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
     }
@@ -253,7 +253,7 @@ public class LiquibaseGenerator
         return new XmlTemplateEngine().createTemplate(template).make(map).toString();
     }
 
-    public Tuple2<String, String> generateDeleteColumnChangeSet(Entity entity, HashSet<String> attributes, HashMap<String, String> mapper, int changeSetId) throws Exception {
+    public Tuple2<String, String> generateDeleteColumnChangeSet(String path, Entity entity, HashSet<String> attributes, HashMap<String, String> mapper, int changeSetId) throws Exception {
             //todo
         Entity e = new Entity();
         e.setName(entity.getName());
@@ -280,13 +280,13 @@ public class LiquibaseGenerator
             put("username", NameUtils.capitalize(System.getProperty("user.name")));
 
         }});
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        StringBuilder filePath = new StringBuilder(path ).append("/src/main/resources/db/changelog/");
         String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
 
         //todo XML FORMATTER
         return Tuple.tuple(filePath.append(date).toString(), XMLFormatter.format(content));
     }
-    public Tuple2<String, String> generateDropTableChangeSet(Entity entity, HashMap<String, String> mapper, int changeSetId) throws Exception {
+    public Tuple2<String, String> generateDropTableChangeSet(String path, Entity entity, HashMap<String, String> mapper, int changeSetId) throws Exception {
         //todo
         Entity e = new Entity();
         e.setName(entity.getName());
@@ -309,7 +309,7 @@ public class LiquibaseGenerator
             put("username", NameUtils.capitalize(System.getProperty("user.name")));
 
         }});
-        StringBuilder filePath = new StringBuilder(System.getProperty("user.dir") ).append("/src/main/resources/db/changelog/");
+        StringBuilder filePath = new StringBuilder(path ).append("/src/main/resources/db/changelog/");
         String date = MessageFormat.format("db.changelog-{0}.xml", changeSetId); // new StringBuilder().append(changeSetId).append("-create-schema.xml").toString(); //new SimpleDateFormat("DD-MM-YYYY").format(new Date());
 
         //todo XML FORMATTER

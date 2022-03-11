@@ -36,13 +36,19 @@ public class MicronautEntityGenerator
 {
 
 
+
+    private String path;
     @Inject
     private SqlSchemaGenerator sqlSchemaGenerator;
 
     @Inject
     private TemplatesService templatesService;
 
-  // @PostConstruct
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    // @PostConstruct
     @Deprecated
     public void test() throws IOException, ClassNotFoundException, FormatterException {
 
@@ -358,7 +364,7 @@ public class MicronautEntityGenerator
         binder.put("jdbc", isJdbc && !entity.isNoEndpoints());
         binder.put("mongo", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isNoEndpoints());
         binder.put("normal", (isJpa == false && isJdbc == false) && !entity.isNoEndpoints());
-        binder.put("openApi", MicronautProjectValidator.getProjectInfo().getApplicationType().equalsIgnoreCase("default") && !entity.isNoEndpoints());
+        binder.put("openApi", MicronautProjectValidator.getProjectInfo(path).getApplicationType().equalsIgnoreCase("default") && !entity.isNoEndpoints());
         binder.put("collectionName", entity.getCollectionName()); 
         binder.put("className",entity.getName() );
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));

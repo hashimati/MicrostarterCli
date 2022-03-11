@@ -42,7 +42,8 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
 
     @Option(names = {"-r", "--rules"}, description = {"Security Rules ", "You can use commas without spaces to add multiple rules.", "For Example, -o ADMIN,CUSTOMER,SELLER"}, split =",")
     private HashSet<String> rules ;
-
+    @Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private MicronautJWTSecurityGenerator  micronautJWTSecurityGenerator;
 
@@ -53,7 +54,11 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
     @SneakyThrows
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         configurationInfo = new ConfigureCommand().call();
 
         AnsiConsole.systemInstall();
@@ -61,19 +66,19 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
         ProjectInfo  projectInfo = configurationInfo.getProjectInfo();
         //security-annotations, security-jwt, security-session, security, security-ldap, security-oauth2
 
-        HashMap<String, Feature> features = FeaturesFactory.features();
+        HashMap<String, Feature> features = FeaturesFactory.features(projectInfo);
         if(!projectInfo.getFeatures().contains("security-jwt")){
             if(!projectInfo.getFeatures().contains("security-annotations")){
 
-                MicronautProjectValidator.addDependency(features.get("security-annotations"));
+                MicronautProjectValidator.addDependency(path,features.get("security-annotations"));
                 projectInfo.getFeatures().add("security-annotations");
 
             }
-            MicronautProjectValidator.addDependency(features.get("security-jwt"));
+            MicronautProjectValidator.addDependency(path,features.get("security-jwt"));
             projectInfo.getFeatures().add("security-jwt");
             projectInfo.dumpToFile();
-            configurationInfo.writeToFile();
-            MicronautProjectValidator.addDependency(features.get("jasypt")); 
+            configurationInfo.writeToFile(path);
+            MicronautProjectValidator.addDependency(path,features.get("jasypt"));
             templatesService.loadTemplates(null);
             String jwtProperties = templatesService.loadTemplateContent
                     (templatesService.getProperties().get(JWT_yml));
@@ -96,7 +101,7 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
                 read = createConfirmResult("more", "Do you want to add another security rule?", NO).getConfirmed() != ConfirmChoice.ConfirmationValue.NO;
             }
         }
-        String rootPath = new StringBuilder().append(System.getProperty("user.dir")).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).toString();
+        String rootPath = new StringBuilder().append(path).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).toString();
         //todo generate  Roles
 
 

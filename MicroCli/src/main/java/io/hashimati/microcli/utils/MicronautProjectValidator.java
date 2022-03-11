@@ -36,25 +36,25 @@ import static io.hashimati.microcli.services.TemplatesService.H2_R2DBC_yml;
 public class MicronautProjectValidator {
 
     public static ProjectInfo projectInfo = null;
-    public static boolean isMavenOrGradle() throws FileNotFoundException {
-        return isMaven() || isGradle();
+    public static boolean isMavenOrGradle(String path) throws FileNotFoundException {
+        return isMaven(path) || isGradle(path);
     }
-    public static boolean isMaven() throws FileNotFoundException {
-      return getProjectInfo().getBuildTool().equalsIgnoreCase("maven");
+    public static boolean isMaven(String path) throws FileNotFoundException {
+      return getProjectInfo(path).getBuildTool().equalsIgnoreCase("maven");
     }
-    public static boolean isGradle() throws FileNotFoundException {
-        return getProjectInfo().getBuildTool().equalsIgnoreCase("gradle");
+    public static boolean isGradle(String path) throws FileNotFoundException {
+        return getProjectInfo(path).getBuildTool().equalsIgnoreCase("gradle");
 
     }
 
-    public static boolean isValidProject() throws FileNotFoundException {
-        return getProjectInfo() != null && (getProjectInfo().getApplicationType().equalsIgnoreCase("default") || getProjectInfo().getApplicationType().equalsIgnoreCase("function"));
+    public static boolean isValidProject(String path) throws FileNotFoundException {
+        return getProjectInfo(path) != null && (getProjectInfo(path).getApplicationType().equalsIgnoreCase("default") || getProjectInfo(path).getApplicationType().equalsIgnoreCase("function"));
     }
-    public static boolean isApplication() throws FileNotFoundException {
-        return getProjectInfo().getApplicationType().equalsIgnoreCase("default");
+    public static boolean isApplication(String path) throws FileNotFoundException {
+        return getProjectInfo(path).getApplicationType().equalsIgnoreCase("default");
     }
-    public static boolean isFunction() throws FileNotFoundException{
-        return getProjectInfo().getApplicationType().equalsIgnoreCase("function");
+    public static boolean isFunction(String path) throws FileNotFoundException{
+        return getProjectInfo( path).getApplicationType().equalsIgnoreCase("function");
     }
 
 
@@ -63,40 +63,40 @@ public class MicronautProjectValidator {
     {
             return false;
     }
-    public static boolean isProjectContainsMnDataJDBC() throws FileNotFoundException {
+    public static boolean isProjectContainsMnDataJDBC(String path) throws FileNotFoundException {
 
-        return getProjectInfo().getFeatures().contains("data-jdbc");
-
-
-    }
-    public static boolean isProjectContainsMnDataJPA() throws FileNotFoundException {
-
-        return getProjectInfo().getFeatures().contains("data-hibernate-jpa");
+        return getProjectInfo(path).getFeatures().contains("data-jdbc");
 
 
     }
-    public static boolean isProjectContainsMnDataHikari() throws FileNotFoundException {
+    public static boolean isProjectContainsMnDataJPA(String path) throws FileNotFoundException {
 
-        return getProjectInfo().getFeatures().contains("jdbc-hikari");
-
-
-    }
-    public static boolean isProjectContainsReactiveMongo() throws FileNotFoundException {
-
-        return getProjectInfo().getFeatures().contains("mongo-reactive");
+        return getProjectInfo( path).getFeatures().contains("data-hibernate-jpa");
 
 
     }
-    public static boolean isProjectContainsGraphQl() throws FileNotFoundException{
-        return getProjectInfo().getFeatures().contains("graphql");
+    public static boolean isProjectContainsMnDataHikari(String path) throws FileNotFoundException {
+
+        return getProjectInfo(path).getFeatures().contains("jdbc-hikari");
+
 
     }
-    public static boolean isProjectContainsOpenAPI() throws FileNotFoundException {
-        return getProjectInfo().getFeatures().contains("openapi");
-    }
-    public static String getGradleDependencies () throws IOException{
+    public static boolean isProjectContainsReactiveMongo(String path) throws FileNotFoundException {
 
-        String content = getGradleFileContent();
+        return getProjectInfo(path).getFeatures().contains("mongo-reactive");
+
+
+    }
+    public static boolean isProjectContainsGraphQl(String path) throws FileNotFoundException{
+        return getProjectInfo(path).getFeatures().contains("graphql");
+
+    }
+    public static boolean isProjectContainsOpenAPI(String path) throws FileNotFoundException {
+        return getProjectInfo(path).getFeatures().contains("openapi");
+    }
+    public static String getGradleDependencies (String cwd) throws IOException{
+
+        String content = getGradleFileContent(cwd);
 //        Pattern pattern = Pattern.compile("dependencies \\{(.*?)\\}\n" +
 //                "\n" +
 //                "test.classpath");
@@ -118,9 +118,9 @@ public class MicronautProjectValidator {
         return content.substring(fromIndex, toIndex);
     }
 
-    public static String getMavenDependencies() throws FileNotFoundException {
+    public static String getMavenDependencies(String path) throws FileNotFoundException {
 
-        String pomContent = getPomFileContent();
+        String pomContent = getPomFileContent(path);
 
 
         String from  = "<dependencies>", to ="</dependencies>";
@@ -129,9 +129,9 @@ public class MicronautProjectValidator {
         return pomContent.substring(fromIndex, toIndex);
     }
 
-    public static String getAppNameFromMaven() throws FileNotFoundException {
+    public static String getAppNameFromMaven(String path) throws FileNotFoundException {
 
-        String pomContent = getPomFileContent();
+        String pomContent = getPomFileContent(path);
 
 
         String from  = "<artifactId>", to ="</artifactId>";
@@ -148,11 +148,11 @@ public class MicronautProjectValidator {
     }
 
     //note: This is not the best way to implement this method.
-    public static boolean updateMavenDependencies(String newDependencies) throws IOException
+    public static boolean updateMavenDependencies(String path,String newDependencies) throws IOException
     {
 
 
-        String pomContent = getPomFileContent();
+        String pomContent = getPomFileContent( path);
 
 
         String from  = "<dependencies>", to ="</dependencies>";
@@ -166,24 +166,10 @@ public class MicronautProjectValidator {
     }
 
     //note: this is not the best way to implement this method.
-    public static boolean updateMavenPathAnnotation(String annotation) throws IOException{
+    public static boolean updateMavenPathAnnotation(String path, String annotation) throws IOException{
 
 
-        String pomContent = getPomFileContent();
-
-
-        String from  = "<annotationProcessorPaths>", to ="</annotationProcessorPaths>";
-        int fromIndex = pomContent.indexOf(from )+ from.length();
-        int toIndex = pomContent.indexOf(to);
-        StringBuilder annotations =  new StringBuilder(pomContent.substring(fromIndex, toIndex)).append("\n"+ annotation+ "\n");
-        pomContent = pomContent.replace(pomContent.substring(fromIndex, toIndex), annotations.toString());
-        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
-        return true;
-    }
-    public static boolean updateMavenPathDepndencyManagement(String annotation) throws IOException{
-
-
-        String pomContent = getPomFileContent();
+        String pomContent = getPomFileContent(path);
 
 
         String from  = "<annotationProcessorPaths>", to ="</annotationProcessorPaths>";
@@ -194,12 +180,26 @@ public class MicronautProjectValidator {
         GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
         return true;
     }
+    public static boolean updateMavenPathDepndencyManagement(String path, String annotation) throws IOException{
 
 
-    public static boolean updateGradlePlugin(String plugin, int index) throws FileNotFoundException, GradleReaderException {
+        String pomContent = getPomFileContent(path);
+
+
+        String from  = "<annotationProcessorPaths>", to ="</annotationProcessorPaths>";
+        int fromIndex = pomContent.indexOf(from )+ from.length();
+        int toIndex = pomContent.indexOf(to);
+        StringBuilder annotations =  new StringBuilder(pomContent.substring(fromIndex, toIndex)).append("\n"+ annotation+ "\n");
+        pomContent = pomContent.replace(pomContent.substring(fromIndex, toIndex), annotations.toString());
+        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
+        return true;
+    }
+
+
+    public static boolean updateGradlePlugin(String cwd, String plugin, int index) throws FileNotFoundException, GradleReaderException {
 
         GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
-        String gradleContent = getGradleFileContent();
+        String gradleContent = getGradleFileContent(cwd);
         if(gradleContent.contains(plugin.trim()))
             return true;
         LinkedList<String> gradleContentAsList = new LinkedList<>(){{
@@ -225,10 +225,10 @@ public class MicronautProjectValidator {
         }
     }
 
-    public static boolean sortGradleDependencies() throws FileNotFoundException, GradleReaderException {
+    public static boolean sortGradleDependencies(String cwd) throws FileNotFoundException, GradleReaderException {
         GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
 
-        String gradleContent = getGradleFileContent();
+        String gradleContent = getGradleFileContent(cwd);
         LinkedList<String> gradleContentAsList =    new LinkedList<String>()
         {{
             addAll(Arrays.asList(gradleContent.split("\n")));
@@ -264,10 +264,10 @@ public class MicronautProjectValidator {
 
     }
 
-    public static boolean updateGradlewDependencies(String newDependencies, int index) throws IOException, GradleReaderException {
+    public static boolean updateGradlewDependencies(String cwd, String newDependencies, int index) throws IOException, GradleReaderException {
         GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
 
-        String gradleContent = getGradleFileContent();
+        String gradleContent = getGradleFileContent(cwd);
 
         if(gradleContent.contains(newDependencies.trim()))
             return true;
@@ -295,7 +295,7 @@ public class MicronautProjectValidator {
                 kts = ".kts";
             GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent);
 
-            return true & sortGradleDependencies();
+            return true & sortGradleDependencies(cwd);
         }catch(Exception ex)
         {
             return false;
@@ -303,9 +303,9 @@ public class MicronautProjectValidator {
     }
 
     @Deprecated
-    public static boolean updateGradlewDependenciesOld(String newDependencies, int index) throws IOException
+    public static boolean updateGradlewDependenciesOld(String cwd, String newDependencies, int index) throws IOException
     {
-        String gradleContent = getGradleFileContent();
+        String gradleContent = getGradleFileContent(cwd);
 
         if(gradleContent.contains(newDependencies.trim()))
             return true;
@@ -386,10 +386,10 @@ public class MicronautProjectValidator {
         return false;
     }
 
-    public static String getJavaVersion() throws IOException, XmlPullParserException {
+    public static String getJavaVersion(String cwd) throws IOException, XmlPullParserException {
         String buildContent ="";
-        if(isGradle()){
-            buildContent = getGradleFileContent();
+        if(isGradle(cwd)){
+            buildContent = getGradleFileContent(cwd);
             String theLine =  "sourceCompatibility = JavaVersion.toVersion(\"11\")";
             String target = "JavaVersion.toVersion";
             Scanner sc = new Scanner(buildContent);
@@ -404,7 +404,6 @@ public class MicronautProjectValidator {
             return "11";
         }
         else {
-            String cwd = System.getProperty("user.dir");
             File  pom = new File(cwd + "/pom.xml");
             MavenXpp3Reader mavenreader = new MavenXpp3Reader();
             Model mavenPom = mavenreader.read(new FileInputStream(pom));
@@ -413,8 +412,7 @@ public class MicronautProjectValidator {
 
     }
 
-    private static String getGradleFileContent() throws FileNotFoundException {
-        String cwd = System.getProperty("user.dir");
+    private static String getGradleFileContent(String cwd) throws FileNotFoundException {
         String kts = "";
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
             kts = ".kts";
@@ -423,14 +421,14 @@ public class MicronautProjectValidator {
         return GeneratorUtils.getFileContent(build);
     }
 
-    public static String getPomFileContent() throws FileNotFoundException {
-        String cwd = System.getProperty("user.dir");
-        File  pom = new File(cwd + "/pom.xml");
+    public static String getPomFileContent(String path) throws FileNotFoundException {
+//        String cwd = System.getProperty("user.dir");
+        File  pom = new File(path + "/pom.xml");
         return GeneratorUtils.getFileContent(pom);
     }
-    public static ProjectInfo getProjectInfo() throws FileNotFoundException{
+    public static ProjectInfo getProjectInfo(String cwd) throws FileNotFoundException{
         if(projectInfo != null) return projectInfo;
-        String cwd = System.getProperty("user.dir");
+      //  String cwd = System.getProperty("user.dir");
         File  micronautCli = new File(cwd + "/micronaut-cli.yml");
         if(!micronautCli.exists()) return null;
 
@@ -448,21 +446,21 @@ public class MicronautProjectValidator {
                 .getApplicationType().equalsIgnoreCase("default") || projectInfo.getApplicationType().equalsIgnoreCase("function")?projectInfo:null;
     }
 
-    public static String getMainPackage() throws IOException {
-        return getProjectInfo().getDefaultPackage();
+    public static String getMainPackage(String path) throws IOException {
+        return getProjectInfo(path).getDefaultPackage();
     }
 
-    public static boolean addLombok(ProjectInfo projectInfo) throws IOException, XmlPullParserException, GradleReaderException {
+    public static boolean addLombok(String path, ProjectInfo projectInfo) throws IOException, XmlPullParserException, GradleReaderException {
        if(projectInfo.getFeatures().contains("lombok"))
            return true;
         if(projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
         {
-            Feature lombok = FeaturesFactory.features().get("lombok");
+            Feature lombok = FeaturesFactory.features(projectInfo).get("lombok");
             projectInfo.getFeatures().add("lombok");
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
             {
-                updateGradlewDependencies(lombok.getAnnotationGradle(), -2);
-                updateGradlewDependencies(lombok.getGradle(), 3);
+                updateGradlewDependencies(path, lombok.getAnnotationGradle(), -2);
+                updateGradlewDependencies(path, lombok.getGradle(), 3);
 //                updateGradlewDependencies(lombok.getTestGradleAnnotation(), 2);
 //                updateGradlewDependencies(lombok.getTestGradle(),2);
 
@@ -480,20 +478,20 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean addOpenapi() throws IOException, XmlPullParserException, GradleReaderException {
+    public static boolean addOpenapi(String path) throws IOException, XmlPullParserException, GradleReaderException {
 
-        if(getProjectInfo().getApplicationType().equalsIgnoreCase("default"))
+        if(getProjectInfo(path).getApplicationType().equalsIgnoreCase("default"))
         {
-            Feature openapi = FeaturesFactory.features().get("openapi");
-            if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
+            Feature openapi = FeaturesFactory.features(projectInfo).get("openapi");
+            if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("gradle"))
             {
-                updateGradlewDependencies(openapi.getAnnotationGradle(), 1);
-                updateGradlewDependencies(openapi.getGradle(), 3);
+                updateGradlewDependencies(path, openapi.getAnnotationGradle(), 1);
+                updateGradlewDependencies(path, openapi.getGradle(), 3);
 
 
                 return true;
             }
-            else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
+            else if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("maven"))
             {
 
                 MavenProjectUtils.addAnnotation(openapi, "pom.xml");
@@ -509,33 +507,33 @@ public class MicronautProjectValidator {
     }
 
 
-    public static boolean addExposingSwaggerUI() throws FileNotFoundException {
-        if(getProjectInfo().getBuildTool().equalsIgnoreCase("gradle"))
+    public static boolean addExposingSwaggerUI(String path) throws FileNotFoundException {
+        if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("gradle"))
         {
-            return addExposingSwaggerUIToGradle();
+            return addExposingSwaggerUIToGradle(path, path);
         }
-        else if(getProjectInfo().getBuildTool().equalsIgnoreCase("maven"))
+        else if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("maven"))
         {
-            return addExposingSwaggerUIToMaven();
+            return addExposingSwaggerUIToMaven(path);
         }
 
         return false;
     }
-    public  static boolean addExposingSwaggerUIToMaven() throws FileNotFoundException {
-        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")){
-            String pom = getPomFileContent().replace("<compilerArgs>",
+    public  static boolean addExposingSwaggerUIToMaven(String path) throws FileNotFoundException {
+        if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("java")){
+            String pom = getPomFileContent(path).replace("<compilerArgs>",
                     "<compilerArgs>\n" + "                    <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>");
 
             return true;
         }
-        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
+        else if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("kotlin"))
         {
-            String pom = getPomFileContent();
+            String pom = getPomFileContent(path);
 
 
             return true;
         }
-        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("groovy"))
+        else if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("groovy"))
         {
             String index = "<property>\n" +
                     "                  <name>groovy.parameters</name>\n" +
@@ -547,7 +545,7 @@ public class MicronautProjectValidator {
                     "                  <value>rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</value>\n" +
                     "                </property>\n";
 
-            String pom = getPomFileContent().replace(index, replace);
+            String pom = getPomFileContent(path).replace(index, replace);
             GeneratorUtils.dumpContentToFile("pom.xml", pom);
 
             return true;
@@ -555,18 +553,18 @@ public class MicronautProjectValidator {
         return false;
     }
 
-    public static boolean addingTaskToGradleFile(String task) throws FileNotFoundException {
-        String gradleContent = getGradleFileContent()+ "\n" + task;
+    public static boolean addingTaskToGradleFile(String path, String task) throws FileNotFoundException {
+        String gradleContent = getGradleFileContent(path)+ "\n" + task;
         String kts = "";
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
             kts = ".kts";
         return GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
 
     }
-    public  static boolean addExposingSwaggerUIToGradle() throws FileNotFoundException {
+    public  static boolean addExposingSwaggerUIToGradle(String cwd,String path) throws FileNotFoundException {
 
-        if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("java")) {
-            String gradleContent = getGradleFileContent()+ "\n" + "tasks.withType(JavaCompile) {\n" +
+        if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("java")) {
+            String gradleContent = getGradleFileContent(path)+ "\n" + "tasks.withType(JavaCompile) {\n" +
                     "    options.fork = true\n" +
                     "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
                     "}";
@@ -576,9 +574,9 @@ public class MicronautProjectValidator {
             GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
             return true;
         }
-        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("kotlin"))
+        else if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("kotlin"))
         {
-            String gradleContent = getGradleFileContent()
+            String gradleContent = getGradleFileContent(cwd)
                     + "\n"
                     + "kapt {\n" +
                     "    arguments {\n" +
@@ -588,9 +586,9 @@ public class MicronautProjectValidator {
 
             return true;
         }
-        else if(getProjectInfo().getSourceLanguage().equalsIgnoreCase("groovy")){
+        else if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("groovy")){
 
-            String gradleContent = getGradleFileContent()+ "\n"
+            String gradleContent = getGradleFileContent(path)+ "\n"
                     +"tasks.withType(GroovyCompile) {\n" +
                     "    groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')\n" +
                     "    groovyOptions.forkOptions.jvmArgs.add('-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop')\n" +
@@ -605,16 +603,16 @@ public class MicronautProjectValidator {
             return false;
     }
 
-    public static boolean addR2DBCependency(Feature... feature) throws IOException, GradleReaderException {
+    public static boolean addR2DBCependency(String path, Feature... feature) throws IOException, GradleReaderException {
 
 
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 
             return (
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getRdbcGradle() !=null? x.getRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)) ;
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getTestRdbcGradle() !=null? x.getTestRdbcGradle():"").reduce("", (x, y)->x+"\n"+ y),2)) ;
 
 
         }
@@ -655,23 +653,23 @@ public class MicronautProjectValidator {
         return false;
     }
 
-    public static boolean addDependency(Feature... feature) throws IOException, GradleReaderException {
+    public static boolean addDependency(String path, Feature... feature) throws IOException, GradleReaderException {
 
 
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 
-            return (updateGradlewDependencies(Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+            return (updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getGradle() != null? x.getGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),1)
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getAnnotationGradle() !=null? x.getAnnotationGradle():"").reduce("", (x, y)->x+"\n"+ y),1)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestGradle() !=null? x.getTestGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getTestGradle() !=null? x.getTestGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestGradleAnnotation() !=null? x.getTestGradleAnnotation():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getTestGradleAnnotation() !=null? x.getTestGradleAnnotation():"").reduce("", (x, y)->x+"\n"+ y),2)
                     &&
-                    updateGradlewDependencies(Arrays.stream(feature).map(x->x.getTestContainerGradle() !=null? x.getTestContainerGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
+                    updateGradlewDependencies(path, Arrays.stream(feature).map(x->x.getTestContainerGradle() !=null? x.getTestContainerGradle():"").reduce("", (x, y)->x+"\n"+ y),2)
                    ) &&
-                    updateGradlePlugin(Arrays.stream(feature).map(x-> !x.getGradlePlugins().isEmpty()?x.getGradlePlugins().stream().reduce("",(y,z)->y+"\n"+z):"").reduce("", (x, y)->x+"\n"+ y), 2);
+                    updateGradlePlugin(path, Arrays.stream(feature).map(x-> !x.getGradlePlugins().isEmpty()?x.getGradlePlugins().stream().reduce("",(y,z)->y+"\n"+z):"").reduce("", (x, y)->x+"\n"+ y), 2);
 
 
         }
@@ -710,10 +708,10 @@ public class MicronautProjectValidator {
     }
 
 
-    public static boolean addingOpenApiToApplicationFile(String appName) throws FileNotFoundException {
+    public static boolean addingOpenApiToApplicationFile(String path, String appName) throws FileNotFoundException {
 
         if(projectInfo == null)
-            projectInfo = getProjectInfo();
+            projectInfo = getProjectInfo(path);
 
         if(!projectInfo.getApplicationType().equalsIgnoreCase("default"))
             return false;
@@ -734,7 +732,7 @@ public class MicronautProjectValidator {
         {
             annotations = annotations.replace("@Info", "Info");
         }
-        String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo().getSourceLanguage().toLowerCase();
+        String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo(path).getSourceLanguage().toLowerCase();
         String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
         String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG)?"import groovy.transform.CompileStatic":"import io.micronaut.runtime.Micronaut;");
         if(!projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
@@ -833,8 +831,8 @@ public class MicronautProjectValidator {
         return true;
     }
 
-    public static boolean appendToXMLNode(String node, String path) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
-        String cwd = System.getProperty("user.dir");
+    public static boolean appendToXMLNode(String cwd, String node, String path) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
+
         File  pom = new File(cwd + "/pom.xml");
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = builderFactory.newDocumentBuilder();
@@ -882,9 +880,9 @@ public class MicronautProjectValidator {
         return false;
     }
 
-    public static String getAppName() throws IOException, XmlPullParserException {
+    public static String getAppName(String path) throws IOException, XmlPullParserException {
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle")){
-            return new GradleProjectUtils().getAppName();
+            return new GradleProjectUtils().getAppName(path);
         }
         else
             return MavenProjectUtils.getArtifactId("pom.xml");

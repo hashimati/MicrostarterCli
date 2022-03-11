@@ -19,6 +19,7 @@ import io.hashimati.microcli.services.MicronautEntityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -41,7 +42,8 @@ import static io.hashimati.microcli.utils.PromptGui.*;
 public class CreateRelationCommand implements Callable<Integer> {
 
     ConfigurationInfo configurationInfo;
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private MicronautEntityGenerator micronautEntityGenerator;
 
@@ -53,11 +55,16 @@ public class CreateRelationCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
         AnsiConsole.systemInstall();
 
-        configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+        configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
         //Load Configuration;
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName())) ;
+        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path))) ;
         List<String> entities = configurationInfo
                 .getEntities()
                 .stream()
@@ -159,7 +166,7 @@ public class CreateRelationCommand implements Callable<Integer> {
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
-        GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+e1.getName()+extension, entityFileContent);
+        GeneratorUtils.createFile(path+entityPath+ "/"+e1.getName()+extension, entityFileContent);
 
 
 
@@ -171,7 +178,7 @@ public class CreateRelationCommand implements Callable<Integer> {
             put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
-        GeneratorUtils.createFile(System.getProperty("user.dir")+entity2Path+ "/"+e2.getName()+extension, entity2FileContent);
+        GeneratorUtils.createFile(path+entity2Path+ "/"+e2.getName()+extension, entity2FileContent);
 
 
         if(configurationInfo.getDataMigrationTool() != null)
@@ -182,7 +189,7 @@ public class CreateRelationCommand implements Callable<Integer> {
                 e1.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
                 e2.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
 
-                Tuple2< String, String> content = liquibaseGenerator.generateForeignKey(e1, e2, entityRelation, configurationInfo.getLiquibaseSequence());
+                Tuple2< String, String> content = liquibaseGenerator.generateForeignKey(path,e1, e2, entityRelation, configurationInfo.getLiquibaseSequence());
                 GeneratorUtils.createFile(content.getV1(), content.getV2());
             }
             else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway"))
@@ -211,11 +218,11 @@ public class CreateRelationCommand implements Callable<Integer> {
 
 
 
-        GeneratorUtils.createFile(System.getProperty("user.dir")+"/"+repoPath+ "/"+e1.getName()+"Repository"+extension, repositoryFileContent);
+        GeneratorUtils.createFile(path+"/"+repoPath+ "/"+e1.getName()+"Repository"+extension, repositoryFileContent);
 
         ///=====
 
-        configurationInfo.writeToFile();
+        configurationInfo.writeToFile(path);
         printlnSuccess("The relationship has been created successfully!");
         setToDefault();
         System.gc();

@@ -13,6 +13,7 @@ import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -27,7 +28,8 @@ import static io.micronaut.http.HttpMethod.GET;
 @Command(name = "configure-metrics", aliases = {"metrics"}, description = "To configure Metrics Registries.")
 public class ConfigureMetricsCommand implements Callable<Integer> {
     public static ConfigurationInfo configurationInfo;
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
 
     public static ProjectInfo projectInfo;
     private MicronautProjectValidator projectValidator = new MicronautProjectValidator();
@@ -40,15 +42,20 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
-         HashMap<String, Feature> features  = FeaturesFactory.features();
+        }
+        projectInfo
+                =  projectValidator.getProjectInfo(path);
+         HashMap<String, Feature> features  = FeaturesFactory.features(projectInfo);
          AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
 
-             projectInfo
-                     =  projectValidator.getProjectInfo();
 
-        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName());
+
+        File configurationFile = new File(ConfigurationInfo.getConfigurationFileName(path));
         if(!configurationFile.exists()){
             PromptGui.printlnWarning("run \"configure\" command first!");
             return 0;
@@ -69,8 +76,8 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         ));
         configurationInfo.setMicrometer(true);
         try {
-            MicronautProjectValidator.addDependency(features.get("management"));
-            MicronautProjectValidator.addDependency(features.get("micrometer"));
+            MicronautProjectValidator.addDependency(path,features.get("management"));
+            MicronautProjectValidator.addDependency(path,features.get("micrometer"));
             MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
 
@@ -90,7 +97,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             if(configurationInfo.isPrometheus()){
                 PromptGui.printlnWarning("\"Prometheus\" is already configured!");
 
-                configurationInfo.writeToFile();
+                configurationInfo.writeToFile(path);
                 return 0;
             }
             if(!projectInfo.getFeatures().contains("micrometer-prometheus"))
@@ -103,7 +110,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                 ));
                 try {
 
-                    MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
+                    MicronautProjectValidator.addDependency(path,features.get("micrometer-prometheus"));
                 } catch (GradleReaderException e) {
                     e.printStackTrace();
                 }
@@ -111,7 +118,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             else
             {
                 configurationInfo.setPrometheus(true);
-                boolean result = configurationInfo.writeToFile();
+                boolean result = configurationInfo.writeToFile(path);
                 return result? 1:0;
             }
 
@@ -130,7 +137,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
             //generating prometheus.yml with micronaut job configuration. 
             String prometheusJobConfig = templatesService.loadTemplateContent(templatesService.getMicrometersTemplates().get(PROMETHEUS_JOB_YML));
-            GeneratorUtils.createFile(System.getProperty("user.dir") + "/prometheus.yml", prometheusJobConfig);
+            GeneratorUtils.createFile(path + "/prometheus.yml", prometheusJobConfig);
         }
         else if(registry.equalsIgnoreCase("influxdb"))
         {
@@ -147,14 +154,14 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                         "micrometer-influx"
                 ));
                 try {
-                    MicronautProjectValidator.addDependency(features.get("micrometer-influx"));
+                    MicronautProjectValidator.addDependency(path,features.get("micrometer-influx"));
                 } catch (GradleReaderException e) {
                     e.printStackTrace();
                 }
             }
             else{
                 configurationInfo.setInflux(true);
-                boolean result = configurationInfo.writeToFile();
+                boolean result = configurationInfo.writeToFile(path);
                 return result? 1:0;
             }
 
@@ -179,7 +186,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             ));
             try {
 
-                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
+                MicronautProjectValidator.addDependency(path,features.get("micrometer-graphite"));
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
@@ -199,7 +206,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             ));
             try {
 
-                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+                MicronautProjectValidator.addDependency(path,features.get("micrometer-statsd"));
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
@@ -210,7 +217,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             configurationInfo.setStatsd(true);
             projectInfo.dumpToFile();
         }
-        boolean result = configurationInfo.writeToFile();
+        boolean result = configurationInfo.writeToFile(path);
         return result? 1:0;
     }
 }

@@ -11,6 +11,7 @@ import io.hashimati.microcli.utils.AsciiUtils;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.CommandLine;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,13 +22,19 @@ import static picocli.CommandLine.Command;
 
 @Command(name = "banner", description = "To overwrite the default micronaut banner with your own banner.")
 public class BannerCommand implements Callable<Integer> {
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Override
     public Integer call() throws Exception {
 
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         String defaultBanner = "Micronaut";
         try{
-            File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+            File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
             if(configurationFile.exists()){
                defaultBanner =  ConfigurationInfo.fromFile(configurationFile).getAppName();
 
@@ -75,7 +82,7 @@ public class BannerCommand implements Callable<Integer> {
             {
                 case "yes":
 
-                    GeneratorUtils.createFile( new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("micronaut-banner.txt").toString(),finalBanner);
+                    GeneratorUtils.createFile( new StringBuilder().append(path).append("/src/main/resources/").append("micronaut-banner.txt").toString(),finalBanner);
                     return 1;
                 case "no":
                     return call();

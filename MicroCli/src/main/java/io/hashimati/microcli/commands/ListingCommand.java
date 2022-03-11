@@ -2,6 +2,7 @@ package io.hashimati.microcli.commands;
 
 
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -29,13 +30,19 @@ public class ListingCommand implements Callable<Integer> {
     private boolean paths;
     @Option(names = {"-roles"}, description = "Displays all roles")
     private boolean roles;
-
+    @Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Option(names = {"-features"}, description = "Displays all roles")
     private boolean features;
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
+
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo = null;
         List<Ansi.Color> colorList = Arrays.asList(MAGENTA, CYAN, GREEN, BLUE, WHITE, YELLOW);
 

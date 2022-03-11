@@ -34,13 +34,13 @@ public class InitCommand implements Callable<Integer> {
     private MicronautLaunchClient micronautLaunchClient;
 
 
-    @Option(names = {"--package"}, defaultValue = "com.example")
+    @Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
     @Option(names = "--name", defaultValue = "demo")
     private String name;
 
-    @Option(names= {"--javaVersion"}, defaultValue = "JDK_11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS)
+    @Option(names= {"--javaVersion"}, defaultValue = "JDK_11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11")
     private String javaVersion;
 
     @Option(names = {"--lang"}, defaultValue = "JAVA")
@@ -73,7 +73,6 @@ public class InitCommand implements Callable<Integer> {
             {
                 PromptGui.printlnErr("Failed to generate " + name + " project.");
                 return 0;
-
             }
 
            boolean createFileStatus = GeneratorUtils.writeBytesToFile(projectFilePath, projectZipFile );

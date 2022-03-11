@@ -35,15 +35,20 @@ public class CreateGcpPubSubClientCommand implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-e", "--entity"}, description = "To pass the entity name")
     String entityName;
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
     @Inject
     private MicronautComponentGenerator micronautComponentGenerator;
 
     @Override
     public Integer call() throws Exception {
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
         AnsiConsole.systemInstall();
-        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName());
+        File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;
         if(!configurationFile.exists()){
             configurationInfo =  new ConfigureCommand().call();
@@ -59,7 +64,7 @@ public class CreateGcpPubSubClientCommand implements Callable<Integer> {
             TemplatesService templatesService = new TemplatesService();
             projectInfo.getFeatures().add("gcp-pubsub");
             try {
-                MicronautProjectValidator.addDependency(FeaturesFactory.features().get("gcp-pubsub"));
+                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("gcp-pubsub"));
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
@@ -75,7 +80,7 @@ public class CreateGcpPubSubClientCommand implements Callable<Integer> {
 //                    (templatesService.getProperties().get("gcp-pubsub"));
 //            MicronautProjectValidator.appendToProperties(messagingProperties);
 
-            configurationInfo.writeToFile(); 
+            configurationInfo.writeToFile(path);
             // End adding Yaml
 
         }
@@ -103,7 +108,7 @@ public class CreateGcpPubSubClientCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(packageName));
         }});
 
-        createFile(System.getProperty("user.dir")+controllerPath+ "/"+className+extension, content);
+        createFile(path+controllerPath+ "/"+className+extension, content);
 
         printlnSuccess(className + " is created successfully!");
         setToDefault();

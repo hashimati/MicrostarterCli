@@ -53,39 +53,39 @@ public class ConfigurationInitializer {
 
     private TemplatesService templatesService = new TemplatesService() ;
     @Inject
-    private HashMap<String, Feature> features  =FeaturesFactory.features();
+    private HashMap<String, Feature> features; //  =FeaturesFactory.features(projectInfo);
 
 
     public ConfigurationInitializer() throws FileNotFoundException {
     }
 
-    public void  init() throws IOException, XmlPullParserException, GradleReaderException {
+    public void  init(String workingPath) throws IOException, XmlPullParserException, GradleReaderException {
 
         templatesService.loadTemplates(null);
 
 
       //  Runtime.getRuntime().addShutdownHook(new Thread(()->{}));
         projectInfo
-                =  projectValidator.getProjectInfo();
+                =  projectValidator.getProjectInfo(workingPath);
 
-
-        if(projectInfo == null || !MicronautProjectValidator.isValidProject())
+        features  =FeaturesFactory.features(projectInfo);
+        if(projectInfo == null || !MicronautProjectValidator.isValidProject(workingPath))
         {
             printlnErr("The current directory is not a directory of a Micronaut Application/Function project");
             System.exit(0);
         }
         else if(projectInfo.getFeatures().contains("properties")){
-            printlnErr("Microcli doesn't support configuration with \".properties\" files.");
+            printlnErr("MicrostarterCli doesn't support configuration with \".properties\" files.");
             System.exit(0);
         }
-        File file = new File("MicroCliConfig.json");
+        File file = new File(workingPath+"/"+"MicroCliConfig.json");
 
 
 
 
         if(file.isFile() && file.exists())
         {
-            configurationInfo =  ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+            configurationInfo =  ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(workingPath)));
             if(configurationInfo.isConfigured()) return ; // the project is configured by MicroCli. Then, exit configuration.
         }
         else {
@@ -93,14 +93,14 @@ public class ConfigurationInitializer {
 
             if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
             {
-                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromMaven());
+                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromMaven(workingPath));
             }
             else if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
             {
                 configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromGradle());
             }
 
-            configurationInfo.setJavaVersion(MicronautProjectValidator.getJavaVersion());
+            configurationInfo.setJavaVersion(MicronautProjectValidator.getJavaVersion(workingPath));
 
 //            AtomicBoolean isDatabaseConfiguredByDefault = new AtomicBoolean(false);
 //            Arrays.asList("h2", "reactive-mongo", "postgres", "sqlserver", "oracle", "cassandra","neo4j").forEach(
@@ -141,18 +141,18 @@ public class ConfigurationInitializer {
                 configurationInfo.setReactiveFramework(reactiveFramework.getSelectedId());
 
                 if(configurationInfo.getReactiveFramework().equalsIgnoreCase("reactor")) {
-                    MicronautProjectValidator.addDependency(features.get("reactor"));
-                    MicronautProjectValidator.addDependency(features.get("reactor-http-client"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("reactor"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("reactor-http-client"));
                 }
                 else if(configurationInfo.getReactiveFramework().equalsIgnoreCase("rxjava2")) {
-                    MicronautProjectValidator.addDependency(features.get("rxjava2"));
-                    MicronautProjectValidator.addDependency(features.get("rxjava2-http-client"));
-                    MicronautProjectValidator.addDependency(features.get("rxjava2-http-server-netty"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("rxjava2"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("rxjava2-http-client"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("rxjava2-http-server-netty"));
 
                 }
                 else if(configurationInfo.getReactiveFramework().equalsIgnoreCase("rxjava3")) {
-                    MicronautProjectValidator.addDependency(features.get("rxjava3"));
-                    MicronautProjectValidator.addDependency(features.get("rxjava3-http-client"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("rxjava3"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("rxjava3-http-client"));
 
                 }
             }
@@ -221,14 +221,14 @@ public class ConfigurationInitializer {
 
                     case "GORM":
                         configurationInfo.setGorm(true);
-                        MicronautProjectValidator.addDependency(features.get("tomcat-jdbc"));
+                        MicronautProjectValidator.addDependency(workingPath,features.get("tomcat-jdbc"));
                         projectInfo.getFeatures().add("tomcat-jdbc");
                         databaseFeature = features.get("hibernate-gorm");
 
                         projectInfo.getFeatures().add("hibernate-gorm");
                         break;
                     case "R2DBC":
-                        MicronautProjectValidator.addDependency(features.get("r2dbc"));
+                        MicronautProjectValidator.addDependency(workingPath,features.get("r2dbc"));
                         projectInfo.getFeatures().add("r2dbc");
                         projectInfo.getFeatures().add("reactor");
                         databaseFeature = features.get("data-r2dbc");
@@ -265,15 +265,15 @@ public class ConfigurationInitializer {
                         Feature dbFeature = features.get(databasetype);
                         dbFeature.setTestGradle("");
                         dbFeature.setTestMaven(null);
-                        MicronautProjectValidator.addDependency(dbFeature);
+                        MicronautProjectValidator.addDependency(workingPath,dbFeature);
 
-                        MicronautProjectValidator.addDependency(new Feature(){{
+                        MicronautProjectValidator.addDependency(workingPath,new Feature(){{
                             setGradle(features.get("h2").getTestGradle());
                             getMaven().add(features.get("h2").getTestMaven());
                         }});
                         if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
                         {
-                            MicronautProjectValidator.addDependency(new Feature(){{
+                            MicronautProjectValidator.addDependency(workingPath,new Feature(){{
                                 setGradle(features.get("h2").getTestRdbcGradle());
                                 getMaven().add(features.get("h2").getTestRdbcMaven());
 
@@ -281,22 +281,22 @@ public class ConfigurationInitializer {
                         }
                     }
                     else {
-                        MicronautProjectValidator.addDependency(
+                        MicronautProjectValidator.addDependency(workingPath,
                                 features.get(databasetype));
                         if(configurationInfo.getDataBackendRun().equalsIgnoreCase("R2DBC"))
-                            MicronautProjectValidator.addR2DBCependency(
+                            MicronautProjectValidator.addR2DBCependency(workingPath,
                                     features.get(databasetype));
                         if(Arrays.asList("sqlserver", "oracle", "mysql", "mariadb").contains(databasetype))
                         {
                             if(!projectInfo.getFeatures().contains("testcontainers")) {
 
                                 projectInfo.getFeatures().add("testcontainers");
-                                MicronautProjectValidator.addDependency(features.get("testcontainers"));
+                                MicronautProjectValidator.addDependency(workingPath,features.get("testcontainers"));
                                 if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
-                                    MicronautProjectValidator.addDependency(features.get(("testcontainers-spock")));
+                                    MicronautProjectValidator.addDependency(workingPath,features.get(("testcontainers-spock")));
                                 }
                                 else
-                                    MicronautProjectValidator.addDependency(features.get(("junit-jupiter")));
+                                    MicronautProjectValidator.addDependency(workingPath,features.get(("junit-jupiter")));
 
                             }
                         }
@@ -321,21 +321,21 @@ public class ConfigurationInitializer {
 
 
 
-                MicronautProjectValidator.addDependency(databaseFeature);
-                MicronautProjectValidator.addDependency(features.get("jdbc-hikari"));
+                MicronautProjectValidator.addDependency(workingPath,databaseFeature);
+                MicronautProjectValidator.addDependency(workingPath,features.get("jdbc-hikari"));
 
                 if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
                 {
                     projectInfo.getFeatures().add("liquibase");
-                    MicronautProjectValidator.addDependency(features.get("liquibase"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("liquibase"));
                     MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.LIQUIBASE_yml)));
-                    Tuple2<String, String> changeLog = Tuple.tuple(System.getProperty("user.dir") +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
+                    Tuple2<String, String> changeLog = Tuple.tuple(workingPath +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
 
                     GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
                 }
                 else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")){
                     projectInfo.getFeatures().add("flyway");
-                    MicronautProjectValidator.addDependency(features.get("flyway"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("flyway"));
                     MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYAWAY_YML)));
                 }
                 projectInfo.dumpToFile();
@@ -354,25 +354,25 @@ public class ConfigurationInitializer {
                 if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb")) {
                     projectInfo.getFeatures().add("data-mongodb");
                     projectInfo.getFeatures().add("mongo-sync");
-                    MicronautProjectValidator.addDependency(features.get("data-mongodb"));
-                    MicronautProjectValidator.addDependency(features.get("mongo-sync"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("data-mongodb"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("mongo-sync"));
                     configurationInfo.setMnData(true);
                 }
                 else {
                     projectInfo.getFeatures().add("mongo-reactive");
                     configurationInfo.setDataBackendRun("mongoReactive");
-                    MicronautProjectValidator.addDependency(features.get("mongo-reactive"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("mongo-reactive"));
                     configurationInfo.setMnData(false);
 
                 }
-//                MicronautProjectValidator.addDependency(features.get("embed.mongo"));
+//                MicronautProjectValidator.addDependency(workingPath,features.get("embed.mongo"));
                 projectInfo.getFeatures().add("testcontainers");
-                MicronautProjectValidator.addDependency(features.get("testcontainers"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("testcontainers"));
                 if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
-                    MicronautProjectValidator.addDependency(features.get(("testcontainers-spock")));
+                    MicronautProjectValidator.addDependency(workingPath,features.get(("testcontainers-spock")));
                 }
                 else
-                    MicronautProjectValidator.addDependency(features.get(("junit-jupiter")));
+                    MicronautProjectValidator.addDependency(workingPath,features.get(("junit-jupiter")));
                 //todo add dependencies to build files;
                 String mongoProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(TemplatesService.MONGODB_yml));
@@ -409,13 +409,13 @@ public class ConfigurationInitializer {
                     String mongoConfigurationContent = GeneratorUtils.generateFromTemplate(mongodbConfigurationTemplate, new HashMap<String, String>() {{
                         put("projectPackage", projectInfo.getDefaultPackage());
                     }});
-                    GeneratorUtils.createFile(System.getProperty("user.dir") + "/src/main/" + projectInfo.getSourceLanguage() + "/" + GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()) + "/config/MongodbConfiguration." + ext, mongoConfigurationContent);
+                    GeneratorUtils.createFile(workingPath + "/src/main/" + projectInfo.getSourceLanguage() + "/" + GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()) + "/config/MongodbConfiguration." + ext, mongoConfigurationContent);
                 }
                 if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
                     if(PromptGui.createConfirmResult("gorm", "Do you want to use GORM?", NO).getConfirmed()== ConfirmChoice.ConfirmationValue.YES)
                     {
                         configurationInfo.setGorm(true);
-                        MicronautProjectValidator.addDependency(features.get("mongo-gorm"));
+                        MicronautProjectValidator.addDependency(workingPath,features.get("mongo-gorm"));
                         projectInfo.getFeatures().add("mongo-gorm");
                         configurationInfo.setDataBackendRun("mongoGorm");
                     }
@@ -434,7 +434,7 @@ public class ConfigurationInitializer {
             if(!messagingTypeResult.getSelectedId().equalsIgnoreCase("none")){
 
                 projectInfo.getFeatures().add(configurationInfo.getMessaging());
-                MicronautProjectValidator.addDependency(features.get(configurationInfo.getMessaging()));
+                MicronautProjectValidator.addDependency(workingPath,features.get(configurationInfo.getMessaging()));
                 projectInfo.dumpToFile();
 
 
@@ -456,7 +456,7 @@ public class ConfigurationInitializer {
             if(caffeineSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES){
                 projectInfo.getFeatures().add("cache-caffeine");
                 configurationInfo.setCaffeine(true);
-                MicronautProjectValidator.addDependency(features.get("cache-caffeine"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("cache-caffeine"));
 
                 projectInfo.dumpToFile();
             }
@@ -474,11 +474,11 @@ public class ConfigurationInitializer {
 //                        "micrometer-statsd"
                 ));
                 configurationInfo.setMicrometer(true);
-                MicronautProjectValidator.addDependency(features.get("management"));
-                MicronautProjectValidator.addDependency(features.get("micrometer"));
-//                MicronautProjectValidator.addDependency(features.get("micrometer-prometheus"));
-//                MicronautProjectValidator.addDependency(features.get("micrometer-graphite"));
-//                MicronautProjectValidator.addDependency(features.get("micrometer-statsd"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("management"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("micrometer"));
+//                MicronautProjectValidator.addDependency(workingPath,features.get("micrometer-prometheus"));
+//                MicronautProjectValidator.addDependency(workingPath,features.get("micrometer-graphite"));
+//                MicronautProjectValidator.addDependency(workingPath,features.get("micrometer-statsd"));
 
 
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
@@ -512,7 +512,7 @@ public class ConfigurationInitializer {
 
 
                 projectInfo.getFeatures().add("tracing-jaeger");
-                MicronautProjectValidator.addDependency(features.get("tracing-jaeger"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("tracing-jaeger"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
 
@@ -526,7 +526,7 @@ public class ConfigurationInitializer {
             else if(tracing.getSelectedId().equalsIgnoreCase("zipkin")){
 
                 projectInfo.getFeatures().add("tracing-zipkin");
-                MicronautProjectValidator.addDependency(features.get("tracing-zipkin"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("tracing-zipkin"));
                 MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));
                 configurationInfo.setTracingEnabled(true);
@@ -550,18 +550,18 @@ public class ConfigurationInitializer {
 //
 //                projectInfo.getFeatures().add("graphql");
 //                configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
-//                MicronautProjectValidator.addDependency(features.get("graphql"));
+//                MicronautProjectValidator.addDependency(workingPath,features.get("graphql"));
 //
 //
 //                String graphqlLib = PromptGui.createListPrompt("graphqlLib", "Choose GraphQL Integration Library", "GraphQL-Java-Tools", "GraphQL-SPQR").getSelectedId().toLowerCase();
 //                switch(graphqlLib){
 //
 //                    case "graphql-java-tools":
-//                        MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
+//                        MicronautProjectValidator.addDependency(workingPath,features.get("graphql-java-tools"));
 //                        configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
 //                        break;
 //                    case "graphql-spqr":
-//                        MicronautProjectValidator.addDependency(features.get("graphql-spqr"));
+//                        MicronautProjectValidator.addDependency(workingPath,features.get("graphql-spqr"));
 //                        configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
 //                        break;
 //                }
@@ -581,8 +581,8 @@ public class ConfigurationInitializer {
             if(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
                 projectInfo.getFeatures().add("graphql");
                 configurationInfo.setGraphQlSupport(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
-                MicronautProjectValidator.addDependency(features.get("graphql"));
-                MicronautProjectValidator.addDependency(features.get("graphql-java-tools"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("graphql"));
+                MicronautProjectValidator.addDependency(workingPath,features.get("graphql-java-tools"));
                 configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
                 projectInfo.dumpToFile();
                 configurationInfo.getUrls().add(
@@ -613,9 +613,9 @@ public class ConfigurationInitializer {
             {
 
                 projectInfo.getFeatures().add("openapi");
-                MicronautProjectValidator.addOpenapi();
-                MicronautProjectValidator.addExposingSwaggerUI();
-                MicronautProjectValidator.addingOpenApiToApplicationFile(configurationInfo.getAppName());
+                MicronautProjectValidator.addOpenapi(workingPath);
+                MicronautProjectValidator.addExposingSwaggerUI(workingPath);
+                MicronautProjectValidator.addingOpenApiToApplicationFile(workingPath,configurationInfo.getAppName());
 
                 templatesService.loadTemplates(null);
                 String openAPIProperties = templatesService.loadTemplateContent
@@ -646,7 +646,7 @@ public class ConfigurationInitializer {
 //        {
 //            projectInfo.getFeatures().add("openrewrite");
 //            Feature openrewrite = features.get("openrewrite");
-//            MicronautProjectValidator.addDependency(openrewrite);
+//            MicronautProjectValidator.addDependency(workingPath,openrewrite);
 //            if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
 //            {
 //                //if(openrewrite.getGradleTask()!= null && !openrewrite.getGradleTask().isBlank())
@@ -659,24 +659,24 @@ public class ConfigurationInitializer {
         try {
 
            String logBackContent =  new TemplatesService().loadTemplateContent(LOGBACK_PATH);
-            GeneratorUtils.createFile(new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/logback.xml").toString(), logBackContent);
+            GeneratorUtils.createFile(new StringBuilder().append(workingPath).append("/src/main/resources/logback.xml").toString(), logBackContent);
         }catch (Exception ex)
         {
 
         }
-        MicronautProjectValidator.addLombok(projectInfo);
-    //MicronautProjectValidator.addDependency(features.get("openapi"));
+        MicronautProjectValidator.addLombok(workingPath,projectInfo);
+    //MicronautProjectValidator.addDependency(workingPath,features.get("openapi"));
 
         projectInfo.dumpToFile();
         //todo add dependencies to build files.
 
-        configurationInfo.setAppName(MicronautProjectValidator.getAppName());
+        configurationInfo.setAppName(MicronautProjectValidator.getAppName(workingPath));
         configurationInfo.setProjectInfo(projectInfo);
         printlnSuccess("micronaut-cli.yml file has been updated");
 
         //System.out.println(configurationInfo);
         configurationInfo.setConfigured(true);
-        configurationInfo.writeToFile();
+        configurationInfo.writeToFile(workingPath);
 
 
 

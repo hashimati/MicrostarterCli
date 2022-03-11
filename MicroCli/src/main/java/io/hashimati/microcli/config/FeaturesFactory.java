@@ -24,9 +24,9 @@ public class FeaturesFactory {
 
 
     @Singleton
-    public static HashMap<String, Feature> features() throws FileNotFoundException {
+    public static HashMap<String, Feature> features(ProjectInfo projectInfo) throws FileNotFoundException {
 
-        ProjectInfo projectInfo = MicronautProjectValidator.getProjectInfo();
+
         if(projectInfo == null) return null;
         HashMap<String, Feature> features = new HashMap<>();
         features.putIfAbsent("flyway", new Feature(){{

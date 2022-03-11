@@ -39,7 +39,8 @@ import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENT
 
 @Command(name = "add-attribute", description = {"To a new attribute to an entity", "Warning, this command will overwrite the entity."})
 public class AddAttributeCommand implements Callable<Integer> {
-
+    @CommandLine.Option(names = "--path", description = "To specify the working directory.")
+    private String path;
 
     @CommandLine.Option(names = {"-e", "--entity"})
     private String entityName;
@@ -53,11 +54,15 @@ public class AddAttributeCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
 
+        if(path == null || path.trim().isEmpty())
+        {
+            path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
 
         AnsiConsole.systemInstall();
 
-        ConfigurationInfo configurationInfo =ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+        ConfigurationInfo configurationInfo =ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
 
         if(configurationInfo.getEntities().isEmpty())
         {
@@ -206,16 +211,16 @@ public class AddAttributeCommand implements Callable<Integer> {
             put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
         }});
 
-        GeneratorUtils.createFile(System.getProperty("user.dir")+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
+        GeneratorUtils.createFile(path+entityPath+ "/"+entity.getName()+GeneratorUtils.srcFileExtension(lang), entityFileContent);
 
         if(entity.isGraphQl())
         {
-            String entityGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
+            String entityGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append(entity.getName()).append(".graphqls").toString();
             String graphQLSchema =micronautEntityGenerator.generateGraphQLSchema(entity);
             GeneratorUtils.createFile(entityGraphQlFilename, graphQLSchema);
 
 
-            String queryGraphQlFilename = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append("queries.graphqls").toString();
+            String queryGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append("queries.graphqls").toString();
             String graphQLQuery =micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
             GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
 
@@ -225,7 +230,7 @@ public class AddAttributeCommand implements Callable<Integer> {
         {
             if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase")){
 
-                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog();
+                Tuple2<String, String> changeLog = liquibaseGenerator.generateCatalog(path);
                 GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
 
 
@@ -257,11 +262,11 @@ public class AddAttributeCommand implements Callable<Integer> {
 
                 configurationInfo.setLiquibaseSequence(configurationInfo.getLiquibaseSequence()+1);
                 entity.setLiquibaseSequence(configurationInfo.getLiquibaseSequence());
-                Tuple2<String, String> addColumns = liquibaseGenerator.generateAddColumnChangeSet(entity,newAttributes, mapper, configurationInfo.getLiquibaseSequence() );
+                Tuple2<String, String> addColumns = liquibaseGenerator.generateAddColumnChangeSet(path, entity,newAttributes, mapper, configurationInfo.getLiquibaseSequence() );
                 GeneratorUtils.createFile(addColumns.getV1(), addColumns.getV2());
             }
         }
-        configurationInfo.writeToFile();
+        configurationInfo.writeToFile(path);
         PromptGui.setToDefault();
         System.gc();
 

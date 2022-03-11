@@ -29,10 +29,12 @@ public class SecurityGenerator {
     private TemplatesService templatesService;
 
 
-    public void generateSecurityFiles(String strategy, HashSet<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
-        HashMap<String, Feature> features = FeaturesFactory.features();
+    public void generateSecurityFiles(String path, String strategy, HashSet<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
 
-        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName()));
+        ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
+
+        HashMap<String, Feature> features = FeaturesFactory.features(configurationInfo.getProjectInfo());
+
         String rolesDeclaration = "";
         if (!roles.isEmpty())
             rolesDeclaration = roles.stream().map(x -> new EntityAttribute() {{
@@ -63,17 +65,17 @@ public class SecurityGenerator {
         configurationInfo.setSecurityRoles(roles);
         configurationInfo.setSecurityEnable(true);
         configurationInfo.setSecurityStrategy(strategy);
-        MicronautProjectValidator.addDependency(features.get("jasypt"));
+        MicronautProjectValidator.addDependency(path,features.get("jasypt"));
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-annotations"))
         {
             configurationInfo.getProjectInfo().getFeatures().add("security-annotations");
-            MicronautProjectValidator.addDependency(features.get("security-annotations"));
+            MicronautProjectValidator.addDependency(path, features.get("security-annotations"));
         }
         if(strategy.equalsIgnoreCase("jwt")){
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-jwt"))
         {
             configurationInfo.getProjectInfo().getFeatures().add("security-jwt");
-            MicronautProjectValidator.addDependency(features.get("security-jwt"));
+            MicronautProjectValidator.addDependency(path, features.get("security-jwt"));
             MicronautProjectValidator.appendToProperties(
                     templatesService.loadTemplateContent(
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
@@ -85,7 +87,7 @@ public class SecurityGenerator {
             if(!configurationInfo.getProjectInfo().getFeatures().contains("security"))
             {
                 configurationInfo.getProjectInfo().getFeatures().add("security");
-                MicronautProjectValidator.addDependency(features.get("security"));
+                MicronautProjectValidator.addDependency(path, features.get("security"));
 
 
             }
@@ -94,7 +96,7 @@ public class SecurityGenerator {
             if(!configurationInfo.getProjectInfo().getFeatures().contains("security-oauth2"))
             {
                 configurationInfo.getProjectInfo().getFeatures().add("security-oauth2");
-                MicronautProjectValidator.addDependency(features.get("security-oauth2"));
+                MicronautProjectValidator.addDependency(path, features.get("security-oauth2"));
 
 
             }
@@ -103,7 +105,7 @@ public class SecurityGenerator {
             if(!configurationInfo.getProjectInfo().getFeatures().contains("security-session"))
             {
                 configurationInfo.getProjectInfo().getFeatures().add("security-session");
-                MicronautProjectValidator.addDependency(features.get("security-session"));
+                MicronautProjectValidator.addDependency(path,features.get("security-session"));
                 MicronautProjectValidator.appendToProperties(
                         templatesService.loadTemplateContent(
                                 templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_SESSION_PROPERTIES)
@@ -115,21 +117,21 @@ public class SecurityGenerator {
         if(!configurationInfo.getDatabaseType().toLowerCase().contains("mongo")){
 //            String configPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_CONFIG);
 //            String configContent = templatesService.loadTemplateContent(configPath);
-//            configPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
+//            configPath = new StringBuilder().append(path).append("/src/main/resources/").append(configPath.substring(configPath.indexOf("db"))).toString();
 //
 
             if(!configurationInfo.getProjectInfo().getFeatures().contains("reactor")){
                 configurationInfo.getProjectInfo().getFeatures().add("reactor");
                 configurationInfo.getProjectInfo().getFeatures().add("reactor-http-client");
-                MicronautProjectValidator.addDependency(features.get("reactor"));
-                MicronautProjectValidator.addDependency(features.get("reactor-http-client"));
+                MicronautProjectValidator.addDependency(path,features.get("reactor"));
+                MicronautProjectValidator.addDependency(path,features.get("reactor-http-client"));
 
                 PromptGui.printlnSuccess("The \"Reactor\" feature is added");
 
             }
             String userSchemaPath = templatesService.getSecurityLiquibase().get(templatesService.SECURITY_LIQUIBASE_SCHEMA);
             String userSchemaContent = templatesService.loadTemplateContent(userSchemaPath);
-            userSchemaPath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
+            userSchemaPath = new StringBuilder().append(path).append("/src/main/resources/").append(userSchemaPath.substring(userSchemaPath.indexOf("db"))).toString();
 
 //            GeneratorUtils.createFile(configPath, configContent);
             GeneratorUtils.createFile(userSchemaPath, userSchemaContent);
@@ -138,7 +140,7 @@ public class SecurityGenerator {
         }
         configurationInfo.setSecurityEnable(true);
         configurationInfo.getProjectInfo().dumpToFile();
-        configurationInfo.writeToFile();
+        configurationInfo.writeToFile(path);
 
     }
 
@@ -156,7 +158,7 @@ public class SecurityGenerator {
                 put("ext", ext);
             }});
 
-            String filePath = new StringBuilder().append(System.getProperty("user.dir")).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder("/").append(strategy).append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append("/").append(lang).append("/").append(db).toString(), "")).toString();
+            String filePath = new StringBuilder().append(path).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder("/").append(strategy).append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append("/").append(lang).append("/").append(db).toString(), "")).toString();
             String template = templatesService.loadTemplateContent(path);
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();

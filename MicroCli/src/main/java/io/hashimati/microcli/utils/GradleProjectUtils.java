@@ -24,7 +24,7 @@ public class GradleProjectUtils{
     public LinkedList<String> readGradleFile(File build) throws FileNotFoundException {
 
         LinkedList<String> content = new LinkedList<>();
-//        String cwd = System.getProperty("user.dir");
+//        String cwd = path;
 //        File build = new File(cwd + "/build.gradle");
         if(!build.exists()) return new LinkedList<>();
         Scanner sc = new Scanner(build);
@@ -157,8 +157,8 @@ public class GradleProjectUtils{
                 .replaceAll("\"", "");
     }
 
-    public String getAppName() throws FileNotFoundException {
-        String settings = new StringBuilder(System.getProperty("user.dir")).append("/settings.gradle").toString();
+    public String getAppName(String path) throws FileNotFoundException {
+        String settings = new StringBuilder(path).append("/settings.gradle").toString();
        String content =  GeneratorUtils.getFileContent(new File(settings));
         Scanner scanner = new Scanner(content);
         String line = "";

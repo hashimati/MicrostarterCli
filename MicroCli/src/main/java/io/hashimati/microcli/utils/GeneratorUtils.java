@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
@@ -353,7 +355,48 @@ public class GeneratorUtils
     public static boolean unzipFile(String filePath)
     {
 
-        // check out https://www.baeldung.com/java-compress-and-uncompress
+//        try {
+//
+//            System.out.println("I'm herer "+ filePath);
+//            ZipFile zipFile = new ZipFile(new File(filePath));
+//            System.out.println(zipFile.getName());
+//            File unzipFolder = new File(getCurrentWorkingPath() );
+//
+//            System.out.println(unzipFolder);
+//            zipFile.stream().forEach(zipEntry -> {
+//                if(zipEntry.isDirectory()){
+//                    File destinationFolder = new File(unzipFolder.getPath() + "/" + zipEntry.getName());
+//                    try{
+//                        destinationFolder.mkdirs();
+//                    }
+//                    catch(Exception ex)
+//                    {
+//                        PromptGui.printlnErr("Failed to create "+ destinationFolder.getAbsolutePath());
+//                    }
+//                }
+//                else {
+//                    try{
+//                        InputStream inputStream = zipFile.getInputStream(zipEntry);
+//
+//                        boolean creatingFile = new File(getCurrentWorkingPath() + "/" +zipEntry.getName()).createNewFile();
+//                        System.out.println(creatingFile);
+//                        byte[] data = inputStream.readAllBytes();
+//                        writeBytesToFile((getCurrentWorkingPath() + "/" +zipEntry.getName()).replace("\\", "/"), data);
+//
+//                    }
+//                    catch(Exception ex){
+//                        ex.printStackTrace();
+//                    }
+//                }
+//            });
+//            zipFile.close();
+//            return true;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+
+//        // check out https://www.baeldung.com/java-compress-and-uncompress
 
         try {
             File file = new File(filePath);
