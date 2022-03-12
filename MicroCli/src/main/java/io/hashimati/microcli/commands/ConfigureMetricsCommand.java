@@ -47,6 +47,17 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             path = GeneratorUtils.getCurrentWorkingPath();
 
         }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
+        }
         projectInfo
                 =  projectValidator.getProjectInfo(path);
          HashMap<String, Feature> features  = FeaturesFactory.features(projectInfo);

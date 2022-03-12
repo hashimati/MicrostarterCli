@@ -40,6 +40,17 @@ public class CreateWebsocketClientCommand implements Callable<Integer> {
             path = GeneratorUtils.getCurrentWorkingPath();
 
         }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
+        }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
         ConfigurationInfo  configurationInfo;

@@ -32,6 +32,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,6 +101,18 @@ private String path;
             path = GeneratorUtils.getCurrentWorkingPath();
 
         }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
+        }
+        micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();
         org.fusesource.jansi.AnsiConsole.systemInstall();
         ansi().eraseScreen();

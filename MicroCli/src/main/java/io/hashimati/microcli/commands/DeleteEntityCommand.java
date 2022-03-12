@@ -13,6 +13,7 @@ import io.hashimati.microcli.domains.Entity;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
@@ -42,6 +43,17 @@ public class DeleteEntityCommand implements Callable<Integer> {
         {
             path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
         }
         configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
         Optional<Entity> entityOptional =configurationInfo

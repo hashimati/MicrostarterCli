@@ -2,9 +2,11 @@ package io.hashimati.microcli.commands;
 
 
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.io.File;
 import java.util.concurrent.Callable;
 
 @Command(name = "create-configuration", aliases = {"configuration"}, description = "To create configuration component.")
@@ -20,6 +22,17 @@ public class CreateConfigurationCommand implements Callable<Integer> {
         {
             path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
         }
         System.out.println("To be implemented");
 

@@ -60,6 +60,18 @@ public class CreateRelationCommand implements Callable<Integer> {
             path = GeneratorUtils.getCurrentWorkingPath();
 
         }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
+        }
+        micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();
 
         configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));

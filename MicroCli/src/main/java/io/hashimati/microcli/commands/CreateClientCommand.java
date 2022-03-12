@@ -38,6 +38,17 @@ public class CreateClientCommand implements Callable<Integer> {
             path = GeneratorUtils.getCurrentWorkingPath();
 
         }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                if(!directory.exists()){
+
+                    PromptGui.printlnErr("Cannot find the working path!");
+                    return null;
+                }
+            }
+        }
         AnsiConsole.systemInstall();
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)) );
         String packageName = PromptGui.inputText("pack", "Enter the client's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();

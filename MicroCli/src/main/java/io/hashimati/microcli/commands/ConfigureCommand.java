@@ -11,12 +11,14 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.utils.ConfigurationInitializer;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
+import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.concurrent.Callable;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -41,6 +43,17 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
         {
             path = GeneratorUtils.getCurrentWorkingPath();
 
+        }
+        else {
+            File directory = new File(path);
+            if(!directory.exists()) {
+                directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
+                        if(!directory.exists()){
+
+                            PromptGui.printlnErr("Cannot find the working path!");
+                            return null;
+                        }
+            }
         }
 
         AnsiConsole.systemInstall();
