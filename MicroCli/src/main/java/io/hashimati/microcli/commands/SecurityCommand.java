@@ -54,6 +54,7 @@ public class SecurityCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         ansi().eraseScreen();

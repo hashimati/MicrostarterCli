@@ -54,6 +54,7 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
                             return null;
                         }
             }
+            path = path + "/";
         }
 
         AnsiConsole.systemInstall();

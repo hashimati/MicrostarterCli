@@ -58,6 +58,7 @@ public class CreateGcpPubSubListenerCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
@@ -83,7 +84,7 @@ public class CreateGcpPubSubListenerCommand implements Callable<Integer> {
                 e.printStackTrace();
             }
 
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
 
 
 //            //AddingYaml

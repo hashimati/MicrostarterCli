@@ -54,6 +54,7 @@ public class DeleteEntityCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
         Optional<Entity> entityOptional =configurationInfo

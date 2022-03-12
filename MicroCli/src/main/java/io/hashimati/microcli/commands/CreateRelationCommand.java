@@ -70,6 +70,7 @@ public class CreateRelationCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();

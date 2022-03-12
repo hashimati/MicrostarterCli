@@ -33,6 +33,7 @@ public class CreateConfigurationCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         System.out.println("To be implemented");
 

@@ -49,7 +49,8 @@ public class CreateWebsocketClientCommand implements Callable<Integer> {
                     PromptGui.printlnErr("Cannot find the working path!");
                     return null;
                 }
-            }
+            }path = path + "/";
+
         }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));

@@ -70,6 +70,7 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         configurationInfo = new ConfigureCommand().call();
 
@@ -88,13 +89,13 @@ public class EnableJWTSecurityCommand implements Callable<Integer> {
             }
             MicronautProjectValidator.addDependency(path,features.get("security-jwt"));
             projectInfo.getFeatures().add("security-jwt");
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
             configurationInfo.writeToFile(path);
             MicronautProjectValidator.addDependency(path,features.get("jasypt"));
             templatesService.loadTemplates(null);
             String jwtProperties = templatesService.loadTemplateContent
                     (templatesService.getProperties().get(JWT_yml));
-            MicronautProjectValidator.appendToProperties(jwtProperties);
+            MicronautProjectValidator.appendToProperties(path, jwtProperties);
 
         }
 

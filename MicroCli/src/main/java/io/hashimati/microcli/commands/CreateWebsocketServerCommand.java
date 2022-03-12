@@ -48,6 +48,7 @@ public class CreateWebsocketServerCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));

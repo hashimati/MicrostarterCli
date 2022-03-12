@@ -97,7 +97,7 @@ public class ConfigurationInitializer {
             }
             else if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
             {
-                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromGradle());
+                configurationInfo.setAppName(MicronautProjectValidator.getAppNameFromGradle(workingPath));
             }
 
             configurationInfo.setJavaVersion(MicronautProjectValidator.getJavaVersion(workingPath));
@@ -131,7 +131,7 @@ public class ConfigurationInitializer {
                 PromptGui.printlnWarning(port +" is not valid port number. The port is set to 8080.");
 
             }
-            MicronautProjectValidator.appendToProperties("---\n" +
+            MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
                     "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
                     "---");
             if(!projectInfo.getFeatures().contains("reactor") &&!projectInfo.getFeatures().contains("rxjava2") && !projectInfo.getFeatures().contains("rxjava3") ){
@@ -303,19 +303,19 @@ public class ConfigurationInitializer {
                     }
 
                     if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
-                         MicronautProjectValidator.appendJDBCToProperties(databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                         MicronautProjectValidator.appendJDBCToProperties(workingPath,databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa") || configurationInfo.getDataBackendRun().equalsIgnoreCase("gorm")) {
 
-                        MicronautProjectValidator.appendJPAToProperties(configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                        MicronautProjectValidator.appendJPAToProperties(workingPath,configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
                     else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc")){
-                        MicronautProjectValidator.appendR2DBCToProperties(databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                        MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
                     if(!databasetype.equalsIgnoreCase("h2")) {
                         if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
-                            MicronautProjectValidator.appendR2DBCToProperties(databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                            MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                         else
-                            MicronautProjectValidator.appendJDBCToProperties(databasetype + "_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                            MicronautProjectValidator.appendJDBCToProperties(workingPath, databasetype + "_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
                     }
                 }
 
@@ -328,7 +328,7 @@ public class ConfigurationInitializer {
                 {
                     projectInfo.getFeatures().add("liquibase");
                     MicronautProjectValidator.addDependency(workingPath,features.get("liquibase"));
-                    MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.LIQUIBASE_yml)));
+                    MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.LIQUIBASE_yml)));
                     Tuple2<String, String> changeLog = Tuple.tuple(workingPath +"/src/main/resources/db/liquibase-changelog.xml",templatesService.loadTemplateContent(templatesService.getLiquibaseTemplates().get(TemplatesService.LIQUIBASE_CATALOG)));
 
                     GeneratorUtils.createFile(changeLog.getV1(), changeLog.getV2());
@@ -336,9 +336,9 @@ public class ConfigurationInitializer {
                 else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("flyway")){
                     projectInfo.getFeatures().add("flyway");
                     MicronautProjectValidator.addDependency(workingPath,features.get("flyway"));
-                    MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYAWAY_YML)));
+                    MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYAWAY_YML)));
                 }
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
             }
             else {
 
@@ -382,7 +382,7 @@ public class ConfigurationInitializer {
                     mongoProperties =mongoProperties.replace("\n","")+ "/"+configurationInfo.getDatabaseName();
 
 
-                MicronautProjectValidator.appendToProperties(mongoProperties);
+                MicronautProjectValidator.appendToProperties(workingPath,mongoProperties);
 
                 if(!configurationInfo.isMnData()) {
                     String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
@@ -390,7 +390,7 @@ public class ConfigurationInitializer {
                     String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String>() {{
                         put("dbName", configurationInfo.getDatabaseName());
                     }});
-                    MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
+                    MicronautProjectValidator.appendToProperties(workingPath,mongoDbDatabaseProperties);
 
                     String mongodbConfigurationTemplate = "";
                     String ext = projectInfo.getSourceLanguage();
@@ -419,7 +419,7 @@ public class ConfigurationInitializer {
                         projectInfo.getFeatures().add("mongo-gorm");
                         configurationInfo.setDataBackendRun("mongoGorm");
                     }
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
             }
 
         }
@@ -435,7 +435,7 @@ public class ConfigurationInitializer {
 
                 projectInfo.getFeatures().add(configurationInfo.getMessaging());
                 MicronautProjectValidator.addDependency(workingPath,features.get(configurationInfo.getMessaging()));
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
 
 
                 //AddingYaml
@@ -444,7 +444,7 @@ public class ConfigurationInitializer {
                     templatesService.loadTemplates(null);
                     String messagingProperties = templatesService.loadTemplateContent
                             (templatesService.getProperties().get(configurationInfo.getMessaging().toUpperCase())); /// The index == to featureName.toUppercase
-                    MicronautProjectValidator.appendToProperties(messagingProperties);
+                    MicronautProjectValidator.appendToProperties(workingPath,messagingProperties);
                 }
                 // End adding Yaml
             }
@@ -458,7 +458,7 @@ public class ConfigurationInitializer {
                 configurationInfo.setCaffeine(true);
                 MicronautProjectValidator.addDependency(workingPath,features.get("cache-caffeine"));
 
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
             }
         }
         if(!projectInfo.getFeatures().contains("micrometer")){
@@ -481,10 +481,10 @@ public class ConfigurationInitializer {
 //                MicronautProjectValidator.addDependency(workingPath,features.get("micrometer-statsd"));
 
 
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent
                         (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
 
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent
                         (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
 
 //                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
@@ -492,7 +492,7 @@ public class ConfigurationInitializer {
 //
 //                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
 //                        (templatesService.getMicrometersTemplates().get(STATSD_yml)));
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
 
             }
         }
@@ -513,7 +513,7 @@ public class ConfigurationInitializer {
 
                 projectInfo.getFeatures().add("tracing-jaeger");
                 MicronautProjectValidator.addDependency(workingPath,features.get("tracing-jaeger"));
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_JAEGER)));
 
                 configurationInfo.setTracingEnabled(true);
@@ -527,7 +527,7 @@ public class ConfigurationInitializer {
 
                 projectInfo.getFeatures().add("tracing-zipkin");
                 MicronautProjectValidator.addDependency(workingPath,features.get("tracing-zipkin"));
-                MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+                MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent
                         (templatesService.getDistributedTracingTemplates().get(DISTRIBUTED_TRACING_ZIPKIN)));
                 configurationInfo.setTracingEnabled(true);
                 configurationInfo.setTracingFramework("tracing-zipkin");
@@ -565,7 +565,7 @@ public class ConfigurationInitializer {
 //                        configurationInfo.setGraphQLIntegrationLib("graphql-spqr");
 //                        break;
 //                }
-//                projectInfo.dumpToFile();
+//                projectInfo.dumpToFile(workingPath)();
 //
 //
 //                templatesService.loadTemplates(null);
@@ -584,7 +584,7 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.addDependency(workingPath,features.get("graphql"));
                 MicronautProjectValidator.addDependency(workingPath,features.get("graphql-java-tools"));
                 configurationInfo.setGraphQLIntegrationLib("graphql-java-tools");
-                projectInfo.dumpToFile();
+                projectInfo.dumpToFile(workingPath);
                 configurationInfo.getUrls().add(
                         new URL(){{
                             setScope("/GraphQL");
@@ -603,7 +603,7 @@ public class ConfigurationInitializer {
                 templatesService.loadTemplates(null);
                 String graphQLproperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(GRAPHQL_yml));
-                MicronautProjectValidator.appendToProperties(graphQLproperties);
+                MicronautProjectValidator.appendToProperties(workingPath,graphQLproperties);
             }
         }
 
@@ -620,7 +620,7 @@ public class ConfigurationInitializer {
                 templatesService.loadTemplates(null);
                 String openAPIProperties = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(OPENAPI_yml));
-                MicronautProjectValidator.appendToProperties(openAPIProperties);
+                MicronautProjectValidator.appendToProperties(workingPath,openAPIProperties);
 
 
 
@@ -667,7 +667,7 @@ public class ConfigurationInitializer {
         MicronautProjectValidator.addLombok(workingPath,projectInfo);
     //MicronautProjectValidator.addDependency(workingPath,features.get("openapi"));
 
-        projectInfo.dumpToFile();
+        projectInfo.dumpToFile(workingPath);
         //todo add dependencies to build files.
 
         configurationInfo.setAppName(MicronautProjectValidator.getAppName(workingPath));

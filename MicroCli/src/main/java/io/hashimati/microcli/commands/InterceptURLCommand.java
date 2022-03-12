@@ -53,6 +53,7 @@ public class InterceptURLCommand implements Callable<Integer>
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
@@ -152,7 +153,7 @@ public class InterceptURLCommand implements Callable<Integer>
             MicronautProjectValidator.writeProperties(oldProperties.replace(oldURLIntercep, intercepURLMap));
        }
        else {
-           MicronautProjectValidator.appendToProperties(intercepURLMap);
+           MicronautProjectValidator.appendToProperties(path, intercepURLMap);
        }
 
        return 100;

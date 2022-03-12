@@ -76,7 +76,7 @@ public class SecurityGenerator {
         {
             configurationInfo.getProjectInfo().getFeatures().add("security-jwt");
             MicronautProjectValidator.addDependency(path, features.get("security-jwt"));
-            MicronautProjectValidator.appendToProperties(
+            MicronautProjectValidator.appendToProperties(path,
                     templatesService.loadTemplateContent(
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
                     )
@@ -106,7 +106,8 @@ public class SecurityGenerator {
             {
                 configurationInfo.getProjectInfo().getFeatures().add("security-session");
                 MicronautProjectValidator.addDependency(path,features.get("security-session"));
-                MicronautProjectValidator.appendToProperties(
+                MicronautProjectValidator.appendToProperties(path
+                        ,
                         templatesService.loadTemplateContent(
                                 templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_SESSION_PROPERTIES)
                         )
@@ -139,7 +140,7 @@ public class SecurityGenerator {
 
         }
         configurationInfo.setSecurityEnable(true);
-        configurationInfo.getProjectInfo().dumpToFile();
+        configurationInfo.getProjectInfo().dumpToFile(path);
         configurationInfo.writeToFile(path);
 
     }

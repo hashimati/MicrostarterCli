@@ -48,6 +48,7 @@ public class CreateClientCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)) );

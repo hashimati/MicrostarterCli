@@ -69,6 +69,7 @@ public class AddAttributeCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();

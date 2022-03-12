@@ -104,7 +104,8 @@ public class ConfigurationInfo {
     }
 
     public  static String getConfigurationFileName(String path) {
-        return path +"/"+ "MicroCliConfig.json";
+        if(!path.endsWith("/")) path +="/";
+        return path + "MicroCliConfig.json";
     }
 
     public static ConfigurationInfo fromFile(File microCliConfig) throws JsonProcessingException, FileNotFoundException {

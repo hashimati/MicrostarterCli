@@ -34,7 +34,7 @@ public class ProjectInfo {
         return visitor.visit(this);
     }
 
-    public void dumpToFile() throws IOException {
+    public void dumpToFile(String cwd) throws IOException {
         LinkedHashMap<String, Object> dump = new LinkedHashMap<>();
         dump.put("applicationType", this.applicationType);
         dump.put("defaultPackage", this.defaultPackage);
@@ -46,15 +46,16 @@ public class ProjectInfo {
         DumperOptions dumperOptions = new DumperOptions();
      //   dumperOptions.setDefaultFlowStyle(DumperOptionsfileWriter.);
         Yaml yaml = new Yaml();
-        FileWriter fileWriter = new FileWriter("micronaut-cli.yml");
+        if(!cwd.endsWith("/") ) cwd = cwd + "/";
+        FileWriter fileWriter = new FileWriter(cwd + "micronaut-cli.yml");
 
         yaml.dump(dump, fileWriter);
         fileWriter.flush();
         fileWriter.close();
         System.gc();
     }
-    public static ProjectInfo fromFile() throws FileNotFoundException {
-        String cwd = System.getProperty("user.dir");
+    public static ProjectInfo fromFile(String cwd) throws FileNotFoundException {
+
         File micronautCli = new File(cwd + "/micronaut-cli.yml");
         if(!micronautCli.exists()) return null;
         Yaml yaml = new Yaml();

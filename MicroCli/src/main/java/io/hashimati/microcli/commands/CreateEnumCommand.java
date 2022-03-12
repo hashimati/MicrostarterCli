@@ -59,6 +59,7 @@ public class CreateEnumCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         micronautEntityGenerator.setPath(path);
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));

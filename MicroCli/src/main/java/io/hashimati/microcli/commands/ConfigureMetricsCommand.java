@@ -57,6 +57,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         projectInfo
                 =  projectValidator.getProjectInfo(path);
@@ -89,7 +90,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         try {
             MicronautProjectValidator.addDependency(path,features.get("management"));
             MicronautProjectValidator.addDependency(path,features.get("micrometer"));
-            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+            MicronautProjectValidator.appendToProperties(path,templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(MICROMETERS_yml)));
 
         } catch (GradleReaderException e) {
@@ -138,12 +139,12 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
 
 
 
-            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+            MicronautProjectValidator.appendToProperties(path, templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(PROMETHEUS_yml)));
 
 
             configurationInfo.setPrometheus(true);
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
 
 
             //generating prometheus.yml with micronaut job configuration. 
@@ -179,13 +180,13 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             String influxTemplate = templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(INFLUX_yml));
 
-            MicronautProjectValidator.appendToProperties(GeneratorUtils.generateFromTemplate(influxTemplate, new HashMap<String, String>(){{
+            MicronautProjectValidator.appendToProperties(path, GeneratorUtils.generateFromTemplate(influxTemplate, new HashMap<String, String>(){{
                 put("org", org);
                 put("bucket", bucket);
                 put("token", token);
             }}));
             configurationInfo.setInflux(true);
-           projectInfo.dumpToFile();
+           projectInfo.dumpToFile(path);
 
         }
         else if(registry.equalsIgnoreCase("graphite"))
@@ -201,12 +202,12 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
-            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+            MicronautProjectValidator.appendToProperties(path, templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(GRAPHITE_yml)));
 
 
             configurationInfo.setGraphite(true);
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
         }
         else if(registry.equalsIgnoreCase("statsd"))
         {
@@ -221,12 +222,12 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
-            MicronautProjectValidator.appendToProperties(templatesService.loadTemplateContent
+            MicronautProjectValidator.appendToProperties(path, templatesService.loadTemplateContent
                     (templatesService.getMicrometersTemplates().get(STATSD_yml)));
 
 
             configurationInfo.setStatsd(true);
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
         }
         boolean result = configurationInfo.writeToFile(path);
         return result? 1:0;

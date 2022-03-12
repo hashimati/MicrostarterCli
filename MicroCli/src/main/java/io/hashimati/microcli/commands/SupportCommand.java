@@ -36,6 +36,7 @@ public class SupportCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         ansi().eraseScreen();

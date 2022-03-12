@@ -57,6 +57,7 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
         AnsiConsole.systemInstall();
         File configurationFile =new File(ConfigurationInfo.getConfigurationFileName(path));
@@ -80,14 +81,14 @@ public class CreateKafkaClientCommand implements Callable<Integer> {
                 e.printStackTrace();
             }
 
-            projectInfo.dumpToFile();
+            projectInfo.dumpToFile(path);
 
 
             //AddingYaml
             templatesService.loadTemplates(null);
             String messagingProperties = templatesService.loadTemplateContent
                     (templatesService.getProperties().get("kafka"));
-            MicronautProjectValidator.appendToProperties(messagingProperties);
+            MicronautProjectValidator.appendToProperties(path, messagingProperties);
 
             configurationInfo.writeToFile(path);
             // End adding Yaml

@@ -59,6 +59,7 @@ public class DeleteAttributeCommand implements Callable<Integer>
                     return null;
                 }
             }
+            path = path + "/";
         }
         micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();

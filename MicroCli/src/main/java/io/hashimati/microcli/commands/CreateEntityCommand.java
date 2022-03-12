@@ -111,6 +111,7 @@ private String path;
                     return null;
                 }
             }
+            path = path + "/";
         }
         micronautEntityGenerator.setPath(path);
         AnsiConsole.systemInstall();
@@ -384,7 +385,7 @@ private String path;
                         (templatesService.getProperties().get(CAFFEINE_YML));
                 HashMap<String, String> binder  = new HashMap<>();
                 binder.putIfAbsent("tableName", entity.getCollectionName());
-                MicronautProjectValidator.appendToProperties( new SimpleTemplateEngine().createTemplate(caffineTepmlate).make(binder).toString());
+                MicronautProjectValidator.appendToProperties(path,  new SimpleTemplateEngine().createTemplate(caffineTepmlate).make(binder).toString());
             }
             configurationInfo.getEntities().add(entity);
 
@@ -429,7 +430,7 @@ private String path;
                         put("collection", entity.getName());
                         put("collections", collectionName);
                     }});
-                    MicronautProjectValidator.appendToProperties(mongoDbDatabaseProperties);
+                    MicronautProjectValidator.appendToProperties(path, mongoDbDatabaseProperties);
                 }
                 //----------------------
 

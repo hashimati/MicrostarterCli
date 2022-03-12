@@ -42,6 +42,7 @@ public class BannerCommand implements Callable<Integer> {
                     return null;
                 }
             }
+            path = path + "/";
         }
 
         String defaultBanner = "Micronaut";

@@ -140,10 +140,11 @@ public class MicronautProjectValidator {
         return pomContent.substring(fromIndex, toIndex);
     }
 
-    public static String getAppNameFromGradle() throws FileNotFoundException {
-        String fileContent = GeneratorUtils.getFileContent(new File("settings.gradle"));
+    public static String getAppNameFromGradle(String path) throws FileNotFoundException {
+        String fileContent = GeneratorUtils.getFileContent(new File(path+(path.endsWith("/")? "":"/") + "settings.gradle"));
 
         String from = "rootProject.name=\"";
+        System.out.println(fileContent);
         return fileContent.substring(from.length(),fileContent.indexOf("\"", from.length()));
     }
 
@@ -161,7 +162,9 @@ public class MicronautProjectValidator {
         String dependencies =  pomContent.substring(fromIndex, toIndex);
         String newDep = dependencies +"\n"+ newDependencies+ "\n";
         pomContent = pomContent.replace(dependencies, newDep);
-        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
+
+        if(path.endsWith("/")) path +="/";
+        GeneratorUtils.dumpContentToFile(path +"pom.xml", pomContent);
         return true;
     }
 
@@ -177,7 +180,9 @@ public class MicronautProjectValidator {
         int toIndex = pomContent.indexOf(to);
         StringBuilder annotations =  new StringBuilder(pomContent.substring(fromIndex, toIndex)).append("\n"+ annotation+ "\n");
         pomContent = pomContent.replace(pomContent.substring(fromIndex, toIndex), annotations.toString());
-        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
+        if(path.endsWith("/")) path +="/";
+
+        GeneratorUtils.dumpContentToFile(path +"pom.xml", pomContent);
         return true;
     }
     public static boolean updateMavenPathDepndencyManagement(String path, String annotation) throws IOException{
@@ -191,7 +196,9 @@ public class MicronautProjectValidator {
         int toIndex = pomContent.indexOf(to);
         StringBuilder annotations =  new StringBuilder(pomContent.substring(fromIndex, toIndex)).append("\n"+ annotation+ "\n");
         pomContent = pomContent.replace(pomContent.substring(fromIndex, toIndex), annotations.toString());
-        GeneratorUtils.dumpContentToFile("pom.xml", pomContent);
+        if(path.endsWith("/")) path +="/";
+
+        GeneratorUtils.dumpContentToFile(path+"pom.xml", pomContent);
         return true;
     }
 
@@ -217,7 +224,7 @@ public class MicronautProjectValidator {
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
+            GeneratorUtils.dumpContentToFile(cwd+"build.gradle"+ kts, newGradleContent.trim());
             return true;
         }catch(Exception ex)
         {
@@ -249,13 +256,14 @@ public class MicronautProjectValidator {
 
 
 
+        if(!cwd.endsWith("/")) cwd = cwd + "/";
         String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
                 new StringBuilder().append(x).append("\n").append(y).toString());
         try {
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent.trim());
+            GeneratorUtils.dumpContentToFile(cwd+"build.gradle"+ kts, newGradleContent.trim());
             return true;
         }catch(Exception ex)
         {
@@ -289,11 +297,14 @@ public class MicronautProjectValidator {
 
         String newGradleContent = gradleContentAsList.stream().reduce("", (x,y)->
                 new StringBuilder().append(x).append("\n").append(y).toString());
+
         try {
+            if(!cwd.endsWith("/")) cwd = cwd+ "/";
+
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, newGradleContent);
+            GeneratorUtils.dumpContentToFile(cwd+"build.gradle"+ kts, newGradleContent);
 
             return true & sortGradleDependencies(cwd);
         }catch(Exception ex)
@@ -309,6 +320,8 @@ public class MicronautProjectValidator {
 
         if(gradleContent.contains(newDependencies.trim()))
             return true;
+
+        if(cwd.endsWith("/")) cwd +="/";
 
 
         String prefix = "";
@@ -353,7 +366,7 @@ public class MicronautProjectValidator {
             String newDep = index <= 0? newDependencies + "\n" + dependencies :dependencies+"\n"+newDependencies;
             gradleContent = gradleContent.replace(dependencies, newDep);
 
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, gradleContent);
+            GeneratorUtils.dumpContentToFile(cwd+"build.gradle"+ kts, gradleContent);
 
             return true;
         }
@@ -367,7 +380,8 @@ public class MicronautProjectValidator {
 
 
             gradleContent = gradleContent.replace(replaceString, replaceString+"\n" + newDependencies);
-            GeneratorUtils.dumpContentToFile("build.gradle"+ kts, gradleContent);
+
+            GeneratorUtils.dumpContentToFile(cwd+"build.gradle"+ kts, gradleContent);
 
             return true;
         }
@@ -468,8 +482,8 @@ public class MicronautProjectValidator {
             }
             else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
             {
-                MavenProjectUtils.addDependency(lombok, "pom.xml");
-                MavenProjectUtils.addAnnotation(lombok, "pom.xml");
+                MavenProjectUtils.addDependency(lombok, path+"pom.xml");
+                MavenProjectUtils.addAnnotation(lombok, path+"pom.xml");
 
                 //todo
 
@@ -510,7 +524,7 @@ public class MicronautProjectValidator {
     public static boolean addExposingSwaggerUI(String path) throws FileNotFoundException {
         if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("gradle"))
         {
-            return addExposingSwaggerUIToGradle(path, path);
+            return addExposingSwaggerUIToGradle(path);
         }
         else if(getProjectInfo(path).getBuildTool().equalsIgnoreCase("maven"))
         {
@@ -520,6 +534,8 @@ public class MicronautProjectValidator {
         return false;
     }
     public  static boolean addExposingSwaggerUIToMaven(String path) throws FileNotFoundException {
+        if(path.endsWith("/")) path +="/";
+
         if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("java")){
             String pom = getPomFileContent(path).replace("<compilerArgs>",
                     "<compilerArgs>\n" + "                    <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>");
@@ -546,7 +562,7 @@ public class MicronautProjectValidator {
                     "                </property>\n";
 
             String pom = getPomFileContent(path).replace(index, replace);
-            GeneratorUtils.dumpContentToFile("pom.xml", pom);
+            GeneratorUtils.dumpContentToFile(path +"pom.xml", pom);
 
             return true;
         }
@@ -558,25 +574,27 @@ public class MicronautProjectValidator {
         String kts = "";
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
             kts = ".kts";
-        return GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
+        if(!path.endsWith("/")) path += "/";
+        return GeneratorUtils.dumpContentToFile(path+"build.gradle" + kts, gradleContent);
 
     }
-    public  static boolean addExposingSwaggerUIToGradle(String cwd,String path) throws FileNotFoundException {
+    public  static boolean addExposingSwaggerUIToGradle(String path) throws FileNotFoundException {
 
+        path = path.endsWith("/")?path:path + "/";
         if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("java")) {
-            String gradleContent = getGradleFileContent(path)+ "\n" + "tasks.withType(JavaCompile) {\n" +
+            String gradleContent = getGradleFileContent( path)+ "\n" + "tasks.withType(JavaCompile) {\n" +
                     "    options.fork = true\n" +
                     "    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'\n" +
                     "}";
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
+            GeneratorUtils.dumpContentToFile(path + "build.gradle" + kts, gradleContent);
             return true;
         }
         else if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("kotlin"))
         {
-            String gradleContent = getGradleFileContent(cwd)
+            String gradleContent = getGradleFileContent(path)
                     + "\n"
                     + "kapt {\n" +
                     "    arguments {\n" +
@@ -597,7 +615,7 @@ public class MicronautProjectValidator {
             String kts = "";
             if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
                 kts = ".kts";
-            GeneratorUtils.dumpContentToFile("build.gradle" + kts, gradleContent);
+            GeneratorUtils.dumpContentToFile(path+"build.gradle" + kts, gradleContent);
             return true;
         }
             return false;
@@ -732,8 +750,9 @@ public class MicronautProjectValidator {
         {
             annotations = annotations.replace("@Info", "Info");
         }
+        if(!path.endsWith("/"))path = path + "/";
         String ext = projectInfo.getSourceLanguage().equalsIgnoreCase("kotlin")? ".kt": "."+ getProjectInfo(path).getSourceLanguage().toLowerCase();
-        String mainFilePath = "src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
+        String mainFilePath = path +"src/main/"+projectInfo.getSourceLanguage()+"/"+ GeneratorUtils.packageToPath(projectInfo.getDefaultPackage())+"/Application"+ext;
         String from = projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG)?"import io.micronaut.runtime.Micronaut.*":(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG)?"import groovy.transform.CompileStatic":"import io.micronaut.runtime.Micronaut;");
         if(!projectInfo.getSourceLanguage().equalsIgnoreCase("java"))
         {
@@ -754,10 +773,11 @@ public class MicronautProjectValidator {
         templatesService = new TemplatesService();
         templatesService.loadTemplates(null);
     }
-    public static boolean appendJDBCToProperties(String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
+    public static boolean appendJDBCToProperties(String path, String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
         //todo
 
-        String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
+        if(!path.endsWith("/") ) path = path + "/";
+        String propertiesPath = path+ "src/main/resources/application"+(main?"":"-test")+".yml";
 
         String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath));
         if(!propertiesContent.contains(database.replace("-test", "").toLowerCase())){
@@ -786,16 +806,16 @@ public class MicronautProjectValidator {
         }
         return false;
     }
-    public static boolean appendJPAToProperties(String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws IOException {
+    public static boolean appendJPAToProperties(String path, String database, boolean main, boolean testWithH2, String databaseName, String migrationTool) throws IOException {
         //todo
         if(database.contains("gorm"))
-            return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool);
-      return appendJDBCToProperties(database, main, testWithH2, databaseName, migrationTool)&&
-        appendToProperties(templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
+            return appendJDBCToProperties(path, database, main, testWithH2, databaseName, migrationTool);
+      return appendJDBCToProperties(path, database, main, testWithH2, databaseName, migrationTool)&&
+        appendToProperties(path, templatesService.loadTemplateContent(templatesService.getProperties().get(TemplatesService.JPA_yml)));
     }
-    public static boolean appendToProperties(String properties) throws IOException {
+    public static boolean appendToProperties(String cwd, String properties) throws IOException {
         //todo
-        String propertiesPath = "src/main/resources/application.yml";
+        String propertiesPath = cwd + "src/main/resources/application.yml";
         String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath)).replaceAll("^\\s+","");
         if(!propertiesContent.contains(properties))
         {
@@ -847,9 +867,10 @@ public class MicronautProjectValidator {
     }
 
 
-    public static boolean appendR2DBCToProperties(String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
+    public static boolean appendR2DBCToProperties(String path, String database, boolean main, boolean testWithH2, String databaseName,String migrationTool) throws FileNotFoundException {
 
-        String propertiesPath = "src/main/resources/application"+(main?"":"-test")+".yml";
+        if(!path.endsWith("/")) path = path +"/";
+        String propertiesPath = path +"src/main/resources/application"+(main?"":"-test")+".yml";
 
         String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath));
         if(!propertiesContent.contains(database.replace("-test", "").toLowerCase())){
