@@ -77,7 +77,7 @@ public class MicroCliCommand implements Runnable {
         // business logic here
         if(version)
         {
-            System.out.println("MicrostarterCLI 0.0.3");
+            System.out.println("MicrostarterCLI 0.1.0");
         }
         if (verbose) {
             System.out.println("Hi!, MicrostarterCLI is a rapid development tool for Micronaut framework.  It helps developers cut development time and focus on application logic by generating Micronaut components and configurations using ready-built templates.");

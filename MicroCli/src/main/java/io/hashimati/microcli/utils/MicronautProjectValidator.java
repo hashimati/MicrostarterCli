@@ -48,6 +48,7 @@ public class MicronautProjectValidator {
     }
 
     public static boolean isValidProject(String path) throws FileNotFoundException {
+        if(!path.endsWith("/")) path +="/";
         return getProjectInfo(path) != null && (getProjectInfo(path).getApplicationType().equalsIgnoreCase("default") || getProjectInfo(path).getApplicationType().equalsIgnoreCase("function"));
     }
     public static boolean isApplication(String path) throws FileNotFoundException {
@@ -570,6 +571,8 @@ public class MicronautProjectValidator {
     }
 
     public static boolean addingTaskToGradleFile(String path, String task) throws FileNotFoundException {
+        if(projectInfo == null)
+            projectInfo = getProjectInfo(path);
         String gradleContent = getGradleFileContent(path)+ "\n" + task;
         String kts = "";
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
@@ -579,7 +582,8 @@ public class MicronautProjectValidator {
 
     }
     public  static boolean addExposingSwaggerUIToGradle(String path) throws FileNotFoundException {
-
+        if(projectInfo == null)
+            projectInfo = getProjectInfo(path);
         path = path.endsWith("/")?path:path + "/";
         if(getProjectInfo(path).getSourceLanguage().equalsIgnoreCase("java")) {
             String gradleContent = getGradleFileContent( path)+ "\n" + "tasks.withType(JavaCompile) {\n" +
@@ -622,7 +626,8 @@ public class MicronautProjectValidator {
     }
 
     public static boolean addR2DBCependency(String path, Feature... feature) throws IOException, GradleReaderException {
-
+        if(projectInfo == null)
+            projectInfo = getProjectInfo(path);
 
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
@@ -674,6 +679,8 @@ public class MicronautProjectValidator {
     public static boolean addDependency(String path, Feature... feature) throws IOException, GradleReaderException {
 
 
+        if(projectInfo == null)
+            projectInfo = getProjectInfo(path);
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 

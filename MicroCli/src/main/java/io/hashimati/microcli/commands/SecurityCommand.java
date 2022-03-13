@@ -53,9 +53,12 @@ public class SecurityCommand implements Callable<Integer> {
                     PromptGui.printlnErr("Cannot find the working path!");
                     return null;
                 }
+                path = GeneratorUtils.getCurrentWorkingPath()+"/" +path ;
+
             }
-            path = path + "/";
+           path = path +"/";
         }
+
         AnsiConsole.systemInstall();
         ansi().eraseScreen();
         File configurationFile = new File(ConfigurationInfo.getConfigurationFileName(path));

@@ -35,6 +35,11 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
     @Option(names = "--path", description = "To specify the working directory.")
     private String path;
+
+    public void setPath(String path)
+    {
+        this.path = path; 
+    }
     @Inject
     private SecurityCommand securityCommand;
     public ConfigurationInfo call() throws Exception {

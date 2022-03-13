@@ -49,6 +49,7 @@ public class ConfigureMetricsCommand implements Callable<Integer> {
         }
         else {
             File directory = new File(path);
+
             if(!directory.exists()) {
                 directory = new File(GeneratorUtils.getCurrentWorkingPath()+"/"+ path);
                 if(!directory.exists()){

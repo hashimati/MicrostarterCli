@@ -36,6 +36,8 @@ public class EntityConstraints
 //    private String dateVaildation;
     private boolean notempty;
 
+    private String decimalSizeExpressionGorm;
+
 
     public EntityConstraints() {
         nullable =true;
@@ -179,6 +181,8 @@ public class EntityConstraints
     public String getDecimalMaxExpression(){
         return max != null?"\t@DecimalMax("+decimalMax.doubleValue()+")\n":"";
     }
+
+    @JsonIgnore
     public String getDecimalSizeExpressionGorm()
     {
         if((decimalMin != null && decimalMin <0) && ((decimalMax != null && decimalMax < 0)))

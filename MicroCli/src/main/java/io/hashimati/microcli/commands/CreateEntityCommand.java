@@ -119,7 +119,9 @@ private String path;
         ansi().eraseScreen();
         try {
             // To get the current configuration and to configure the project if it's not previously configured.
-            configurationInfo = new ConfigureCommand().call();
+            var configurationCommand = new ConfigureCommand();
+            configurationCommand.setPath(path);
+            configurationInfo = configurationCommand.call();
             HashMap<String, Feature> features = FeaturesFactory.features(configurationInfo.getProjectInfo());
 
 
