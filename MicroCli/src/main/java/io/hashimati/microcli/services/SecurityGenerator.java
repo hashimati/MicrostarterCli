@@ -47,20 +47,20 @@ public class SecurityGenerator {
             templatesService.getSecurityTemplates().remove(SECURITY_CLIENT);
             templatesService.getSecurityTemplates().remove(REFRESH_TOKEN_REPOSITORY);
         }
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
+        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
 
         if (configurationInfo.getDataBackendRun().contains("mongoReactive"))
         {
-            auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
 
         }
         if(persistRefreshToken && strategy.equalsIgnoreCase("jwt"))
-            auxGenerateSecurityFiles(strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
         configurationInfo.setSecurityRoles(roles);
         configurationInfo.setSecurityEnable(true);
@@ -146,7 +146,7 @@ public class SecurityGenerator {
     }
 
 
-    public void auxGenerateSecurityFiles(String strategy, String roles, boolean persistRefreshToken, HashMap<String, String> templates, ConfigurationInfo configurationInfo) throws IOException {
+    public void auxGenerateSecurityFiles(String cwd, String strategy, String roles, boolean persistRefreshToken, HashMap<String, String> templates, ConfigurationInfo configurationInfo) throws IOException {
         String db = configurationInfo.getDataBackendRun(),
                 lang = configurationInfo.getProjectInfo().getSourceLanguage(),
                 ext = GeneratorUtils.getSourceFileExtension(lang);
@@ -158,8 +158,8 @@ public class SecurityGenerator {
                 put("lang", lang);
                 put("ext", ext);
             }});
+            String filePath = new StringBuilder().append(cwd).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder("/").append(strategy).append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append("/").append(lang).append("/").append(db).toString(), "")).toString();
 
-            String filePath = new StringBuilder().append(path).append("/src/main/").append(lang).append("/").append(GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage())).append(path.substring(path.indexOf("/security")).replace(new StringBuilder("/").append(strategy).append("/").append(lang).append("/").append(db).toString(), "").replace(new StringBuilder().append("/").append("/").append(lang).append("/").append(db).toString(), "")).toString();
             String template = templatesService.loadTemplateContent(path);
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
@@ -170,6 +170,7 @@ public class SecurityGenerator {
                 put("persistToken", ""+persistRefreshToken);
                 put("dialect", DataTypeMapper.dialectMapper.get(configurationInfo.getDatabaseType().toLowerCase()));
             }});
+
             GeneratorUtils.createFile(filePath, fileContent);
         }
     }
