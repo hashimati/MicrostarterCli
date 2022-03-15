@@ -822,6 +822,7 @@ public class MicronautProjectValidator {
     }
     public static boolean appendToProperties(String cwd, String properties) throws IOException {
         //todo
+        if(!cwd.endsWith("/")) cwd +="/";
         String propertiesPath = cwd + "src/main/resources/application.yml";
         String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath)).replaceAll("^\\s+","");
         if(!propertiesContent.contains(properties))
