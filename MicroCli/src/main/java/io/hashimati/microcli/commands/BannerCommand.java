@@ -95,6 +95,7 @@ public class BannerCommand implements Callable<Integer> {
             {
                 case "yes":
 
+                    if(!path.endsWith("/")) path +="/"; 
                     GeneratorUtils.createFile( new StringBuilder().append(path).append("/src/main/resources/").append("micronaut-banner.txt").toString(),finalBanner);
                     return 1;
                 case "no":
