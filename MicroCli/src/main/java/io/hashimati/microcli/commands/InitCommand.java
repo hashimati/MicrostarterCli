@@ -37,25 +37,25 @@ public class InitCommand implements Callable<Integer> {
     @Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
-    @Option(names = "--name", defaultValue = "demo")
+    @Option(names = "--name", defaultValue = "demo", description = "To sepcify the application name.\n It should be without spaces.")
     private String name;
 
     @Option(names= {"--javaVersion"}, defaultValue = "JDK_11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11")
     private String javaVersion;
 
-    @Option(names = {"--lang"}, defaultValue = "JAVA")
+    @Option(names = {"--lang"}, defaultValue = "JAVA", description = "To specify the project's language.\nOptions: JAVA, GROOVY, KOTLIN")
     private String language;
     
-    @Option(names = "--type", defaultValue = "default")
+    @Option(names = "--type", defaultValue = "default", description = "To specify the application type.\nOptions:DEFAULT, CLI, FUNCTION, GRPC, MESSAGING")
     private String type; 
     
     @Option(names = {"--feature"})
     List<String> features = new ArrayList<>();
 
-    @Option(names = "--test", defaultValue = "JUNIT")
+    @Option(names = "--test", defaultValue = "JUNIT",description = "To specify the the test framework.\nOptions: JUNIT, SPOCK, KOTEST")
     String test;
 
-    @Option(names = "--build", defaultValue = "GRADLE")
+    @Option(names = "--build", defaultValue = "GRADLE", description = "To specify the build tool.\nOptions: GRADLE, GRADLE_KOTLIN, MAVEN")
     private String build;
 
 
