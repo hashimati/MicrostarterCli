@@ -80,7 +80,7 @@ public class InitCommand implements Callable<Integer> {
              PromptGui.printlnSuccess("Complete downloading " + name + ".zip. ");
 
 
-         boolean extract = GeneratorUtils.unzipFile(projectFilePath);
+         boolean extract = GeneratorUtils.unzipFile(projectFilePath, GeneratorUtils.getCurrentWorkingPath());
             if(extract)
              PromptGui.printlnSuccess("Successfully created \""+ name+ "\" project folder!");
            boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);

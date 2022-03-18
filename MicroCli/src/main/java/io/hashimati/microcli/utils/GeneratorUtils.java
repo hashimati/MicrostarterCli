@@ -9,6 +9,7 @@ import com.google.gson.JsonParser;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.constants.ProjectConstants;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -31,10 +32,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -352,6 +350,38 @@ public class GeneratorUtils
           return false;
         }
     }
+
+    public static boolean unzipFile(String zipFilePath, String destDirectory) throws IOException {
+       try {
+            ZipFile zipFile = new ZipFile(zipFilePath);
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                if (entry.isDirectory()) {
+                    new File(destDirectory + File.separator + entry.getName()).mkdir();
+                    continue;
+                }
+                File file = new File(destDirectory + File.separator + entry.getName());
+                file.getParentFile().mkdirs();
+                InputStream in = zipFile.getInputStream(entry);
+                OutputStream out = new FileOutputStream(file);
+                IOUtils.copy(in, out);
+                IOUtils.close(in);
+                IOUtils.close(out);
+
+            }
+            zipFile.close();
+            return true;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+
+    }
+
+
+    @Deprecated(forRemoval = true, since = "0.1.1")
     public static boolean unzipFile(String filePath)
     {
 
