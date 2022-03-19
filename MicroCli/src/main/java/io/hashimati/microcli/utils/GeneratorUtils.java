@@ -366,8 +366,8 @@ public class GeneratorUtils
                 InputStream in = zipFile.getInputStream(entry);
                 OutputStream out = new FileOutputStream(file);
                 IOUtils.copy(in, out);
-                IOUtils.close(in);
-                IOUtils.close(out);
+                in.close();
+                out.close();
 
             }
             zipFile.close();
@@ -465,6 +465,8 @@ public class GeneratorUtils
         }
         return false;
     }
+
+    @Deprecated(forRemoval = true, since = "0.1.1")
     public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
         File destFile = new File(destinationDir, zipEntry.getName());
 
