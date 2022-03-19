@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 <% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
 <% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 ${moreImports}
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 
 @Tag(name = "${className}")
 @Controller("/api/v1/${entities}")

@@ -1004,6 +1004,7 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
+        binder.put("jaxrs", entity.isJaxRs());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
@@ -1146,6 +1147,7 @@ public class MicronautEntityGenerator
         binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("className", entity.getName());
         binder.put("moreImports", "");
+        binder.put("jaxrs", entity.isJaxRs());
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));

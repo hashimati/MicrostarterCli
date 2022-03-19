@@ -19,6 +19,7 @@ import jakarta.inject.Inject;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 ${moreImports}
 import ${entityPackage};
 import ${servicePackage};

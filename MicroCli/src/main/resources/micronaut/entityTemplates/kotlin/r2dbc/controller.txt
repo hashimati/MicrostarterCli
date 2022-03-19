@@ -19,6 +19,7 @@ ${moreImports}
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 
 @Tag(name = "${className}")
 @Controller("/api/v1/${entities}")

@@ -39,7 +39,7 @@ public class ConfigurationInfo {
             dataMigrationTool, //liquibase, Flyway
             messaging,
             graphQLIntegrationLib;
-
+    private boolean jaxRs;
     private int port;
     boolean graphQlSupport;
     private String reactiveFramework;

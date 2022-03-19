@@ -42,6 +42,7 @@ public class Entity
     //possiblevalue = [jpa, jdbc, normal].
     private String frameworkType;
 
+    private boolean jaxRs;
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
     private int liquibaseSequence;
 
@@ -429,5 +430,13 @@ public class Entity
 
     public void setUrls(ArrayList<URL> urls) {
         this.urls = urls;
+    }
+
+    public boolean isJaxRs() {
+        return jaxRs;
+    }
+
+    public void setJaxRs(boolean jaxRs) {
+        this.jaxRs = jaxRs;
     }
 }

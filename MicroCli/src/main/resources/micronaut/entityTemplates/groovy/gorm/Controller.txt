@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 ${moreImports}
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 
 @Tag(name = "${className}")
 @Controller("/api/v1/${entityName}")

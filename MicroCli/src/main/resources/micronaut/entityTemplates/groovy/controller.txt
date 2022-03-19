@@ -11,6 +11,7 @@ import ${servicePackage}
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>
 <% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION'%>
 import jakarta.inject.Inject
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation
