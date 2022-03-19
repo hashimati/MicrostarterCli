@@ -1,0 +1,11 @@
+type Fruit{
+    id:Int,
+    	name : String,
+	letter : String
+}
+input FruitInput{
+    id:Int,
+    	name : String,
+	letter : String
+}
+

@@ -1,0 +1,194 @@
+{
+  "projectInfo": {
+    "applicationType": "default",
+    "defaultPackage": "io.hashimati",
+    "testFramework": "junit",
+    "sourceLanguage": "java",
+    "buildTool": "gradle",
+    "features": [
+      "annotation-api",
+      "app-name",
+      "gradle",
+      "http-client",
+      "jackson-databind",
+      "java",
+      "java-application",
+      "jax-rs",
+      "junit",
+      "logback",
+      "micronaut-build",
+      "netty-server",
+      "readme",
+      "shade",
+      "yaml",
+      "data-jdbc",
+      "h2",
+      "liquibase",
+      "management",
+      "micrometer",
+      "tracing-jaeger",
+      "graphql",
+      "openapi",
+      "lombok"
+    ]
+  },
+  "liquibaseSequence": 1,
+  "appName": "Jaxrs",
+  "databaseName": "MyDatabase",
+  "databaseType": "H2",
+  "dataBackendRun": "JDBC",
+  "dataMigrationTool": "liquibase",
+  "messaging": "none",
+  "graphQLIntegrationLib": "graphql-java-tools",
+  "port": 8080,
+  "graphQlSupport": true,
+  "reactiveFramework": "reactor",
+  "micrometer": true,
+  "influx": false,
+  "prometheus": false,
+  "graphite": false,
+  "statsd": false,
+  "caffeine": false,
+  "gorm": false,
+  "securityEnable": false,
+  "securityStrategy": "none",
+  "tracingFramework": "tracing-jaeger",
+  "tracingEnabled": true,
+  "mnData": true,
+  "javaVersion": "11",
+  "entities": [
+    {
+      "name": "Fruit",
+      "entityPackage": "io.hashimati.domains",
+      "repoPackage": "io.hashimati.repositories",
+      "servicePackage": "io.hashimati.services",
+      "restPackage": "io.hashimati.controllers",
+      "clientPackage": "io.hashimati.clients",
+      "graphqlpackage": "io.hashimati.graphqls",
+      "functionPackage": "io.hashimati.function",
+      "lambdaPackage": "io.hashimati.function.aws",
+      "oraclePackage": "io.hashimati.function.oracle",
+      "azurePackage": "io.hashimati.function.azure",
+      "googlePackage": "io.hashimati.function.google",
+      "reactiveFramework": "reactor",
+      "databaseType": "H2",
+      "collectionName": "fruits",
+      "databaseName": "MyDatabase",
+      "gorm": false,
+      "frameworkType": "JDBC",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": true,
+          "findAllMethod": false
+        },
+        {
+          "name": "letter",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": true
+        }
+      ],
+      "liquibaseSequence": 1,
+      "mnData": true,
+      "cached": false,
+      "micrometer": true,
+      "tracingEnabled": true,
+      "securityEnabled": false,
+      "securityStrategy": "none",
+      "noEndpoints": false,
+      "javaVersion": "11",
+      "javaRecord": false,
+      "updateByMethods": {
+        "name": [
+          "name",
+          "letter"
+        ]
+      },
+      "urls": [
+        {
+          "url": "/api/v1/fruit/get",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/findAll",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/save",
+          "method": "POST",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/update",
+          "method": "PUT",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/delete/{id}",
+          "method": "DELETE",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/findByName",
+          "method": "DELETE",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/findAllByLetter",
+          "method": "DELETE",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/updateByName",
+          "method": "DELETE",
+          "roles": []
+        }
+      ],
+      "graphQl": true
+    }
+  ],
+  "relations": [],
+  "enums": [],
+  "configured": true,
+  "securityRoles": [],
+  "urls": [
+    {
+      "scope": "/GraphQL",
+      "url": "/graphql",
+      "method": "POST",
+      "roles": []
+    },
+    {
+      "scope": "/GraphQL",
+      "url": "/graphiql",
+      "method": "GET",
+      "roles": []
+    },
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/swagger-ui/index.html",
+      "method": "GET",
+      "roles": []
+    },
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/rapidoc/index.html",
+      "method": "GET",
+      "roles": []
+    }
+  ]
+}

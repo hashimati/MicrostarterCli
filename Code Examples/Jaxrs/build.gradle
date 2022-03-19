@@ -1,0 +1,66 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.2.2"
+}
+
+version = "0.1"
+group = "io.hashimati"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+		annotationProcessor("org.projectlombok:lombok")
+		annotationProcessor("io.micronaut.data:micronaut-data-processor")
+		annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+		compileOnly("org.projectlombok:lombok")
+		implementation("com.graphql-java-kickstart:graphql-java-tools:12.0.1")
+		implementation("io.micronaut.data:micronaut-data-jdbc")
+		implementation("io.micronaut.graphql:micronaut-graphql")
+		implementation("io.micronaut.liquibase:micronaut-liquibase")
+		implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+		implementation("io.micronaut.reactor:micronaut-reactor")
+		implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+		implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+		implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
+		implementation("io.micronaut:micronaut-management")
+		implementation("io.swagger.core.v3:swagger-annotations")
+		runtimeOnly("com.h2database:h2")
+		testRuntimeOnly("com.h2database:h2")
+    annotationProcessor("io.micronaut.jaxrs:micronaut-jaxrs-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut.jaxrs:micronaut-jaxrs-server")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testAnnotationProcessor("io.micronaut.jaxrs:micronaut-jaxrs-processor")
+
+}
+
+
+application {
+    mainClass.set("io.hashimati.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("io.hashimati.*")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.fork = true
+    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
+}

@@ -1,0 +1,208 @@
+12:18:09.937 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:18:10.269 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:18:12.545 [main] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `fruits`
+12:18:12.561 [main] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `fruits` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`name` VARCHAR(255) NOT NULL,`letter` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE);
+12:18:14.930 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 12001ms. Server Running: http://localhost:8080
+12:19:46.829 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:46.861 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:46.999 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:47.014 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:47.014 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:47.014 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:47 AST 2022 with data type: DATE
+12:19:47.030 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:47 AST 2022 with data type: DATE
+12:19:51.500 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:51.501 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:51.501 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:51.501 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:51.501 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:51.501 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:51 AST 2022 with data type: DATE
+12:19:51.501 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:51 AST 2022 with data type: DATE
+12:19:51.741 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:51.741 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:51.741 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:51.741 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:51.741 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:51.741 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:51 AST 2022 with data type: DATE
+12:19:51.741 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:51 AST 2022 with data type: DATE
+12:19:52.426 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:52.427 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:52.427 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:52.427 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:52.427 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:52.427 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:52 AST 2022 with data type: DATE
+12:19:52.427 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:52 AST 2022 with data type: DATE
+12:19:53.146 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.162 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.162 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:53.162 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:53.162 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:53.162 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.162 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.486 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.486 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.486 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:53.486 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:53.486 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:53.486 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.486 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.714 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.714 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.714 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:53.714 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:53.714 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:53.714 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.714 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.930 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.930 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:53.930 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:53.930 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:53.930 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:53.930 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:53.930 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:53 AST 2022 with data type: DATE
+12:19:54.117 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.117 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.125 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:54.125 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:54.125 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:54.125 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.125 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.296 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.296 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.296 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:54.296 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:54.296 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:54.296 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.296 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.497 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.497 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.497 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:54.497 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:54.497 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:54.497 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.497 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.698 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.698 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.698 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:54.698 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:54.698 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:54.698 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.698 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.845 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.860 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:54.860 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:54.860 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:54.860 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:54.860 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:54.860 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:54 AST 2022 with data type: DATE
+12:19:55.030 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.045 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.045 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:55.045 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:55.045 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:55.045 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.045 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.274 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.274 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.274 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:55.274 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:55.274 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:55.274 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.274 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.464 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.464 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.464 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:55.464 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:55.464 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:55.464 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.464 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.816 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.816 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Apple, letter=A, dateCreated=null, dateUpdated=null)
+12:19:55.816 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:19:55.816 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Apple with data type: STRING
+12:19:55.816 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 2 to value A with data type: STRING
+12:19:55.816 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:19:55.816 [default-nioEventLoopGroup-1-2] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:19:55 AST 2022 with data type: DATE
+12:20:12.300 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - find All
+12:20:12.316 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Find All
+12:20:12.332 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`letter`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_
+12:20:28.004 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - find All
+12:20:28.004 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Find All
+12:20:28.004 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`letter`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_
+12:21:01.413 [default-nioEventLoopGroup-1-2] INFO  i.h.controllers.FruitController - find All
+12:21:01.413 [default-nioEventLoopGroup-1-2] INFO  io.hashimati.services.FruitService - Find All
+12:21:01.413 [default-nioEventLoopGroup-1-2] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`letter`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_
+12:24:16.588 [Test worker] INFO  i.m.context.env.DefaultEnvironment - Established active environments: [test]
+12:24:17.406 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:24:17.908 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:24:20.900 [Test worker] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `fruits`
+12:24:20.916 [Test worker] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `fruits` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`name` VARCHAR(255) NOT NULL,`letter` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE);
+12:24:23.641 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+12:24:23.654 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+12:24:24.183 [Test worker] INFO  i.m.context.env.DefaultEnvironment - Established active environments: [test]
+12:24:24.230 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+12:24:24.245 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+12:24:24.461 [Test worker] DEBUG io.micronaut.data.query - Dropping Table: 
+DROP TABLE `fruits`
+12:24:24.461 [Test worker] DEBUG io.micronaut.data.query - Executing CREATE statement: 
+CREATE TABLE `fruits` (`id` BIGINT AUTO_INCREMENT PRIMARY KEY,`name` VARCHAR(255) NOT NULL,`letter` VARCHAR(255) NOT NULL,`dateCreated` DATE,`dateUpdated` DATE);
+12:24:25.900 [default-nioEventLoopGroup-3-3] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Test39, letter=Test60, dateCreated=null, dateUpdated=null)
+12:24:25.911 [default-nioEventLoopGroup-3-3] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Test39, letter=Test60, dateCreated=null, dateUpdated=null)
+12:24:26.041 [default-nioEventLoopGroup-3-3] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:24:26.057 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test39 with data type: STRING
+12:24:26.057 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test60 with data type: STRING
+12:24:26.057 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.088 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.242 [default-nioEventLoopGroup-3-5] INFO  i.h.controllers.FruitController - find All
+12:24:26.242 [default-nioEventLoopGroup-3-5] INFO  io.hashimati.services.FruitService - Find All
+12:24:26.273 [default-nioEventLoopGroup-3-5] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`letter`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_
+12:24:26.490 [default-nioEventLoopGroup-3-7] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Test24, letter=Test14, dateCreated=null, dateUpdated=null)
+12:24:26.490 [default-nioEventLoopGroup-3-7] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Test24, letter=Test14, dateCreated=null, dateUpdated=null)
+12:24:26.490 [default-nioEventLoopGroup-3-7] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:24:26.490 [default-nioEventLoopGroup-3-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test24 with data type: STRING
+12:24:26.490 [default-nioEventLoopGroup-3-7] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test14 with data type: STRING
+12:24:26.490 [default-nioEventLoopGroup-3-7] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.490 [default-nioEventLoopGroup-3-7] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.512 [default-nioEventLoopGroup-3-9] INFO  i.h.controllers.FruitController - update Fruit(id=2, name=Test24, letter=Test14, dateCreated=Sat Mar 19 12:24:26 AST 2022, dateUpdated=Sat Mar 19 12:24:26 AST 2022)
+12:24:26.512 [default-nioEventLoopGroup-3-9] INFO  io.hashimati.services.FruitService - update Fruit(id=2, name=Test24, letter=Test14, dateCreated=Sat Mar 19 12:24:26 AST 2022, dateUpdated=Sat Mar 19 12:24:26 AST 2022)
+12:24:26.528 [default-nioEventLoopGroup-3-9] DEBUG io.micronaut.data.query - Executing SQL UPDATE: UPDATE `fruits` SET `name`=?,`letter`=?,`dateUpdated`=? WHERE (`id` = ?)
+12:24:26.528 [default-nioEventLoopGroup-3-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test24 with data type: STRING
+12:24:26.528 [default-nioEventLoopGroup-3-9] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test14 with data type: STRING
+12:24:26.528 [default-nioEventLoopGroup-3-9] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.528 [default-nioEventLoopGroup-3-9] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2 with data type: LONG
+12:24:26.528 [default-nioEventLoopGroup-3-9] TRACE io.micronaut.data.query - Update operation updated 1 records
+12:24:26.713 [default-nioEventLoopGroup-3-11] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Test35, letter=Test13, dateCreated=null, dateUpdated=null)
+12:24:26.713 [default-nioEventLoopGroup-3-11] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Test35, letter=Test13, dateCreated=null, dateUpdated=null)
+12:24:26.713 [default-nioEventLoopGroup-3-11] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:24:26.729 [default-nioEventLoopGroup-3-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test35 with data type: STRING
+12:24:26.729 [default-nioEventLoopGroup-3-11] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test13 with data type: STRING
+12:24:26.729 [default-nioEventLoopGroup-3-11] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.729 [default-nioEventLoopGroup-3-11] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.744 [default-nioEventLoopGroup-3-13] INFO  io.hashimati.services.FruitService - Finding Fruit By Id: 3
+12:24:26.744 [default-nioEventLoopGroup-3-13] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`letter`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_ WHERE (fruit_.`id` = ?)
+12:24:26.760 [default-nioEventLoopGroup-3-13] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 3 with data type: LONG
+12:24:26.960 [default-nioEventLoopGroup-3-15] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Test52, letter=Test72, dateCreated=null, dateUpdated=null)
+12:24:26.960 [default-nioEventLoopGroup-3-15] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Test52, letter=Test72, dateCreated=null, dateUpdated=null)
+12:24:26.960 [default-nioEventLoopGroup-3-15] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:24:26.960 [default-nioEventLoopGroup-3-15] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test52 with data type: STRING
+12:24:26.960 [default-nioEventLoopGroup-3-15] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test72 with data type: STRING
+12:24:26.960 [default-nioEventLoopGroup-3-15] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:26.960 [default-nioEventLoopGroup-3-15] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:24:26 AST 2022 with data type: DATE
+12:24:27.161 [default-nioEventLoopGroup-3-17] INFO  i.h.controllers.FruitController - Saving  Fruit : Fruit(id=null, name=Test32, letter=Test7, dateCreated=null, dateUpdated=null)
+12:24:27.176 [default-nioEventLoopGroup-3-17] INFO  io.hashimati.services.FruitService - Saving  Fruit : Fruit(id=null, name=Test32, letter=Test7, dateCreated=null, dateUpdated=null)
+12:24:27.176 [default-nioEventLoopGroup-3-17] DEBUG io.micronaut.data.query - Executing SQL Insert: INSERT INTO `fruits` (`name`,`letter`,`dateCreated`,`dateUpdated`) VALUES (?,?,?,?)
+12:24:27.176 [default-nioEventLoopGroup-3-17] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Test32 with data type: STRING
+12:24:27.176 [default-nioEventLoopGroup-3-17] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Test7 with data type: STRING
+12:24:27.176 [default-nioEventLoopGroup-3-17] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Sat Mar 19 12:24:27 AST 2022 with data type: DATE
+12:24:27.176 [default-nioEventLoopGroup-3-17] TRACE io.micronaut.data.query - Binding parameter at position 4 to value Sat Mar 19 12:24:27 AST 2022 with data type: DATE
+12:24:27.192 [default-nioEventLoopGroup-3-3] INFO  i.h.controllers.FruitController - Deleting Fruit by Id: 5
+12:24:27.192 [default-nioEventLoopGroup-3-3] INFO  io.hashimati.services.FruitService - Deleting Fruit by Id: 5
+12:24:27.192 [default-nioEventLoopGroup-3-3] DEBUG io.micronaut.data.query - Executing Query: DELETE  FROM `fruits`  WHERE (`id` = ?)
+12:24:27.192 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 5 with data type: LONG
+12:24:27.192 [default-nioEventLoopGroup-3-3] TRACE io.micronaut.data.query - Update operation updated 1 records
+12:24:27.208 [default-nioEventLoopGroup-3-3] INFO  io.hashimati.services.FruitService - Deleted Fruit by Id: 5
+12:24:27.261 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+12:24:27.277 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.

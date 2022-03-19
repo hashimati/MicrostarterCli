@@ -1,0 +1,21 @@
+type Query{
+    
+    # Fruit
+    findFruitById(id:Int):Fruit!
+    findAllFruit:[Fruit]!
+
+    findFruitByName(input:String):Fruit!
+
+    findAllFruitByLetter(input:String):[Fruit]!
+
+}
+
+type Mutation {
+    
+    # Fruit
+    saveFruit(fruit : FruitInput):Fruit
+    updateFruit(fruit : FruitInput):Fruit
+    deleteFruit(id : Int):Boolean
+
+}
+
