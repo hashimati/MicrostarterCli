@@ -134,6 +134,7 @@ public class ConfigurationInitializer {
             MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
                     "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
                     "---");
+
             if(!projectInfo.getFeatures().contains("reactor") &&!projectInfo.getFeatures().contains("rxjava2") && !projectInfo.getFeatures().contains("rxjava3") ){
 
                 ListResult reactiveFramework = PromptGui.createListPrompt("reactiveFramework", "Select Reactive Framework: ", "reactor", "rxjava2", "rxjava3");
@@ -165,6 +166,11 @@ public class ConfigurationInitializer {
                     configurationInfo.setReactiveFramework("rxjava3");
             }
 
+            boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
+            if(jaxrs) {
+                MicronautProjectValidator.addDependency(workingPath,features.get("jax-rs"));
+                configurationInfo.setJaxRs(jaxrs);
+            }
 
             //Getting Database Name;
             InputResult  databaseNameResult = PromptGui.inputText("databaseName", "Enter the database name: ", "MyDatabase");

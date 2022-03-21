@@ -965,6 +965,22 @@ public class FeaturesFactory {
 
         }});
 
+        features.put("jax-rs", new Feature(){{
+            setName("jax-rs");
+            setGradle("    implementation(\"io.micronaut.jaxrs:micronaut-jaxrs-server\")");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.jaxrs:micronaut-jaxrs-processor\")");
+            setTestGradle("    testAnnotationProcessor(\"io.micronaut.jaxrs:micronaut-jaxrs-processor\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.jaxrs</groupId>\n" +
+                    "\t\t<artifactId>micronaut-jaxrs-server</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setAnnotationMaven(" <path>\n" +
+                    "              <groupId>io.micronaut.jaxrs</groupId>\n" +
+                    "              <artifactId>micronaut-jaxrs-processor</artifactId>\n" +
+                    "              <version>${micronaut.jaxrs.version}</version>\n" +
+                    "            </path>");
+        }});
 
         return features;
     }

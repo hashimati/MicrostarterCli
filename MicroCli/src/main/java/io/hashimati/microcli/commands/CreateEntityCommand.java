@@ -143,6 +143,7 @@ private String path;
             entity.setName(StringUtils.capitalize(entityName));
 
             entity.setNoEndpoints(noEndpoint);
+            entity.setJaxRs(configurationInfo.isJaxRs());
             // reading collections/table name if the user didn't provide it .
             if(!noEndpoint)
             {
