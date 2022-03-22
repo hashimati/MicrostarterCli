@@ -1050,7 +1050,7 @@ public class MicronautEntityGenerator
                 put("entityName", NameUtils.camelCase(entity.getName(), true));
                 put("className", entity.getName());
                 put("jaeger", entity.isTracingEnabled());
-
+                put("jaxrs", entity.isJaxRs());
                 put("cached", entity.isCached());
                 put("tableName", entity.getCollectionName());
                 put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
@@ -1124,6 +1124,7 @@ public class MicronautEntityGenerator
                     put("updatesVariables", updatesVariables);
                     put("block", "");
                 }};
+                ubinder.put("jaxrs", entity.isJaxRs());
                 ubinder.put("principle", entity.isSecurityEnabled());
                 ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("updates",entity.getUpdateByMethods().get(u).stream()

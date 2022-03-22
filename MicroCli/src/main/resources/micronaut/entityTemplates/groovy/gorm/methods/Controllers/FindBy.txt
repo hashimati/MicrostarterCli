@@ -1,4 +1,4 @@
-    @Get("/findBy${Attribute}")
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/findBy${Attribute}")
     @Operation(summary = "Getting a ${entityName} by Id",
         description = "A REST service, which retrieves a ${className} object by ${Attribute}.",
         operationId = "FindById${className}"

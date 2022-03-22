@@ -23,7 +23,7 @@ ${moreImports}
 <% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 
 @Tag(name = "${className}")
-@Controller("/api/v1/${entityName}")
+<% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entityName}")
 class ${className}Controller {
 
     static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
@@ -34,7 +34,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
-    @Post("/save")
+    <% if(!jaxrs) out.print '@Post'%><% if(jaxrs) out.print '@POST @Path'%>("/save")
     @Operation(summary = "Creating a ${entityName} and Storing in the database",
             description = "A REST service, which saves ${className} objects to the database.",
             operationId = "Save${className}"
@@ -56,7 +56,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = {[ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
     <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
-    @Get("/get")
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/get")
     @Operation(summary = "Getting a ${entityName} by Id",
         description = "A REST service, which retrieves a ${className} object by Id.",
         operationId = "FindById${className}"
@@ -76,7 +76,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
-    @Get("/findAll")
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/findAll")
     @Operation(summary = "Retrieving all ${entityName} objects as Json",
             description = "A REST service, which returns all ${className} objects from the database.",
             operationId = "FindAll${className}"
@@ -93,7 +93,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
     <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
-    @Delete("/delete/{id}")
+    <% if(!jaxrs) out.print '@Delete'%><% if(jaxrs) out.print '@DELETE @Path'%>("/delete/{id}")
     @Operation(summary = "Deleting a ${entityName} by ID",
             description = "A REST service, which deletes ${className} object from the database.",
             operationId = "DeleteById${className}"
@@ -112,7 +112,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
     <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
-    @Put("/update")
+    <% if(!jaxrs) out.print '@Put'%><% if(jaxrs) out.print '@PUT @Path'%>("/update")
     @Operation(summary = "Updating a ${entityName}.",description = "A REST service, which update a ${className} objects to the database.",
         operationId = "update${className}"
     )
