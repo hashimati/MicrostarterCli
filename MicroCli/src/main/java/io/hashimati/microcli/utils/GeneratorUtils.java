@@ -299,7 +299,11 @@ public class GeneratorUtils
         return builder.parse(path);
     }
 
-
+    public static boolean isCurrentDirContainsFolders() {
+        return Arrays.stream(new File(getCurrentWorkingPath())
+                        .listFiles())
+                        .anyMatch(file -> file.isDirectory());
+    }
     public static String getValueBetweenTag(String tag, String str)
     {
         Pattern pattern = Pattern.compile("<"+tag+">(.*?)</"+tag+">", Pattern.DOTALL);
