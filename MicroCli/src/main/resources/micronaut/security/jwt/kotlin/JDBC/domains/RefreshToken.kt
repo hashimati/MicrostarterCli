@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 data class RefreshToken(
     @field:Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    var id: Long? = null,
+    var id: <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>? = null,
 
     @NotBlank
     var username: String,

@@ -3,15 +3,15 @@ package ${securityPackage}.repository;
 
 import ${securityPackage}.domains.LoginStatus;
 import ${securityPackage}.domains.User;
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.model.query.builder.sql.Dialect;
+<% if(jdbc) out.print 'import io.micronaut.data.jdbc.annotation.JdbcRepository;'%><% if(mongo) out.print 'import io.micronaut.data.mongodb.annotation.MongoRepository;'%>
+<% if(jdbc) out.print 'import io.micronaut.data.model.query.builder.sql.Dialect;'%>
 import io.micronaut.data.repository.CrudRepository;
 
 import java.time.Instant;
 import java.util.List;
 
-@JdbcRepository(dialect = Dialect.${dialect})
-public interface UserRepository extends CrudRepository<User, Long> {
+<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.H2)'%><% if(mongo) out.print '@MongoRepository'%>
+public interface UserRepository extends CrudRepository<User, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
     public User findByUsername(String username);
     public List<User> findAll();
     public boolean existsByUsername(String username);

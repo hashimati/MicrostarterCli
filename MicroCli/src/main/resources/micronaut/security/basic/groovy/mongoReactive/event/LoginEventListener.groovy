@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive.event
-
-{securityPackage}.event
+package ${securityPackage}.event
 
 import ${securityPackage}.domains.LoginEvent
 import ${securityPackage}.domains.User

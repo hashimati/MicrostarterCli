@@ -1,4 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive.repository
+package ${securityPackage}.repository
 
 {securityPackage}.repository
 

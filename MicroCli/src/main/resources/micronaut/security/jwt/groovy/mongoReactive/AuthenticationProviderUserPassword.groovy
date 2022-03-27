@@ -1,4 +1,4 @@
-package {securityPackage}.utils
+package ${securityPackage}.utils
 
 import ${securityPackage}.PasswordEncoderService
 import ${securityPackage}.domains.LoginEvent

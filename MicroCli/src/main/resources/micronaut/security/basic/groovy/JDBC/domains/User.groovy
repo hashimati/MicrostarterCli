@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC.domains
-
-{securityPackage}.domains
+package ${securityPackage}.domains
 
 import groovy.transform.Canonical
 import io.micronaut.data.annotation.*
@@ -17,7 +15,7 @@ class User {
 
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    Long id
+    <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id
 
     @NotNull
     @Size(min = 5, max = 15)

@@ -14,7 +14,7 @@ import javax.validation.constraints.Size
 data class User (
     @field:Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    var id: Long? = null,
+    var id: <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>? = null,
     var username:  @Size(min = 5, max = 15) String? = null,
 
     var email:  @Email String? = null,

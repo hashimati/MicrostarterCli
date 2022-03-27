@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC.domains
-
-{securityPackage}.domains
+package ${securityPackage}.domains
 
 import groovy.transform.Canonical
 

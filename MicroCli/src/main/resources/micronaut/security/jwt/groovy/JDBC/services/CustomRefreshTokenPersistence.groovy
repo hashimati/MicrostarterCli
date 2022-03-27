@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC.services
-
-{securityPackage}.services
+package ${securityPackage}.services
 
 import ${securityPackage}.domains.RefreshToken
 import ${securityPackage}.repository.RefreshTokenRepository

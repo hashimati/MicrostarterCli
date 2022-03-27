@@ -147,9 +147,11 @@ public class SecurityGenerator {
 
 
     public void auxGenerateSecurityFiles(String cwd, String strategy, String roles, boolean persistRefreshToken, HashMap<String, String> templates, ConfigurationInfo configurationInfo) throws IOException {
-        String db = configurationInfo.getDataBackendRun(),
+        String db =configurationInfo.isMnData()? "JDBC": configurationInfo.getDataBackendRun(),
                 lang = configurationInfo.getProjectInfo().getSourceLanguage(),
                 ext = GeneratorUtils.getSourceFileExtension(lang);
+
+
         for (String key : templates.keySet()) {
             String path = templates.get(key);
             path = GeneratorUtils.generateFromTemplate(path, new HashMap<String, String>() {{
@@ -164,8 +166,10 @@ public class SecurityGenerator {
 
             String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
 
-            String fileContent = GeneratorUtils.generateFromTemplate(template, new HashMap<String, String>() {{
+            String fileContent = GeneratorUtils.generateFromTemplateVsObject(template, new HashMap<String, Object>() {{
                 put("securityPackage", securityPackage);
+                put("mongo", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb"));
+                put("jdbc", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"));
                 put("roles", roles);
                 put("persistToken", ""+persistRefreshToken);
                 put("dialect", DataTypeMapper.dialectMapper.get(configurationInfo.getDatabaseType().toLowerCase()));

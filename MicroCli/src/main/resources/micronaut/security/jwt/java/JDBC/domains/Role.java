@@ -24,7 +24,7 @@ public class Role {
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
     @EqualsAndHashCode.Exclude
-    private Long id;
+    private <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id;
 
     @NotNull
     @Size(min = 5, max = 15)

@@ -1,17 +1,15 @@
-package micronaut.security.jwt.groovy.JDBC.repository
-
-{securityPackage}.repository
+package ${securityPackage}.repository
 
 import ${securityPackage}.domains.RefreshToken
 import io.micronaut.core.annotation.NonNull
-import io.micronaut.data.jdbc.annotation.JdbcRepository
-import io.micronaut.data.model.query.builder.sql.Dialect
+<% if(jdbc) out.print 'import io.micronaut.data.jdbc.annotation.JdbcRepository'%><% if(mongo) out.print 'import io.micronaut.data.mongodb.annotation.MongoRepository'%>
+<% if(jdbc) out.print 'import io.micronaut.data.model.query.builder.sql.Dialect'%>
 import io.micronaut.data.repository.CrudRepository
 
 import javax.validation.constraints.NotBlank
 
-@JdbcRepository(dialect = Dialect.H2)
-interface RefreshTokenRepository extends CrudRepository<RefreshToken, Long> {
+<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.H2)'%><% if(mongo) out.print '@MongoRepository'%>
+interface RefreshTokenRepository extends CrudRepository<RefreshToken, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
 
     public Optional<RefreshToken> findByRefreshToken(@NonNull @NotBlank String refreshToken)
 

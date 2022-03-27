@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC
-
-{securityPackage}
+package ${securityPackage}
 
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Post

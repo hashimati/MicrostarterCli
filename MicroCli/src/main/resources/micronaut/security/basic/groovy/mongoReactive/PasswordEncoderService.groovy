@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive
-
-{securityPackage}
+package ${securityPackage}
 
 import ${securityPackage}.PasswordEncoder
 import org.jasypt.util.password.StrongPasswordEncryptor

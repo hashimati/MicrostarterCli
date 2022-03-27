@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive.domains
-
-{securityPackage}.domains
+package ${securityPackage}.domains
 
 class Roles {
 

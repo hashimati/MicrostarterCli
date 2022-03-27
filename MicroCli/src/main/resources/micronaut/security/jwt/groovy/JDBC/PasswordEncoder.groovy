@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC
-
-{securityPackage}
+package ${securityPackage}
 
 
 interface PasswordEncoder {

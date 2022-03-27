@@ -1,4 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive.event
+package ${securityPackage}.event
 
 {securityPackage}.event
 

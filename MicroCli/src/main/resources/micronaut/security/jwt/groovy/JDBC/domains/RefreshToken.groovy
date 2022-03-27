@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.JDBC.domains
-
-{securityPackage}.domains
+package ${securityPackage}.domains
 
 import groovy.transform.Canonical
 import io.micronaut.data.annotation.*
@@ -13,7 +11,7 @@ import java.time.Instant
 class RefreshToken {
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    Long id
+    <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id
     String username
     String refreshToken
     Boolean revoked

@@ -1,6 +1,4 @@
-package micronaut.security.jwt.groovy.mongoReactive.repository
-
-{securityPackage}.repository
+package ${securityPackage}.repository
 
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoCollection

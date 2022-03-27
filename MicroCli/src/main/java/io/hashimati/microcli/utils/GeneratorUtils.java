@@ -231,6 +231,20 @@ public class GeneratorUtils
 
         }
     }
+    public static String generateFromTemplateVsObject(String template, HashMap<String, Object> binder)
+    {
+        try {
+            return new SimpleTemplateEngine().createTemplate(template).make(binder).toString();
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
     public static String generateFromTemplateObj(String template, HashMap<String, Object> binder)
     {
         try {
