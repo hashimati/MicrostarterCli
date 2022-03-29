@@ -11,7 +11,7 @@ import java.time.Instant;
 public class RefreshToken {
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    private Long id;
+    private <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id;
     private String username;
     private String refreshToken;
     private Boolean revoked;
