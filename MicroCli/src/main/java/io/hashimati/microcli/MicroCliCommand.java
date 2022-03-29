@@ -61,7 +61,7 @@ public class MicroCliCommand implements Runnable {
                 " |_|  |_|_|\\___|_|  \\___/|___/\\__\\__,_|_|   \\__\\___|_|     \\_____|_|_|\n" +
                 "                                                                      \n" +
                 "                                                                      \n" +
-                "(Microstarter CLI v0.1.0)\n");
+                "(Microstarter CLI v0.1.1)\n");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
@@ -77,7 +77,7 @@ public class MicroCliCommand implements Runnable {
         // business logic here
         if(version)
         {
-            System.out.println("MicrostarterCLI 0.1.0");
+            System.out.println("MicrostarterCLI 0.1.1");
         }
         if (verbose) {
             System.out.println("Hi!, MicrostarterCLI is a rapid development tool for Micronaut framework.  It helps developers cut development time and focus on application logic by generating Micronaut components and configurations using ready-built templates.");
