@@ -21,6 +21,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 ${moreImports}
 
 @Tag(name = "${className}")
@@ -48,7 +50,7 @@ class ${className}Controller {
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
         //saving Object
-        return ${entityName}Service.save(${entityName})
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
 
@@ -69,7 +71,7 @@ class ${className}Controller {
     ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
 
         log.info("Finding ${className} By Id: {}", id);
-        return ${entityName}Service.findById(id)
+        return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -88,7 +90,7 @@ class ${className}Controller {
     @ApiResponse(responseCode = "404", description = "${className} not found")
     Boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
-        return  ${entityName}Service.deleteById(id);
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
 
 
@@ -104,9 +106,9 @@ class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
-    Iterable<${className}> findAll(<% if(principle) out.print 'Principal principle'%><% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'Principal principle'%><% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("find All")
-        return ${entityName}Service.findAll()
+        return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -125,7 +127,7 @@ class ${className}Controller {
     ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("update {}", ${entityName})
-        return ${entityName}Service.update(${entityName})
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 ${methods}
 }

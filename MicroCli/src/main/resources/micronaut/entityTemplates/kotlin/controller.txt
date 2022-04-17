@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 ${moreImports}
 <% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 
@@ -39,7 +41,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):  ${className} {
 
         log.info("Saving ${className} :{}", ${entityName})
-        return ${entityName}Service.save(${entityName})
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
 
@@ -55,7 +57,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     )
     fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") id:${idType}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>): ${className} {
         log.info("Finding ${className}: {}", id )
-        return ${entityName}Service.findById(id)
+        return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -71,7 +73,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
 
     fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") id:${idType}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>): Boolean {
         log.info("Deleting ${className}: {}", id)
-        return  ${entityName}Service.deleteById(id)
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -84,9 +86,9 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun findAll(<% if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):Iterable<${className}>{
+    fun findAll(<% if(pageable) out.print 'pageable:Pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):<% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}><${className}>{
         log.info("find All")
-        return ${entityName}Service.findAll()
+        return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -102,7 +104,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):${className}
     {
         log.info("update {}", ${entityName})
-        return ${entityName}Service.update(${entityName})
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
 
     }
 

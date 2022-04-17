@@ -12,7 +12,7 @@
     @ApiResponse(responseCode = "404", description = "${className} not found")
     fun findBy${Attribute}(query : ${attributeType}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>) : ${returnType} {
           log.info("Finding ${className} By ${Attribute}: {}", query)
-          return ${entityName}Service.findBy${Attribute}(query)
+          return ${entityName}Service.findBy${Attribute}(query<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
 

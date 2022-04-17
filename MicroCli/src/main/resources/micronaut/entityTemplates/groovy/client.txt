@@ -6,6 +6,8 @@ import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client;
 import io.reactivex.Single
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 ${moreImports}
 import ${entityPackage}
 
@@ -23,8 +25,7 @@ interface ${classNameA}Client {
     boolean deleteById(@PathVariable("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
 
     @Get("/findAll")
-    Iterable<${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>)
-
+    <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && header) out.print ', ' %><% if(header) out.print '@Header("Authorization") String authorization'%>)
 
     @Put("/update")
     ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)

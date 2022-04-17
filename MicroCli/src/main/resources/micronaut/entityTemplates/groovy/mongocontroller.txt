@@ -53,7 +53,7 @@ class ${className}Controller {
         log.info("Saving  ${className} : {}", ${entityName});
 
         //TODO: enter your logic here before saving.
-        return ${entityName}Service.save(${entityName})
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -72,7 +72,7 @@ class ${className}Controller {
     {
             log.info("Finding ${className} By Id: {}", id);
 
-            return ${entityName}Service.findById(id)
+            return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -88,7 +88,7 @@ class ${className}Controller {
     <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>)
     {
             log.info("Finding all ${className}");
-            return ${entityName}Service.findAll()
+            return ${entityName}Service.findAll(<% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -104,7 +104,7 @@ class ${className}Controller {
     @ApiResponse(responseCode = "404", description = "${className} not found")
     <% print reactor? "Mono" : "Single" %><Boolean> deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") String id<% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
-        return  ${entityName}Service.deleteById(id)
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
 
@@ -122,7 +122,7 @@ class ${className}Controller {
     @ApiResponse(responseCode = "404", description = "${className} not found")
    <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
         log.info("update {}", ${entityName});
-        return ${entityName}Service.update(${entityName});
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
    }
 ${methods}
 }

@@ -43,6 +43,7 @@ public class Entity
     private String frameworkType;
 
     private boolean jaxRs;
+    private boolean pageable;
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
     private int liquibaseSequence;
 
@@ -438,5 +439,13 @@ public class Entity
 
     public void setJaxRs(boolean jaxRs) {
         this.jaxRs = jaxRs;
+    }
+
+    public boolean isPageable() {
+        return pageable;
+    }
+
+    public void setPageable(boolean pageable) {
+        this.pageable = pageable;
     }
 }

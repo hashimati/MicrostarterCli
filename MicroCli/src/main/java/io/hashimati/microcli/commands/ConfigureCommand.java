@@ -36,8 +36,8 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
     @Option(names = "--path", description = "To specify the working directory.")
     private String path;
 
-    @Option(names = "--microservice", description = "To configure the microservices project.")
-    private boolean microservice;
+//    @Option(names = "--microservice", description = "To configure the microservices project.")
+//    private boolean microservice;
 
     public void setPath(String path)
     {

@@ -8,6 +8,8 @@ import javax.transaction.Transactional
 import ${entityPackage}
 import ${repoPackage}
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 ${moreImports}
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,9 +50,9 @@ class ${className}Service(private val ${entityName}Repository: ${className}Repos
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    fun  findAll(<%if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):Iterable<${className}> {
+    fun  findAll(<% if(pageable) out.print 'pageable:Pageable' %><% if(pageable && principle) out.print ', ' %><%if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):<% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> {
         log.info("Find All")
-      return  ${entityName}Repository.findAll()
+      return  ${entityName}Repository.findAll(<% if(pageable) out.print 'pageable' %>)
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", description = "Observing all service metric for update a '+entityName+' object")' %>

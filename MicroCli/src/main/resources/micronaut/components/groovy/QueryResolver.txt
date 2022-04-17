@@ -6,7 +6,8 @@ import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
-
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 ${moreImports}
@@ -25,9 +26,9 @@ class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutation
     }
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    Iterable<${className}> findAll${className}()
+    Iterable<${className}> findAll${className}(<% if(pageable) out.print 'Pageable pageable' %>)
     {
-        return ${entityName}Service.findAll(<% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
+        return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principal) out.print ', ' %><% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>

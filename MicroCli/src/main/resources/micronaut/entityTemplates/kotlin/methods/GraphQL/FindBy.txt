@@ -1,5 +1,5 @@
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.QueryResolver.save.findById'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by '+Attribute+'")' %>
     fun find${className}By${Attribute}(query : ${attributeType}<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>) : ${returnType} {
-          return ${entityName}Service.findBy${Attribute}(query)${blockSingle}
+          return ${entityName}Service.findBy${Attribute}(query<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>)${blockSingle}
     }

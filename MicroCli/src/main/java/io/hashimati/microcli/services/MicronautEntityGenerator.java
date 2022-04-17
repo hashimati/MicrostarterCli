@@ -373,6 +373,7 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
 
         String templatePath= getTemplatPath(entity.isJavaRecord()?TemplatesService.ENTITY_RECORD:TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
 
@@ -478,6 +479,7 @@ public class MicronautEntityGenerator
                 put("entityClass", entity.getName());
                 put("bsonType", DataTypeMapper.bsonMapper.get(ea.getType().toLowerCase()));
                 put("moreImports", "");
+                put("pageable", entity.isPageable());
             }};
             if(ea.isFindByMethod())
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV1()).make(attributeBinder).toString()).toString();
@@ -527,6 +529,8 @@ public class MicronautEntityGenerator
                     put("attribute", u);
                     put("queryBsonDocument",DataTypeMapper.bsonMapper.get(query.getType().toLowerCase() ));
                     put("block", "");
+                    put("pageable", entity.isPageable());
+
                 }};
                 ubinder. put("appendUpdates", appendUpdates);
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findMethodTemplates.getV3()).make(ubinder).toString()).toString();
@@ -580,6 +584,8 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
+
                 String templatePath= getTemplatPath(TemplatesService.REPOSITORY, language.toLowerCase());
 
 
@@ -620,6 +626,8 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
+
                 String templatePath= getTemplatPath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
 
 
@@ -635,6 +643,8 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
+
                 String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
 
 
@@ -648,6 +658,7 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
                 String templatePath= getTemplatPath(DATA_MONGODB_REPOSITORY, language.toLowerCase());
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
 
@@ -669,6 +680,7 @@ public class MicronautEntityGenerator
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("methods", methods);
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -687,6 +699,7 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("pageable", entity.isPageable());
                 String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
 
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -776,7 +789,7 @@ public class MicronautEntityGenerator
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("micrometer", entity.isMicrometer());
-
+        binder.put("pageable", entity.isPageable());
         String templatePath= getTemplatPath(TemplatesService.REPOSITORY_TEST, language.toLowerCase());
 
         String  entityRepositoryTesttemplate = templatesService.loadTemplateContent(templatePath);
@@ -825,6 +838,7 @@ public class MicronautEntityGenerator
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
     public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
@@ -838,7 +852,7 @@ public class MicronautEntityGenerator
 
         String returnType = entity.getName();
         String updateReturnType = "Long";
-        String returnTypeList = "Iterable<"+entity.getName() + ">";
+        String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
         String blocking = ".orElse(null)";
 
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData()&& entity.getReactiveFramework().equalsIgnoreCase("reactor")))
@@ -871,6 +885,7 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
+                put("pageable", entity.isPageable());
 
             }};
             sBinder.put("principle", entity.isSecurityEnabled());
@@ -911,6 +926,7 @@ public class MicronautEntityGenerator
                     put("updates", updates );
                     put("updatesVariables", updatesVariables);
                     put("block", "");
+                    put("pageable", entity.isPageable());
                 }};
                 ubinder.put("principle", entity.isSecurityEnabled());
                 ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
@@ -937,6 +953,7 @@ public class MicronautEntityGenerator
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
         String serviceTemplate = "";
         String templatePath="";
 
@@ -1006,6 +1023,7 @@ public class MicronautEntityGenerator
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("jaxrs", entity.isJaxRs());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
         String templatePath = getTemplatPath(GORM_CONTROLLER, language.toLowerCase());
 
         String controllerTemplate = templatesService.loadTemplateContent(templatePath);
@@ -1026,7 +1044,7 @@ public class MicronautEntityGenerator
 
         String returnType = entity.getName();
         String updateReturnType = "Long";
-        String returnTypeList = "Iterable<"+entity.getName() + ">";
+        String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
         if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
@@ -1060,7 +1078,7 @@ public class MicronautEntityGenerator
                 put("moreImports", "");
                 put("principle", entity.isSecurityEnabled());
                 put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
-
+                put("pageable", entity.isPageable());
 
             }};
             sBinder.put("returnType", returnType);
@@ -1123,6 +1141,7 @@ public class MicronautEntityGenerator
                     put("controllerPackage", entity.getRestPackage());
                     put("updatesVariables", updatesVariables);
                     put("block", "");
+                    put("pageable", entity.isPageable());
                 }};
                 ubinder.put("jaxrs", entity.isJaxRs());
                 ubinder.put("principle", entity.isSecurityEnabled());
@@ -1152,6 +1171,7 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
         String serviceTemplate ;
         String templatePath="";
         switch (entity.getDatabaseType().toLowerCase())
@@ -1183,6 +1203,7 @@ public class MicronautEntityGenerator
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("pageable", entity.isPageable());
         String templatePath= getTemplatPath(GORM_CLIENT, language.toLowerCase());
         String  serviceTemplate = templatesService.loadTemplateContent(templatePath);
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
@@ -1228,6 +1249,7 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize( ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
+                put("pageable", entity.isPageable());
             }};
             sBinder.put("returnType", returnType);
             sBinder.put("returnTypeList", returnTypeList);
@@ -1285,6 +1307,7 @@ public class MicronautEntityGenerator
         binder.put("classNameA", entity.getName());
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
+        binder.put("pageable", entity.isPageable());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
 
@@ -1325,6 +1348,7 @@ public class MicronautEntityGenerator
         binder.put("schemafiles",  schemafiles);
         binder.put("resolverObject", resolverObject);
         binder.put("micrometer", entities.stream().anyMatch(Entity::isMicrometer));
+        binder.put("pageable", entities.stream().anyMatch(Entity::isPageable));
 
         String key = TemplatesService.GRAPHQL_QUERY_FACOTRY;
         String templatePath= getTemplatPath(key, language.toLowerCase());
@@ -1377,7 +1401,7 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
                 put("moreImports", "");
-
+                put("pageable", entity.isPageable());
 
             }};
             sBinder.put("blockSingle", blockSingle);
@@ -1462,7 +1486,7 @@ public class MicronautEntityGenerator
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
-
+        binder.put("pageable", entity.isPageable());
         String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isMnData() && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 
         String templatePath= getTemplatPath(key, language.toLowerCase());
@@ -1700,7 +1724,7 @@ public class MicronautEntityGenerator
     {
 
 
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("className", entity.getName());
         if(entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
             map.put("idType", "String");
@@ -1713,6 +1737,7 @@ public class MicronautEntityGenerator
                    .reduce("" , (x, y) ->x+y);
            attributesDeclaration = attributesDeclaration.substring(0, attributesDeclaration.lastIndexOf(","));
        }
+       map.put("pageable", entity.isPageable());
         map.put("attributes", attributesDeclaration);
         String template =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_SCHEMA));
 
@@ -1729,7 +1754,7 @@ public class MicronautEntityGenerator
         String methodTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(GRAPHQL_QUERY_METHOD));
         String methods = gqEntities.stream().map(x->{
 
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             String findAllTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(FIND_All_BY_GRAPHQL));
             String findByTemplate =  templatesService.loadTemplateContent(templatesService.getGraphqlTemplates().get(FIND_BY_GRAPHQL));
             String findOne = "", findAll = "";
@@ -1741,6 +1766,7 @@ public class MicronautEntityGenerator
                 sBinder.put("className", x.getName());
                 sBinder.put("Attribute", NameUtils.capitalize(ea.getName()));
                 sBinder.put("Type", DataTypeMapper.graphqlMapper.get(ea.getType().toLowerCase()));
+                sBinder.put("pageable", x.isPageable());
 
 
                 if(ea.isFindByMethod())
@@ -1766,6 +1792,8 @@ public class MicronautEntityGenerator
             }
 
             map.put("className", x.getName());
+            map.putIfAbsent("pageable", x.isPageable());
+
             if(x.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
                 map.put("idType", "String");
             else
@@ -1796,13 +1824,15 @@ public class MicronautEntityGenerator
 
         String mutationMethods = gqEntities.stream().map(x->{
 
-            HashMap<String, String> map2 = new HashMap<>();
+            HashMap<String, Object> map2 = new HashMap<>();
             map2.put("className", x.getName());
             map2.put("entityName", x.getName().toLowerCase());
             if(x.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
                 map2.put("idType", "String");
             else
                 map2.put("idType", "Int");
+
+            map2.putIfAbsent("pageable", x.isPageable());
             try {
 
 

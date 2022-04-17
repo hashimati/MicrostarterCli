@@ -1,2 +1,2 @@
 
-    findAll${className}By${Attribute}(input:${Type}):[${className}]!
+    findAll${className}By${Attribute}(input:${Type}, <% if(pageable) out.print ', page:PageableInput ' %>):[${className}]!

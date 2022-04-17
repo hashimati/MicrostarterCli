@@ -4,12 +4,12 @@ import ${importEntity}
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.*
 import io.micronaut.data.mongodb.annotation.MongoRepository
-import io.micronaut.data.repository.CrudRepository
+import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>
 import java.util.*
 import org.bson.types.ObjectId
 ${moreImports}
 
 @MongoRepository
-interface ${className}Repository:CrudRepository<${className}, String> {
+interface ${className}Repository:<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, String> {
 ${methods}
 }

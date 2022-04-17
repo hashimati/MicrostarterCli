@@ -4,6 +4,8 @@ import graphql.kickstart.tools.GraphQLMutationResolver
 import graphql.kickstart.tools.GraphQLQueryResolver
 import ${domainPackage}.${className}
 import ${servicePackage}.${className}Service
+<% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
 import jakarta.inject.Singleton;
@@ -19,9 +21,9 @@ class ${className}QueryResolver(private val ${entityName}Service :${className}Se
     }
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    fun findAll${className}() : Iterable<${className}>
+    fun findAll${className}(<% if(pageable) out.print 'pageable:Pageable' %>) : Iterable<${className}>
     {
-            return ${entityName}Service.findAll(<% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
+            return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principal) out.print ', ' %><% if(principal) out.print 'defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>);
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'QueryResolver.save", description = "Observing all service metric for saving '+entityName+' object")' %>

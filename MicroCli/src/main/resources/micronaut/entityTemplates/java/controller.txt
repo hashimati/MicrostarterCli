@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 <% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
@@ -105,9 +107,9 @@ public class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
-    public Iterable<${className}> findAll(<% if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    public <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("find All");
-        return ${entityName}Service.findAll(<% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>);
+        return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>);
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>

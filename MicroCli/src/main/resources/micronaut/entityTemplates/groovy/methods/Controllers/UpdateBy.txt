@@ -16,6 +16,6 @@
     ${returnType} update${Attribute}(<% if(jaeger) out.print '@SpanTag("updateupdateby.'+Attribute+'.'+entityName+'")'%> @QueryValue("query") ${type} query,  @Body ${className} body<% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("update {}", query)
-        return ${entityName}Service.updateBy${Attribute}(query, ${updatesVariables})
+        return ${entityName}Service.updateBy${Attribute}(query, ${updatesVariables}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
 
     }

@@ -1,5 +1,5 @@
 
     <% if(micrometer) out.print '//@Timed(value = "'+pack+'.'+className+'QueryResolver.findAll'+Attribute+'", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects by '+Attribute+'")' %>
-    ${returnTypeList} findAll${className}By${Attribute}(${attributeType} query<% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>){
-          return ${entityName}Service.findAllBy${Attribute}(query)${blockIter}
+    ${returnTypeList} findAll${className}By${Attribute}(${attributeType} query<% if(pageable) out.print ', Pageable pageable' %><% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>){
+          return ${entityName}Service.findAllBy${Attribute}(query<% if(pageable) out.print ', pageable' %><% if(principal) out.print ', defaultSecurityService.getAuthentication().orElse(null)'%><% if(header) out.print ', ""' %>)${blockIter}
     }

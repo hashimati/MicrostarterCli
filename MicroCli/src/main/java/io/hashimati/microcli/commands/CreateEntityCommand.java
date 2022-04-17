@@ -162,6 +162,8 @@ private String path;
                     }
 
                     collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
+                   if(configurationInfo.isMnData())
+                        entity.setPageable(PromptGui.createConfirmResult("pageable", "Do you want to use pagination?", NO).getConfirmed() == YES);
                 }
                 else  collectionName = "none";
                 entity.setCollectionName(collectionName);

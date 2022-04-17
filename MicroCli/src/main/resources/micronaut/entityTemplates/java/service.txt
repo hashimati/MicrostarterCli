@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import javax.transaction.Transactional;
 import ${entityPackage};
 import ${repoPackage};
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 ${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
@@ -53,9 +55,9 @@ public class ${className}Service {
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
-    public Iterable<${className}> findAll(<%if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
+    public <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && principle) out.print ', ' %><%if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
         log.info("Find All");
-      return  ${entityName}Repository.findAll();
+      return  ${entityName}Repository.findAll(<% if(pageable) out.print 'pageable' %>);
     }
 
     public boolean existsById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)

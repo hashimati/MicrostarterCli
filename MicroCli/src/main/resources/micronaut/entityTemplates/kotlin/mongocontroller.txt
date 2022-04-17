@@ -13,6 +13,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Inject
 <% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
 <% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -44,7 +45,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     {
         log.info("Saving ${className}: {}", ${entityName} )
 
-        return ${entityName}Service.save(${entityName})
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -59,7 +60,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     )
     fun findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id")  id: String<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):<% print reactor? "Mono" : "Single" %><${className}> {
         log.info("Finding ${className} by Id: {}", id)
-        return ${entityName}Service.findById(id)
+        return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
 
@@ -75,7 +76,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     )
     fun findAll(<% if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):<% print reactor? "Flux" : "Flowable" %><${className}>{
         log.info("Finding All ${className}")
-        return ${entityName}Service.findAll()
+        return ${entityName}Service.findAll(<% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -90,7 +91,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     )
     fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>):<% print reactor? "Mono" : "Single" %><${className}> {
         log.info("Deleting ${className} by id:{}", ${entityName})
-        return ${entityName}Service.update(${entityName})
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -105,7 +106,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     )
     fun deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") id:Long<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>): Boolean {
         log.info("Deleting ${className}: {}", id)
-        return  ${entityName}Service.deleteById(id)
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
     }
 ${methods}
 

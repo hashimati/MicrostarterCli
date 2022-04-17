@@ -6,11 +6,13 @@ import io.micronaut.data.annotation.*;
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.model.*;
-import io.micronaut.data.repository.CrudRepository;
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>;
 ${moreImports}
 
 @Repository
 @JdbcRepository(dialect = Dialect.${dialect})
-public interface ${className}Repository extends CrudRepository<${className}, Long> {
+public interface ${className}Repository extends <% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, Long> {
 ${methods}
 }

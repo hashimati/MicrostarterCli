@@ -8,6 +8,8 @@ import io.micronaut.http.client.annotation.Client;
 import jakarta.inject.Inject
 import ${entityPackage}
 ${moreImports}
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 
 @Client("/api/v1/${entities}")
 interface ${classNameA}Client {
@@ -22,7 +24,7 @@ interface ${classNameA}Client {
     fun deleteById(@PathVariable("id") id: ${idType}<% if(header) out.print ', @Header("Authorization") authorization:String '%>): Boolean
 
     @Get("/findAll")
-    fun findAll(<% if(header) out.print '@Header("Authorization") authorization:String '%>):Iterable<${className}>
+    fun findAll(<% if(pageable) out.print 'pageable:Pageable' %><% if(pageable && header) out.print ', ' %><% if(header) out.print ',  @Header("Authorization") authorization:String '%>):<% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}><${className}>
 
     @Put("/update")
     fun update(@Body ${entityName}: ${className}<% if(header) out.print ', @Header("Authorization") authorization:String '%>):${className}
