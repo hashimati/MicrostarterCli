@@ -11,17 +11,18 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 5. [Enum Command](#enum)
 6. [Entity Command](#entity)
 7. [Relationship Command](#relationship)
-8. [Messaging Commands](#messaging)
+8. [Event Command](#event)
+9. [Messaging Commands](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
     3. [NAT Commands](#nat)
     4. [GCP Commands](#gcp). 
-9. [Security Command](#security)
+10. [Security Command](#security)
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-10. [Metrics Command](#metrics)
-11. [Banner Command](#banner)
+11. [Metrics Command](#metrics)
+12. [Banner Command](#banner)
 
 
 
@@ -467,6 +468,14 @@ The developers can add relationship between two generated entities. The command 
 
 ##### Alias: relation
 
+<a name="event"></a>
+## "Event" Command
+
+"**Event**" Command enables you to generate Event's Publisher/Listener for an Entity. 
+
+```shell
+> mc event
+```
 <a name="messaging"></a>
 ## Messaging
 
