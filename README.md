@@ -6,21 +6,22 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 # Table Of Contents
 1. [Technologies Stack](#stack)
 2. [Quick Start](#started)
-3. [Configure Command](#configure)
-4. [Enum Command](#enum)
-5. [Entity Command](#entity)
-6. [Relationship Command](#relationship)
-7. [Messaging Commands](#messaging)
+3. [Init Command](#init)
+4. [Configure Command](#configure)
+5. [Enum Command](#enum)
+6. [Entity Command](#entity)
+7. [Relationship Command](#relationship)
+8. [Messaging Commands](#messaging)
     1. [Kafka Commmands](#kafka)
     2. [RabbitMQ Commands](#rabbitmq)
     3. [NAT Commands](#nat)
     4. [GCP Commands](#gcp). 
-8. [Security Command](#security)
+9. [Security Command](#security)
     1. [JWT](#jwt)
     2. [Baiscs](#basicsecurity)
     3. [Session](#session)
-9. [Metrics Command](#metrics)
-10. [Banner Command](#banner)
+10. [Metrics Command](#metrics)
+11. [Banner Command](#banner)
 
 
 
@@ -115,6 +116,23 @@ mc entity -e fruit --graphql
 6. MicrostarterCli application will launch. 
 7. Follow the instructions as in this GIF: 
 ![Alt Tutorial](https://github.com/hashimati/MicroCli/blob/master/MicroCli%20Demo.gif)
+
+<a name="init"></a>
+## Init Command
+
+**_init Command_**: Enables you to generate Microanut Applications from [Micronaut Launch](https://launch.micronaut.io). 
+
+**Example 1:** 
+
+```shell
+> mc init
+```
+**Example 2:** 
+```shell
+> mc init --name FruitService --package io.hashimati
+```
+Please check the Micronaut Launch API: https://launch.micronaut.io/swagger/views/swagger-ui/index.html
+
 
 
 <a name="configure"></a>
