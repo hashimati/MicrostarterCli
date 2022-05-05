@@ -46,7 +46,7 @@ public class Entity
     private boolean pageable;
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
     private int liquibaseSequence;
-
+    private boolean nonBlocking;
     private boolean mnData;
     private boolean isGraphQl;
     private boolean cached;
@@ -447,5 +447,13 @@ public class Entity
 
     public void setPageable(boolean pageable) {
         this.pageable = pageable;
+    }
+
+    public boolean isNonBlocking() {
+        return nonBlocking;
+    }
+
+    public void setNonBlocking(boolean nonBlocking) {
+        this.nonBlocking = nonBlocking;
     }
 }

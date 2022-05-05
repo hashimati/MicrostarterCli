@@ -43,6 +43,8 @@ public class ConfigurationInfo {
     private int port;
     boolean graphQlSupport;
     private String reactiveFramework;
+
+    private boolean nonBlocking;
     private boolean micrometer;
     private boolean influx, prometheus, graphite, statsd;
     private boolean caffeine;

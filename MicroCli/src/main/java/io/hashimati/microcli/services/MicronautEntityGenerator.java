@@ -961,7 +961,7 @@ public class MicronautEntityGenerator
         {
             case "mongodb":
 
-                 templatePath= getTemplatPath(entity.isMnData()?SERVICE:TemplatesService.MONGO_SERVICE, language.toLowerCase());
+                 templatePath= getTemplatPath(!entity.isNonBlocking()?SERVICE:TemplatesService.MONGO_SERVICE, language.toLowerCase());
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
@@ -1177,7 +1177,7 @@ public class MicronautEntityGenerator
         switch (entity.getDatabaseType().toLowerCase())
         {
             case "mongodb":
-                templatePath= getTemplatPath(entity.isMnData()?TemplatesService.CONTROLLER:TemplatesService.MONGO_CONTROLLER, language.toLowerCase());
+                templatePath= getTemplatPath(!entity.isNonBlocking()?TemplatesService.CONTROLLER:TemplatesService.MONGO_CONTROLLER, language.toLowerCase());
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
@@ -1311,7 +1311,7 @@ public class MicronautEntityGenerator
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
 
-        if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()) && !entity.isMnData())
+        if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()) && entity.isNonBlocking())
             key = TemplatesService.MONGO_CLIENT;
         String templatePath= getTemplatPath(key, language.toLowerCase());
 
@@ -1379,7 +1379,7 @@ public class MicronautEntityGenerator
             blockSingle = ".block()";
             blockIter = ".toIterable()";
         }
-        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData()){
+        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
             blockSingle = ".getBlocking()";
             blockIter = ".blockingIterable()";
         }
@@ -1487,7 +1487,7 @@ public class MicronautEntityGenerator
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
-        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && !entity.isMnData() && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
+        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && entity.isNonBlocking() && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 
         String templatePath= getTemplatPath(key, language.toLowerCase());
 

@@ -187,23 +187,41 @@ public class FeaturesFactory {
         features.put("data-mongodb", new Feature(){{
 
             setName("data-mongodb");
-            setGradle("    implementation(\"io.micronaut.data:micronaut-data-mongodb:3.3.0-M1\")\n");
-            setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-document-processor:3.3.0-M1\")\n");
+            setGradle("    implementation(\"io.micronaut.data:micronaut-data-mongodb\")\n");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-document-processor\")\n");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-mongodb</artifactId>\n" +
-                    "\t\t<version>3.3.0-M1</version>\n" +
+                    "\t\t<version>3.3.0</version>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
-                    "\t\t<version>3.3.0-M1</version>\n" +
+                    "\t\t<version>3.3.0</version>\n" +
                     "\t</path>");
 
         }});
 
+        features.put("data-mongodb-async", new Feature(){{
 
+            setName("data-mongodb-async");
+            setGradle("    implementation(\"io.micronaut.data:micronaut-data-mongodb\")\n" +
+                    "    runtimeOnly(\"org.mongodb:mongodb-driver-reactivestreams\")");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-document-processor\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.data</groupId>\n" +
+                    "\t\t<artifactId>micronaut-data-mongodb</artifactId>\n" +
+                    "\t\t<version>3.3.0</version>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            setAnnotationMaven("\t<path>\n" +
+                    "\t\t<groupId>io.micronaut.data</groupId>\n" +
+                    "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
+                    "\t\t<version>3.3.0</version>\n" +
+                    "\t</path>");
+
+        }});
         features.put("cassandra", new Feature(){{
             setName("cassandra");
             setGradle("    implementation(\"io.micronaut.cassandra:micronaut-cassandra\")");

@@ -234,6 +234,7 @@ public class ConfigurationInitializer {
                         projectInfo.getFeatures().add("hibernate-gorm");
                         break;
                     case "R2DBC":
+                        configurationInfo.setNonBlocking(true);
                         MicronautProjectValidator.addDependency(workingPath,features.get("r2dbc"));
                         projectInfo.getFeatures().add("r2dbc");
                         projectInfo.getFeatures().add("reactor");
@@ -350,6 +351,7 @@ public class ConfigurationInitializer {
 
                 ArrayList<String> options = new ArrayList<String>();
                 options.add("data-mongodb");
+                options.add("data-mongodb-async");
                 options.add("mongo-reactive");
 
 
@@ -360,8 +362,18 @@ public class ConfigurationInitializer {
                 if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb")) {
                     projectInfo.getFeatures().add("data-mongodb");
                     projectInfo.getFeatures().add("mongo-sync");
+                    configurationInfo.setDataBackendRun("data-mongodb");
                     MicronautProjectValidator.addDependency(workingPath,features.get("data-mongodb"));
                     MicronautProjectValidator.addDependency(workingPath,features.get("mongo-sync"));
+                    configurationInfo.setMnData(true);
+                    configurationInfo.setNonBlocking(false);
+                }
+                else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-async")) {
+                    projectInfo.getFeatures().add("data-mongodb-async");
+                    MicronautProjectValidator.addDependency(workingPath,features.get("data-mongodb-async"));
+                    MicronautProjectValidator.addDependency(workingPath,features.get("mongo-sync"));
+                    configurationInfo.setDataBackendRun("data-mongodb-async");
+                    configurationInfo.setNonBlocking(true);
                     configurationInfo.setMnData(true);
                 }
                 else {
@@ -369,7 +381,7 @@ public class ConfigurationInitializer {
                     configurationInfo.setDataBackendRun("mongoReactive");
                     MicronautProjectValidator.addDependency(workingPath,features.get("mongo-reactive"));
                     configurationInfo.setMnData(false);
-
+                    configurationInfo.setNonBlocking(true);
                 }
 //                MicronautProjectValidator.addDependency(workingPath,features.get("embed.mongo"));
                 projectInfo.getFeatures().add("testcontainers");

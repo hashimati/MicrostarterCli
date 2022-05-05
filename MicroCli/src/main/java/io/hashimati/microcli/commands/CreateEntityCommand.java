@@ -162,7 +162,7 @@ private String path;
                     }
 
                     collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
-                   if(configurationInfo.isMnData())
+                   if(configurationInfo.isMnData() && !configurationInfo.isNonBlocking())
                         entity.setPageable(PromptGui.createConfirmResult("pageable", "Do you want to use pagination?", NO).getConfirmed() == YES);
                 }
                 else  collectionName = "none";
@@ -184,7 +184,7 @@ private String path;
             entity.setSecurityStrategy(configurationInfo.getSecurityStrategy());
             entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
             entity.setJavaVersion(configurationInfo.getJavaVersion());
-
+            entity.setNonBlocking(configurationInfo.isNonBlocking());
 
             if(entity.getJavaVersion().matches("^(1[4-9]|[2-9][0-9])$"))
             {
