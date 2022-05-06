@@ -27,5 +27,7 @@ public interface ${classNameA}Client {
 
     @Put("/update")
     public <% print reactor? "Mono" : "Single" %><${className}> update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
+
+${methods}
 }
 
