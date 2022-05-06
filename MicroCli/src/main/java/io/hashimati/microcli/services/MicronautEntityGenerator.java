@@ -855,14 +855,14 @@ public class MicronautEntityGenerator
         String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
         String blocking = ".orElse(null)";
 
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData()&& entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
             blocking = "";
         }
-        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData()){
+        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
             updateReturnType = "Single<Long>";
@@ -1045,13 +1045,13 @@ public class MicronautEntityGenerator
         String returnType = entity.getName();
         String updateReturnType = "Long";
         String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
         }
-        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData() ){
+        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() ){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
             updateReturnType = "Single<Long>";
@@ -1220,13 +1220,13 @@ public class MicronautEntityGenerator
         String returnType = entity.getName();
         String updateReturnType = "Long";
         String returnTypeList = "Iterable<"+entity.getName() + ">";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
         }
-        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb")  && !entity.isMnData()){
+        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb")  && entity.isNonBlocking()){
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
             updateReturnType = "Single<Mono>";
@@ -1374,7 +1374,7 @@ public class MicronautEntityGenerator
 
         String blockSingle = "";
         String blockIter = "";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && !entity.isMnData() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") &&  entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             blockSingle = ".block()";
             blockIter = ".toIterable()";

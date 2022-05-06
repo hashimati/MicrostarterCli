@@ -2,7 +2,7 @@ package ${controllerPackage}
 
 
 import jakarta.inject.Inject
-
+import io.micronaut.core.version.annotation.Version;
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
 import io.micronaut.scheduling.TaskExecutors;
@@ -48,6 +48,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
+    @Version("1")
     <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName}<% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("Saving  ${className} : {}", ${entityName});
@@ -68,6 +69,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
+    @Version("1")
     <% print reactor? "Mono" : "Single" %><${className}> findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") String id<% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
             log.info("Finding ${className} By Id: {}", id);
@@ -78,6 +80,7 @@ class ${className}Controller {
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
     <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
     <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/find/all")
+    @Version("1")
     @Operation(summary = "Retrieving all ${entityName} objects as Json",
             description = "A REST service, which returns all ${className} objects from the database.",
             operationId = "FindAll${className}"
@@ -85,6 +88,7 @@ class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
+    @Version("1")
     <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>)
     {
             log.info("Finding all ${className}");
@@ -102,6 +106,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
+    @Version("1")
     <% print reactor? "Mono" : "Single" %><Boolean> deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") String id<% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
@@ -120,6 +125,7 @@ class ${className}Controller {
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
     @ApiResponse(responseCode = "404", description = "${className} not found")
+    @Version("1")
    <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);

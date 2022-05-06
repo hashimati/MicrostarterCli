@@ -4,6 +4,7 @@ package ${controllerPackage};
 import jakarta.inject.Inject;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.core.version.annotation.Version;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 <% if(principle) out.print 'import java.security.Principal;' %>
 <% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
@@ -48,6 +49,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
+    @Version("1")
     public <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("Saving  ${className} : {}", ${entityName});
@@ -67,10 +69,11 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
+    @Version("1")
     public <% print reactor? "Mono" : "Single" %><${className}> findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> @Parameter("id") String id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
             log.info("Finding ${className} By Id: {}", id);
-            return ${entityName}Service.findById(<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+            return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
 
     <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
@@ -83,6 +86,7 @@ public class ${className}Controller {
     @ApiResponse(
             content = @Content(mediaType = "application/json")
     )
+    @Version("1")
     public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<% if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
             log.info("Finding All ${className}");
@@ -101,6 +105,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not found")
+    @Version("1")
     public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> @PathVariable("id") String id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Deleting ${className} by Id: {}", id);
         return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
@@ -117,7 +122,8 @@ public class ${className}Controller {
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-   q2 public <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
+    @Version("1")
+    public <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }
