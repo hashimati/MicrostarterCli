@@ -38,13 +38,13 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 | :--: | :-- |
 | Reactor | It is the recommended to use Reactor. |
 |Rxjava2 | It's not supported in security command. |
-|Rxjava3 | It's jnt supported in security command. |
+|Rxjava3 | It's not supported in security command. |
 #### 1. Languages 
 | Language | Notes |
 | :--: | :--: | 
-| java | MicrostarterCli will detected the language from micronaut-cli.yml file | 
-| groovy | MicrostarterCli will detected the language from micronaut-cli.yml file |
-| kotlin | MicrostarterCli will detected the language from micronaut-cli.yml file | 
+| java | MicrostarterCli will detect the language from micronaut-cli.yml file | 
+| groovy | MicrostarterCli will detect the language from micronaut-cli.yml file |
+| kotlin | MicrostarterCli will detecta the language from micronaut-cli.yml file | 
 
 #### 2. Database
 | Database | Type | Features | Notes |
