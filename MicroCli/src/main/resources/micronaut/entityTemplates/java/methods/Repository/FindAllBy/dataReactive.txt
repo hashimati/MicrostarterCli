@@ -1,0 +1,1 @@
+    public <% if(reactor) out.print 'Flux'%><% if(!reactor) out.print 'Flowable'%><$Entity> findAllBy${Attribute}(${type} ${attr});

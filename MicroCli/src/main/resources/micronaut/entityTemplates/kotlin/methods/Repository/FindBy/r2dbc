@@ -1,1 +1,0 @@
-    fun findBy${Attribute}(${attr} : ${type}): Mono<${Entity}>

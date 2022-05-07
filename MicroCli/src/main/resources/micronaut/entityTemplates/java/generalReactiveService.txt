@@ -9,7 +9,7 @@ import ${repoPackage};
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if (reactor) out.print 'import reactor.core.publisher.Flux;' %><% if(rxjava2) out.print 'import io.reactivex.Flowable;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable;'%>
 <% if (reactor) out.print 'import reactor.core.publisher.Mono;' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%>
-import org.bson.*;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,34 +31,36 @@ public class ${className}Service {
         //TODO insert your logic here!
         //saving Object
 
-        return ${entityName}Repository.save(${entityName});
+        return <% if(!rxjava3) out.print entityName+'Repository.save('+ entityName+');'%><% if(rxjava3) out.print'Single.fromPublisher('+entityName+'Repository.save('+entityName+'));'%>
     }
 
     <% if(cached) out.print '@Cacheable' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
-    public <% print reactor? "Mono" : "Single" %><${className}> findById(String id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
 
           log.info("Finding ${className} By Id: {}", id);
-          return ${entityName}Repository.findById(id);
+          return <% if(!rxjava3) out.print entityName +'Repository.findById(id);'%><% if(rxjava3) out.print'Single.fromPublisher('+entityName+'Repository.findById(id));'%>
+
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
     public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<%if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  String authorization'%>){
         log.info("Finding All ${className}");
-        return ${entityName}Repository.findAll();
+        return <% if(!rxjava3) out.print entityName +'Repository.findAll();'%><% if(rxjava3) out.print'Single.fromPublisher('+entityName+'Repository..findAll();'%>
     }
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
-    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(String id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
+    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
         log.info("Deleting ${className} By Id: {}", id);
-	    return ${entityName}Repository.deleteById(id);
+	    return <% if(!rxjava3) out.print entityName +'Repository.deleteById(id);'%><% if(rxjava3) out.print'Single.fromPublisher('+entityName+'Repository.deleteById(id));'%>
+
 	}
 
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
 	public <% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)   {
 	    log.info("Updating ${className}: {}", ${entityName});
-	    return ${entityName}Repository.update(${entityName});
+        return <% if(!rxjava3) out.print entityName +'Repository.update('+entityName+');'%><% if(rxjava3) out.print'Single.fromPublisher('+entityName+'Repository.update('+entityName+'));'%>
     }
 
 ${methods}

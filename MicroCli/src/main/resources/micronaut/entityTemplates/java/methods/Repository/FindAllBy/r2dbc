@@ -1,1 +1,0 @@
-    public Flux<$Entity> findAllBy${Attribute}(${type} ${attr});

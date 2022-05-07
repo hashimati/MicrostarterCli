@@ -370,7 +370,7 @@ public class MicronautEntityGenerator
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));
         binder.put("importedPackages",importedPackages );
         binder.put("containDate", containDate);
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
@@ -475,7 +475,10 @@ public class MicronautEntityGenerator
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("type",DataTypeMapper.wrapperMapper.get(ea.getType().toLowerCase()));
                 put("attr", NameUtils.camelCase(ea.getName()));
-                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
+                put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
+
                 put("entityClass", entity.getName());
                 put("bsonType", DataTypeMapper.bsonMapper.get(ea.getType().toLowerCase()));
                 put("moreImports", "");
@@ -526,6 +529,8 @@ public class MicronautEntityGenerator
                     put("type",DataTypeMapper.wrapperMapper.get(query.getType().toLowerCase()));
                     put("updates", updates );
                     put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                    put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                    put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
                     put("attribute", u);
                     put("queryBsonDocument",DataTypeMapper.bsonMapper.get(query.getType().toLowerCase() ));
                     put("block", "");
@@ -581,7 +586,9 @@ public class MicronautEntityGenerator
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
                 binder.put("methods", methods);
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
+                binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
                 binder.put("pageable", entity.isPageable());
@@ -607,7 +614,9 @@ public class MicronautEntityGenerator
                 binder.put("methods", methods);
 
 
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
+                binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 binder.put("moreImports", "");
@@ -623,7 +632,7 @@ public class MicronautEntityGenerator
                 binder.put("className", entity.getName());
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
                 binder.put("pageable", entity.isPageable());
@@ -633,19 +642,22 @@ public class MicronautEntityGenerator
 
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
             }
-            else if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
+            else if(entity.isNonBlocking() && entity.isMnData())//else if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
             {
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
                 binder.put("dialect", DataTypeMapper.dialectMapper.get(entity.getDatabaseType().toLowerCase()));
                 binder.put("methods", methods);
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
-                binder.put("pageable", entity.isPageable());
-
-                String templatePath= getTemplatPath(R2DBC_REPOSITORY, language.toLowerCase());
+                binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
+                binder.put("mongo", entity.getDatabaseType().equalsIgnoreCase("mongodb"));
+                binder.put("r2dbc", entity.getFrameworkType().equalsIgnoreCase("r2dbc"));
+                binder.put("isNonBlocking", entity.isNonBlocking());
+                String templatePath= getTemplatPath(GENERAL_REACTIVE_REPOSITORY, language.toLowerCase());
 
 
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -655,8 +667,9 @@ public class MicronautEntityGenerator
                 binder.put("importEntity", entity.getEntityPackage() + "." + entity.getName());
                 binder.put("className", entity.getName());
                 binder.put("methods", methods);
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
+                binder.put("isNonBlocking", entity.isNonBlocking());
                 binder.put("moreImports", "");
                 binder.put("pageable", entity.isPageable());
                 String templatePath= getTemplatPath(DATA_MONGODB_REPOSITORY, language.toLowerCase());
@@ -676,10 +689,13 @@ public class MicronautEntityGenerator
                 binder.put("entityPackage", entity.getEntityPackage());
                 binder.put("entityClass", entity.getName());
                 binder.put("storeType", "collection");
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("methods", methods);
                 binder.put("moreImports", "");
+                binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                        binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
+
                 binder.put("pageable", entity.isPageable());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -696,9 +712,11 @@ public class MicronautEntityGenerator
                 binder.put("entityName", NameUtils.camelCase(entity.getName()));
                 binder.put("databaseName", entity.getDatabaseName());
                 binder.put("collectionName", entity.getCollectionName());
-                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                        binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
                 binder.put("pageable", entity.isPageable());
                 String templatePath = getTemplatPath(MONGO_REPOSITORY, language.toLowerCase());
 
@@ -725,10 +743,10 @@ public class MicronautEntityGenerator
         }
         else {
 
-            if(entity.getFrameworkType().equalsIgnoreCase("r2dbc")){
-                findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_BY_R2DBC_REPO));
-                findAlltemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language,FIND_ALL_BY_R2DBC_REPO));
-
+            if(entity.isNonBlocking() && entity.isMnData()){  // for R2dbc and data-mongo-async
+                findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_REACTIVE_REPO));
+                findAlltemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_ALL_BY_REACTIVE_REPO));
+                updateTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, UPDATE_BY_REACTIVE_REPO));
             }
             else {
                 findtemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FIND_BY_DATA_REPO));
@@ -743,7 +761,8 @@ public class MicronautEntityGenerator
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("exceptionPackage", entity.getExceptionPackage() );
         binder.put("className", entity.getName());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
+
         binder.put("micrometer", entity.isMicrometer());
         String templatePath= getTemplatPath(TemplatesService.GENERAL_EXCEPTION, language.toLowerCase());
 
@@ -771,7 +790,7 @@ public class MicronautEntityGenerator
         binder.put("exceptionHanderPackage", entity.getExceptionHandlerPackage() );
         binder.put("excptionPacage", entity.getExceptionPackage());
         binder.put("className", entity.getName());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         String templatePath= getTemplatPath(TemplatesService.EXCEPTION_HANDLER, language.toLowerCase());
 
@@ -787,7 +806,7 @@ public class MicronautEntityGenerator
         binder.put("repositoryPackage",entity.getRepoPackage() );
         binder.put("entityPackage", entity.getEntityPackage());
         binder.put("defaultPackage", entity.getEntityPackage().replace(".domains", ""));
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("pageable", entity.isPageable());
         String templatePath= getTemplatPath(TemplatesService.REPOSITORY_TEST, language.toLowerCase());
@@ -800,7 +819,7 @@ public class MicronautEntityGenerator
     public String generateRandomizer(Entity entity, String language) throws IOException, ClassNotFoundException {
         HashMap<String, Object> binder = new HashMap<>();
         binder.put("packageName", entity.getEntityPackage().replace(".domains", ""));
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
 
 
         String templatePath= getTemplatPath(TemplatesService.RANDOMIZER, language.toLowerCase());
@@ -833,7 +852,7 @@ public class MicronautEntityGenerator
         binder.put("methods", "");
         binder.put("cached", entity.isCached());
         binder.put("tableName", entity.getCollectionName()) ;
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
@@ -880,7 +899,10 @@ public class MicronautEntityGenerator
 
                 put("cached", entity.isCached());
                 put("tableName", entity.getCollectionName());
-                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+                put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
+                put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+
                 put("micrometer", entity.isMicrometer());
                 put("Attribute", NameUtils.capitalize(ea.getName()));
                 put("attributeType", DataTypeMapper.wrapperMapper.get(ea.getType()));
@@ -927,6 +949,9 @@ public class MicronautEntityGenerator
                     put("updatesVariables", updatesVariables);
                     put("block", "");
                     put("pageable", entity.isPageable());
+                    put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+                    put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+
                 }};
                 ubinder.put("principle", entity.isSecurityEnabled());
                 ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
@@ -948,12 +973,14 @@ public class MicronautEntityGenerator
         binder.put("cached", entity.isCached());
         binder.put("transactional", entity.isMnData() && !entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml));
         binder.put("tableName", entity.getCollectionName()) ;
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
+        binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+        binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
         String serviceTemplate = "";
         String templatePath="";
 
@@ -965,7 +992,7 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
-                String templateKey = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_SERVICE : SERVICE;
+                String templateKey = (entity.isNonBlocking() && entity.isMnData())?   GENERAL_REACTIVE_SERVICE : SERVICE;
 
                 templatePath= getTemplatPath(templateKey, language.toLowerCase());
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
@@ -1018,7 +1045,7 @@ public class MicronautEntityGenerator
         binder.put("micrometer", entity.isMicrometer());
         binder.put("methods", "");
         binder.put("className", entity.getName());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("jaxrs", entity.isJaxRs());
@@ -1168,10 +1195,13 @@ public class MicronautEntityGenerator
         binder.put("className", entity.getName());
         binder.put("moreImports", "");
         binder.put("jaxrs", entity.isJaxRs());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
+        binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+        binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
+
         String serviceTemplate ;
         String templatePath="";
         switch (entity.getDatabaseType().toLowerCase())
@@ -1198,7 +1228,7 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className",  entity.getName());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("methods", "");
         binder.put("moreImports", "");
         binder.put("principle", entity.isSecurityEnabled());
@@ -1300,7 +1330,7 @@ public class MicronautEntityGenerator
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("entities", NameUtils.camelCase(entity.getName(), true));
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("methods", methods);
         binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("className",  entity.getName());
@@ -1310,7 +1340,8 @@ public class MicronautEntityGenerator
         binder.put("pageable", entity.isPageable());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         String key = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CLIENT : CLIENT;
-
+        binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
+        binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
         if("MongoDB".equalsIgnoreCase(entity.getDatabaseType()) && entity.isNonBlocking())
             key = TemplatesService.MONGO_CLIENT;
         String templatePath= getTemplatPath(key, language.toLowerCase());
@@ -1478,7 +1509,7 @@ public class MicronautEntityGenerator
 //        binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("domainPackage", entity.getEntityPackage());
         binder.put("servicePackage", entity.getServicePackage());
-        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor"));
+        binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer()) ;
         binder.put("methods", methods);
         binder.put("moreImports", "");

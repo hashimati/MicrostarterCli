@@ -1,0 +1,16 @@
+package ${entityRepositoryPackage};
+
+import ${importEntity};
+import io.micronaut.data.annotation.*;
+import io.micronaut.data.model.*;
+<% if(r2dbc) out.print 'import io.micronaut.data.model.query.builder.sql.Dialect;' %>
+<% if(mongo) out.print 'import io.micronaut.data.mongodb.annotation.MongoRepository;' %><% if(r2dbc) out.print 'import io.micronaut.data.r2dbc.annotation.R2dbcRepository;' %>
+<% if(isNonBlocking) out.print 'import io.micronaut.data.repository.reactive.*;'%>
+import java.util.*;
+<% if(mongo) out.print 'import org.bson.types.ObjectId;' %>
+${moreImports}
+
+<% if(mongo) out.print '@MongoRepository' %><% if(r2dbc) out.print '@R2dbcRepository(dialect = Dialect.'+dialect+')' %>
+public interface ${className}Repository extends <% if(reactor) out.print 'ReactorCrudRepository' %><% if(rxjava2) out.print 'RxJavaCrudRepository' %><% if(rxjava3) out.print 'ReactiveStreamsCrudRepository' %><${className}, String> {
+${methods}
+}

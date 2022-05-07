@@ -6,17 +6,16 @@ import com.mongodb.reactivestreams.client.MongoCollection
 
 import ${entityPackage}.${entityClass}
 import ${projectPackage}.config.MongodbConfiguration
-
-<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
-<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
+<% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 import org.bson.BsonDocument
 import org.bson.BsonString
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 ${moreImports}
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.UUID
 
 @Singleton
@@ -68,8 +67,8 @@ class ${entityClass}Repository(private val mongoClient:MongoClient, private val 
     fun  findById( id: String):<% print reactor? "Mono" : "Single" %><${entityClass}>{
 
         log.info("Finding ${entityClass} by id :{}",id )
-        var  document :BsonDocument=  BsonDocument();
-        document.append("_id",  BsonString(id));
+        var  document :BsonDocument=  BsonDocument()
+        document.append("_id",  BsonString(id))
         return findAs<% print reactor? "Mono" : "Single" %>(document)
     }
 
@@ -77,15 +76,15 @@ class ${entityClass}Repository(private val mongoClient:MongoClient, private val 
     fun  deleteById( id:String) :<% print reactor? "Mono" : "Single" %><Boolean>{
 
         log.info("Deleting ${entityClass} by Id :{}", id)
-        var  document :BsonDocument=  BsonDocument();
-        document.append("_id",  BsonString(id));
+        var  document :BsonDocument=  BsonDocument()
+        document.append("_id",  BsonString(id))
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().deleteOne(document))
         .map{_->true}
         .onErrorReturn{<% print reactor? "" : "_->" %>false}
 	}
 
    fun  update(${entityClass} object):<% print reactor? "Mono" : "Single" %><${entityClass}>  {
-            log.info("Updating ${entityClass} : {}", object);
+            log.info("Updating ${entityClass} : {}", object)
             var document: BsonDocument =  BsonDocument()
             document.append("_id",  BsonString(object.getId()))
             return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().findOneAndReplace(document,object ))

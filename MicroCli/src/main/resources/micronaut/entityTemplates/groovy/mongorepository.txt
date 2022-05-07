@@ -6,21 +6,21 @@ import com.mongodb.reactivestreams.client.MongoCollection
 import ${projectPackage}.config.MongodbConfiguration
 
 import ${entityPackage}.${entityClass}
-<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
-<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
-import org.bson.*;
+<% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
+import org.bson.*
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.inject.Singleton;
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import jakarta.inject.Singleton
 import jakarta.inject.Inject
-import java.util.UUID;
+import java.util.UUID
 ${moreImports}
 
 @Singleton
 class ${entityClass}Repository {
 
-    static final Logger log = LoggerFactory.getLogger(${entityClass}Repository.class);
+    static final Logger log = LoggerFactory.getLogger(${entityClass}Repository.class)
 
     @Inject
     MongoClient mongoClient
@@ -31,14 +31,14 @@ class ${entityClass}Repository {
     MongoCollection<${entityClass}> getCollection()
     {
 
-        log.info("Getting collection");
+        log.info("Getting collection")
         return mongoClient.getDatabase("${databaseName}")
                 .getCollection(mongodbConfiguration.getCollections().get("${entityName}"), ${entityClass}.class)
     }
 
     <% print reactor? "Mono" : "Single" %><${entityClass}> findAs<% print reactor? "Mono" : "Single" %>(BsonDocument query)
     {
-        log.info("Finding query {}", query);
+        log.info("Finding query {}", query)
 
         return <% print reactor? "Mono" : "Single" %>
                 .from<% print reactor? "" : "Publisher" %>(getCollection()
@@ -47,7 +47,7 @@ class ${entityClass}Repository {
 
     <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAs<% print reactor? "Flux" : "Flowable" %>(BsonDocument query)
     {
-        log.info("Finding query {}", query);
+        log.info("Finding query {}", query)
         return <% print reactor? "Flux" : "Flowable" %>
                    .from<% print reactor? "" : "Publisher" %>(getCollection()
                            .find(query))
@@ -57,10 +57,10 @@ class ${entityClass}Repository {
     <% print reactor? "Mono" : "Single" %><${entityClass}> save(${entityClass} object)
     {
 
-        log.info("saving ${entityClass}", object);
+        log.info("saving ${entityClass}", object)
         if(object.getId() == null)
         {
-            object.setId(UUID.randomUUID().toString());
+            object.setId(UUID.randomUUID().toString())
         }
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().insertOne(object)
          ).map({success -> object})
@@ -69,22 +69,22 @@ class ${entityClass}Repository {
     <% print reactor? "Flux" : "Flowable" %><${entityClass}> findAll()
     {
 
-        log.info("finding all ${entityClass}");
+        log.info("finding all ${entityClass}")
         return  <% print reactor? "Flux" : "Flowable" %>.from<% print reactor? "" : "Publisher" %>(getCollection().find())
     }
 
     <% print reactor? "Mono" : "Single" %><${entityClass}> findById(final String id){
-        log.info("finding ${entityClass} by Id {}", id);
-        final BsonDocument document = new BsonDocument();
-        document.append("_id", new BsonString(id));
+        log.info("finding ${entityClass} by Id {}", id)
+        final BsonDocument document = new BsonDocument()
+        document.append("_id", new BsonString(id))
         return findAs<% print reactor? "Mono" : "Single" %>(document)
     }
 
 
     <% print reactor? "Mono" : "Single" %><Boolean> deleteById(String id) {
-        log.info("Deleting ${entityClass} by Id {}", id);
-        BsonDocument document = new BsonDocument();
-        document.append("_id", new BsonString(id));
+        log.info("Deleting ${entityClass} by Id {}", id)
+        BsonDocument document = new BsonDocument()
+        document.append("_id", new BsonString(id))
         return <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().deleteOne(document))
                        .map(success->Boolean.TRUE)
                        .onErrorReturn(<% print reactor? "" : "fail->" %>Boolean.FALSE)

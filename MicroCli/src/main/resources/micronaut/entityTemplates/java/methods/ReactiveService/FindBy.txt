@@ -1,0 +1,8 @@
+    <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findBy'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    public ${returnType} findBy${Attribute}(${attributeType} query<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+          log.info("Finding ${className} By ${Attribute}: {}", query);
+          return Single.fromPublisher(${entityName}Repository.findBy${Attribute}(query));
+    }
+
+

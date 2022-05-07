@@ -1,1 +1,0 @@
-    fun findAllBy${Attribute}(${attr} : ${type}) : Flux<$Entity>

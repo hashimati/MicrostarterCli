@@ -1,1 +1,0 @@
-    public Mono<${Entity}> findBy${Attribute}(${type} ${attr});
