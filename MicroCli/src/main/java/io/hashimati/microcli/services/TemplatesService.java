@@ -124,8 +124,8 @@ public class TemplatesService {
             R2DBC_CLIENT = "r2dbc_client",
 
             GENERAL_REACTIVE_REPOSITORY ="GENERAL_REACTIVE_REPOSITORY",
-                    GENERAL_REACTIVE_SERVICE = "GENERAL_REACTIVE_REPOSITORY",
-                    GENERAL_REACTIVE_CLIENT = "GENERAL_REACTIVE_REPOSITORY",
+                    GENERAL_REACTIVE_SERVICE = "GENERAL_REACTIVE_SERVICE",
+                    GENERAL_REACTIVE_CLIENT = "GENERAL_REACTIVE_CLIENT",
             GORM_ENTITY="gorm_entity",
             GORM_REPOSITORY = "gorm_repository",
             GORM_SERVICE = "gorm_service",

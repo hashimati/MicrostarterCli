@@ -659,7 +659,6 @@ public class MicronautEntityGenerator
                 binder.put("isNonBlocking", entity.isNonBlocking());
                 String templatePath= getTemplatPath(GENERAL_REACTIVE_REPOSITORY, language.toLowerCase());
 
-
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
             }
             else {
@@ -874,15 +873,16 @@ public class MicronautEntityGenerator
         String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
         String blocking = ".orElse(null)";
 
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+       if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor"))// if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
             blocking = "";
         }
-        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
-            returnType = "Single<"+ entity.getName() + ">";
+        else if(entity.isNonBlocking() && !entity.getReactiveFramework().equalsIgnoreCase("reactor"))//if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
+       {
+           returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
             updateReturnType = "Single<Long>";
             blocking = "";
@@ -999,6 +999,7 @@ public class MicronautEntityGenerator
                 break;
         }
 
+
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
 
@@ -1072,13 +1073,14 @@ public class MicronautEntityGenerator
         String returnType = entity.getName();
         String updateReturnType = "Long";
         String returnTypeList = (entity.isPageable()?"Page":"Iterable")+"<"+entity.getName() + ">";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.isNonBlocking() &&  entity.getReactiveFramework().equalsIgnoreCase("reactor"))//if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
         }
-        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() ){
+        else if(entity.isNonBlocking() &&  !entity.getReactiveFramework().equalsIgnoreCase("reactor"))//if(entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() ){
+        {
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
             updateReturnType = "Single<Long>";
@@ -1203,7 +1205,9 @@ public class MicronautEntityGenerator
         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
 
         String serviceTemplate ;
-        String templatePath="";
+        String templatePath=getTemplatPath(entity.isNonBlocking()? MONGO_CONTROLLER:CONTROLLER, language.toLowerCase());
+        serviceTemplate = templatesService.loadTemplateContent(templatePath);
+
         switch (entity.getDatabaseType().toLowerCase())
         {
             case "mongodb":
@@ -1211,7 +1215,8 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
             default:
-                String templateKey = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   R2DBC_CONTROLLER :TemplatesService.CONTROLLER;
+                //mongo
+                String templateKey = (entity.getFrameworkType().equalsIgnoreCase("r2dbc"))?   MONGO_CONTROLLER :TemplatesService.CONTROLLER;
 
 
                 templatePath= getTemplatPath(templateKey, language.toLowerCase());
@@ -1518,7 +1523,7 @@ public class MicronautEntityGenerator
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
-        String key = (entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) && entity.isNonBlocking() && !entity.isGorm())? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
+        String key = (entity.isNonBlocking() )? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
 
         String templatePath= getTemplatPath(key, language.toLowerCase());
 

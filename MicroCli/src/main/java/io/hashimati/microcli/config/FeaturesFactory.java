@@ -92,11 +92,11 @@ public class FeaturesFactory {
 
 
             setName("data-r2dbc");
-            setGradle("    implementation(\"io.micronaut.r2dbc:micronaut-data-r2dbc\")");
+            setGradle("    implementation(\"io.micronaut.data:micronaut-data-r2dbc\")");
 
 
             getMaven().add("\t<dependency>\n" +
-                    "\t\t<groupId>io.micronaut.r2dbc</groupId>\n" +
+                    "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-r2dbc</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");

@@ -235,9 +235,11 @@ public class ConfigurationInitializer {
                         break;
                     case "R2DBC":
                         configurationInfo.setNonBlocking(true);
-                        MicronautProjectValidator.addDependency(workingPath,features.get("r2dbc"));
-                        projectInfo.getFeatures().add("r2dbc");
-                        projectInfo.getFeatures().add("reactor");
+
+                        //The below three lines to be deleted.
+//                        MicronautProjectValidator.addDependency(workingPath,features.get("r2dbc"));
+//                        projectInfo.getFeatures().add("r2dbc");
+//                        projectInfo.getFeatures().add("reactor");
                         databaseFeature = features.get("data-r2dbc");
                         projectInfo.getFeatures().add("r2dbc-data");
                         break;

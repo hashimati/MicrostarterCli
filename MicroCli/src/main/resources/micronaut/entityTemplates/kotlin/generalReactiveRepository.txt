@@ -7,11 +7,13 @@ import io.micronaut.data.model.*
 <% if(mongo) out.print 'import io.micronaut.data.mongodb.annotation.MongoRepository' %><% if(r2dbc) out.print 'import io.micronaut.data.r2dbc.annotation.R2dbcRepository' %>
 <% if(isNonBlocking) out.print 'import io.micronaut.data.repository.reactive.*'%>
 import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>
+<% if (reactor) out.print 'import reactor.core.publisher.Flux;' %><% if(rxjava2) out.print 'import io.reactivex.Flowable;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable;'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono;' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%>
 import java.util.*
 <% if(mongo) out.print 'import org.bson.types.ObjectId' %>
 ${moreImports}
 
 <% if(mongo) out.print '@MongoRepository' %><% if(r2dbc) out.print '@R2dbcRepository(dialect = Dialect.'+dialect+')' %>
-interface ${className}Repository : <% if(reactor) out.print 'ReactorCrudRepository' %><% if(rxjava2) out.print 'RxJavaCrudRepository' %><% if(rxjava3) out.print 'ReactiveStreamsCrudRepository' %><${className}, String> {
+interface ${className}Repository : <% if(reactor) out.print 'ReactorCrudRepository' %><% if(rxjava2) out.print 'RxJavaCrudRepository' %><% if(rxjava3) out.print 'ReactiveStreamsCrudRepository' %><${className}, <% if(!mongo) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
 ${methods}
 }
