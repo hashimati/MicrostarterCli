@@ -664,7 +664,7 @@ private String path;
                 String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);
                 GeneratorUtils.createFile(path + "/src/test/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage() + ".utils") + "/Randomizer" + extension, randromizerFileContent);
 
-                if (Arrays.asList("jpa", "jdbc").contains(configurationInfo.getDataBackendRun().toLowerCase())) {
+                if (Arrays.asList("jpa", "jdbc", "r2dbc").contains(configurationInfo.getDataBackendRun().toLowerCase())) {
                     HashMap<String, String> mapper;
                     switch (configurationInfo.getDatabaseType()) {
                         case "oracle":

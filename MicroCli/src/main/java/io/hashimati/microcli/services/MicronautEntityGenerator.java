@@ -444,13 +444,13 @@ public class MicronautEntityGenerator
             }
         }
         //This is temp resolution for R2DBC, The complete if statement should be deleted after finding the resolution.
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
-        {
-            entityTemplate = entityTemplate.replaceAll("Date dateCreated", "String dateCreated");
-
-            entityTemplate = entityTemplate.replaceAll("Date dateUpdated", "String dateUpdated");
-
-        }
+//        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc"))
+//        {
+//            entityTemplate = entityTemplate.replaceAll("Date dateCreated", "String dateCreated");
+//
+//            entityTemplate = entityTemplate.replaceAll("Date dateUpdated", "String dateUpdated");
+//
+//        }
         String result = new SimpleTemplateEngine().createTemplate(entityTemplate).make(binder).toString();
         if(!language.equalsIgnoreCase(JAVA_LANG))
             result = result.replace(";", "");
@@ -982,22 +982,33 @@ public class MicronautEntityGenerator
         binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
         String serviceTemplate = "";
-        String templatePath="";
+        String templatePath=getTemplatPath(SERVICE, language.toLowerCase());;
 
-        switch (entity.getDatabaseType().toLowerCase())
+        if(entity.isNonBlocking() && entity.isMnData()){
+            templatePath = getTemplatPath(GENERAL_REACTIVE_SERVICE, language.toLowerCase());
+            serviceTemplate = templatesService.loadTemplateContent(templatePath);
+
+        } else if(entity.isNonBlocking() && !entity.isMnData())
         {
-            case "mongodb":
+            templatePath = getTemplatPath(TemplatesService.MONGO_SERVICE, language.toLowerCase());
+            serviceTemplate = templatesService.loadTemplateContent(templatePath);
 
-                 templatePath= getTemplatPath(!entity.isNonBlocking()?SERVICE:TemplatesService.MONGO_SERVICE, language.toLowerCase());
-                serviceTemplate = templatesService.loadTemplateContent(templatePath);
-                break;
-            default:
-                String templateKey = (entity.isNonBlocking() && entity.isMnData())?   GENERAL_REACTIVE_SERVICE : SERVICE;
-
-                templatePath= getTemplatPath(templateKey, language.toLowerCase());
-                serviceTemplate = templatesService.loadTemplateContent(templatePath);
-                break;
         }
+
+//        switch (entity.getDatabaseType().toLowerCase())
+//        {
+//            case "mongodb":
+//
+//                 templatePath= getTemplatPath(!entity.isNonBlocking()?SERVICE:TemplatesService.MONGO_SERVICE, language.toLowerCase());
+//                serviceTemplate = templatesService.loadTemplateContent(templatePath);
+//                break;
+//            default:
+//                String templateKey = (entity.isNonBlocking() && entity.isMnData())?   GENERAL_REACTIVE_SERVICE : SERVICE;
+//
+//                templatePath= getTemplatPath(templateKey, language.toLowerCase());
+//                serviceTemplate = templatesService.loadTemplateContent(templatePath);
+//                break;
+//        }
 
 
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
@@ -1255,16 +1266,17 @@ public class MicronautEntityGenerator
         String returnType = entity.getName();
         String updateReturnType = "Long";
         String returnTypeList = "Iterable<"+entity.getName() + ">";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor"))//(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             returnType = "Mono<"+ entity.getName() + ">";
             returnTypeList = "Flux<"+ entity.getName() + ">";
             updateReturnType = "Mono<Long>";
         }
-        else if(entity.getDatabaseType().equalsIgnoreCase("mongodb")  && entity.isNonBlocking()){
+        else if(entity.isNonBlocking() && !entity.getReactiveFramework().equalsIgnoreCase("reactor"))//(entity.getDatabaseType().equalsIgnoreCase("mongodb")  && entity.isNonBlocking()){
+        {
             returnType = "Single<"+ entity.getName() + ">";
             returnTypeList = "Flowable<"+ entity.getName() + ">";
-            updateReturnType = "Single<Mono>";
+            updateReturnType = "Single<Long>";
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
@@ -1410,13 +1422,14 @@ public class MicronautEntityGenerator
 
         String blockSingle = "";
         String blockIter = "";
-        if(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") &&  entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor"))//(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") &&  entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
         {
             blockSingle = ".block()";
             blockIter = ".toIterable()";
         }
-        else if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
-            blockSingle = ".getBlocking()";
+        else if(entity.isNonBlocking() && !entity.getReactiveFramework().equalsIgnoreCase("reactor"))//if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
+        {
+            blockSingle = ".blockingGet()";
             blockIter = ".blockingIterable()";
         }
         boolean principal = entity.isSecurityEnabled();

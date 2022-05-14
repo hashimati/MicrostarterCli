@@ -7,7 +7,7 @@ import com.mongodb.reactivestreams.client.MongoCollection
 import ${entityPackage}.${entityClass}
 import ${projectPackage}.config.MongodbConfiguration
 <% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
-<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 import org.bson.BsonDocument
 import org.bson.BsonString
 import jakarta.inject.Inject

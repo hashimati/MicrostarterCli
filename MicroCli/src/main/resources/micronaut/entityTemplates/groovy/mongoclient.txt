@@ -7,7 +7,7 @@ import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client
 import jakarta.inject.Inject
 <% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
-<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 ${moreImports}
 import ${entityPackage}
 
