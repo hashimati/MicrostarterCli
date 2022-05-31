@@ -21,6 +21,7 @@ public class DataTypeMapper
         put("string", "String");
         put("date", "Date");
         put("String", "String");
+        put("file", "String");
     }};
 
     public final static HashMap<String ,String> mysqlMapper = new HashMap<String, String>(){{
@@ -35,6 +36,7 @@ public class DataTypeMapper
         put("double", "double");
         put("string", "varchar");
         put("date", "timestamp");
+        put("file", "varchar");
     }};
 
     public final static HashMap<String ,String> oracleMapper = new HashMap<String, String>(){{
@@ -49,6 +51,7 @@ public class DataTypeMapper
         put("double", "float(24)");
         put("string", "varchar2");
         put("date", "timestamp");
+        put("file", "varchar2");
     }};
 
     public final static HashMap<String ,String> mssqlMapper = new HashMap<String, String>(){{
@@ -63,6 +66,7 @@ public class DataTypeMapper
         put("double", "float");
         put("string", "varchar");
         put("date", "datetime");
+        put("file", "varchar");
     }};
 
     public final static HashMap<String ,String> postgresMapper = new HashMap<String, String>(){{
@@ -77,6 +81,7 @@ public class DataTypeMapper
         put("double", "double");
         put("string", "varchar");
         put("date", "timestamp");
+        put("file", "varchar");
     }};
 
     public final static HashMap<String ,String> liquibaseMapper = new HashMap<String, String>(){{
@@ -91,6 +96,7 @@ public class DataTypeMapper
         put("double", "float");
         put("string", "varchar");
         put("date", "datetime");
+        put("file", "varchar");
     }};
 
 
@@ -115,6 +121,7 @@ public class DataTypeMapper
         put("double", "Float");
         put("string", "String");
         put("date", "String");
+        put("file", "String");
     }};
 
 
@@ -130,5 +137,6 @@ public class DataTypeMapper
         put("double", "BsonDouble");
         put("string", "BsonString");
         put("date", "BsonTimestamp");
+        put("file", "BsonString");
     }};
 }

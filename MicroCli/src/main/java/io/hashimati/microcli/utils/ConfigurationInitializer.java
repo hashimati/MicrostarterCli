@@ -8,6 +8,7 @@ import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
+import fr.jcgay.notification.*;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
@@ -18,6 +19,8 @@ import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.domains.URL;
 import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.TemplatesService;
+import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import io.micronaut.http.HttpMethod;
 import io.micronaut.runtime.Micronaut;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -627,6 +630,25 @@ public class ConfigurationInitializer {
             }
         }
 
+        ConfirmResult fileSysRequest = createConfirmResult("fileService", "Do you want to use File Services?", YES);
+        if(fileSysRequest.getConfirmed() == YES)
+        {
+
+            configurationInfo.setSupportFileService(true);
+            String fileServiceType = createListPrompt("fileService", "Select the file service", "AWS", "FileSystem").getSelectedId();
+            configurationInfo.setFileServiceType(fileServiceType);
+
+            if(fileServiceType.equalsIgnoreCase("aws")){
+
+                String awsKey = inputText("awsKey", "Enter AWS key: ", "").getInput();
+                String awsSecret = inputText("awsSecret", "Enter AWS Secret: ", "").getInput();
+
+                configurationInfo.setAwsKey(awsKey);
+                configurationInfo.setAwsSecret(awsSecret);
+            }
+        }
+
+
         if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
         {
             if(!projectInfo.getFeatures().contains("openapi"))
@@ -676,6 +698,86 @@ public class ConfigurationInitializer {
 //        }
 
 
+        if(configurationInfo.isSupportFileService()){
+
+            if(configurationInfo.getFileServiceType().equalsIgnoreCase("aws")){
+
+                MicronautProjectValidator.addDependency(workingPath, features.get("aws-s3"));
+                templatesService.loadTemplates(null);
+                try {
+                    String awsPropertiesTemplate = templatesService.loadTemplateContent
+                            (templatesService.getProperties().get(AWS_CONFIGURATION_PROPERTIES));
+
+                    String awsProperties = new SimpleTemplateEngine().createTemplate(awsPropertiesTemplate).make(new HashMap(){{
+                        put("key", configurationInfo.getAwsKey());
+                        put("secret", configurationInfo.getAwsSecret());
+                    }}).toString();
+                    MicronautProjectValidator.appendToProperties(workingPath, awsProperties);
+
+
+                    String awsConfigurationTemplate = templatesService.loadTemplateContent(getTemplatePath(AWS_CONFIGURATION, projectInfo.getSourceLanguage().toLowerCase()));
+                    String awsConfiguration = new SimpleTemplateEngine().createTemplate(awsConfigurationTemplate)
+                            .make(new HashMap(){{
+                                put("mainPackage", projectInfo.getDefaultPackage()+".config");
+                            }}).toString();
+
+                    GeneratorUtils.createFile(workingPath+ "/src/main/" + projectInfo.getSourceLanguage()+"/"+GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()+".config") + "/AwsCredentials." +(projectInfo.getSourceLanguage().equalsIgnoreCase("Kotlin")? "kt": projectInfo.getSourceLanguage().toLowerCase()), awsConfiguration);
+
+
+
+                    String awsFactoryTemplate = templatesService.loadTemplateContent(getTemplatePath(AWS_CONFIGURATION_FACTORY, projectInfo.getSourceLanguage().toLowerCase()));
+                    String awsFactory = new SimpleTemplateEngine().createTemplate(awsFactoryTemplate)
+                            .make(new HashMap(){{
+                                put("mainPackage", projectInfo.getDefaultPackage()+".config");
+                            }}).toString();
+
+                    GeneratorUtils.createFile(workingPath+ "/src/main/" + projectInfo.getSourceLanguage()+"/"+GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()+".config") + "/AwsClientFactory." +(projectInfo.getSourceLanguage().equalsIgnoreCase("Kotlin")? "kt": projectInfo.getSourceLanguage().toLowerCase()), awsFactory);
+
+
+
+
+                    String awsServiceTemplate = templatesService.loadTemplateContent(getTemplatePath(AWS_S3_SERVICE, projectInfo.getSourceLanguage().toLowerCase()));
+                    String awsService = new SimpleTemplateEngine().createTemplate(awsServiceTemplate)
+                            .make(new HashMap(){{
+                                put("mainPackage", projectInfo.getDefaultPackage()+".services");
+                            }}).toString();
+
+                    GeneratorUtils.createFile(workingPath+ "/src/main/" + projectInfo.getSourceLanguage()+"/"+GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()+".services") + "/FileService." +(projectInfo.getSourceLanguage().equalsIgnoreCase("Kotlin")? "kt": projectInfo.getSourceLanguage().toLowerCase()), awsService);
+
+
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            else if (configurationInfo.getFileServiceType().equalsIgnoreCase("gcp")){
+
+            }
+            else if(configurationInfo.getFileServiceType().equalsIgnoreCase("azure"))
+            {
+
+            }
+            else {
+                try {
+                    String fileServiceTemplate = templatesService.loadTemplateContent(getTemplatePath(FILE_SYSTEM_SERVICE, projectInfo.getSourceLanguage().toLowerCase()));
+
+                    String fileService = new SimpleTemplateEngine().createTemplate(fileServiceTemplate)
+                            .make(new HashMap(){{
+                                put("mainPackage", projectInfo.getDefaultPackage()+".services");
+                            }}).toString();
+                    GeneratorUtils.createFile(workingPath+ "/src/main/" + projectInfo.getSourceLanguage()+"/"+GeneratorUtils.packageToPath(projectInfo.getDefaultPackage()+".services") + "/FileService." +(projectInfo.getSourceLanguage().equalsIgnoreCase("Kotlin")? "kt": projectInfo.getSourceLanguage().toLowerCase()), fileService);
+
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
+            }
+
+
+        }
+
         try {
 
            String logBackContent =  new TemplatesService().loadTemplateContent(LOGBACK_PATH);
@@ -698,12 +800,22 @@ public class ConfigurationInitializer {
         configurationInfo.setConfigured(true);
         configurationInfo.writeToFile(workingPath);
 
-
-
         setToDefault();
         System.gc();
+        //PromptGui.Notify("Configuration", "Configuration is completed!");
     }
+    private String getTemplatePath(String key, String language) {
 
+        if ("groovy".equals(language)) {
+            return templatesService.getGroovyTemplates().get(key);
+        } else if ("kotlin".equals(language)) {
+            return templatesService.getKotlinTemplates().get(key);
+        } else if ("java".equals(language)) {
+            return templatesService.getJavaTemplates().get(key);
+        }
+        else
+            return templatesService.getJavaTemplates().get(key);
+    }
 }
 
 

@@ -9,6 +9,9 @@ import de.codeshelf.consoleui.prompt.builder.CheckboxPromptBuilder;
 import de.codeshelf.consoleui.prompt.builder.ExpandableChoicePromptBuilder;
 import de.codeshelf.consoleui.prompt.builder.ListPromptBuilder;
 import de.codeshelf.consoleui.prompt.builder.PromptBuilder;
+import fr.jcgay.notification.*;
+import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
@@ -77,7 +80,8 @@ public class PromptGui {
                 .newItem("long").add()
                 .newItem("float").add()
                 .newItem("double").add()
-                .newItem("Date").add();
+                .newItem("Date").add()
+                .newItem("file").add();
                if(!enums.isEmpty()) {
 
                    for (String o : enums)
@@ -178,5 +182,24 @@ public class PromptGui {
         System.out.println(ansi().bold().fgBrightYellow().a(message));
         setToDefault();
 
+    }
+
+    public static void Notify(String title, String message)
+    {
+        ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
+
+        var icon = loader.getResource("classpath:images/MicrostarterLogo.png").get();
+        Notifier notifier = new SendNotification()
+             //   .setApplication(Application.builder().name("MicrostarterCLI").id("MicrostarterCLI").icon(Icon.create(icon, "MicrostarterCli")).build())
+                .initNotifier();
+        try
+        {
+            notifier.send(Notification.builder().title(title).icon(Icon.create(icon, "MicromstarterCli")).message(message).build());
+            notifier.close();
+        }
+        finally {
+            notifier.close();
+
+        }
     }
 }

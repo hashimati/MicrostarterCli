@@ -145,7 +145,6 @@ public class MicronautProjectValidator {
         String fileContent = GeneratorUtils.getFileContent(new File(path+(path.endsWith("/")? "":"/") + "settings.gradle"));
 
         String from = "rootProject.name=\"";
-        System.out.println(fileContent);
         return fileContent.substring(from.length(),fileContent.indexOf("\"", from.length()));
     }
 

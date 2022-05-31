@@ -56,10 +56,13 @@ public class ConfigurationInfo {
     private boolean tracingEnabled;
     private boolean mnData;
     private String javaVersion;
+    private String fileServiceType; // filesystem, aws, gcp, azure
+    private String awsKey, awsSecret;
     HashSet<Entity> entities = new HashSet<>();
     ArrayList<EntityRelation> relations = new ArrayList<>();
     HashSet<EnumClass> enums = new HashSet<>();
     private boolean configured;
+    private boolean supportFileService;
     private HashSet<String> securityRoles = new HashSet<>();
     public ConfigurationInfo visit(Visitor<ConfigurationInfo> visitor)
     {

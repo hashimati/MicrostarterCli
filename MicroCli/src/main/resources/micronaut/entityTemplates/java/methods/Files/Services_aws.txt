@@ -1,0 +1,39 @@
+
+
+  @Timed(value = "${package}.services.${entity}Service.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Uploading ${attributeCap} file")
+    public String upload${attributeCap}Aws(String id, CompletedFileUpload file)
+    {
+        String key = "${attributeCap}."+file.getContentType().get().getExtension();
+        ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
+        ${entity}.set${attributeCap}(key);
+        ${entityCap} updateResult = ${entity}Repository.update(${entity}).block();
+        String result = "Failed";
+        if(!updateResult.get${attributeCap}().equals(key)) return result;
+        ObjectMetadata metaData = new ObjectMetadata();
+        metaData.setContentLength(file.getSize());
+        try {
+            result =  fileService.createFile("${entityCap}",key, file.getInputStream(), metaData);
+
+        } finally {
+            return result;
+
+        }
+
+    }
+
+    @Timed(value = "${package}.services.${entity}Service.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Downloading ${attributeCap} file")
+    public io.micronaut.http.server.types.files.StreamedFile download${attributeCap}(String id)
+    {
+        ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
+        return fileService.OutputStreamFile("${package}.${entityCap}", ${entity}.get${attributeCap}(), ${entity}.get${attributeCap}());
+    }
+
+    @Timed(value = "${package}.services.${entity}Service.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Deleting ${attributeCap} file")
+    public String delete${attributeCap}eById(String id) {
+        String deleteFileResult = fileService.deleteFile("${package}.${entityCap}",${entity}Repository.findById(id).block().get${attributeCap}());
+        if(deleteFileResult.equalsIgnoreCase("Failed")) return "Failed";
+        ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
+        ${entity}.set${attributeCap}("");
+        ${entityCap} ${entity}Update = ${entity}Repository.update(${entity}).block();
+        return deleteFileResult;
+    }

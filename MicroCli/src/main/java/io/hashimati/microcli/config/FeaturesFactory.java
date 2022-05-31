@@ -982,6 +982,19 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
         }});
+        features.put("aws-s3", new Feature(){{
+            setName("aws-s3");
+
+            setGradle("    implementation (\"com.amazonaws:aws-java-sdk-s3:1.12.225\")");
+
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>com.amazonaws</groupId>\n" +
+                    "\t\t<artifactId>aws-java-sdk-s3</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n"+
+                    "\t\t<version>1.12.225</version>\n"+
+                    "\t</dependency>");
+
+        }});
 
         features.put("jax-rs", new Feature(){{
             setName("jax-rs");

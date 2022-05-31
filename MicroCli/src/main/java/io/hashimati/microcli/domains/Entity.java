@@ -57,6 +57,8 @@ public class Entity
     private boolean noEndpoints;
     private String javaVersion;
     private boolean javaRecord;
+    private String fileServiceType; // filesystem, aws, gcp, azure
+
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     private ArrayList<URL> urls = new ArrayList<>();
 
@@ -455,5 +457,13 @@ public class Entity
 
     public void setNonBlocking(boolean nonBlocking) {
         this.nonBlocking = nonBlocking;
+    }
+
+    public String getFileServiceType() {
+        return fileServiceType;
+    }
+
+    public void setFileServiceType(String fileServiceType) {
+        this.fileServiceType = fileServiceType;
     }
 }

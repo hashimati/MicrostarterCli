@@ -1,0 +1,42 @@
+package ${mainPackage};
+
+
+import io.micronaut.http.multipart.CompletedFileUpload;
+import jakarta.inject.Singleton;
+
+import java.io.File;
+import java.io.IOException;
+
+@Singleton
+public class FileService {
+
+    private static String currentDir = System.getProperty("user.dir");
+    public String save(CompletedFileUpload file, String destinationPath) {
+        try {
+            return  java.nio.file.Files.copy(
+                    file.getInputStream(),
+                    new File(destinationPath).toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING) > 0?"Success":"Failed";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public File readFile(String path){
+
+        return new File(path);
+    }
+
+    public String deleteFile(String path)  {
+
+        try {
+            java.nio.file.Files.delete(new File(path).toPath());
+            return "Success";
+        } catch (IOException e) {
+            //throw new RuntimeException(e);
+            return "Failed";
+        }
+
+    }
+}

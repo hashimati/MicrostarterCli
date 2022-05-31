@@ -213,7 +213,13 @@ public class TemplatesService {
             CAFFEINE_YML ="caffeine_yml",
 
             DISTRIBUTED_TRACING_ZIPKIN = "zipkin",
-                    DISTRIBUTED_TRACING_JAEGER = "jaeger";
+                    DISTRIBUTED_TRACING_JAEGER = "jaeger",
+            FILE_SYSTEM_SERVICE = "FILE_SYSTEM_SERVICE",
+            AWS_S3_SERVICE = "AWS_S3_SERVICE",
+            AWS_CONFIGURATION = "AWS_CONFIGURATION",
+            AMAZON_CLIENT = "AMAZON_CLIENT",
+                    AWS_CONFIGURATION_FACTORY = "AWS_CONFIGURATION_FACTORY",
+            AWS_CONFIGURATION_PROPERTIES = "AWS_CONFIGURATION_PROPERTIES";
 
 
 
@@ -397,6 +403,12 @@ public class TemplatesService {
         javaTemplates.put(EVENT_LISTENER, "micronaut/components/java/event/EventListener.txt");
         javaTemplates.put(EVENT_PUBLISHER, "micronaut/components/java/event/EventPublisher.txt");
         javaTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/java/MongoDataRepository.txt");
+        javaTemplates.put(AWS_CONFIGURATION, "micronaut/components/java/FileServices/AwsCredentials.txt");
+        javaTemplates.put(AWS_S3_SERVICE, "micronaut/components/java/FileServices/AwsStorageService.txt");
+        javaTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/java/FileServices/AwsFactory.txt");
+        javaTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/java/FileServices/FileSystem.txt");
+
+
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
@@ -494,6 +506,11 @@ public class TemplatesService {
         groovyTemplates.put(EVENT_LISTENER, "micronaut/components/groovy/event/EventListener.txt");
         groovyTemplates.put(EVENT_PUBLISHER, "micronaut/components/groovy/event/EventPublisher.txt");
         groovyTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/groovy/MongoDataRepository.txt");
+        groovyTemplates.put(AWS_CONFIGURATION, "micronaut/components/groovy/FileServices/AwsCredentials.txt");
+        groovyTemplates.put(AWS_S3_SERVICE, "micronaut/components/groovy/FileServices/AwsStorageService.txt");
+        groovyTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/groovy/FileServices/AwsFactory.txt");
+        groovyTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/groovy/FileServices/FileSystem.txt");
+
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -586,6 +603,10 @@ public class TemplatesService {
         kotlinTemplates.put(EVENT_LISTENER, "micronaut/components/kotlin/event/EventListener.txt");
         kotlinTemplates.put(EVENT_PUBLISHER, "micronaut/components/kotlin/event/EventPublisher.txt");
         kotlinTemplates.put(DATA_MONGODB_REPOSITORY, "micronaut/entityTemplates/kotlin/MongoDataRepository.txt");
+        kotlinTemplates.put(AWS_CONFIGURATION, "micronaut/components/kotlin/FileServices/AwsCredentials.txt");
+        kotlinTemplates.put(AWS_S3_SERVICE, "micronaut/components/kotlin/FileServices/AwsStorageService.txt");
+        kotlinTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/kotlin/FileServices/AwsFactory.txt");
+        kotlinTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/kotlin/FileServices/FileSystem.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
@@ -641,6 +662,7 @@ public class TemplatesService {
         properties.put(LIQUIBASE_yml, "micronaut/entityTemplates/sql/liquibase/liquibase_properties.yml");
         properties.put(MQTT_yml, "micronaut/entityTemplates/mqtt_properties.txt");
         properties.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
+        properties.put(AWS_CONFIGURATION_PROPERTIES, "micronaut/components/aws_properties.txt");
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
         graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");
