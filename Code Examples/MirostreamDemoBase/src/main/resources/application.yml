@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: mirostreamDemoBase
+netty:
+  default:
+    allocator:
+      max-order: 3
+
+---
+
+microstream:
+  storage:
+    main:
+      storage-directory: 'd:/microstreamData'
+      root-class: 'io.hashimati.microstream.Data'
