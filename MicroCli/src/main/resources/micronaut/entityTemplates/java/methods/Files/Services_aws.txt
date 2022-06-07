@@ -1,6 +1,6 @@
 
 
-  @Timed(value = "${package}.services.${entity}Service.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Uploading ${attributeCap} file")
+    @Timed(value = "${mainPackage}.${entity}Service.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Uploading ${attributeCap} file")
     public String upload${attributeCap}Aws(String id, CompletedFileUpload file)
     {
         String key = "${attributeCap}."+file.getContentType().get().getExtension();
@@ -21,16 +21,16 @@
 
     }
 
-    @Timed(value = "${package}.services.${entity}Service.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Downloading ${attributeCap} file")
+    @Timed(value = "${mainPackage}.${entity}Service.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Downloading ${attributeCap} file")
     public io.micronaut.http.server.types.files.StreamedFile download${attributeCap}(String id)
     {
         ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
-        return fileService.OutputStreamFile("${package}.${entityCap}", ${entity}.get${attributeCap}(), ${entity}.get${attributeCap}());
+        return fileService.OutputStreamFile("${mainPackage}.${entityCap}", ${entity}.get${attributeCap}(), ${entity}.get${attributeCap}());
     }
 
-    @Timed(value = "${package}.services.${entity}Service.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Deleting ${attributeCap} file")
+    @Timed(value = "${mainPackage}.${entity}Service.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Deleting ${attributeCap} file")
     public String delete${attributeCap}eById(String id) {
-        String deleteFileResult = fileService.deleteFile("${package}.${entityCap}",${entity}Repository.findById(id).block().get${attributeCap}());
+        String deleteFileResult = fileService.deleteFile("${mainPackage}.${entityCap}",${entity}Repository.findById(id).block().get${attributeCap}());
         if(deleteFileResult.equalsIgnoreCase("Failed")) return "Failed";
         ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
         ${entity}.set${attributeCap}("");

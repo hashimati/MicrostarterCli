@@ -1,5 +1,6 @@
-@NewSpan("${entityCap}-service")
-    @Timed(value = "${package}.controllers.${entity}Controller.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving a ${attribute} of a ${entity}")
+
+    @NewSpan("${entityCap}-service")
+    @Timed(value = "${mainPackage}.${entity}Controller.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving a ${attribute} of a ${entity}")
     @Operation(summary = "uploading ${attributeCap} File",
             description = "A REST service, which uploads ${attribute} for a ${entityCap} object."
     )
@@ -16,7 +17,7 @@
 
 
     @NewSpan("${entityCap}-service")
-    @Timed(value = "${package}.controllers.${entity}Controller.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for downloading the ${attribute} of a ${entity}")
+    @Timed(value = "${mainPackage}.${entity}Controller.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for downloading the ${attribute} of a ${entity}")
     @Operation(summary = "Downloading ${attributeCap} File",
             description = "A REST service, which downloads a ${attribute} for a ${entityCap} object."
     )
@@ -33,7 +34,7 @@
 
 
     @NewSpan("${entityCap}-service")
-    @Timed(value = "${package}.controllers.${entity}Controller.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a ${attribute} of a ${entity}")
+    @Timed(value = "${mainPackage}.${entity}Controller.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a ${attribute} of a ${entity}")
     @Operation(summary = "uploading ${attributeCap} File",
             description = "A REST service, which deletes a ${attribute} for a ${entityCap} object."
     )

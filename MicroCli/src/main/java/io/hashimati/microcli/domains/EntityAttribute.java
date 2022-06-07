@@ -110,6 +110,12 @@ public class EntityAttribute {
         return isByte() || isInteger() || isShort() || isChar() || isDouble() || isFloat();
     }
 
+    @JsonIgnore
+    public  boolean isFile()
+    {
+        return type.equalsIgnoreCase("file");
+
+    }
     public String getName() {
         return name;
     }
