@@ -4,9 +4,9 @@
     {
 
         String path = System.getProperty("user.dir")+"/"+file.getFilename();
-        ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
+        ${entityCap} ${entity} = ${entity}Repository.findById(id)${block};
         ${entity}.set${attributeCap}(path);
-        ${entityCap} updateResult = ${entity}Repository.update(${entity}).block();
+        ${entityCap} updateResult = ${entity}Repository.update(${entity})${block};
         if(!updateResult.get${attributeCap}().equals(path)) return "Failed";
         String saveResult = fileService.save(file, path);
         return saveResult;
@@ -15,7 +15,7 @@
     public io.micronaut.http.server.types.files.StreamedFile download${attributeCap}(String id){
          try {
              return new StreamedFile(fileService.readFile(
-                     ${attribute}Repository.findById(id).block().get${attributeCap}()
+                     ${attribute}Repository.findById(id)${block}.get${attributeCap}()
              ).toURI().toURL());
          } catch (MalformedURLException e) {
              throw new RuntimeException(e);
@@ -25,7 +25,7 @@
     @Timed(value = "${mainPackage}.${entity}Service.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Deleting ${attributeCap} file")
     public String delete${attributeCap}(${idType} id)
     {
-        ${entityCap} ${entity} = ${entity}Repository.findById(id).block();
+        ${entityCap} ${entity} = ${entity}Repository.findById(id)${block};
         ${entity}.set${attributeCap}("");
         ${entity}Repository.update(${entity});
         return fileService.deleteFile(${entity}.get${attributeCap}());

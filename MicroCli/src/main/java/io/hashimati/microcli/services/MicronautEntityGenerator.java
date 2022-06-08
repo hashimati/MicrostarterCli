@@ -932,6 +932,16 @@ public class MicronautEntityGenerator
                 binder.put("attributeCap",NameUtils.capitalize(ea.getName()));
                 binder.put("attribute", NameUtils.camelCase(ea.getName()));
                 binder.put("idType", entity.getDatabaseType().equalsIgnoreCase("mongodb")? "String":"Long");
+
+                String block = ".get()";
+                if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")){
+                    block = ".block()";
+                }
+                else if(entity.isNonBlocking())
+                {
+                    block = ".getBlocking()";
+                }
+                binder.put("block", block);
                 var fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS));
 
                 switch (entity.getFileServiceType())
@@ -947,6 +957,9 @@ public class MicronautEntityGenerator
                         fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS_AZURE));
 
                         break;
+                    default:
+                        fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS));
+
                 }
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(fileMethodTemplate).make(binder)).toString();
 
@@ -1012,6 +1025,7 @@ public class MicronautEntityGenerator
         binder.put("pageable", entity.isPageable());
         binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
+        binder.put("file", entity.getFileServiceType() != null);
         String serviceTemplate = "";
         String templatePath= getTemplatePath(SERVICE, language.toLowerCase());;
 

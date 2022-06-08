@@ -522,6 +522,7 @@ private String path;
                     }});
                     GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
 
+                    entity.setFileServiceType(configurationInfo.getFileServiceType());
                     if (graphql) {
                         entity.setGraphQl(true);
 
