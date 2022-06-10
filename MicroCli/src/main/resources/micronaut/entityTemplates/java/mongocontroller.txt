@@ -4,6 +4,8 @@ package ${controllerPackage};
 import jakarta.inject.Inject;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.core.version.annotation.Version;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 <% if(principle) out.print 'import java.security.Principal;' %>

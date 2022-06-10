@@ -5,6 +5,7 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import ${entityPackage}
 <% if(principle) out.print 'import java.security.Principal' %>
+import io.micronaut.http.multipart.CompletedFileUpload
 import ${repoPackage}
 <% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
 <% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
@@ -16,7 +17,7 @@ ${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
-class ${className}Service(private val ${entityName}Repository: ${className}Repository){
+class ${className}Service(private val ${entityName}Repository: ${className}Repository<% if(file) out.print ', private val fileService:FileService ' %>){
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
 	fun save(${entityName}:${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>) :<% print reactor? "Mono" : "Single" %><${className}> {

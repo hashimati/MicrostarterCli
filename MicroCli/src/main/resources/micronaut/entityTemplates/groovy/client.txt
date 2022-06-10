@@ -4,10 +4,13 @@ package ${clientPackage}
 
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.annotation.*
-import io.micronaut.http.client.annotation.Client;
-import io.reactivex.Single
-<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
-<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+import io.micronaut.http.client.annotation.Client
+<% print reactor? "import reactor.core.publisher.Flux" : "import io.reactivex.Flowable" %>
+<% print reactor? "import reactor.core.publisher.Mono" : "import io.reactivex.Single" %>
+import io.micronaut.http.MediaType
+import io.micronaut.http.multipart.CompletedFileUpload
+<% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 ${moreImports}
 import ${entityPackage}
 

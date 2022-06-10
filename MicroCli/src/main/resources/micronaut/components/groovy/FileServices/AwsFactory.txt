@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory
 
 @Factory
 class AwsClientFactory {
-    private static final Logger log = LoggerFactory.getLogger(AwsClientFactory.class)
+    static final Logger log = LoggerFactory.getLogger(AwsClientFactory.class)
 
     @Inject
-    private AwsCredentials awsCredentials
+    AwsCredentials awsCredentials
 
     @Bean
     AmazonS3 amazonS3(){

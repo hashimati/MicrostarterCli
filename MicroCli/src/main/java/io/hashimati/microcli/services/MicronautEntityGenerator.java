@@ -931,20 +931,23 @@ public class MicronautEntityGenerator
                 binder.put("mainPackage", entity.getServicePackage());
                 binder.put("attributeCap",NameUtils.capitalize(ea.getName()));
                 binder.put("attribute", NameUtils.camelCase(ea.getName()));
-                binder.put("idType", entity.getDatabaseType().equalsIgnoreCase("mongodb")? "String":"Long");
+                binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String":"Long");
 
                 String block = ".get()";
+                String updateBlock = "";
                 if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")){
-                    block = ".block()";
+                    block = updateBlock = ".block()";
                 }
                 else if(entity.isNonBlocking())
                 {
-                    block = ".getBlocking()";
+                    block  = updateBlock  = ".getBlocking()";
                 }
                 binder.put("block", block);
+                binder.put("updateBlock", updateBlock);
                 var fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS));
 
-                switch (entity.getFileServiceType())
+
+                switch (entity.getFileServiceType().toLowerCase())
                 {
                     case "aws":
                         fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS_AWS));
@@ -1028,7 +1031,7 @@ public class MicronautEntityGenerator
         binder.put("file", entity.getFileServiceType() != null);
         String serviceTemplate = "";
         String templatePath= getTemplatePath(SERVICE, language.toLowerCase());;
-
+        serviceTemplate = templatesService.loadTemplateContent(templatePath);
         if(entity.isNonBlocking() && entity.isMnData()){
             templatePath = getTemplatePath(GENERAL_REACTIVE_SERVICE, language.toLowerCase());
             serviceTemplate = templatesService.loadTemplateContent(templatePath);
@@ -1371,6 +1374,24 @@ public class MicronautEntityGenerator
             if(ea.isFindByMethod()){
 
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
+            }
+
+
+
+            if(ea.isFile()){
+
+
+                HashMap<String,Object> binder = new HashMap<>();
+                binder.put("entityCap", entity.getName());
+                binder.put("entity", NameUtils.camelCase(entity.getName()));
+                binder.put("mainPackage", entity.getRestPackage());
+                binder.put("attributeCap",NameUtils.capitalize(ea.getName()));
+                binder.put("attribute", NameUtils.camelCase(ea.getName()));
+                binder.put("idType", entity.getDatabaseType().equalsIgnoreCase("mongodb")? "String": "Long");
+
+                var fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_CLIENT_METHODS));
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(fileMethodTemplate).make(binder)).toString();
+
             }
 
         }

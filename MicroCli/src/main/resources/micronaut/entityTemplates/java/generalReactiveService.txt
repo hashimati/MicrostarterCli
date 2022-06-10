@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import ${entityPackage};
 import ${repoPackage};
+import io.micronaut.http.multipart.CompletedFileUpload;
 <% if(principle) out.print 'import java.security.Principal;' %>
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
 <% if (reactor) out.print 'import reactor.core.publisher.Flux;' %><% if(rxjava2) out.print 'import io.reactivex.Flowable;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable;'%>
@@ -23,7 +24,7 @@ public class ${className}Service {
 
     @Inject private ${className}Repository ${entityName}Repository;
 
-
+    <% if(file) out.print '@Inject FileService fileService;' %>
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
 	public <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
         log.info("Saving  ${className} : {}", ${entityName});

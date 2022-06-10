@@ -1,21 +1,21 @@
-package ${package};
+package ${package}
 
-import ${generalException}.${className}GeneralException;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
-import io.micronaut.http.annotation.Produces;
-import io.micronaut.http.server.exceptions.ExceptionHandler;
-import jakarta.inject.Singleton;
+import ${generalException}.${className}GeneralException
+import io.micronaut.context.annotation.Requires
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.annotation.Produces
+import io.micronaut.http.server.exceptions.ExceptionHandler
+import jakarta.inject.Singleton
 
 
 @Produces
 @Requires(classes = {${className}GeneralException.class, ExceptionHandler.class})
 @Singleton
-public class ${className}ExceptionHandler implements ExceptionHandler<${className}GeneralException, HttpResponse> {
+class ${className}ExceptionHandler : ExceptionHandler<${className}GeneralException, HttpResponse> {
     @Override
-    public HttpResponse handle(HttpRequest request, ${className}GeneralException exception) {
-        return HttpResponse.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    fun HttpResponse handle( request:HttpRequest, exception:${className}GeneralException) {
+        return HttpResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

@@ -216,6 +216,7 @@ public class TemplatesService {
                     DISTRIBUTED_TRACING_JAEGER = "jaeger",
             FILE_SYSTEM_SERVICE = "FILE_SYSTEM_SERVICE",
             FILE_CONTROLLER_METHODS = "FILE_CONTROLLER_METHODS",
+                    FILE_CLIENT_METHODS = "FILE_CLIENT_METHODS",
             FILE_SERVICE_METHODS = "FILE_SERVICE_METHODS",
                     FILE_SERVICE_METHODS_AWS = "FILE_SERVICE_METHODS_AWS",
                     FILE_SERVICE_METHODS_AZURE = "FILE_SERVICE_METHODS_AZURE",
@@ -414,6 +415,7 @@ public class TemplatesService {
         javaTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/java/FileServices/AwsFactory.txt");
         javaTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/java/FileServices/FileSystem.txt");
         javaTemplates.put(FILE_CONTROLLER_METHODS, "micronaut/entityTemplates/java/methods/Files/Controllers.txt");
+        javaTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/java/methods/Files/Client.txt");
         javaTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/java/methods/Files/Services.txt");
         javaTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/java/methods/Files/Services_aws.txt");
 
@@ -520,6 +522,7 @@ public class TemplatesService {
         groovyTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/groovy/FileServices/AwsFactory.txt");
         groovyTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/groovy/FileServices/FileSystem.txt");
         groovyTemplates.put(FILE_CONTROLLER_METHODS, "micronaut/entityTemplates/groovy/methods/Files/Controllers.txt");
+        groovyTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/groovy/methods/Files/Client.txt");
         groovyTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/groovy/methods/Files/Services.txt");
         groovyTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/groovy/methods/Files/Services_aws.txt");
 
@@ -620,6 +623,7 @@ public class TemplatesService {
         kotlinTemplates.put(AWS_CONFIGURATION_FACTORY, "micronaut/components/kotlin/FileServices/AwsFactory.txt");
         kotlinTemplates.put(FILE_SYSTEM_SERVICE, "micronaut/components/kotlin/FileServices/FileSystem.txt");
         kotlinTemplates.put(FILE_CONTROLLER_METHODS, "micronaut/entityTemplates/kotlin/methods/Files/Controllers.txt");
+        kotlinTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/kotlin/methods/Files/Client.txt");
         kotlinTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/kotlin/methods/Files/Services.txt");
         kotlinTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/kotlin/methods/Files/Services_aws.txt");
 

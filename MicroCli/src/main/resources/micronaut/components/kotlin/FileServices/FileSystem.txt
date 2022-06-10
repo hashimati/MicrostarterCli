@@ -1,4 +1,4 @@
-package ${package};
+package ${mainPackage};
 
 
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -8,32 +8,33 @@ import java.io.File;
 import java.io.IOException;
 
 @Singleton
-public class FileSystemService {
+class FileService {
 
-    private static String currentDir = System.getProperty("user.dir");
-    public String save(CompletedFileUpload file, String destinationPath) {
+    val currentDir:String = System.getProperty("user.dir");
+    fun save(file: CompletedFileUpload , destinationPath:String) :String{
         try {
             return  java.nio.file.Files.copy(
                     file.getInputStream(),
                     new File(destinationPath).toPath(),
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING) > 0?"Success":"Failed";
-        } catch (IOException e) {
+        } catch ( e:IOException) {
             throw new RuntimeException(e);
 
         }
     }
 
-    public File readFile(String path){
+    fun readFile(path:String ):File {
 
         return new File(path);
     }
 
-    public String deleteFile(String path)  {
+
+    fun deleteFile(path: String ): String  {
 
         try {
             java.nio.file.Files.delete(new File(path).toPath());
             return "Success";
-        } catch (IOException e) {
+        } catch (e : IOException) {
             //throw new RuntimeException(e);
             return "Failed";
         }

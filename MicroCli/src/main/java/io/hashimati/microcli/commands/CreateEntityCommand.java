@@ -144,6 +144,8 @@ private String path;
 
             entity.setNoEndpoints(noEndpoint);
             entity.setJaxRs(configurationInfo.isJaxRs());
+            entity.setFileServiceType(configurationInfo.getFileServiceType());
+
             // reading collections/table name if the user didn't provide it .
             if(!noEndpoint)
             {
@@ -265,6 +267,7 @@ private String path;
                     //todo take validation
                     if(!attrTypeResult.getSelectedId().equalsIgnoreCase("file"))
                     {
+
                         ConfirmResult validationConfirm = PromptGui.createConfirmResult("attribute", "Do you want to add Validations to " + attrNameResult.getInput() + "?", NO);
 
                         if (validationConfirm.getConfirmed() == YES) {
@@ -338,6 +341,11 @@ private String path;
                             entityAttribute.setConstraints(entityConstraints);
                         }
                     }
+                    else {
+                        entityAttribute.setType("String");
+                        entityAttribute.setFile(true);
+                    }
+
                     if(!noEndpoint)
                     if (Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
 
@@ -522,7 +530,6 @@ private String path;
                     }});
                     GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
 
-                    entity.setFileServiceType(configurationInfo.getFileServiceType());
                     if (graphql) {
                         entity.setGraphQl(true);
 

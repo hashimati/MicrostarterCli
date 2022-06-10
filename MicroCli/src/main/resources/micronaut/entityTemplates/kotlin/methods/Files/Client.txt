@@ -1,0 +1,12 @@
+
+     @Post(value = "/upload/${attribute}/{id}", consumes = MediaType.MULTIPART_FORM_DATA)
+    fun upload${attributeCap}(@PathVariable("id") id:${idType},  file:CompletedFileUpload ):String
+
+
+    @Get(value = "/read/${attribute}/{id}")
+    fun read${attributeCap}(@PathVariable("id") id: ${idType}):java.io.File
+
+
+
+    @Delete("/delete/${attribute}/{id}")
+    fun delete${attributeCap}(@PathVariable("id") id: ${idType}) :String

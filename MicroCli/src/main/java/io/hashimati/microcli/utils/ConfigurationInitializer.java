@@ -640,8 +640,8 @@ public class ConfigurationInitializer {
 
             if(fileServiceType.equalsIgnoreCase("aws")){
 
-                String awsKey = inputText("awsKey", "Enter AWS key: ", "").getInput();
-                String awsSecret = inputText("awsSecret", "Enter AWS Secret: ", "").getInput();
+                String awsKey = inputText("awsKey", "Enter AWS key: ", "AWS-KEY").getInput();
+                String awsSecret = inputText("awsSecret", "Enter AWS Secret: ", "AWS-SECRET").getInput();
 
                 configurationInfo.setAwsKey(awsKey);
                 configurationInfo.setAwsSecret(awsSecret);

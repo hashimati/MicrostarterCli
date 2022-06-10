@@ -47,8 +47,7 @@ public class FileService {
           if (!amazonS3.doesBucketExistV2(bucket))
               createBucket(bucket);
 
-        System.out.println("the fucking bucket exist "
-                + amazonS3.doesBucketExistV2(bucket));
+
          return  amazonS3.putObject(bucket, key, inputStream, objectMetadata) == null? "Failed": "Success";
 
     }

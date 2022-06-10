@@ -1,6 +1,8 @@
 package ${controllerPackage};
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.multipart.CompletedFileUpload;
 <% if(principle) out.print 'import java.security.Principal;' %>
 <% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>

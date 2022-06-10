@@ -1,15 +1,15 @@
 
 
     @Timed(value = "${mainPackage}.${entity}Service.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Uploading ${attributeCap} file")
-    public String upload${attributeCap}Aws(String id, CompletedFileUpload file)
+    public String upload${attributeCap}(${idType} id, CompletedFileUpload file)
     {
         String key = "${attributeCap}."+file.getContentType().get().getExtension();
         ${entityCap} ${entity} = ${entity}Repository.findById(id)${block};
         ${entity}.set${attributeCap}(key);
-        ${entityCap} updateResult = ${entity}Repository.update(${entity})${block};
+        ${entityCap} updateResult = ${entity}Repository.update(${entity})${updateBlock};
         String result = "Failed";
         if(!updateResult.get${attributeCap}().equals(key)) return result;
-        ObjectMetadata metaData = new ObjectMetadata();
+        com.amazonaws.services.s3.model.ObjectMetadata metaData = new com.amazonaws.services.s3.model.ObjectMetadata();
         metaData.setContentLength(file.getSize());
         try {
             result =  fileService.createFile("${entityCap}",key, file.getInputStream(), metaData);
@@ -22,18 +22,18 @@
     }
 
     @Timed(value = "${mainPackage}.${entity}Service.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Downloading ${attributeCap} file")
-    public io.micronaut.http.server.types.files.StreamedFile download${attributeCap}(String id)
+    public io.micronaut.http.server.types.files.StreamedFile download${attributeCap}(${idType} id)
     {
         ${entityCap} ${entity} = ${entity}Repository.findById(id)${block};
         return fileService.OutputStreamFile("${mainPackage}.${entityCap}", ${entity}.get${attributeCap}(), ${entity}.get${attributeCap}());
     }
 
     @Timed(value = "${mainPackage}.${entity}Service.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Deleting ${attributeCap} file")
-    public String delete${attributeCap}eById(String id) {
+    public String delete${attributeCap}(${idType} id) {
         String deleteFileResult = fileService.deleteFile("${mainPackage}.${entityCap}",${entity}Repository.findById(id)${block}.get${attributeCap}());
         if(deleteFileResult.equalsIgnoreCase("Failed")) return "Failed";
         ${entityCap} ${entity} = ${entity}Repository.findById(id)${block};
         ${entity}.set${attributeCap}("");
-        ${entityCap} ${entity}Update = ${entity}Repository.update(${entity})${block};
+        ${entityCap} ${entity}Update = ${entity}Repository.update(${entity})${updateBlock};
         return deleteFileResult;
     }

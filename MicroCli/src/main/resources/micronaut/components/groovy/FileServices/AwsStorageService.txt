@@ -21,7 +21,7 @@ class FileService {
 
 
     @Inject
-    private AmazonS3 amazonS3
+    AmazonS3 amazonS3
 
     Bucket createBucket(String bucketName)
     {
@@ -46,9 +46,6 @@ class FileService {
 
           if (!amazonS3.doesBucketExistV2(bucket))
               createBucket(bucket)
-
-        System.out.println("the fucking bucket exist "
-                + amazonS3.doesBucketExistV2(bucket))
          return  amazonS3.putObject(bucket, key, inputStream, objectMetadata) == null? "Failed": "Success"
 
     }

@@ -2,6 +2,7 @@ package ${servicePackage};
 
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*;' %>
 import jakarta.inject.Inject;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import jakarta.inject.Singleton;
 <% if(principle) out.print 'import java.security.Principal;' %>
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ public class ${className}Service {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Service.class);
     @Inject private ${className}Repository ${entityName}Repository;
-    <% if(file) out.print '@Inject FileService fileService' %>
+    <% if(file) out.print '@Inject FileService fileService;' %>
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
     public ${className} save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){

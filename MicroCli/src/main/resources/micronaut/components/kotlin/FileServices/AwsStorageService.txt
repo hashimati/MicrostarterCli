@@ -1,4 +1,4 @@
-package ${package};
+package ${mainPackage};
 
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -17,51 +17,47 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Singleton
-public class AWSStorageService {
+class FileService(private val amzaonS3:AmazonS3) {
 
-
-    @Inject
-    private AmazonS3 amazonS3;
-
-    public Bucket createBucket(String bucketName)
+    fun createBucket(var bucketName: String): Bucket
     {
         return amazonS3.createBucket(bucketName);
     }
 
 
-    public void createFile( String bucket, String filePath) throws IOException {
+    @Throws(IOException::class)
+    fun createFile( var bucket:String, var filePath: String)  {
 
 
         if(!amazonS3.doesBucketExistV2(bucket))
+         { 
             createBucket(bucket);
-        File file = new File(filePath);
+         }
+        File file = File(filePath);
 
-        ObjectMetadata metaData = new ObjectMetadata();
+        ObjectMetadata metaData =  ObjectMetadata();
         metaData.setContentLength(file.length());
-        amazonS3.putObject(bucket, file.getName(), new FileInputStream(file), metaData);
+        amazonS3.putObject(bucket, file.getName(),  FileInputStream(file), metaData);
     }
-    public String createFile(String bucket, String key, InputStream inputStream, ObjectMetadata objectMetadata) throws IOException {
 
-
-
+    @Throws(IOException::class)
+    fun createFile(bucket:String, key:String, inputStream:InputStream,  objectMetadata:ObjectMetadata):String {
           if (!amazonS3.doesBucketExistV2(bucket))
               createBucket(bucket);
 
-        System.out.println("the fucking bucket exist "
-                + amazonS3.doesBucketExistV2(bucket));
          return  amazonS3.putObject(bucket, key, inputStream, objectMetadata) == null? "Failed": "Success";
 
     }
 
 
 
-    public String deleteFile(String bucket, String key){
+    fun deleteFile(bucket:String, key:String):String{
 
         try{
             amazonS3.deleteObject(bucket, key);
             return "Success";
         }
-        catch(Exception ex)
+        catch(ex:Exception )
         {
             ex.printStackTrace();
             return "Failed";
@@ -85,6 +81,6 @@ public class AWSStorageService {
     {
         S3Object s3Object = amazonS3.getObject(bucket, key);
         S3ObjectInputStream inputStream = s3Object.getObjectContent();
-        return new StreamedFile(inputStream,MediaType.forFilename(filename));
+        return  StreamedFile(inputStream,MediaType.forFilename(filename));
     }
 }

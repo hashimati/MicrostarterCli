@@ -32,7 +32,7 @@ public class EntityAttribute {
 
     private EntityConstraints constraints;
 
-
+    private boolean isFile;
     public EntityAttribute()
     {}
     @JsonIgnore
@@ -113,7 +113,7 @@ public class EntityAttribute {
     @JsonIgnore
     public  boolean isFile()
     {
-        return type.equalsIgnoreCase("file");
+        return isFile;
 
     }
     public String getName() {
@@ -310,5 +310,9 @@ public class EntityAttribute {
 
     public void setFindAllMethod(boolean findAllMethod) {
         this.findAllMethod = findAllMethod;
+    }
+
+    public void setFile(boolean file) {
+        isFile = file;
     }
 }

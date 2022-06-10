@@ -1,0 +1,12 @@
+
+     @Post(value = "/upload/${attribute}/{id}", consumes = MediaType.MULTIPART_FORM_DATA)
+    public String upload${attributeCap}(@PathVariable("id") ${idType} id,  CompletedFileUpload file);
+
+
+    @Get(value = "/read/${attribute}/{id}")
+    public java.io.File read${attributeCap}(@PathVariable("id") ${idType} id);
+
+
+
+    @Delete("/delete/${attribute}/{id}")
+    public String delete${attributeCap}(@PathVariable("id") ${idType} id);

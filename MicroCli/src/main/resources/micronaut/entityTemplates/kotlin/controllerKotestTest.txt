@@ -1,54 +1,54 @@
-package ${defaultPackage}.controllers;
+package ${defaultPackage}.controllers
 
-import ${defaultPackage}.domains.${className};
-import ${defaultPackage}.utils.Randomizer;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.http.client.HttpClient;
-import io.micronaut.http.client.annotation.Client;
+import ${defaultPackage}.domains.${className}
+import ${defaultPackage}.utils.Randomizer
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test
 ${moreImports}
 
 
 @MicronautTest
 class ${className}ControllerTest(@Client("/api/v1/${entityName}") private val client: HttpClient ):StringSpec( {
 
-    lateinit var ${entityName}:${className};
+    lateinit var ${entityName}:${className}
     fun save() {
-        var ${entityName}:${className} =  Randomizer<${className}>(${className}::class.java).randomInstance;
-        var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName});
+        var ${entityName}:${className} =  Randomizer<${className}>(${className}::class.java).randomInstance
+        var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName})
         this.${entityName} = client.toBlocking().retrieve(request, ${className}::class.java)
     }
 
     "testing saving ${entityName}"{
-          var ${entityName}:${className} =  Randomizer<${className}>(${className}::class.java).randomInstance;
-          var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName});
+          var ${entityName}:${className} =  Randomizer<${className}>(${className}::class.java).randomInstance
+          var request :HttpRequest<${className}> = HttpRequest.POST("/save", ${entityName})
           this.${entityName} = client.toBlocking().retrieve(request, ${className}::class.java)
-          assert(${entityName} != null);
+          assert(${entityName} != null)
     }
 
 
     "test finding ${entityName} by Id"{
-       save();
-         var request :HttpRequest<${className}>  = HttpRequest.GET("/get?id="+this.${entityName}.id);
-         var ${entityName}:${className} = client.toBlocking().retrieve(request, ${className}::class.java);
-         assertNotNull(${entityName});
-         assert(${entityName}.id.equals( this.${entityName}.id));
+       save()
+         var request :HttpRequest<${className}>  = HttpRequest.GET("/get?id="+this.${entityName}.id)
+         var ${entityName}:${className} = client.toBlocking().retrieve(request, ${className}::class.java)
+         assertNotNull(${entityName})
+         assert(${entityName}.id.equals( this.${entityName}.id))
     }
 
     "def '"test deleting ${entityName} by id" {
-        save();
-        var request:HttpRequest<Boolean>  = HttpRequest.DELETE("/delete/"+this.${entityName}.id);
-        var body: Boolean? = client.toBlocking().retrieve(request, Boolean::class.java);
-        assert(body == true);
+        save()
+        var request:HttpRequest<Boolean>  = HttpRequest.DELETE("/delete/"+this.${entityName}.id)
+        var body: Boolean? = client.toBlocking().retrieve(request, Boolean::class.java)
+        assert(body == true)
 
     }
 
 
     "void '"test finding all" {
-        save();
-        var request:HttpRequest<Iterable<${className}>>  = HttpRequest.GET("/findAll");
+        save()
+        var request:HttpRequest<Iterable<${className}>>  = HttpRequest.GET("/findAll")
         var list : Iterable<*>? = client.toBlocking().retrieve(request, Iterable::class.java)
         assert(list != null)
 
@@ -56,10 +56,10 @@ class ${className}ControllerTest(@Client("/api/v1/${entityName}") private val cl
 
 
     "test updating ${entityName}" {
-        save();
-        var request:HttpRequest<${className}> = HttpRequest.PUT("/update", this.${entityName});
-        var ${entityName}: ${className}  = client.toBlocking().retrieve(request, ${className}::class.java);
-        assert(${entityName} != null);
+        save()
+        var request:HttpRequest<${className}> = HttpRequest.PUT("/update", this.${entityName})
+        var ${entityName}: ${className}  = client.toBlocking().retrieve(request, ${className}::class.java)
+        assert(${entityName} != null)
 
     }
 }}

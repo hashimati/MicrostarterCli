@@ -10,9 +10,9 @@
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${entityCap} not found")
     @Post(value = "/upload/${attribute}/{id}", consumes = MediaType.MULTIPART_FORM_DATA)
-    public String upload${attributeCap}(@PathVariable("id") ${idType} id,  CompletedFileUpload file)
+    fun String upload${attributeCap}(@PathVariable("id")  id:${idType},   file:CompletedFileUpload)
     {
-        return ${entity}Service.upload${attributeCap}(id, file);
+        return ${entity}Service.upload${attributeCap}(id, file)
     }
 
 
@@ -27,9 +27,9 @@
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${entityCap} not found")
     @Get(value = "/read/${attribute}/{id}")
-    public io.micronaut.http.server.types.files.StreamedFile read${attributeCap}(@PathVariable("id") ${idType} id)
+    fun read${attributeCap}(@PathVariable("id") id: ${idType} ):io.micronaut.http.server.types.files.StreamedFile
     {
-        return ${entity}Service.download${attributeCap}(id);
+        return ${entity}Service.download${attributeCap}(id)
     }
 
 
@@ -44,8 +44,8 @@
     @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
     @ApiResponse(responseCode = "404", description = "${entityCap} not found")
     @Delete("/delete/${attribute}/{id}")
-    public String delete${attributeCap}(@PathVariable("id") ${idType} id)
+    fun delete${attributeCap}(@PathVariable("id") id: ${idType} ):String
     {
 
-        return ${entity}Service.delete${attributeCap}(id);
+        return ${entity}Service.delete${attributeCap}(id)
     }

@@ -4,6 +4,7 @@ package ${servicePackage}
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import javax.transaction.Transactional
+import io.micronaut.http.multipart.CompletedFileUpload
 import ${entityPackage}
 <% if(principle) out.print 'import java.security.Principal' %>
 import ${repoPackage}
@@ -20,6 +21,7 @@ ${moreImports}
 class ${className}Service {
      Logger log = LoggerFactory.getLogger(${className}Service.class)
     @Inject ${className}Repository ${entityName}Repository
+    <% if(file) out.print '@Inject FileService fileService' %>
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
     ${className} save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
