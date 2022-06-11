@@ -1013,6 +1013,27 @@ public class FeaturesFactory {
                     "            </path>");
         }});
 
+        features.put("microstream", new Feature(){{
+            setName("microstream");
+            setAnnotationGradle("    annotationProcessor(\"io.micronaut.microstream:micronaut-microstream-annotations\")");
+            setGradle("    implementation(\"io.micronaut.microstream:micronaut-microstream\")\n"+
+                    "    implementation(\"io.micronaut.microstream:micronaut-microstream-annotations\")");
+            setAnnotationMaven("\t\t<path>\n" +
+                    "\t\t\t<groupId>io.micronaut.microstream</groupId>\n" +
+                    "\t\t\t<artifactId>micronaut-microstream-annotations</artifactId>\n" +
+                    "\t\t\t<version>${micronaut.microstream.version}</version>\n" +
+                    "\t\t</path>");
+            getMaven().add("\t <dependency>\n" +
+                    "\t\t<groupId>io.micronaut.microstream</groupId>\n" +
+                    "\t\t<artifactId>micronaut-microstream</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            getMaven().add("\t <dependency>\n" +
+                    "\t\t<groupId>io.micronaut.microstream</groupId>\n" +
+                    "\t\t<artifactId>micronaut-microstream-annotations</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
         return features;
     }
 
