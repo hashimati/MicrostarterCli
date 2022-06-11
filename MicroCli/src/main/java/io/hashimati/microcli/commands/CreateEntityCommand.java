@@ -365,7 +365,7 @@ private String path;
             //Todo Update By Attribute
             if(!noEndpoint) if (!entity.getAttributes().isEmpty())
            {
-               String[] attributes = entity.getAttributes().stream().map(x->x.getName()).collect(Collectors.toList()).toArray(new String[entity.getAttributes().size()]);
+               String[] attributes = entity.getAttributes().stream().filter(x->!x.isFile()).map(x->x.getName()).collect(Collectors.toList()).toArray(new String[entity.getAttributes().size()]);
                updateByLoop:
                for(;;)
                {
