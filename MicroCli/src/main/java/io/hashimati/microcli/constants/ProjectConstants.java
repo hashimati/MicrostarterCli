@@ -15,9 +15,18 @@ public class ProjectConstants {
         public final static  String JAVA_LANG="java",
                 KOTLIN_LANG="kotlin",
                 GROOVY_LANG="groovy";
+
+
         public final static List<String> LANGUAGES = Arrays.asList(JAVA_LANG, KOTLIN_LANG, GROOVY_LANG);
     }
 
+    public static class DatabasesConstants{
+        public final static String
+        MicroStream_File_Base = "MicroStream-File-Base",MongoDB = "MongoDB", H2 = "H2", MySql = "MySql", MariaDB = "MariaDB", Postgres = "Postgres", Oracle =  "Oracle", SqlServer = "Sqlserver";
+
+        public final static List<String> DATABASES = Arrays.asList( MicroStream_File_Base ,MongoDB , H2, MySql, MariaDB ,Postgres, Oracle , SqlServer );
+
+    }
     public static class BuildConstats{
         public final static String GRADLE= "gradle",
         MAVEN = "maven";

@@ -1,0 +1,6 @@
+
+microstream:
+  storage:
+    {root}:
+      storage-directory: '${storageDirectory}'
+      root-class: '${rootClass}'

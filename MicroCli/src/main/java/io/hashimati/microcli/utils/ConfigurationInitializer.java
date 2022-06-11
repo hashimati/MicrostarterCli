@@ -14,6 +14,7 @@ import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
+import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.domains.URL;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.DATABASES;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
@@ -190,7 +192,7 @@ public class ConfigurationInitializer {
 //            if(!isDatabaseConfiguredByDefault.get())
             //Getting database type
             {
-                ListResult databaseTypeResult = PromptGui.createListPrompt("databaseType", "Select Database Type: ", "MongoDB", "H2", "MySql", "MariaDB", "Postgres", "Oracle", "Sqlserver");
+                ListResult databaseTypeResult = PromptGui.createListPrompt("databaseType", "Select Database Type: ", DATABASES.toArray(new String[]{}));
                 configurationInfo.setDatabaseType(databaseTypeResult.getSelectedId());
 
                 if(Arrays.asList("oracle", "sqlserver", "mysql", "postgres", "mariadb").contains(configurationInfo.getDatabaseType().toLowerCase())) {

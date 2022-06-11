@@ -9,7 +9,6 @@ import io.micronaut.core.annotation.NonNull;
 @Introspected
 public class Data {
     HashMap<String, Fruit> fruits = new HashMap<>();
-
     @NonNull
     public HashMap<String, Fruit> getFruits(){
         return this.fruits;

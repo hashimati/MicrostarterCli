@@ -8,7 +8,6 @@ import io.micronaut.microstream.annotations.StoreReturn;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import javax.validation.constraints.PastOrPresent;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +18,6 @@ public class FruitRepositoryImpl implements FruitRepository{
 
     @Inject
     RootProvider<Data> rootProvider;
-
 
     @Override
     public Fruit save(Fruit fruit) {
