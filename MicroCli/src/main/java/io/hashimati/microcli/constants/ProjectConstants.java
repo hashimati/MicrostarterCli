@@ -440,6 +440,8 @@ public class ProjectConstants {
 
             public  static String ENTITY_PATH = "/src/main/${lang}/${defaultPackage}/domains",
                     REPOSITORY_PATH = "/src/main/${lang}/${defaultPackage}/repositories",
+                    MICROSTREAM_PATH = "/src/main/${lang}/${defaultPackage}/microstream",
+
             SERVICES_PATH = "/src/main/${lang}/${defaultPackage}/services",
             CONTROLLER_PATH= "/src/main/${lang}/${defaultPackage}/controllers",
                     GRAPHQL_PATH= "/src/main/${lang}/${defaultPackage}/graphqls",

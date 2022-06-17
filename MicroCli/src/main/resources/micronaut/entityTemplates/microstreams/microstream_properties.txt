@@ -1,6 +1,6 @@
 
 microstream:
   storage:
-    {root}:
+    ${root}:
       storage-directory: '${storageDirectory}'
       root-class: '${rootClass}'

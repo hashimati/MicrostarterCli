@@ -691,7 +691,7 @@ public class TemplatesService {
         properties.put(MQTT_yml, "micronaut/entityTemplates/mqtt_properties.txt");
         properties.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
         properties.put(AWS_CONFIGURATION_PROPERTIES, "micronaut/components/aws_properties.txt");
-        properties.put(MICROSTREAM_YML, "/micronaut/entityTemplates/microstreams/microstream_properties.txt");
+        properties.put(MICROSTREAM_YML, "micronaut/entityTemplates/microstreams/microstream_properties.txt");
 
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");

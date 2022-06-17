@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class ${entityClass}Repository{
 
     @Inject
-    RootProvider<Data> rootProvider;
+    RootProvider<${entityClass}Data> rootProvider;
 
     @Override
     public ${entityClass} save(${entityClass} ${entity}) {

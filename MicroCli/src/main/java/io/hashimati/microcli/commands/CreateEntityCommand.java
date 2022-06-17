@@ -96,7 +96,8 @@ private String path;
 
     @Override
     public Integer call() throws Exception {
-
+        //
+        templatesService.loadTemplates(null);
 
         if(path == null || path.trim().isEmpty())
         {
@@ -194,9 +195,9 @@ private String path;
                 entity.setMicrostreamRoot( entity.getName());
                 entity.setMicrostreamPath(inputText("directory", "Enter the storage directory: ", "your-path").getInput());
                 entity.setMicrostreamRootClass( new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".").append(entity.getName()).append("Data").toString());
-
                 String microstreamPropertiesTemplate = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(MICROSTREAM_YML));
+
 
                 String microstreamProperties = new SimpleTemplateEngine().createTemplate(microstreamPropertiesTemplate).make(new HashMap(){{
                     put("root", entity.getMicrostreamRoot());
@@ -204,6 +205,9 @@ private String path;
                     put("rootClass", entity.getMicrostreamRootClass());
                 }}).toString();
                 MicronautProjectValidator.appendToProperties(path, microstreamProperties);
+
+
+                //===============
 
 
             }
@@ -368,7 +372,7 @@ private String path;
                     }
 
                     if(!noEndpoint)
-                    if (Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
+                    if (!entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage) && Arrays.asList("String", "boolean", "short", "int", "long", "float", "double").contains(attrTypeResult.getSelectedId())) {
 
                         String n = NameUtils.capitalize(entityAttribute.getName());
                         var method = PromptGui.createChoiceResult("methods", "Implement the following methods, REST endpoints, and GraphQL:", "findAllBy" + n, "findBy" + n);
@@ -384,7 +388,7 @@ private String path;
             }
 
             //Todo Update By Attribute
-            if(!noEndpoint) if (!entity.getAttributes().isEmpty())
+            if(!noEndpoint) if (!entity.getAttributes().isEmpty() && !entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
            {
                String[] attributes = entity.getAttributes().stream().filter(x->!x.isFile()).map(x->x.getName()).collect(Collectors.toList()).toArray(new String[entity.getAttributes().size()]);
                updateByLoop:
@@ -544,6 +548,19 @@ private String path;
                     ////==========
                     String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
 
+                    if(entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
+                    {
+                        String rootClassContent = micronautEntityGenerator.generateMicrostreamRootDataClass(entity, configurationInfo.getProjectInfo().getSourceLanguage());
+                        String root = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.MICROSTREAM_PATH, new HashMap<String, String>(){{
+                            put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                            put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                        }});
+
+
+
+                        GeneratorUtils.createFile(path+"/"+root+ "/"+entity.getName()+"Data"+extension, rootClassContent);
+
+                    }
 
                     String clientPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>() {{
                         put("lang", configurationInfo.getProjectInfo().getSourceLanguage());

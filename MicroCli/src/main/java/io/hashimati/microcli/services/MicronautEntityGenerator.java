@@ -580,7 +580,18 @@ public class MicronautEntityGenerator
 
         }
 
-        if(!entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb") || entity.isMnData()){
+        if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
+
+            String templatePath = getTemplatePath(MICROSTREAM_ROPOSITORY, language.toLowerCase());
+            binder.put("repositoryPackage", entity.getRepoPackage());
+            binder.put("microstreamPackage", entity.getMicrostreamPackage());
+            binder.put("entityPackage", entity.getEntityPackage());
+            binder.put("entityClass", entity.getName());
+            binder.put("entity", NameUtils.camelCase(entity.getName()));
+            String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+            return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+        }
+        else if(!entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb") || entity.isMnData()){
             String repositoryTemplate ="";
             if(entity.getFrameworkType().equalsIgnoreCase("jpa")) {
 
@@ -679,6 +690,7 @@ public class MicronautEntityGenerator
             }
             return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
         }
+
         else if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase("mongodb")) {
 
             if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()){
@@ -703,17 +715,7 @@ public class MicronautEntityGenerator
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
 
             }
-            else if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
 
-                    String templatePath = getTemplatePath(MICROSTREAM_ROPOSITORY, language.toLowerCase());
-                    binder.put("repositoryPackage", entity.getRepoPackage());
-                    binder.put("microstreamPackage", entity.getMicrostreamPackage());
-                    binder.put("entityPackage", entity.getEntityPackage());
-                    binder.put("entityClass", entity.getName());
-                    binder.put("entity", NameUtils.camelCase(entity.getName()));
-                    String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
-                    return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
-            }
             else
             {
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
@@ -791,7 +793,7 @@ public class MicronautEntityGenerator
         binder.put("entityCap", entity.getName() );
         binder.put("entity", NameUtils.camelCase(entity.getName()));
         binder.put("entityPackage", entity.getEntityPackage());
-        String templatePath= getTemplatePath(TemplatesService.GENERAL_EXCEPTION, language.toLowerCase());
+        String templatePath= getTemplatePath(MICROSTREAM_ROOT_DATA, language.toLowerCase());
         String  exceptionTemplate = templatesService.loadTemplateContent(templatePath);
         return new SimpleTemplateEngine().createTemplate(exceptionTemplate).make(binder).toString();
     }
@@ -1066,6 +1068,10 @@ public class MicronautEntityGenerator
             templatePath = getTemplatePath(TemplatesService.MONGO_SERVICE, language.toLowerCase());
             serviceTemplate = templatesService.loadTemplateContent(templatePath);
 
+        }
+        else if(entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
+            serviceTemplate = serviceTemplate.replace("import javax.transaction.Transactional;", "")
+                    .replace("import javax.transaction.Transactional", "");
         }
 
 //        switch (entity.getDatabaseType().toLowerCase())
