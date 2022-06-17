@@ -24,7 +24,7 @@ import java.util.Objects;
 public class Entity
 {
 
-    private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage,
+    private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage, microstreamPackage,
     graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,
 
 
@@ -58,7 +58,7 @@ public class Entity
     private String javaVersion;
     private boolean javaRecord;
     private String fileServiceType; // filesystem, aws, gcp, azure
-
+    private String microstreamRoot, microstreamRootClass, microstreamPath;
     private HashMap<String, HashSet<String>> updateByMethods = new HashMap<String, HashSet<String>>();
     private ArrayList<URL> urls = new ArrayList<>();
 
@@ -237,10 +237,12 @@ public class Entity
         this.setRepoPackage(new StringBuilder().append(defaultPackage).append(".repositories").toString());
         this.setServicePackage(new StringBuilder().append(defaultPackage).append(".services").toString());
         this.setRestPackage(new StringBuilder().append(defaultPackage).append(".controllers").toString());
+        this.setMicrostreamPackage(new StringBuilder().append(defaultPackage).append(".microstream").toString());
         this.setClientPackage(new StringBuilder().append(defaultPackage).append(".clients").toString());
         this.setGraphqlpackage(new StringBuilder().append(defaultPackage).append(".graphqls").toString());
         this.setFunctionPackage(new StringBuilder().append(defaultPackage).append(".function").toString());
         this.setLambdaPackage(String.format("%s.aws", getFunctionPackage()));
+
         setOraclePackage(String.format("%s.oracle", getFunctionPackage()));
         setGooglePackage(String.format("%s.google", getFunctionPackage()));
         setAzurePackage((String.format("%s.azure", getFunctionPackage())));
@@ -465,5 +467,37 @@ public class Entity
 
     public void setFileServiceType(String fileServiceType) {
         this.fileServiceType = fileServiceType;
+    }
+
+    public String getMicrostreamRoot() {
+        return microstreamRoot;
+    }
+
+    public void setMicrostreamRoot(String microstreamRoot) {
+        this.microstreamRoot = microstreamRoot;
+    }
+
+    public String getMicrostreamRootClass() {
+        return microstreamRootClass;
+    }
+
+    public void setMicrostreamRootClass(String microstreamRootClass) {
+        this.microstreamRootClass = microstreamRootClass;
+    }
+
+    public String getMicrostreamPath() {
+        return microstreamPath;
+    }
+
+    public void setMicrostreamPath(String microstreamPath) {
+        this.microstreamPath = microstreamPath;
+    }
+
+    public String getMicrostreamPackage() {
+        return microstreamPackage;
+    }
+
+    public void setMicrostreamPackage(String microstreamPackage) {
+        this.microstreamPackage = microstreamPackage;
     }
 }

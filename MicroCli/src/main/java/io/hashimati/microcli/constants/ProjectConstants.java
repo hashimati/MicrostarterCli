@@ -22,9 +22,9 @@ public class ProjectConstants {
 
     public static class DatabasesConstants{
         public final static String
-        MicroStream_File_Base = "MicroStream-File-Base",MongoDB = "MongoDB", H2 = "H2", MySql = "MySql", MariaDB = "MariaDB", Postgres = "Postgres", Oracle =  "Oracle", SqlServer = "Sqlserver";
+                MicroStream_Embedded_Storage = "MicroStream Embedded Storage",MongoDB = "MongoDB", H2 = "H2", MySql = "MySql", MariaDB = "MariaDB", Postgres = "Postgres", Oracle =  "Oracle", SqlServer = "Sqlserver";
 
-        public final static List<String> DATABASES = Arrays.asList( MicroStream_File_Base ,MongoDB , H2, MySql, MariaDB ,Postgres, Oracle , SqlServer );
+        public final static List<String> DATABASES = Arrays.asList(MicroStream_Embedded_Storage,MongoDB , H2, MySql, MariaDB ,Postgres, Oracle , SqlServer );
 
     }
     public static class BuildConstats{

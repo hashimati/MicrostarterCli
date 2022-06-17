@@ -226,9 +226,11 @@ public class TemplatesService {
             AWS_CONFIGURATION = "AWS_CONFIGURATION",
             AMAZON_CLIENT = "AMAZON_CLIENT",
                     AWS_CONFIGURATION_FACTORY = "AWS_CONFIGURATION_FACTORY",
-            AWS_CONFIGURATION_PROPERTIES = "AWS_CONFIGURATION_PROPERTIES";
+            AWS_CONFIGURATION_PROPERTIES = "AWS_CONFIGURATION_PROPERTIES",
 
-
+            MICROSTREAM_ROPOSITORY = "MICROSTREAM_REPOSITORY",
+            MICROSTREAM_REPOSITORY_IMPL = "MICROSTREAM_REPOSITORY_IMPL",
+            MICROSTREAM_ROOT_DATA = "MICROSTREAM_ROOT";
 
     public static String ATTRIBUTE ="attribute",
     CONSTRAINT  ="constraint",
@@ -269,6 +271,7 @@ public class TemplatesService {
             JPA_yml = "jpa",
             MDB_yml = "mdb",
             MDB_COLLECTION_YML = "mdb_collection",
+            MICROSTREAM_YML = "MICROSTREAM_YML",
 
 
 
@@ -418,6 +421,8 @@ public class TemplatesService {
         javaTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/java/methods/Files/Client.txt");
         javaTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/java/methods/Files/Services.txt");
         javaTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/java/methods/Files/Services_aws.txt");
+        javaTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/java/microstream/Repository.txt");
+        javaTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/java/Microsstream/RootClass.txt");
 
 
 
@@ -525,6 +530,8 @@ public class TemplatesService {
         groovyTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/groovy/methods/Files/Client.txt");
         groovyTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/groovy/methods/Files/Services.txt");
         groovyTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/groovy/methods/Files/Services_aws.txt");
+        groovyTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/groovy/microstream/Repository.txt");
+        groovyTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/groovy/Microsstream/RootClass.txt");
 
 
 
@@ -626,6 +633,8 @@ public class TemplatesService {
         kotlinTemplates.put(FILE_CLIENT_METHODS, "micronaut/entityTemplates/kotlin/methods/Files/Client.txt");
         kotlinTemplates.put(FILE_SERVICE_METHODS, "micronaut/entityTemplates/kotlin/methods/Files/Services.txt");
         kotlinTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/kotlin/methods/Files/Services_aws.txt");
+        kotlinTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/kotlin/microstream/Repository.txt");
+        kotlinTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/kotlin/Microsstream/RootClass.txt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
@@ -682,6 +691,8 @@ public class TemplatesService {
         properties.put(MQTT_yml, "micronaut/entityTemplates/mqtt_properties.txt");
         properties.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
         properties.put(AWS_CONFIGURATION_PROPERTIES, "micronaut/components/aws_properties.txt");
+        properties.put(MICROSTREAM_YML, "/micronaut/entityTemplates/microstreams/microstream_properties.txt");
+
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
         graphqlTemplates.put(GRAPHQL_TYPE, "micronaut/entityTemplates/graphql/type.txt");

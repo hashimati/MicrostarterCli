@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
@@ -61,6 +62,7 @@ public class MicronautEntityGenerator
             setRepoPackage("com.ahmed.ah1.repo");
             setServicePackage("com.ahmed.ah1.services");
             setRestPackage("com.ahmed.ah1.resources");
+
 
 
             getAttributes().add(new EntityAttribute(){{
@@ -701,6 +703,17 @@ public class MicronautEntityGenerator
                 return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
 
             }
+            else if(entity.getDatabaseType().toLowerCase().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
+
+                    String templatePath = getTemplatePath(MICROSTREAM_ROPOSITORY, language.toLowerCase());
+                    binder.put("repositoryPackage", entity.getRepoPackage());
+                    binder.put("microstreamPackage", entity.getMicrostreamPackage());
+                    binder.put("entityPackage", entity.getEntityPackage());
+                    binder.put("entityClass", entity.getName());
+                    binder.put("entity", NameUtils.camelCase(entity.getName()));
+                    String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
+                    return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
+            }
             else
             {
                 binder.put("entityRepositoryPackage", entity.getRepoPackage());
@@ -768,6 +781,18 @@ public class MicronautEntityGenerator
 
         String  exceptionTemplate = templatesService.loadTemplateContent(templatePath);
 
+        return new SimpleTemplateEngine().createTemplate(exceptionTemplate).make(binder).toString();
+    }
+
+
+    public String generateMicrostreamRootDataClass(Entity entity, String language) throws IOException, ClassNotFoundException {
+        HashMap<String, Object> binder = new HashMap<>();
+        binder.put("mainPackage", entity.getMicrostreamPackage());
+        binder.put("entityCap", entity.getName() );
+        binder.put("entity", NameUtils.camelCase(entity.getName()));
+        binder.put("entityPackage", entity.getEntityPackage());
+        String templatePath= getTemplatePath(TemplatesService.GENERAL_EXCEPTION, language.toLowerCase());
+        String  exceptionTemplate = templatesService.loadTemplateContent(templatePath);
         return new SimpleTemplateEngine().createTemplate(exceptionTemplate).make(binder).toString();
     }
 
@@ -1016,7 +1041,7 @@ public class MicronautEntityGenerator
         binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className", entity.getName());
         binder.put("methods", methods);
-        binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
+        binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage) ? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("cached", entity.isCached());
         binder.put("transactional", entity.isMnData() && !entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml));
         binder.put("tableName", entity.getCollectionName()) ;
@@ -1268,7 +1293,7 @@ public class MicronautEntityGenerator
         binder.put("micrometer", entity.isMicrometer());
         binder.put("jaeger", entity.isTracingEnabled());
         binder.put("methods", methods);
-        binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
+        binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("className", entity.getName());
         binder.put("moreImports", "");
         binder.put("jaxrs", entity.isJaxRs());

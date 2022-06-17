@@ -41,8 +41,10 @@ import java.util.stream.Collectors;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.services.TemplatesService.*;
+import static io.hashimati.microcli.utils.PromptGui.inputText;
 import static io.hashimati.microcli.utils.PromptGui.println;
 import static io.micronaut.http.HttpMethod.*;
 import static org.fusesource.jansi.Ansi.Color.RED;
@@ -187,6 +189,25 @@ private String path;
             entity.setSecurityEnabled(configurationInfo.isSecurityEnable());
             entity.setJavaVersion(configurationInfo.getJavaVersion());
             entity.setNonBlocking(configurationInfo.isNonBlocking());
+
+            if(configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
+                entity.setMicrostreamRoot( entity.getName());
+                entity.setMicrostreamPath(inputText("directory", "Enter the storage directory: ", "your-path").getInput());
+                entity.setMicrostreamRootClass( new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".").append(entity.getName()).append("Data").toString());
+
+                String microstreamPropertiesTemplate = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get(MICROSTREAM_YML));
+
+                String microstreamProperties = new SimpleTemplateEngine().createTemplate(microstreamPropertiesTemplate).make(new HashMap(){{
+                    put("root", entity.getMicrostreamRoot());
+                    put("storageDirectory",entity.getMicrostreamPath());
+                    put("rootClass", entity.getMicrostreamRootClass());
+                }}).toString();
+                MicronautProjectValidator.appendToProperties(path, microstreamProperties);
+
+
+            }
+
 
             if(entity.getJavaVersion().matches("^(1[4-9]|[2-9][0-9])$"))
             {

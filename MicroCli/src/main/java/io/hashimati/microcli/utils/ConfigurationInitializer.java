@@ -2,28 +2,19 @@ package io.hashimati.microcli.utils;
 /**
  * @author Ahmed Al Hashmi
  */
-import com.querydsl.core.types.TemplateFactory;
 import de.codeshelf.consoleui.elements.ConfirmChoice;
-import de.codeshelf.consoleui.prompt.CheckboxResult;
 import de.codeshelf.consoleui.prompt.ConfirmResult;
 import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
-import fr.jcgay.notification.*;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
-import io.hashimati.microcli.constants.ProjectConstants;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.domains.URL;
-import io.hashimati.microcli.services.LiquibaseGenerator;
 import io.hashimati.microcli.services.TemplatesService;
-import io.micronaut.core.io.ResourceResolver;
-import io.micronaut.core.io.scan.ClassPathResourceLoader;
-import io.micronaut.http.HttpMethod;
-import io.micronaut.runtime.Micronaut;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import javax.inject.Inject;
@@ -38,9 +29,9 @@ import java.util.HashMap;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.DATABASES;
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.services.TemplatesService.*;
-import static io.hashimati.microcli.utils.MicronautProjectValidator.updateGradlewDependencies;
 import static io.hashimati.microcli.utils.PromptGui.*;
 import static io.micronaut.http.HttpMethod.GET;
 import static io.micronaut.http.HttpMethod.POST;
@@ -209,7 +200,7 @@ public class ConfigurationInitializer {
 
             //Getting JDBC or JPA from the user.
             //if(!isDatabaseConfiguredByDefault.get())
-            if(!configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb")) {
+            if(!configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb") && !configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
                 ArrayList<String> options = new ArrayList<String>();
                 options.add("JDBC");
                 options.add("JPA");
@@ -354,7 +345,7 @@ public class ConfigurationInitializer {
                 }
                 projectInfo.dumpToFile(workingPath);
             }
-            else {
+            else if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb")){
 
                 ArrayList<String> options = new ArrayList<String>();
                 options.add("data-mongodb");
@@ -445,6 +436,14 @@ public class ConfigurationInitializer {
                         configurationInfo.setDataBackendRun("mongoGorm");
                     }
                 projectInfo.dumpToFile(workingPath);
+            }
+            else if(configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
+                projectInfo.getFeatures().add("microstream");
+                configurationInfo.setDataBackendRun("microstream");
+                MicronautProjectValidator.addDependency(workingPath,features.get("microstream"));
+                configurationInfo.setMnData(false);
+                configurationInfo.setNonBlocking(false);
+
             }
 
         }

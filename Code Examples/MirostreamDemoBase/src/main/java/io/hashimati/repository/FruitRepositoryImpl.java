@@ -14,26 +14,26 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 @Singleton
-public class FruitRepositoryImpl implements FruitRepository{
+public class FruitRepositoryImpl{
 
     @Inject
     RootProvider<Data> rootProvider;
 
-    @Override
+
     public Fruit save(Fruit fruit) {
         return save(rootProvider.root().getFruits(), fruit);
     }
 
-    @Override
-    public void update(String id, Fruit update) {
-        updateFruit(id, update);
+
+    public Fruit update(String id, Fruit update) {
+        return updateFruit(id, update);
     }
 
-    @Override
+
     public Optional<Fruit> findById(String id) {
         return Optional.ofNullable(rootProvider.root().getFruits().get(id));
     }
-    @Override
+
     public void deleteById(String id) {
         removeFruit(id);
     }
@@ -43,8 +43,8 @@ public class FruitRepositoryImpl implements FruitRepository{
        return rootProvider.root().getFruits().values().stream();
     }
     @StoreParams("fruits")
-    protected void removeFruit(String id) {
-        rootProvider.root().getFruits().remove(id);
+    protected boolean removeFruit(String id) {
+        return rootProvider.root().getFruits().remove(id) != null;
 
     }
 
@@ -70,6 +70,10 @@ public class FruitRepositoryImpl implements FruitRepository{
         }
             return null;
 
+    }
+
+    public boolean existsById(String id){
+        return rootProvider.root().getFruits().containsKey(id);
     }
 
 
