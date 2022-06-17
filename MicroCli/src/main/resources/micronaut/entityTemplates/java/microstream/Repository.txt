@@ -19,21 +19,21 @@ public class ${entityClass}Repository{
     @Inject
     RootProvider<${entityClass}Data> rootProvider;
 
-    @Override
+    
     public ${entityClass} save(${entityClass} ${entity}) {
         return save(rootProvider.root().get${entityClass}s(), ${entity});
     }
 
-    @Override
-    public void update(String id, ${entityClass} update) {
-        update${entityClass}(id, update);
+    
+    public ${entityClass} update(${entityClass} update) {
+        update${entityClass}(update.getId(), update);
     }
 
-    @Override
+    
     public Optional<${entityClass}> findById(String id) {
         return Optional.ofNullable(rootProvider.root().get${entityClass}s().get(id));
     }
-    @Override
+    
     public void deleteById(String id) {
         remove${entityClass}(id);
     }
