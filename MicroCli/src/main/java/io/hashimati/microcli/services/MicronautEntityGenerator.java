@@ -1646,7 +1646,7 @@ public class MicronautEntityGenerator
         binder.put("moreImports", "");
         binder.put("principal", entity.isSecurityEnabled());
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
-        binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb")? "String":idType);
+        binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb") || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)? "String":idType);
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
         String key = (entity.isNonBlocking() )? TemplatesService.GRAPHQL_REACTIVE_QUERY_RESOLVER : TemplatesService.GRAPHQL_QUERY_RESOLVER;
@@ -1888,7 +1888,7 @@ public class MicronautEntityGenerator
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("className", entity.getName());
-        if(entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml))
+        if(entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml) || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
             map.put("idType", "String");
         else
             map.put("idType", "Int");
