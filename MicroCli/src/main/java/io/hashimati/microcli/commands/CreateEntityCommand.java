@@ -195,14 +195,16 @@ private String path;
                 entity.setMicrostreamRoot( entity.getName());
                 entity.setMicrostreamPath(inputText("directory", "Enter the storage directory: ", "your-path").getInput());
                 entity.setMicrostreamRootClass( new StringBuilder().append(entity.getMicrostreamPackage()).append(".").append(entity.getName()).append("Data").toString());
+                entity.setMicrostreamChannelCount(Short.parseShort(inputText("microstreamCount", "Enter channel count value", "4").getInput()));
                 String microstreamPropertiesTemplate = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(MICROSTREAM_YML));
 
 
-                String microstreamProperties = new SimpleTemplateEngine().createTemplate(microstreamPropertiesTemplate).make(new HashMap(){{
+                String microstreamProperties = new SimpleTemplateEngine().createTemplate(microstreamPropertiesTemplate).make(new HashMap<String, Object>(){{
                     put("root", entity.getMicrostreamRoot());
                     put("storageDirectory",entity.getMicrostreamPath());
                     put("rootClass", entity.getMicrostreamRootClass());
+                    put("count", entity.getMicrostreamChannelCount());
                 }}).toString();
                 MicronautProjectValidator.appendToProperties(path, microstreamProperties);
 

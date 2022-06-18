@@ -42,6 +42,7 @@ public class Entity
     //possiblevalue = [jpa, jdbc, normal].
     private String frameworkType;
 
+    private short microstreamChannelCount = 4;
     private boolean jaxRs;
     private boolean pageable;
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
@@ -499,5 +500,13 @@ public class Entity
 
     public void setMicrostreamPackage(String microstreamPackage) {
         this.microstreamPackage = microstreamPackage;
+    }
+
+    public int getMicrostreamChannelCount() {
+        return microstreamChannelCount;
+    }
+
+    public void setMicrostreamChannelCount(int microstreamChannelCount) {
+        this.microstreamChannelCount = microstreamChannelCount;
     }
 }

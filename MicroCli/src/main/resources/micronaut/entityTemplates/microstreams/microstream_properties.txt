@@ -4,3 +4,4 @@ microstream:
     ${root}:
       storage-directory: '${storageDirectory}'
       root-class: '${rootClass}'
+      channel-count: ${count}
