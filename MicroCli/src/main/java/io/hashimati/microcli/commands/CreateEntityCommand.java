@@ -194,7 +194,7 @@ private String path;
             if(configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
                 entity.setMicrostreamRoot( entity.getName());
                 entity.setMicrostreamPath(inputText("directory", "Enter the storage directory: ", "your-path").getInput());
-                entity.setMicrostreamRootClass( new StringBuilder().append(entity.getMicrostreamPackage()).append(entity.getName()).append("Data").toString());
+                entity.setMicrostreamRootClass( new StringBuilder().append(entity.getMicrostreamPackage()).append(".").append(entity.getName()).append("Data").toString());
                 String microstreamPropertiesTemplate = templatesService.loadTemplateContent
                         (templatesService.getProperties().get(MICROSTREAM_YML));
 
