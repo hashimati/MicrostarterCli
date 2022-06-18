@@ -1,0 +1,76 @@
+package ${repositoryPackage}
+
+import ${entityPackage}.${entityClass}
+import ${microstreamPackage}.${entityClass}Data
+import io.micronaut.microstream.RootProvider
+import io.micronaut.microstream.annotations.StoreParams
+import io.micronaut.microstream.annotations.StoreReturn
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+import java.util.HashMap
+import java.util.Optional
+import java.util.UUID
+import java.util.stream.Stream
+
+@Singleton
+class ${entityClass}Repository{
+
+    @Inject
+    RootProvider<${entityClass}Data> rootProvider
+
+    
+    ${entityClass} save(${entityClass} ${entity}) {
+        return save(rootProvider.root().get${entityClass}s(), ${entity})
+    }
+
+    
+    ${entityClass} update(${entityClass} update) {
+        return update${entityClass}(update.getId(), update)
+    }
+
+    
+    Optional<${entityClass}> findById(String id) {
+        return Optional.ofNullable(rootProvider.root().get${entityClass}s().get(id))
+    }
+    
+    void deleteById(String id) {
+        remove${entityClass}(id)
+    }
+
+    Iterable<${entityClass}> findAll()
+    {
+       return rootProvider.root().get${entityClass}s().values()
+    }
+    @StoreParams("${entity}s")
+    protected void remove${entityClass}(String id) {
+        rootProvider.root().get${entityClass}s().remove(id)
+
+    }
+
+    @StoreParams("${entity}s")
+    protected ${entityClass} save(HashMap<String, ${entityClass}> map , ${entityClass} ${entity})
+    {
+        ${entity}.setId(UUID.randomUUID().toString())
+        map.putIfAbsent(${entity}.getId(), ${entity})
+        return ${entity}
+    }
+
+    @StoreReturn
+    protected ${entityClass} update${entityClass}(String id, ${entityClass} update)
+    {
+        HashMap<String, ${entityClass}> map = rootProvider.root().get${entityClass}s()
+        ${entityClass} ${entityClass} = map.get(update.getId())
+        if(${entityClass} != null)
+        {
+            map.put(${entityClass}.getName(), ${entityClass})
+            return ${entityClass}
+        }
+            return null
+    }
+
+    boolean existsById(String id){
+        return rootProvider.root().get${entityClass}s().containsKey(id)
+    }
+
+}

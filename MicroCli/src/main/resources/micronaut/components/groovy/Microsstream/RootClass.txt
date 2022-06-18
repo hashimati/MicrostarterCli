@@ -1,0 +1,16 @@
+package ${mainPackage}
+
+import ${entityPackage}.${entityCap}
+import io.micronaut.core.annotation.Introspected
+
+import java.util.HashMap
+import io.micronaut.core.annotation.NonNull
+
+@Introspected
+class ${entityCap}Data {
+    HashMap<String, ${entityCap}> ${entity}s = new HashMap<String, ${entityCap}>()
+    @NonNull
+    HashMap<String, ${entityCap}> get${entityCap}s(){
+        return this.${entity}s
+    }
+}

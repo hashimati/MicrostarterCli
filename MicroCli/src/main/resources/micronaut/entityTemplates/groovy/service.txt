@@ -3,7 +3,7 @@ package ${servicePackage}
 <% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import javax.transaction.Transactional
+<% if(transactional) out.print 'import javax.transaction.Transactional' %>
 import io.micronaut.http.multipart.CompletedFileUpload
 import ${entityPackage}
 <% if(principle) out.print 'import java.security.Principal' %>

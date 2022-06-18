@@ -63,8 +63,6 @@ public class ${entityClass}Repository{
         ${entityClass} ${entityClass} = map.get(update.getId());
         if(${entityClass} != null)
         {
-            ${entityClass}.setName(update.getName());
-            ${entityClass}.setLetter(update.getLetter());
             map.put(${entityClass}.getName(), ${entityClass});
             return ${entityClass};
         }
@@ -72,7 +70,7 @@ public class ${entityClass}Repository{
     }
 
     public boolean existsById(String id){
-        return rootProvider.root().getFruits().containsKey(id);
+        return rootProvider.root().get${entityClass}s().containsKey(id);
     }
 
 }

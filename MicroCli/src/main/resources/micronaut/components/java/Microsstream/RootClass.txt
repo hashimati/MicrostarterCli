@@ -8,9 +8,9 @@ import io.micronaut.core.annotation.NonNull;
 
 @Introspected
 public class ${entityCap}Data {
-    HashMap<String, ${entityCap}> ${entity} = new HashMap<>();
+    HashMap<String, ${entityCap}> ${entity}s = new HashMap<String, ${entityCap}>();
     @NonNull
     public HashMap<String, ${entityCap}> get${entityCap}s(){
-        return this.${entity};
+        return this.${entity}s;
     }
 }
