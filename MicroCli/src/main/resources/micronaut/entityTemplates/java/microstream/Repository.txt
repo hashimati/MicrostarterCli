@@ -26,7 +26,7 @@ public class ${entityClass}Repository{
 
     
     public ${entityClass} update(${entityClass} update) {
-        update${entityClass}(update.getId(), update);
+        return update${entityClass}(update.getId(), update);
     }
 
     
