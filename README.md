@@ -32,21 +32,28 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 <a name="stack"></a>
 ## Technologies Stack
 
-#### 0. Reactive Framework
+#### 0. Application Types: 
+
+| Type | Notes |
+| :--: | :-- |
+| Micronaut Application | default project type | 
+| Functions | supporting AWS Lambda only |
+
+#### 1. Reactive Framework
 
 | Framework | Notes |
 | :--: | :-- |
 | Reactor | It is the recommended to use Reactor. |
 |Rxjava2 | It's not supported in security command. |
 |Rxjava3 | It's not supported in security command. |
-#### 1. Languages 
+#### 2. Languages 
 | Language | Notes |
 | :--: | :--: | 
 | java | MicrostarterCli will detect the language from micronaut-cli.yml file | 
 | groovy | MicrostarterCli will detect the language from micronaut-cli.yml file |
 | kotlin | MicrostarterCli will detecta the language from micronaut-cli.yml file | 
 
-#### 2. Database
+#### 3. Database
 | Database | Type | Features | Notes |
 | :--: | :--: | :--: | :-- | 
 | Mongodb | NoSQL | ReactiveMongo, GORM | GORM is in <b>Preview</b> stage and it is supported with Groovy Language Only.<  |
@@ -56,32 +63,33 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 | PostgreSQL | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
 | Oracle | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM is in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
 | SqlServer | RDBM | JPA , JDBC, R2DBC , GROM | 1. GORM is in <b>Preview</b> stage and it is supported with Groovy Language Only.<br /> 2. R2DBC is in <b>Preview</b> stage . |
+| Microstream | Embedded File Storage | Microstream | implemented with Micronaut-Microstream annotations | 
 
-#### 3. SQL Data Migrations Tools
+#### 4. SQL Data Migrations Tools
 | Framework/Tools | notes |
 | :--: | :--: | 
 | Liquibase | recommended | 
 | Flyway | It's not yet implemented in "security" command. |
 
-#### 4. GraphQL
+#### 5. GraphQL
 
 | Framework/Tools | Notes | 
 | :--: | :--: | 
 | graphql-java-tools | |
 
-#### 5. Caching
+#### 6. Caching
 | Framework/Tools | Notes |
 | :--: | :--: |
 | Caffeine | | 
 
-#### 6. Observability 
+#### 7. Observability 
 | Framework/Tools | Notes |
 |:--: | :--: | 
 | Micrometers | | 
 | InfluxDB | |
 | prometheus | |
 
-#### 7. Messeging 
+#### 8. Messeging 
 | Messaging | Notes |
 | :--: | :--: | 
 | Kafka | | 
@@ -89,14 +97,14 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
 | NAT | | 
 | GCP | | 
 
-#### 8. Security
+#### 9. Security
 | Mechanism | Notes | 
 | :--: | :--: | 
 | JWT | | 
 | Sessions | | 
 | Basics | | 
 
-#### 9. Banners. 
+#### 10. Banners. 
 The MicrostarterCli uses [Banana](https://github.com/yihleego/banana) to generate banners. 
 
 ####
