@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: grpcDemo
+
+
+grpc:
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+

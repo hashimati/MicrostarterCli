@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.hashimati";
+option java_outer_classname = "GrpcDemo";
+option objc_class_prefix = "HLW";
+import "google/protobuf/source_context.proto";
+import public "fruit.proto";
+
+service FruitService {
+  rpc send (FruitProto) returns (FruitProto) {}
+}
+
+message FruitProto {
+  string name = 2;
+  string letter =3;
+}
+
+message Message{
+  int64 id = 1;
+  string message = 2;
+}
+

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.hashimati.domains";
+option java_outer_classname = "GrpcDemo";
+option objc_class_prefix = "HLW";
+
+package io.hashimati;
+
+
+message Fruit {
+  string name = 1;
+  string letter = 2;
+}

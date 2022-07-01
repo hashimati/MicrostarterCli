@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.hashimati";
+option java_outer_classname = "GrpcDemoClient";
+option objc_class_prefix = "HLW";
+
+package io.hashimati;
+
+service GrpcDemoClientService {
+  rpc send (GrpcDemoClientRequest) returns (GrpcDemoClientReply) {}
+}
+
+message GrpcDemoClientRequest {
+  string name = 1;
+}
+
+message GrpcDemoClientReply {
+  string message = 1;
+}
