@@ -1,0 +1,7 @@
+
+    public ${className}() {
+    }
+
+    public ${className}(${allAttributes}}) {
+        ${allAttributeInstantiation}
+    }

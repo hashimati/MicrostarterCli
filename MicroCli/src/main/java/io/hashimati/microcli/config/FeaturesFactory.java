@@ -481,9 +481,6 @@ public class FeaturesFactory {
                 setAnnotationGradle("    compileOnly(\"io.micronaut.openapi:micronaut-openapi\")");
 
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
-
-
-
             setAnnotationMaven(
                     "            <path>\n" +
                     "              <groupId>io.micronaut.openapi</groupId>\n" +
@@ -561,7 +558,7 @@ public class FeaturesFactory {
             setName("qraphql-java-tools");
             setGradle("    implementation(\"com.graphql-java-kickstart:graphql-java-tools:12.0.1\")");
             getMaven().add("\t<dependency>\n"+
-                    "\t\t<groupId>>com.graphql-java-kickstart</groupId>\n" +
+                    "\t\t<groupId>com.graphql-java-kickstart</groupId>\n" +
                     "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
                     "\t\t<scope>compile</scope>\n"+
                     "\t\t<version>12.0.1</version>\n"+

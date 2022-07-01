@@ -149,6 +149,7 @@ private String path;
             entity.setJaxRs(configurationInfo.isJaxRs());
             entity.setFileServiceType(configurationInfo.getFileServiceType());
 
+            entity.setLombok(configurationInfo.isLombok());
             // reading collections/table name if the user didn't provide it .
             if(!noEndpoint)
             {

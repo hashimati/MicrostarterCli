@@ -162,6 +162,10 @@ public class ConfigurationInitializer {
                     configurationInfo.setReactiveFramework("rxjava3");
             }
 
+            if(projectInfo.getSourceLanguage().equalsIgnoreCase(JAVA_LANG)) {
+                boolean lombok = PromptGui.createConfirmResult("lombok", "Do you want to use Lombok?", NO).getConfirmed() == YES;
+                configurationInfo.setLombok(lombok);
+            }
             boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
             if(jaxrs) {
                 MicronautProjectValidator.addDependency(workingPath,features.get("jax-rs"));
@@ -665,7 +669,14 @@ public class ConfigurationInitializer {
                         (templatesService.getProperties().get(OPENAPI_yml));
                 MicronautProjectValidator.appendToProperties(workingPath,openAPIProperties);
 
+                try {
 
+                    String openAPIPropertiesFile =  new TemplatesService().loadTemplateContent(OPEN_API_PATH);
+                    GeneratorUtils.createFile(new StringBuilder().append(workingPath).append("/src/main/resources/openapi.properties").toString(), openAPIPropertiesFile);
+                }catch (Exception ex)
+                {
+
+                }
 
             }
             configurationInfo.getUrls().add(
@@ -787,7 +798,8 @@ public class ConfigurationInitializer {
         {
 
         }
-        MicronautProjectValidator.addLombok(workingPath,projectInfo);
+        if(configurationInfo.isLombok())
+            MicronautProjectValidator.addLombok(workingPath,projectInfo);
     //MicronautProjectValidator.addDependency(workingPath,features.get("openapi"));
 
         projectInfo.dumpToFile(workingPath);

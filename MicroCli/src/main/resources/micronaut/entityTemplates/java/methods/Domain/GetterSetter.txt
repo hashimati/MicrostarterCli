@@ -1,0 +1,8 @@
+
+    public ${dataType} get${attriubteCap}(){
+        return this.${attribute};
+    }
+    public void ${attriubteCap}(${dataType} ${attribute}){
+        this.${attribute} = ${attribute};
+
+    }

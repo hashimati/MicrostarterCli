@@ -3,7 +3,7 @@ package ${entitypackage};
 ${importedPackages}
 ${jpa?'import javax.persistence.*;' :''}
 ${jdbc || mongo || jpa?'import io.micronaut.data.annotation.*;' :''}
-import lombok.*;
+<% if(lombok) out.print "import lombok.*;" %>
 import javax.validation.constraints.*;
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema;" %>
 ${containDate?'import java.util.Date;':''}
@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 <% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
 <% if(jdbc || mongo) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 <% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
-@Data
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
+<% if(lombok) out.print "@Data" %>
+<% if(lombok) out.print "@ToString" %>
+<% if(lombok) out.print "@NoArgsConstructor" %>
+<% if(lombok) out.print "@AllArgsConstructor" %>
+<% if(lombok) out.print "@EqualsAndHashCode" %>
+<% if(lombok) out.print "@Builder" %>
 public class ${className}{
     <% if(jpa || mongo) out.print '@Id '%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.Type.SEQUENCE) '%>
@@ -35,4 +35,10 @@ public class ${className}{
     ${instances}
 <% if(jdbc || jpa || mongo) out.print ' @DateCreated private Date dateCreated;' %>
 <% if(jdbc|| jpa || mongo) out.print '  @DateUpdated private Date dateUpdated;' %>
+
+<% if(!lombok) out.print constructors %>
+<% if(!lombok) out.print getters %>
+<% if(!lombok) out.print setters %>
+<% if(!lombok) out.print equals %>
+<% if(!lombok) out.print hashcode %>
 }

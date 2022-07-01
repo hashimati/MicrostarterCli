@@ -46,6 +46,7 @@ public class TemplatesService {
 
 
     public static final String LOGBACK_PATH = "micronaut/logs/logback.xml";
+    public static final String OPEN_API_PATH = "micronaut/components/openapi.properties";
     public static final String
             CLIENT = "client",
             CONTROLLER = "controller",
@@ -230,7 +231,8 @@ public class TemplatesService {
 
             MICROSTREAM_ROPOSITORY = "MICROSTREAM_REPOSITORY",
             MICROSTREAM_REPOSITORY_IMPL = "MICROSTREAM_REPOSITORY_IMPL",
-            MICROSTREAM_ROOT_DATA = "MICROSTREAM_ROOT";
+            MICROSTREAM_ROOT_DATA = "MICROSTREAM_ROOT",
+                    OPENAPI_PROPERTIES = "OPENAPI_PROPERTIES";
 
     public static String ATTRIBUTE ="attribute",
     CONSTRAINT  ="constraint",
@@ -692,6 +694,8 @@ public class TemplatesService {
         properties.put(CAFFEINE_YML , "micronaut/entityTemplates/caffeine_properties.yml");
         properties.put(AWS_CONFIGURATION_PROPERTIES, "micronaut/components/aws_properties.txt");
         properties.put(MICROSTREAM_YML, "micronaut/entityTemplates/microstreams/microstream_properties.txt");
+        properties.put(OPENAPI_PROPERTIES , "micronaut/components/openapi.properties");
+
 
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");

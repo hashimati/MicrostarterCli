@@ -376,7 +376,12 @@ public class MicronautEntityGenerator
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
         binder.put("pageable", entity.isPageable());
-
+        binder.put("lombok", entity.isLombok());
+        binder.put("constructors", entity.getEmptyConstructor() + "\n"+entity.getAllArgsConstructor());
+        binder.put("getters", entity.getGetters());
+        binder.put("setters", entity.getSetters());
+        binder.put("equals", entity.getEqualMethods());
+        binder.put("hashcode", entity.getHashCode());
         String templatePath= getTemplatePath(entity.isJavaRecord()?TemplatesService.ENTITY_RECORD:TemplatesService.ENTITY, language.toLowerCase()).replaceAll("(?m)^[ \t]*\r?\n", "");
 
 

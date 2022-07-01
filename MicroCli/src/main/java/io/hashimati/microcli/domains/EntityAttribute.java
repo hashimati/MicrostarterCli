@@ -10,6 +10,7 @@ package io.hashimati.microcli.domains;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.Visitor;
+import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
 
 import static io.hashimati.microcli.constants.ProjectConstants.EntityAttributeType.*;
@@ -196,6 +197,28 @@ public class EntityAttribute {
         }
         //  return "";
     }
+
+    public String getGetterMethodImpl(){
+        return
+                String.format("\tpublic %s get%s() { return %s; }\n", this.getType(), NameUtils.capitalize(this.getName()), name);
+    }
+    public String getSetterMethodImpl(){
+        return String.format("\tpublic void set%s(%s %s) { this.%s = %s; }\n", NameUtils.capitalize(name), getType(), name, name, name);
+    }
+
+    public String inConstructorInstantiation(){
+        return String.format("\t\tthis.%s = %s\n",name, name);
+    }
+    public String getNormalDeclaration()
+    {
+        return String.format("%s %s", type, name);
+
+    }
+    public String getEqualsObject(String compare){
+        return String.format("\t\tObjects.equals(%s, %s.%s)", name, compare, name);
+    }
+
+
     public String graphQLDeclaration()
     {
         String t = type;

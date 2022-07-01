@@ -11,6 +11,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class MavenProjectUtils {
 
@@ -38,7 +39,6 @@ public class MavenProjectUtils {
     public static boolean addDependency(Feature feature, String path) throws IOException, XmlPullParserException {
         if(feature.getMaven() == null|| feature.getMaven().isEmpty()) return true;
         Model model = readPom(path);
-//        Dependency dependency = feature.getMavenDependency();
 //        System.out.println(feature.getMaven());
 //        System.out.println(dependency.getGroupId());
 //        System.out.println(dependency.getArtifactId());
@@ -70,6 +70,12 @@ public class MavenProjectUtils {
     public static boolean addAnnotation(Feature feature, String path) throws IOException, XmlPullParserException {
         if(feature.getAnnotationMaven() == null || feature.getAnnotationMaven().isEmpty() ) return true;
 //        Model model = readPom(path);
+//        Build build = model.getBuild();
+//        Plugin plugin = build.getPlugins().stream().filter(x->x.getArtifactId().equalsIgnoreCase("maven-compiler-plugin")).findFirst().get();
+//
+//        if(plugin == null) return true;
+//        plugin.setConfiguration(plugin.getConfiguration().toString().replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n</annotationProcessorPaths>"));
+//        Model model = readPom(path);
 //
 //        Build build = model.getBuild();
 //        String groopId = "org.apache.maven.plugins", artifactId = "maven-compiler-plugin";
@@ -92,7 +98,13 @@ public class MavenProjectUtils {
 //        writeModelToPom(path, model);
 //        // System.out.println("is instance = "+ (plugin.getConfiguration() instanceof Xpp3Dom));
 
-        GeneratorUtils.dumpContentToFile(path, MicronautProjectValidator.getPomFileContent(path).replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n                    </annotationProcessorPaths>"));
+
+        String pomContent = MicronautProjectValidator.getPomFileContent(path);
+
+        pomContent = pomContent.replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n\t\t</annotationProcessorPaths>");
+        GeneratorUtils.dumpContentToFile(path+"pom.xml", pomContent);
+        //   GeneratorUtils.dumpContentToFile(path, MicronautProjectValidator.getPomFileContent(path).replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n                    </annotationProcessorPaths>"));
+
         return true;
     }
 
@@ -116,7 +128,9 @@ public class MavenProjectUtils {
     public static boolean addPluginBuild(Feature x, String path) throws IOException, XmlPullParserException {
         Model model = readPom(path);
 
-        model.getBuild().addPlugin(x.getPlugin());
+        if(x.getPlugin() != null)
+            model.getBuild().addPlugin(x.getPlugin());
+
 
         return  writeModelToPom(path, model);
     }

@@ -63,7 +63,7 @@ class ${entityClass}Repository{
         ${entityClass} ${entityClass} = map.get(update.getId())
         if(${entityClass} != null)
         {
-            map.put(${entityClass}.getName(), ${entityClass})
+            map.put(${entityClass}.getId(), ${entityClass})
             return ${entityClass}
         }
             return null

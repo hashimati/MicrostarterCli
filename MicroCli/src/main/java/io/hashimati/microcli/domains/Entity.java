@@ -8,6 +8,7 @@ package io.hashimati.microcli.domains;
  */
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.Visitor;
+import io.micronaut.core.naming.NameUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ import java.util.Objects;
 public class Entity
 {
 
-    private String name, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage, microstreamPackage,
+    private String name,idType, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage, microstreamPackage,
     graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,
 
 
@@ -37,10 +38,13 @@ public class Entity
     //database type refer to the database
     //collectionname is refering to tht table name, entity name or collection name.
     databaseType, collectionName, databaseName; // SQL, Mongo, Cassandra, Neo4J;
+
+    private boolean isLombok = false;
     private boolean gorm;
     private String dialect;
     //possiblevalue = [jpa, jdbc, normal].
     private String frameworkType;
+
 
     private short microstreamChannelCount = 4;
     private boolean jaxRs;
@@ -502,11 +506,61 @@ public class Entity
         this.microstreamPackage = microstreamPackage;
     }
 
-    public int getMicrostreamChannelCount() {
+    public short getMicrostreamChannelCount() {
         return microstreamChannelCount;
     }
 
-    public void setMicrostreamChannelCount(int microstreamChannelCount) {
+    public void setMicrostreamChannelCount(short microstreamChannelCount) {
         this.microstreamChannelCount = microstreamChannelCount;
+    }
+
+    public boolean isLombok() {
+        return isLombok;
+    }
+
+    public void setLombok(boolean lombok) {
+        isLombok = lombok;
+    }
+
+    public String getEmptyConstructor(){
+        return String.format("\tpublic %s(){\t}", name);
+    }
+    public String getAllArgsConstructor(){
+        if(attributes.isEmpty()) return ""; 
+        String parameters = attributes.stream().map(x->x.getNormalDeclaration()).reduce((x, y) -> x + ", "+y).orElse("");
+        String body = attributes.stream().map(x->x.inConstructorInstantiation()).reduce((x, y) ->x+y).orElse("");
+        return String.format("\tpublic %s(%s){%s\t}", name, parameters, body);
+    }
+    public String getEqualMethods()
+    {
+        String o = NameUtils.camelCase(name);
+        String equalExpression = attributes.stream().map(x->x.getEqualsObject(o)).reduce((x, y)-> x + " && "+ y).orElse("true");
+        return String.format("\t@Override\n\tpublic boolean equals(Object o) {\n\t\tif (this == o) return true;\n\t\tif (!(o instanceof %s)) return false;\n\t\t %s %s = (%s) o;\n\t\treturn %s;\n\t}", name, name, o, name, equalExpression);
+    }
+    public String getHashCode(){
+        String attrbs = attributes.stream().map(x ->x.getName()).reduce((x,y) -> x + ", " + y).orElse("");
+        String result = attrbs.isEmpty()?"0": String.format("Objects.hash(%s)", attrbs);
+        return String.format("\t@Override\n\tpublic int hashCode() {\n\t\treturn %s;\n\t}", result);
+    }
+    public String getGetters(){
+        return attributes.stream().map(x->x.getGetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+
+    }
+
+    public String getSetters(){
+        return attributes.stream().map(x->x.getSetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+    }
+
+    public String getIdType() {
+        return idType;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
+        attributes.add(new EntityAttribute(){{
+            setType(idType);
+            setName("id");
+
+        }});
     }
 }
