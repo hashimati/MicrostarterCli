@@ -207,7 +207,7 @@ public class EntityAttribute {
     }
 
     public String inConstructorInstantiation(){
-        return String.format("\t\tthis.%s = %s\n",name, name);
+        return String.format("\t\tthis.%s = %s;\n",name, name);
     }
     public String getNormalDeclaration()
     {
@@ -215,7 +215,7 @@ public class EntityAttribute {
 
     }
     public String getEqualsObject(String compare){
-        return String.format("\t\tObjects.equals(%s, %s.%s)", name, compare, name);
+        return String.format(" Objects.equals(%s, %s.%s)", name, compare, name);
     }
 
 

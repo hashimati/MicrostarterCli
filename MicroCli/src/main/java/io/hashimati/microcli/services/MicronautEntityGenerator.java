@@ -228,6 +228,7 @@ public class MicronautEntityGenerator
         if(entity.getAttributes()!= null && !entity.getAttributes().isEmpty())
         for(EntityAttribute eA: entity.getAttributes())
         {
+            if(eA.getName().equals("id")) continue;
 
             if(eA.isDate())
             {

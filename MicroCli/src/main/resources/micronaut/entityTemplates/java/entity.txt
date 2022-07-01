@@ -3,7 +3,7 @@ package ${entitypackage};
 ${importedPackages}
 ${jpa?'import javax.persistence.*;' :''}
 ${jdbc || mongo || jpa?'import io.micronaut.data.annotation.*;' :''}
-<% if(lombok) out.print "import lombok.*;" %>
+<% if(lombok) out.print "import lombok.*;" %><% if(!lombok) out.print "import java.util.Objects;" %>
 import javax.validation.constraints.*;
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema;" %>
 ${containDate?'import java.util.Date;':''}

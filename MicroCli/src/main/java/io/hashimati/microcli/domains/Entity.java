@@ -529,7 +529,7 @@ public class Entity
         if(attributes.isEmpty()) return ""; 
         String parameters = attributes.stream().map(x->x.getNormalDeclaration()).reduce((x, y) -> x + ", "+y).orElse("");
         String body = attributes.stream().map(x->x.inConstructorInstantiation()).reduce((x, y) ->x+y).orElse("");
-        return String.format("\tpublic %s(%s){%s\t}", name, parameters, body);
+        return String.format("\tpublic %s(%s){\n%s\t}", name, parameters, body);
     }
     public String getEqualMethods()
     {

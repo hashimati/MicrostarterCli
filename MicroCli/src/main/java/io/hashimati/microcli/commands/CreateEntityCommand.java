@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MongoDB;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
 import static io.hashimati.microcli.services.TemplatesService.*;
 import static io.hashimati.microcli.utils.PromptGui.inputText;
@@ -151,6 +152,7 @@ private String path;
 
             entity.setLombok(configurationInfo.isLombok());
             // reading collections/table name if the user didn't provide it .
+
             if(!noEndpoint)
             {
                 if (collectionName == null) {
@@ -179,6 +181,14 @@ private String path;
             }
             //  entity.setEntityPackage(configurationInfo.getProjectInfo().getDefaultPackage()+".domains");
             entity.setDatabaseType(configurationInfo.getDatabaseType());
+            if(entity.getDatabaseType().equalsIgnoreCase(MongoDB) || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
+            {
+                entity.setIdType("String");
+            }
+            else
+            {
+                entity.setIdType("Long");
+            }
             entity.setFrameworkType(configurationInfo.getDataBackendRun());
             entity.setDatabaseName(configurationInfo.getDatabaseName());
             entity.setReactiveFramework(configurationInfo.getReactiveFramework());
