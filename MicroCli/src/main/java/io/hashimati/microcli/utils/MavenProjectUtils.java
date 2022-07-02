@@ -107,7 +107,17 @@ public class MavenProjectUtils {
 
         return true;
     }
+    public static boolean addCompileArgs(Feature feature, String path) throws IOException, XmlPullParserException {
+        if(feature.getAnnotationMaven() == null || feature.getAnnotationMaven().isEmpty() ) return true;
 
+
+        String pomContent = MicronautProjectValidator.getPomFileContent(path);
+
+        pomContent = pomContent.replace("</compilerArgs>", feature.getMavenCompileArgs().stream().reduce((x,y)->x+y).orElse("")+ "\t</compilerArgs>");
+        GeneratorUtils.dumpContentToFile(path+"pom.xml", pomContent);
+
+        return true;
+    }
     public boolean addMicronautDataProperty(String path) throws IOException, XmlPullParserException {
         Model model = readPom(path);
         model.addProperty("micronaut.data.version", "3.0.0");

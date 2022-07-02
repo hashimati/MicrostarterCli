@@ -510,7 +510,7 @@ public class MicronautProjectValidator {
 
                 MavenProjectUtils.addAnnotation(openapi, path);
                 MavenProjectUtils.addDependency(openapi,path+ "pom.xml");
-
+                MavenProjectUtils.addCompileArgs(openapi, path);
                 //todo
                 return true;
             }

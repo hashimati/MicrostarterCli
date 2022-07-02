@@ -480,7 +480,11 @@ public class FeaturesFactory {
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
                 setAnnotationGradle("    compileOnly(\"io.micronaut.openapi:micronaut-openapi\")");
 
+
             else if(projectInfo.getSourceLanguage().equalsIgnoreCase(KOTLIN_LANG))
+                setAnnotationGradle("    kapt(\"io.micronaut.openapi:micronaut-openapi\")");
+
+            getMavenCompileArgs().add("\t\t<arg>-Amicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>\n");
             setAnnotationMaven(
                     "            <path>\n" +
                     "              <groupId>io.micronaut.openapi</groupId>\n" +
