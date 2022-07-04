@@ -59,11 +59,11 @@ class ${entityClass}Repository{
     protected ${entityClass} update${entityClass}(String id, ${entityClass} update)
     {
         HashMap<String, ${entityClass}> map = rootProvider.root().get${entityClass}s()
-        ${entityClass} ${entityClass} = map.get(update.getId())
+        ${entityClass} ${entity} = map.get(update.getId())
         if(${entityClass} != null)
         {
-            map.put(${entityClass}.getId(), ${entityClass})
-            return ${entityClass}
+            map.put(${entity}.getId(), ${entityClass})
+            return ${entity}
         }
             return null
     }

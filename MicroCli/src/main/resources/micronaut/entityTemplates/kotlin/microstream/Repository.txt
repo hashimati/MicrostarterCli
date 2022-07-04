@@ -58,11 +58,11 @@ class ${entityClass}Repository(private val  rootProvider: RootProvider<${entityC
     open fun update${entityClass}(String id, ${entityClass} update):${entityClass}
     {
         HashMap<String, ${entityClass}> map = rootProvider.root().${entity}s
-        ${entityClass} ${entityClass} = map.get(update.id)
+        var ${entity} : ${entityClass} = map.get(update.id)
         if(${entityClass} != null)
         {
-            map.put(${entityClass}.id, ${entityClass})
-            return ${entityClass}
+            map.put(${entity}.id, ${entityClass})
+            return ${entity}
         }
             return null
     }
