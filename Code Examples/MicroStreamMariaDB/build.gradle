@@ -1,0 +1,61 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.4.1"
+}
+
+version = "0.1"
+group = "io.hashimati"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+		annotationProcessor("io.micronaut.microstream:micronaut-microstream-annotations")
+		annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+		implementation("com.graphql-java-kickstart:graphql-java-tools:12.0.1")
+		implementation("io.micronaut.graphql:micronaut-graphql")
+		implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+		implementation("io.micronaut.microstream:micronaut-microstream")
+		implementation("io.micronaut.reactor:micronaut-reactor")
+		implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+		implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
+		implementation("io.micronaut:micronaut-management")
+		implementation("io.swagger.core.v3:swagger-annotations")
+    implementation("io.micronaut.microstream:micronaut-microstream-cache")
+    implementation("io.micronaut.microstream:micronaut-microstream-annotations")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
+    implementation 'one.microstream:microstream-afs-sql:07.00.00-MS-GA'
+//    implementation 'one.microstream:microstream-enterprise-afs-mongodb:07.00.00-MS-GA'
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
+}
+
+
+application {
+    mainClass.set("io.hashimati.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("io.hashimati.*")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.fork = true
+    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
+}

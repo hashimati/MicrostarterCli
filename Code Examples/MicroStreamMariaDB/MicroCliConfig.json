@@ -1,0 +1,209 @@
+{
+  "projectInfo": {
+    "applicationType": "default",
+    "defaultPackage": "io.hashimati",
+    "testFramework": "junit",
+    "sourceLanguage": "java",
+    "buildTool": "gradle",
+    "features": [
+      "annotation-api",
+      "app-name",
+      "gradle",
+      "http-client",
+      "jackson-databind",
+      "java",
+      "java-application",
+      "junit",
+      "logback",
+      "micronaut-build",
+      "netty-server",
+      "readme",
+      "shade",
+      "yaml",
+      "microstream",
+      "management",
+      "micrometer",
+      "tracing-jaeger",
+      "graphql",
+      "openapi"
+    ]
+  },
+  "liquibaseSequence": 0,
+  "appName": "MicroStreamCache",
+  "databaseName": "MyDatabase",
+  "databaseType": "MicroStream Embedded Storage",
+  "dataBackendRun": "microstream",
+  "messaging": "none",
+  "graphQLIntegrationLib": "graphql-java-tools",
+  "jaxRs": false,
+  "port": 8080,
+  "graphQlSupport": true,
+  "reactiveFramework": "reactor",
+  "nonBlocking": false,
+  "micrometer": true,
+  "influx": false,
+  "prometheus": false,
+  "graphite": false,
+  "statsd": false,
+  "caffeine": false,
+  "gorm": false,
+  "securityEnable": false,
+  "securityStrategy": "none",
+  "tracingFramework": "tracing-jaeger",
+  "tracingEnabled": true,
+  "mnData": false,
+  "javaVersion": "11",
+  "entities": [
+    {
+      "name": "Fruit",
+      "idType": "String",
+      "entityPackage": "io.hashimati.domains",
+      "repoPackage": "io.hashimati.repositories",
+      "servicePackage": "io.hashimati.services",
+      "restPackage": "io.hashimati.controllers",
+      "clientPackage": "io.hashimati.clients",
+      "microstreamPackage": "io.hashimati.microstream",
+      "graphqlpackage": "io.hashimati.graphqls",
+      "functionPackage": "io.hashimati.function",
+      "lambdaPackage": "io.hashimati.function.aws",
+      "oraclePackage": "io.hashimati.function.oracle",
+      "azurePackage": "io.hashimati.function.azure",
+      "googlePackage": "io.hashimati.function.google",
+      "reactiveFramework": "reactor",
+      "databaseType": "MicroStream Embedded Storage",
+      "collectionName": "fruits",
+      "databaseName": "MyDatabase",
+      "gorm": false,
+      "frameworkType": "microstream",
+      "microstreamChannelCount": 4,
+      "jaxRs": false,
+      "pageable": false,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": false,
+          "setterMethodImpl": "\tpublic void setId(String id) { this.id \u003d id; }\n",
+          "normalDeclaration": "String id",
+          "getterMethodImpl": "\tpublic String getId() { return id; }\n"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": false,
+          "setterMethodImpl": "\tpublic void setName(String name) { this.name \u003d name; }\n",
+          "normalDeclaration": "String name",
+          "getterMethodImpl": "\tpublic String getName() { return name; }\n"
+        },
+        {
+          "name": "letter",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": false,
+          "setterMethodImpl": "\tpublic void setLetter(String letter) { this.letter \u003d letter; }\n",
+          "normalDeclaration": "String letter",
+          "getterMethodImpl": "\tpublic String getLetter() { return letter; }\n"
+        }
+      ],
+      "liquibaseSequence": 0,
+      "nonBlocking": false,
+      "mnData": false,
+      "cached": false,
+      "micrometer": true,
+      "tracingEnabled": true,
+      "securityEnabled": false,
+      "securityStrategy": "none",
+      "noEndpoints": false,
+      "javaVersion": "11",
+      "javaRecord": false,
+      "microstreamRoot": "Fruit",
+      "microstreamRootClass": "io.hashimati.microstream.FruitData",
+      "microstreamPath": "d:/Hello/MicrostreaCache",
+      "updateByMethods": {},
+      "urls": [
+        {
+          "url": "/api/v1/fruit/get",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/findAll",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/save",
+          "method": "POST",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/update",
+          "method": "PUT",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/delete/{id}",
+          "method": "DELETE",
+          "roles": []
+        }
+      ],
+      "hashCode": "\t@Override\n\tpublic int hashCode() {\n\t\treturn Objects.hash(id, name, letter);\n\t}",
+      "lombok": false,
+      "graphQl": false,
+      "emptyConstructor": "\tpublic Fruit(){\t}",
+      "allArgsConstructor": "\tpublic Fruit(String id, String name, String letter){\n\t\tthis.id \u003d id;\n\t\tthis.name \u003d name;\n\t\tthis.letter \u003d letter;\n\t}",
+      "equalMethods": "\t@Override\n\tpublic boolean equals(Object o) {\n\t\tif (this \u003d\u003d o) return true;\n\t\tif (!(o instanceof Fruit)) return false;\n\t\t Fruit fruit \u003d (Fruit) o;\n\t\treturn  Objects.equals(id, fruit.id) \u0026\u0026  Objects.equals(name, fruit.name) \u0026\u0026  Objects.equals(letter, fruit.letter);\n\t}",
+      "setters": "\tpublic void setId(String id) { this.id \u003d id; }\n\n\tpublic void setName(String name) { this.name \u003d name; }\n\n\tpublic void setLetter(String letter) { this.letter \u003d letter; }\n",
+      "getters": "\tpublic String getId() { return id; }\n\n\tpublic String getName() { return name; }\n\n\tpublic String getLetter() { return letter; }\n"
+    }
+  ],
+  "relations": [],
+  "enums": [],
+  "configured": true,
+  "supportFileService": false,
+  "securityRoles": [],
+  "urls": [
+    {
+      "scope": "/GraphQL",
+      "url": "/graphiql",
+      "method": "GET",
+      "roles": []
+    },
+    {
+      "scope": "/GraphQL",
+      "url": "/graphql",
+      "method": "POST",
+      "roles": []
+    },
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/rapidoc/index.html",
+      "method": "GET",
+      "roles": []
+    },
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/swagger-ui/index.html",
+      "method": "GET",
+      "roles": []
+    }
+  ],
+  "lombok": false
+}
