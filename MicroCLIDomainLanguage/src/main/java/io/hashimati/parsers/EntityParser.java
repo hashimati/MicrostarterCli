@@ -1,7 +1,7 @@
 package io.hashimati.parsers;
 
 import io.hashimati.objects.Entity;
-import io.hashimati.parsers.patterns.BasicPatterns;
+import io.hashimati.parsers.patterns.GrammarPatterns;
 
 public class EntityParser {
 
@@ -38,12 +38,12 @@ public class EntityParser {
 
     public boolean isValidEntitySyntax(String entitySyntax)
     {
-        return entitySyntax.matches(BasicPatterns.ENTITY_PATTERN);
+        return entitySyntax.matches(GrammarPatterns.ENTITY_PATTERN);
     }
 
     public boolean isValidAttributeLine(String line)
     {
-        return line.matches(BasicPatterns.VALIDATE_LINE_PATTERN);
+        return line.matches(GrammarPatterns.VALIDATE_LINE_PATTERN);
     }
 
 }
