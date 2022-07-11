@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class PatternUtils {
 
-    public static List<String> getPatternsFromtext(String pattern, String text){
+    public static List<String> getPatternsFromText(String pattern, String text){
 
         return Pattern.compile(pattern)
                 .matcher(text)
