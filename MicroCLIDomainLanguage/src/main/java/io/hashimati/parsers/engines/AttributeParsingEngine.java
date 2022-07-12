@@ -1,12 +1,9 @@
 package io.hashimati.parsers.engines;
 
 import io.hashimati.exceptions.InvalidSyntaxException;
-import io.hashimati.parsers.patterns.GrammarPatterns;
 import io.hashimati.syntax.AttributeDeclarationSyntax;
 import io.hashimati.utils.PatternUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
