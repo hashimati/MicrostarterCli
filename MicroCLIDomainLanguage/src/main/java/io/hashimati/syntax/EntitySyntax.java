@@ -8,7 +8,11 @@ public class EntitySyntax extends Syntax{
         super(sentence);
     }
     private String name;
-    private ArrayList<String> variableDeclarations = new ArrayList<>();
+    private ArrayList<String> attributesDeclarationsStr = new ArrayList<>();
+
+    private ArrayList<AttributeDeclarationSyntax> attributesDeclarations = new ArrayList<>();
+
+
     private boolean pagination;
     private boolean records;
     private boolean noendpoints;
@@ -22,12 +26,12 @@ public class EntitySyntax extends Syntax{
         this.name = name;
     }
 
-    public ArrayList<String> getVariableDeclarations() {
-        return variableDeclarations;
+    public ArrayList<String> getAttributesDeclarationsStr() {
+        return attributesDeclarationsStr;
     }
 
-    public void setVariableDeclarations(ArrayList<String> variableDeclarations) {
-        this.variableDeclarations = variableDeclarations;
+    public void setAttributesDeclarationsStr(ArrayList<String> attributesDeclarationsStr) {
+        this.attributesDeclarationsStr = attributesDeclarationsStr;
     }
 
     public boolean isPagination() {
@@ -60,5 +64,19 @@ public class EntitySyntax extends Syntax{
 
     public void setValid(boolean valid) {
         isValid = valid;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+
+    }
+
+    public ArrayList<AttributeDeclarationSyntax> getAttributesDeclarations() {
+        return attributesDeclarations;
+    }
+
+    public void setAttributesDeclarations(ArrayList<AttributeDeclarationSyntax> attributesDeclarations) {
+        this.attributesDeclarations = attributesDeclarations;
     }
 }

@@ -20,7 +20,7 @@ public class EntityParsingEngine extends ParsingEngine{
         return entitySyntax;
     }
 
-    public void getEntityName(EntitySyntax entitySyntax)
+    private void getEntityName(EntitySyntax entitySyntax)
     {
         try {
             List<String> entityNameDeclarationLine = PatternUtils.getPatternsFromText("\\s*entity \\s*\\w*\\s*\\{", entitySyntax.getSentence());
@@ -43,7 +43,7 @@ public class EntityParsingEngine extends ParsingEngine{
             entitySyntax.getErrors().add(ex.getMessage());
         }
     }
-    public void getPagination(EntitySyntax entitySyntax){
+    private void getPagination(EntitySyntax entitySyntax){
         try{
 
             List<String> paginationDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.PAGINATION_COMMAND_PATTERN,  entitySyntax.getSentence());
@@ -65,7 +65,7 @@ public class EntityParsingEngine extends ParsingEngine{
 
         }
     }
-    public void getRecord(EntitySyntax entitySyntax){
+    private void getRecord(EntitySyntax entitySyntax){
         try{
 
             List<String> recordsDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.RECORDS_COMMAND_PATTERN,  entitySyntax.getSentence());
@@ -87,11 +87,11 @@ public class EntityParsingEngine extends ParsingEngine{
         }
     }
 
-    public void getAttributesDeclarationStatements(EntitySyntax entitySyntax)
+    private void getAttributesDeclarationStatements(EntitySyntax entitySyntax)
     {
             try{
                 List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  entitySyntax.getSentence());
-                entitySyntax.getVariableDeclarations().addAll(attributeDeclarations);
+                entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations);
             }
             catch (Exception ex){
                 ex.printStackTrace();

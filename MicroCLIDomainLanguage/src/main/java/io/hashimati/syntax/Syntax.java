@@ -18,7 +18,13 @@ public abstract class Syntax {
         return errors;
     }
 
+
     public void setErrors(ArrayList<String> errors) {
         this.errors = errors;
+    }
+
+    @Override
+    public String toString() {
+        return sentence;
     }
 }
