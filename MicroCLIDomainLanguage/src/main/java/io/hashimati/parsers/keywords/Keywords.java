@@ -5,13 +5,15 @@ import java.util.List;
 
 public class Keywords {
 
-    private List<String> keywords = Arrays.asList(
+    public static List<String> VALIDATION_KEYWORDS = Arrays.asList(
             "entity",
             "config",
-            "min(\\d*)",
-            "max(\\d*)",
-            "size(\\d*)",
-            "required"
-
-    );
+            "min\\s*\\(\\s*\\d+\\s*\\)",
+            "max\\s*\\(\\s*\\d+\\s*\\)",
+            "size\\(\\d+\\s*\\,\\s*\\d+\\)",
+            "required",
+            "nullable",
+            "notnull",
+            "regex\\s*\\(\\s*[\\w* \\W* \\S* \\s*]*\\s*\\)"
+            );
 }
