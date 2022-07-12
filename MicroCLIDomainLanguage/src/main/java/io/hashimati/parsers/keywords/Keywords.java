@@ -1,13 +1,10 @@
 package io.hashimati.parsers.keywords;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 public class Keywords {
 
-    public static List<String> VALIDATION_KEYWORDS = Arrays.asList(
-            "entity",
-            "config",
+    public static Set<String> VALIDATION_KEYWORDS = Set.of(
             "min\\s*\\(\\s*\\d+\\s*\\)",
             "max\\s*\\(\\s*\\d+\\s*\\)",
             "size\\(\\d+\\s*\\,\\s*\\d+\\)",
@@ -16,4 +13,28 @@ public class Keywords {
             "notnull",
             "regex\\s*\\(\\s*[\\w* \\W* \\S* \\s*]*\\s*\\)"
             );
+    public static Set<String> OBJECT_KEYWORDS = Set.of(
+            "entity",
+            "services",
+            "security",
+            "config",
+            "enum",
+            "client",
+            "microservices",
+            "package",
+            "build",
+            "language",
+            "port",
+            "reactive",
+            "graphql",
+            "metrics",
+            "file",
+            "cache",
+            "tracing",
+            "messaging",
+
+            "pagination",
+
+
+    )
 }

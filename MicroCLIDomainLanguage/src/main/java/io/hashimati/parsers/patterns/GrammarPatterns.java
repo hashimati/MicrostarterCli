@@ -39,7 +39,14 @@ public class GrammarPatterns {
     public static String ATTRIBUTE_DECLARATION = "\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w ]*\\s*[;|,]{1}";
     public static String PAGINATION_COMMAND_PATTERN = "\\s*pagination\\s*;";
     public static String RECORDS_COMMAND_PATTERN = "\\s*records\\s*;";
-    public static String VALIDATION_SIZE = "\\s*size\\s*\\(\\s*\\d*\\s*,\\s*\\d*\\s*\\)";
-    public static String VALIDATION_MIN = "\\s*min\\s*\\(\\s*\\d*\\s*\\)";
-    public static String VALIDATION_MAX = "\\s*max\\s*\\(\\s*\\d*\\s*\\)";
+    public static String VALIDATION_SIZE = "\\s*size\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\)";
+    public static String VALIDATION_MIN = "\\s*min\\s*\\(\\s*\\d+\\s*\\)";
+    public static String VALIDATION_MAX = "\\s*max\\s*\\(\\s*\\d+\\s*\\)";
+    public static String VALIDATION_REQUIRED = "\\s*required\\s*)";
+    public static String VALIDATION_NULLABLE = "\\s*nullable\\s*";
+    public static String VALIDATION_NOTNULL = "\\s*notnull\\s*";
+
+
+
+
 }
