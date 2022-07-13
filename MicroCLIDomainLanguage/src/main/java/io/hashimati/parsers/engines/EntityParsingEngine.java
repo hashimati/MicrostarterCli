@@ -7,6 +7,7 @@ import io.hashimati.utils.PatternUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EntityParsingEngine extends ParsingEngine{
 
@@ -84,6 +85,8 @@ public class EntityParsingEngine extends ParsingEngine{
         catch (InvalidSyntaxException ex){
             ex.printStackTrace();
             entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
+
 
         }
     }
@@ -93,22 +96,28 @@ public class EntityParsingEngine extends ParsingEngine{
             try{
                 List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  entitySyntax.getSentence());
 
-                if()
+
                 entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations);
             }
             catch (Exception ex){
                 ex.printStackTrace();
+                entitySyntax.setValid(false);
+
                 entitySyntax.getErrors().add(ex.getMessage());
             }
     }
     private void getAttributeDeclarationSyntax(EntitySyntax entitySyntax)
     {
         try{
-
+            if(!entitySyntax.getAttributesDeclarationsStr().isEmpty()){
+                entitySyntax.getAttributesDeclarations()
+                        .addAll(entitySyntax.getAttributesDeclarationsStr().stream().map(x->new AttributeParsingEngine().parse(x)).collect(Collectors.toList()));
+            }
         }catch (Exception ex)
         {
             ex.printStackTrace();
-            entitySyntax.getErrors().add(ex.getMessage())
+            entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
         }
 
     }
