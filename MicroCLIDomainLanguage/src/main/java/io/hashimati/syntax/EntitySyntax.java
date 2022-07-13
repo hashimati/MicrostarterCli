@@ -17,7 +17,6 @@ public class EntitySyntax extends Syntax{
     private boolean records;
     private boolean noendpoints;
 
-    private boolean isValid;
     public String getName() {
         return name;
     }
@@ -58,13 +57,6 @@ public class EntitySyntax extends Syntax{
         this.noendpoints = noendpoints;
     }
 
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
 
     @Override
     public String toString() {

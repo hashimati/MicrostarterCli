@@ -36,7 +36,9 @@ public class GrammarPatterns {
     public static String VALIDATE_LINE_PATTERN = "\\s*[\\w\\s]*\\s*;\\s*";
 
     //entity's patterns
-    public static String ATTRIBUTE_DECLARATION = "\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w ]*\\s*[;|,]{1}";
+
+    public static String SINGLE_ATTRIBUTE_DECLARATION = "\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w+ ]*\\s*;";
+    public static String ATTRIBUTE_DECLARATION = "[\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w ]*\\s*\\,]* "+SINGLE_ATTRIBUTE_DECLARATION;
     public static String PAGINATION_COMMAND_PATTERN = "\\s*pagination\\s*;";
     public static String RECORDS_COMMAND_PATTERN = "\\s*records\\s*;";
     public static String VALIDATION_SIZE = "\\s*size\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\)";

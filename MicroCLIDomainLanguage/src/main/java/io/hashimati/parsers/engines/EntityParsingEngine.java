@@ -17,6 +17,7 @@ public class EntityParsingEngine extends ParsingEngine{
         getPagination(entitySyntax);
         getRecord(entitySyntax);
         getAttributesDeclarationStatements(entitySyntax);
+
         return entitySyntax;
     }
 
@@ -91,12 +92,25 @@ public class EntityParsingEngine extends ParsingEngine{
     {
             try{
                 List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  entitySyntax.getSentence());
+
+                if()
                 entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations);
             }
             catch (Exception ex){
                 ex.printStackTrace();
                 entitySyntax.getErrors().add(ex.getMessage());
             }
+    }
+    private void getAttributeDeclarationSyntax(EntitySyntax entitySyntax)
+    {
+        try{
+
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+            entitySyntax.getErrors().add(ex.getMessage())
+        }
+
     }
 
 }

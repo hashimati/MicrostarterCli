@@ -6,6 +6,8 @@ public abstract class Syntax {
 
     private String sentence;
     private ArrayList<String> errors = new ArrayList<>();
+    private boolean isValid;
+
     public Syntax(final String sentence)
     {
         this.sentence = sentence;
@@ -26,5 +28,13 @@ public abstract class Syntax {
     @Override
     public String toString() {
         return sentence;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

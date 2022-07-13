@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Keywords {
 
-    public static Set<String> VALIDATION_KEYWORDS = Set.of(
+    public final static Set<String> VALIDATION_KEYWORDS = Set.of(
             "min\\s*\\(\\s*\\d+\\s*\\)",
             "max\\s*\\(\\s*\\d+\\s*\\)",
             "size\\(\\d+\\s*\\,\\s*\\d+\\)",
@@ -13,7 +13,17 @@ public class Keywords {
             "notnull",
             "regex\\s*\\(\\s*[\\w* \\W* \\S* \\s*]*\\s*\\)"
             );
-    public static Set<String> OBJECT_KEYWORDS = Set.of(
+
+    public final static Set<String> DATA_TYPE_KEYWORDS = Set.of("String",
+            "char",
+            "byte",
+            "short",
+            "int",
+            "long",
+            "float",
+            "double",
+            "boolean");
+    public final static Set<String> OBJECT_KEYWORDS = Set.of(
             "entity",
             "services",
             "security",
@@ -35,6 +45,5 @@ public class Keywords {
 
             "pagination"
 
-
-    ); 
+    );
 }
