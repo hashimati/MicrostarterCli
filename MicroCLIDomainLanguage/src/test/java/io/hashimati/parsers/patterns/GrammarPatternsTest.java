@@ -13,8 +13,6 @@ class GrammarPatternsTest {
 
     @Test
     public void testPatterns(){
-
-
-        System.out.println("name :String required  min(1) max(21) size(1-22)  ;".matches(ATTRIBUTE_DECLARATION));
+        System.out.println("name :String required  min(1) max(21) size(1-22);".matches(ATTRIBUTE_DECLARATION));
     }
 }

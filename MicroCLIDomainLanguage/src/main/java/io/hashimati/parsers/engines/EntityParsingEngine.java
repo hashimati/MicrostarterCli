@@ -18,7 +18,7 @@ public class EntityParsingEngine extends ParsingEngine{
         getPagination(entitySyntax);
         getRecord(entitySyntax);
         getAttributesDeclarationStatements(entitySyntax);
-
+        getAttributeDeclarationSyntax(entitySyntax);
         return entitySyntax;
     }
 
@@ -97,13 +97,7 @@ public class EntityParsingEngine extends ParsingEngine{
                 String body = entitySyntax.getSentence().replaceAll("\\s*entity \\s*\\w*\\s*\\{", "").trim();
 
                 List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  body);
-             //Breaking statement
-                System.out.println("fucking attribute declaration "+ attributeDeclarations.size() + ": "+ attributeDeclarations);
                 entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations.stream().map(x->x.trim()).collect(Collectors.toList()));
-
-            //    entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations.stream().map(x->x.trim()).collect(Collectors.toList()));
-
-
             }
             catch (Exception ex){
                 ex.printStackTrace();
