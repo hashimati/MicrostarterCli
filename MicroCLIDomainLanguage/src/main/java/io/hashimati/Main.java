@@ -1,7 +1,7 @@
 package io.hashimati;
 
 import io.hashimati.parsers.EntityParser;
-import io.hashimati.parsers.patterns.BasicPatterns;
+import io.hashimati.parsers.patterns.GrammarPatterns;
 import io.hashimati.parsers.utils.Validator;
 
 import java.util.ArrayList;

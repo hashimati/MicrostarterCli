@@ -32,7 +32,7 @@ public class EntityParsingEngine extends ParsingEngine{
             else{
                  entitySyntax.setName(Optional.ofNullable(entityNameDeclarationLine.get(0)
                             .replaceAll("\\s*entity \\s*", "")
-                            .replaceAll("", "\\s*\\{"))
+                            .replaceAll("\\s*\\{","" ))
                         .map(x->{return x.trim().isEmpty()?null:x.trim();})
                         .orElse(null));
                  entitySyntax.setValid(entitySyntax.getName() != null);
@@ -94,10 +94,16 @@ public class EntityParsingEngine extends ParsingEngine{
     private void getAttributesDeclarationStatements(EntitySyntax entitySyntax)
     {
             try{
-                List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  entitySyntax.getSentence());
+                String body = entitySyntax.getSentence().replaceAll("\\s*entity \\s*\\w*\\s*\\{", "").trim();
+
+                List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  body);
+             //Breaking statement
+                System.out.println("fucking attribute declaration "+ attributeDeclarations.size() + ": "+ attributeDeclarations);
+                entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations.stream().map(x->x.trim()).collect(Collectors.toList()));
+
+            //    entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations.stream().map(x->x.trim()).collect(Collectors.toList()));
 
 
-                entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations);
             }
             catch (Exception ex){
                 ex.printStackTrace();
