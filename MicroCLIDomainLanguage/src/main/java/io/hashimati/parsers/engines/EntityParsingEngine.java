@@ -93,6 +93,31 @@ public class EntityParsingEngine extends ParsingEngine{
         }
     }
 
+
+    private void getNoEndPoints(EntitySyntax entitySyntax){
+        try{
+
+            List<String> recordsDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.NOENDPOINT_COMMAND_PATTERN,  entitySyntax.getSentence());
+            if(recordsDeclaration.size() > 1){
+                throw new InvalidSyntaxException("\"records;\" exists more than once!");
+            }
+            if(recordsDeclaration.size() == 0){
+                entitySyntax.setNoendpoints(false);
+            }
+            else {
+                entitySyntax.setNoendpoints(true);
+            }
+
+        }
+        catch (InvalidSyntaxException ex){
+            ex.printStackTrace();
+            entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
+
     private void getAttributesDeclarationStatements(EntitySyntax entitySyntax)
     {
             try{

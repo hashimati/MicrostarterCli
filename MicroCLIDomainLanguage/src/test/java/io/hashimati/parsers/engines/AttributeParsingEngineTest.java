@@ -24,10 +24,9 @@ class AttributeParsingEngineTest {
         assertEquals("fruit", attributeDeclarationSyntax.getName());
         assertEquals("String", attributeDeclarationSyntax.getType());
         List<String> expectedConstraint = Arrays.asList(new String[]{"required", "notnull","regex(.\\w+ .{*,+})"});
-        Collections.sort(expectedConstraint);
         List<String> actualConstrains = Arrays.asList(attributeDeclarationSyntax.getConstraints().toArray(new String[]{}));
-        Collections.sort(actualConstrains);
         assertArrayEquals(expectedConstraint.toArray() , actualConstrains.toArray());
+        
     }
 
 }

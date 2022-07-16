@@ -7,7 +7,7 @@ public class Keywords {
     public final static Set<String> VALIDATION_KEYWORDS = Set.of(
             "min\\s*\\(\\s*\\d+\\s*\\)",
             "max\\s*\\(\\s*\\d+\\s*\\)",
-            "size\\(\\d+\\s*\\,\\s*\\d+\\)",
+            "size\\(\\d+\\s*\\-\\s*\\d+\\)",
             "required",
             "nullable",
             "notnull",
