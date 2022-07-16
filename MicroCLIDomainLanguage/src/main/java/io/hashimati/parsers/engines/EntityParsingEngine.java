@@ -36,6 +36,8 @@ public class EntityParsingEngine extends ParsingEngine{
                         .map(x->{return x.trim().isEmpty()?null:x.trim();})
                         .orElse(null));
                  entitySyntax.setValid(entitySyntax.getName() != null);
+
+               //  Keywords.DATA_TYPE_KEYWORDS.add(entitySyntax.getName());
             }
         }
         catch (InvalidSyntaxException ex)
@@ -96,7 +98,7 @@ public class EntityParsingEngine extends ParsingEngine{
             try{
                 String body = entitySyntax.getSentence().replaceAll("\\s*entity \\s*\\w*\\s*\\{", "").trim();
 
-                List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.ATTRIBUTE_DECLARATION,  body);
+                List<String> attributeDeclarations = PatternUtils.getPatternsFromText(GrammarPatterns.FULL_ATTRIBUTE_DECLARATION,  body);
                 entitySyntax.getAttributesDeclarationsStr().addAll(attributeDeclarations.stream().map(x->x.trim()).collect(Collectors.toList()));
             }
             catch (Exception ex){
@@ -119,7 +121,5 @@ public class EntityParsingEngine extends ParsingEngine{
             entitySyntax.setValid(false);
             entitySyntax.getErrors().add(ex.getMessage());
         }
-
     }
-
 }

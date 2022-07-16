@@ -11,10 +11,12 @@ public class Keywords {
             "required",
             "nullable",
             "notnull",
-            "regex\\s*\\(\\s*[\\w* \\W* \\S* \\s*]*\\s*\\)"
+            "email",
+            "regex\\([.\\w\\{ \\} \\[\\]\\(\\)\\.\\:\\'\\<\\>\\\" \\,\\?\\\\ \\*\\+]*\\)"
             );
 
-    public final static Set<String> DATA_TYPE_KEYWORDS = Set.of("String",
+    public final static Set<String> DATA_TYPE_KEYWORDS = Set.of(
+            "String",
             "char",
             "byte",
             "short",

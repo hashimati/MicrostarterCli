@@ -38,7 +38,9 @@ public class GrammarPatterns {
     //entity's patterns
 
     public static String SINGLE_ATTRIBUTE_DECLARATION = "\\s*\\w+\\s*\\:\\s*\\w+\\s*[( required)( notnull)( nullable)( max\\(\\d+\\))(min\\s*\\(\\s*\\d+\\s*\\)) ( size\\s*\\(\\d+\\s*\\-\\s*\\d+\\s*\\)) ( regex\\([.\\w\\{ \\} \\[\\]\\(\\)\\.\\:\\'\\<\\>\\\" \\,\\?\\\\ \\*\\+]*\\))]*\\s*";
-    public static String ATTRIBUTE_DECLARATION =
+
+    public static String ATTRIBUTE_DECLARATION_PART = "\\s*\\w+\\s*\\:\\s*\\w+\\s*";
+    public static String FULL_ATTRIBUTE_DECLARATION =
             //"[\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w+ ]*\\s*\\,]* "
                  //  "["+SINGLE_ATTRIBUTE_DECLARATION +"\\,]*" +
                            SINGLE_ATTRIBUTE_DECLARATION + "\\;";
