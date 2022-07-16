@@ -47,6 +47,7 @@ public class EntityParsingEngine extends ParsingEngine{
             entitySyntax.getErrors().add(ex.getMessage());
         }
     }
+    
     private void getPagination(EntitySyntax entitySyntax){
         try{
 
