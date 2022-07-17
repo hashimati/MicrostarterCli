@@ -6,8 +6,10 @@ import io.hashimati.syntax.ServiceSyntax;
 import io.hashimati.syntax.Syntax;
 import io.hashimati.utils.PatternUtils;
 
+import javax.crypto.EncryptedPrivateKeyInfo;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ServiceParsingEngine extends ParsingEngine{
     @Override
@@ -34,8 +36,7 @@ public class ServiceParsingEngine extends ParsingEngine{
 
     }
 
-    private void getEntities(ServiceSyntax serviceSyntax) {
-    }
+
 
     private void getServiceName(ServiceSyntax serviceSyntax){
         try {
@@ -96,7 +97,6 @@ public class ServiceParsingEngine extends ParsingEngine{
 
     }
 
-
     private String getAttribute(ServiceSyntax serviceSyntax, String command)
     {
         try{
@@ -121,6 +121,22 @@ public class ServiceParsingEngine extends ParsingEngine{
             ex.printStackTrace();
             serviceSyntax.getErrors().add(ex.getMessage());
             return null;
+
+        }
+    }
+
+    private void getEntities(ServiceSyntax serviceSyntax)
+    {
+        EntityParsingEngine entityParsingEngine = new EntityParsingEngine();
+        List<String> entityStatements = PatternUtils.getPatternsFromText(GrammarPatterns.ENTITY_PATTERN, serviceSyntax.getSentence());
+        if(entityStatements.isEmpty())
+        {
+            return ;
+        }
+        else {
+            serviceSyntax.getEntities().addAll(entityStatements.stream().map(x->entityParsingEngine.parse(x+"\n}" // to close the entity declaration bracket
+
+            )).collect(Collectors.toList()));
 
         }
     }

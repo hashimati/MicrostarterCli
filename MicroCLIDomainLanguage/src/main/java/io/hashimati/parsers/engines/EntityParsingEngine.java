@@ -34,7 +34,7 @@ public class EntityParsingEngine extends ParsingEngine{
                             .replaceAll("\\s*entity \\s*", "")
                             .replaceAll("\\s*\\{","" ))
                         .map(x->{return x.trim().isEmpty()?null:x.trim();})
-                        .orElse(null).split("\\s+")[1]);
+                        .orElse(null));
                  entitySyntax.setValid(entitySyntax.getName() != null);
 
                //  Keywords.DATA_TYPE_KEYWORDS.add(entitySyntax.getName());

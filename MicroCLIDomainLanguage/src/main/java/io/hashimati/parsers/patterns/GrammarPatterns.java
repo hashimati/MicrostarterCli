@@ -4,7 +4,9 @@ public class GrammarPatterns {
 
     public static String bodyPattern = "[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*";
     public static String invalidBody = "[\\W* \\w+]*\\s*";
-    public static String ENTITY_PATTERN = "\\s*entity\\s*\\w+\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*\\}";
+    public static String ENTITY_PATTERN2 = "\\s*entity\\s+\\w+\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*\\}";
+    public static String ENTITY_PATTERN = "\\s*entity\\s+\\w+\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*";
+
     public static String SERVICE_PATTERN = "\\s*service\\s*\\w+\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*\\}";
     public static String MICROSERVICES_PATTERN = "\\s*microservices\\s*\\w+\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*\\}";
     public static String SECURITY_PATTERN = "\\s*security\\s*\\{[\\s* ^\\} ^\\{ ^\\! ^\\@ ^\\# ^\\$ ^\\% ^\\^ ^\\& ^\\* ^\\( ^\\) ^\\[ ^\\]  \\w+ \\:]*\\s*\\}";

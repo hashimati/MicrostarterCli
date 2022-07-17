@@ -1,5 +1,7 @@
 package io.hashimati.syntax;
 
+import java.util.ArrayList;
+
 public class ServiceSyntax extends Syntax{
 
 
@@ -15,6 +17,7 @@ public class ServiceSyntax extends Syntax{
     private String database,Package, databaseName, jaxRS, tracing, cache, messaging, metrics, file;
 
 
+    private ArrayList<EntitySyntax> entities = new ArrayList<>();
     @Override
     public String toString() {
         return super.toString();
@@ -130,6 +133,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setReactive(String reactive) {
         this.reactive = reactive;
+    }
+
+    public ArrayList<EntitySyntax> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<EntitySyntax> entities) {
+        this.entities = entities;
     }
 }
 
