@@ -31,7 +31,7 @@ class ServiceParsingEngineTest {
         assertEquals("microstream", serviceSyntax.getDatabase());
         assertEquals("fruitDb", serviceSyntax.getDatabaseName());
 
-        assert
+
 
 
 
