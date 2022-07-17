@@ -20,7 +20,7 @@ public class ServiceParsingEngine extends ParsingEngine{
 
         serviceSyntax.setBuild(getAttribute(serviceSyntax,"build"));
         serviceSyntax.setCache(getAttribute(serviceSyntax,"cache"));
-        serviceSyntax.setDatabase(getAttribute(serviceSyntax,"datatbase"));
+        serviceSyntax.setDatabase(getAttribute(serviceSyntax,"database"));
         serviceSyntax.setFile(getAttribute(serviceSyntax,"file"));
         serviceSyntax.setLanguage(getAttribute(serviceSyntax, "language"));
         serviceSyntax.setMessaging(getAttribute(serviceSyntax,"messaging"));
@@ -39,16 +39,16 @@ public class ServiceParsingEngine extends ParsingEngine{
 
     private void getServiceName(ServiceSyntax serviceSyntax){
         try {
-            List<String> serviceNameDeclarationLine = PatternUtils.getPatternsFromText("\\s*service \\s*\\w*\\s*\\{", serviceSyntax.getSentence());
+            List<String> serviceNameDeclarationLine = PatternUtils.getPatternsFromText("\\s*service\\s+\\w*\\s*\\{", serviceSyntax.getSentence());
             if (serviceNameDeclarationLine.size() != 1) {
                 throw new InvalidSyntaxException("Entity's name cannot be found");
             }
             else{
                 serviceSyntax.setName(Optional.ofNullable(serviceNameDeclarationLine.get(0)
-                                .replaceAll("\\s*entity \\s*", "")
+                                .replaceAll("\\s*entity\\s+", "")
                                 .replaceAll("\\s*\\{","" ))
                         .map(x->{return x.trim().isEmpty()?null:x.trim();})
-                        .orElse(null));
+                        .orElse(null).split("\\s+")[1]);
                 serviceSyntax.setValid(serviceSyntax.getName() != null);
 
                 //  Keywords.DATA_TYPE_KEYWORDS.add(entitySyntax.getName());
@@ -77,7 +77,7 @@ public class ServiceParsingEngine extends ParsingEngine{
             }
             else {
                 var portStatement = portLinePattern.get(0).trim();
-                var port = portStatement.split(" ")[1];
+                var port = portStatement.split(" ")[1].replace(";", "").trim();
 
                 if(!port.matches("^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))"))
                     throw new InvalidSyntaxException("The port number is not valid: " + (portStatement));
@@ -112,8 +112,7 @@ public class ServiceParsingEngine extends ParsingEngine{
             }
             else{
                 String[] commandSplit = commandPattern.get(0).trim().split(" ");
-                serviceSyntax.setReactive(commandSplit[1].trim());
-                return commandSplit[1].trim();
+                return commandSplit[1].trim().replace(";", "").trim();
             }
 
         }

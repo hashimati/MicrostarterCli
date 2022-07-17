@@ -25,7 +25,7 @@ public class EntityParsingEngine extends ParsingEngine{
     private void getEntityName(EntitySyntax entitySyntax)
     {
         try {
-            List<String> entityNameDeclarationLine = PatternUtils.getPatternsFromText("\\s*entity \\s*\\w*\\s*\\{", entitySyntax.getSentence());
+            List<String> entityNameDeclarationLine = PatternUtils.getPatternsFromText("\\s*entity\\s+\\w*\\s*\\{", entitySyntax.getSentence());
             if (entityNameDeclarationLine.size() != 1) {
                 throw new InvalidSyntaxException("Entity's name cannot be found");
             }
@@ -34,7 +34,7 @@ public class EntityParsingEngine extends ParsingEngine{
                             .replaceAll("\\s*entity \\s*", "")
                             .replaceAll("\\s*\\{","" ))
                         .map(x->{return x.trim().isEmpty()?null:x.trim();})
-                        .orElse(null));
+                        .orElse(null).split("\\s+")[1]);
                  entitySyntax.setValid(entitySyntax.getName() != null);
 
                //  Keywords.DATA_TYPE_KEYWORDS.add(entitySyntax.getName());
