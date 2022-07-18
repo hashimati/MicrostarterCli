@@ -31,11 +31,40 @@ public class ServiceParsingEngine extends ParsingEngine{
         serviceSyntax.setJaxRS(getAttribute(serviceSyntax,"jaxRX"));
         serviceSyntax.setPackage(getAttribute(serviceSyntax,"package"));
         serviceSyntax.setTracing(getAttribute(serviceSyntax,"tracing"));
+        serviceSyntax.setTracing(getAttribute(serviceSyntax,"framework"));
+        getGraphQl(serviceSyntax);
+
+
         getEntities(serviceSyntax); 
         return serviceSyntax;
 
     }
 
+    private void getGraphQl(ServiceSyntax serviceSyntax) {
+        try {
+            List<String> graphqlLinePattern = PatternUtils.getPatternsFromText("\\s*graphql\\s*\\;", serviceSyntax.getSentence());
+
+            if(graphqlLinePattern.isEmpty())
+            {
+                serviceSyntax.setGraphql(false);
+
+            }
+            else if(graphqlLinePattern.size() > 1){
+                throw new InvalidSyntaxException("There are more than one graphql statement. ("+graphqlLinePattern+")");
+            }
+            else {
+
+                    serviceSyntax.setGraphql(true);
+            }
+
+        }catch (InvalidSyntaxException ex)
+        {
+            ex.printStackTrace();
+            serviceSyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
 
 
     private void getServiceName(ServiceSyntax serviceSyntax){

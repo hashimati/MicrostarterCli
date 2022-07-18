@@ -11,7 +11,9 @@ public class ServiceSyntax extends Syntax{
         super(sentence);
 
     }
-    private String name, language, build, reactive;
+    private String name, language, build, reactive, framework;
+    private boolean graphql;
+
 
     private String port;
     private String database,Package, databaseName, jaxRS, tracing, cache, messaging, metrics, file;
@@ -141,6 +143,22 @@ public class ServiceSyntax extends Syntax{
 
     public void setEntities(ArrayList<EntitySyntax> entities) {
         this.entities = entities;
+    }
+
+    public boolean isGraphql() {
+        return graphql;
+    }
+
+    public void setGraphql(boolean graphql) {
+        this.graphql = graphql;
+    }
+
+    public String getFramework() {
+        return framework;
+    }
+
+    public void setFramework(String framework) {
+        this.framework = framework;
     }
 }
 
