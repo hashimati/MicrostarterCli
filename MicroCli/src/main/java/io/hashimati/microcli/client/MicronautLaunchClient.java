@@ -3,10 +3,6 @@ package io.hashimati.microcli.client;
 
 import io.hashimati.microcli.utils.PromptGui;
 import io.micronaut.http.HttpRequest;
-import io.micronaut.http.HttpResponse;
-import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Consumes;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.http.client.HttpClient;
@@ -18,7 +14,6 @@ import javax.inject.Singleton;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.List;
 
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.hashimati.lang.parsers.engines.AttributeParsingEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-23T07:57:51" hostname="LAPTOP-NP6PGH54" time="0.135">
+  <properties/>
+  <testcase name="parsingAttributeDeclarationTest()" classname="io.hashimati.lang.parsers.engines.AttributeParsingEngineTest" time="0.135"/>
+  <system-out><![CDATA[This is the actual: [notnull, regex(.\w+ .{*,+}), required]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

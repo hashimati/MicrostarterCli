@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.hashimati.lang.parsers.engines.EntityParsingEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-23T07:57:51" hostname="LAPTOP-NP6PGH54" time="0.013">
+  <properties/>
+  <testcase name="parsingEntityTest()" classname="io.hashimati.lang.parsers.engines.EntityParsingEngineTest" time="0.013"/>
+  <system-out><![CDATA[name : String required min(2) max(10) size(12-100) email regex(22lkasd \.{2,44});
+expected Constraints: [email, max(10), min(2), regex(22lkasd \.{2,44}), required, size(12-100)]
+Actual Constraints: [email, max(10), min(2), regex(22lkasd \.{2,44}), required, size(12-100)]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

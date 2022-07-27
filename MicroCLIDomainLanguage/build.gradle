@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group 'io.hashimati.microcli.domain.lang'
-version '1.0-SNAPSHOT'
+group 'io.hashimati.lang'
+version '0.0.1'
 
 repositories {
     mavenCentral()

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.hashimati.lang.parsers.engines.ServiceParsingEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-23T07:57:51" hostname="LAPTOP-NP6PGH54" time="0.033">
+  <properties/>
+  <testcase name="parse()" classname="io.hashimati.lang.parsers.engines.ServiceParsingEngineTest" time="0.033"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

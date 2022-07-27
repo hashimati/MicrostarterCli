@@ -22,7 +22,6 @@ import picocli.CommandLine;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;

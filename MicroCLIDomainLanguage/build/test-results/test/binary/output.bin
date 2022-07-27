@@ -1,0 +1,5 @@
+=This is the actual: [notnull, regex(.\w+ .{*,+}), required]
+Sname : String required min(2) max(10) size(12-100) email regex(22lkasd \.{2,44});
+aexpected Constraints: [email, max(10), min(2), regex(22lkasd \.{2,44}), required, size(12-100)]
+_Actual Constraints: [email, max(10), min(2), regex(22lkasd \.{2,44}), required, size(12-100)]
+true

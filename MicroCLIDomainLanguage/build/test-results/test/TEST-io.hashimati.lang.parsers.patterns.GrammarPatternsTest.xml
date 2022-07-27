@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.hashimati.lang.parsers.patterns.GrammarPatternsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-23T07:57:51" hostname="LAPTOP-NP6PGH54" time="0.003">
+  <properties/>
+  <testcase name="testPatterns()" classname="io.hashimati.lang.parsers.patterns.GrammarPatternsTest" time="0.003"/>
+  <system-out><![CDATA[true
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

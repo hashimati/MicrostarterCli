@@ -8,20 +8,18 @@ package io.hashimati.microcli.commands;
  * @email: hashimati.ahmed@gmail.com
  */
 
-import com.google.common.net.InetAddresses;
+import io.hashimati.lang.parsers.engines.ServiceParsingEngine;
+import io.hashimati.lang.syntax.ServiceSyntax;
 import io.hashimati.microcli.client.MicronautLaunchClient;
+import io.hashimati.microcli.services.ServiceGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.PromptGui;
-import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
-import org.fusesource.jansi.Ansi;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
-import java.net.Inet4Address;
-import java.net.InetAddress;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +31,11 @@ public class InitCommand implements Callable<Integer> {
     @Inject
     private MicronautLaunchClient micronautLaunchClient;
 
-
+    @Inject
+    private ServiceGenerator serviceGenerator;
+    @Option(names = {"-f", "--file"}, defaultValue = "service.mdl",
+            description = "the file to use (default: ${DEFAULT-VALUE})")
+    private File file;
     @Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
@@ -64,28 +66,42 @@ public class InitCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
 
-            String projectFilePath = GeneratorUtils.getCurrentWorkingPath() + "/"+ name+ ".zip";
-           // PromptGui.println("Downloading "+ name + ".zip from https://launch.micronaut.io/", Ansi.Color.WHITE);
-            byte[] projectZipFile = micronautLaunchClient.generateProject(type, pack+"."+name, language, build,test, javaVersion, features);
+        if(file != null){
+            String content = GeneratorUtils.getFileContent(file);
+            ServiceSyntax serviceSyntax = new ServiceParsingEngine().parse(content);
+//            System.out.println(serviceSyntax.getName());
+//            System.out.println(serviceSyntax.getEntities().get(0));
+//            System.out.println("----");
+//            System.out.println(serviceSyntax.getEntities().get(1));
+//            System.out.println(serviceSyntax.getEntities().stream().map(x->x.getName()).collect(Collectors.toList()));
+            return serviceGenerator.initiateService(serviceSyntax);
 
 
-            if(projectZipFile == null)
-            {
+        }
+        else {
+            String projectFilePath = GeneratorUtils.getCurrentWorkingPath() + "/" + name + ".zip";
+            // PromptGui.println("Downloading "+ name + ".zip from https://launch.micronaut.io/", Ansi.Color.WHITE);
+            byte[] projectZipFile = micronautLaunchClient.generateProject(type, pack + "." + name, language, build, test, javaVersion, features);
+
+
+            if (projectZipFile == null) {
                 PromptGui.printlnErr("Failed to generate " + name + " project.");
                 return 0;
             }
 
-           boolean createFileStatus = GeneratorUtils.writeBytesToFile(projectFilePath, projectZipFile );
-         if(createFileStatus)
-             PromptGui.printlnSuccess("Complete downloading " + name + ".zip. ");
+            boolean createFileStatus = GeneratorUtils.writeBytesToFile(projectFilePath, projectZipFile);
+            if (createFileStatus)
+                PromptGui.printlnSuccess("Complete downloading " + name + ".zip. ");
 
 
-         boolean extract = GeneratorUtils.unzipFile(projectFilePath, GeneratorUtils.getCurrentWorkingPath());
-            if(extract)
-             PromptGui.printlnSuccess("Successfully created \""+ name+ "\" project folder!");
-           boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);
+            boolean extract = GeneratorUtils.unzipFile(projectFilePath, GeneratorUtils.getCurrentWorkingPath());
+            if (extract)
+                PromptGui.printlnSuccess("Successfully created \"" + name + "\" project folder!");
+            boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);
 
-           return createFileStatus && extract && deleteFile ? 1:0;
+            return createFileStatus && extract && deleteFile ? 1 : 0;
+        }
+
     }
 
     static class MyAbcCandidates extends ArrayList<String> {
