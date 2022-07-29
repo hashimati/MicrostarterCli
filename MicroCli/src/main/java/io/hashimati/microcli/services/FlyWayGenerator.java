@@ -73,7 +73,8 @@ public class FlyWayGenerator
 
         //No parallel because the order is matter.
         for (EntityAttribute attribute : entity.getAttributes()) {
-            if(attribute.isArray()) continue;;
+            if(attribute.isArray()) continue;
+            if(attribute.getName().equals("id")) continue;
             String attributeName = attribute.getName().toLowerCase();
             String attributeType = attribute.getType().toLowerCase();
             String mappedDataType = mapper.get(attributeType);

@@ -80,7 +80,9 @@ public class LiquibaseGenerator
         }}).toString()+"\n");
 
         for (EntityAttribute attribute : entity.getAttributes()) {
+
             if(attribute.isArray()) continue;;
+            if(attribute.getName().equals("id")) continue;
             String attributeName = attribute.getName().toLowerCase();
             String attributeType = attribute.getType().toLowerCase();
             String mappedDataType = mapper.get(attributeType);

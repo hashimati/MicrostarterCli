@@ -160,7 +160,7 @@ public class ServiceParsingEngine extends ParsingEngine{
     private void getEntities(ServiceSyntax serviceSyntax)
     {
         EntityParsingEngine entityParsingEngine = new EntityParsingEngine();
-        List<String> entityStatements = PatternUtils.getPatternsFromText("\\s*entity\\s+\\w+\\s*\\{[\\;\\!\\@\\#\\$\\%\\^\\&\\*\\:\\w*\\s*^\\}\\(\\)\\-]*\\}", serviceSyntax.getSentence());
+        List<String> entityStatements = PatternUtils.getPatternsFromText("\\s*entity\\s+\\w+\\s*\\{[\\;\\!\\@\\#\\$\\%\\^\\&\\*\\:\\w*\\s*^\\}\\(\\)\\-]*\\}\\s*^(\\w*)", serviceSyntax.getSentence());
 
         if(entityStatements.isEmpty())
         {
