@@ -3,10 +3,12 @@ package ${controllerPackage};
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import io.micronaut.core.annotation.NonNull;
 <% if(principle) out.print 'import java.security.Principal;' %>
 <% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>
 <% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION;'%>
+import io.micronaut.retry.annotation.CircuitBreaker;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.version.annotation.Version;
 import io.micronaut.http.annotation.*;
@@ -30,6 +32,7 @@ ${moreImports}
 
 @Tag(name = "${className}")
 <% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entities}")
+@CircuitBreaker(attempts = "5", maxDelay = "3s", reset = "30")
 public class ${className}Controller {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
@@ -51,7 +54,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
-    public ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> <% if(!jaxrs) out.print '@Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName} <% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+    public ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> <% if(!jaxrs) out.print '@NonNull @Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName} <% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO insert your logic here!
 
@@ -127,7 +130,7 @@ public class ${className}Controller {
             content = @Content(mediaType = "application/json")
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
-    public ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> <% if(!jaxrs) out.print '@Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
+    public ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> <% if(!jaxrs) out.print '@NonNull @Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);

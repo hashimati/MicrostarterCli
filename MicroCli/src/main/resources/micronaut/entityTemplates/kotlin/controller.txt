@@ -6,9 +6,11 @@ import ${servicePackage}
 <% if(principle) out.print 'import java.security.Principal' %>
 import io.micronaut.http.MediaType
 import io.micronaut.http.multipart.CompletedFileUpload
+import io.micronaut.core.annotation.NonNull;
 <% if(principle) out.print 'import io.micronaut.security.annotation.Secured'%>
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule' %>
 <% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION'%>
+import io.micronaut.retry.annotation.CircuitBreaker
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -27,6 +29,7 @@ ${moreImports}
 
 @Tag(name = "${className}")
 <% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entities}")
+@CircuitBreaker(attempts = "5", maxDelay = "3s", reset = "30")
 class ${className}Controller(private val ${entityName}Service: ${className}Service) {
 
 
@@ -42,7 +45,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):  ${className} {
+    fun save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @NonNull @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):  ${className} {
 
         log.info("Saving ${className} :{}", ${entityName})
         return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
@@ -105,7 +108,7 @@ class ${className}Controller(private val ${entityName}Service: ${className}Servi
     @ApiResponse(
             content = [Content(mediaType = "application/json")]
     )
-    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):${className}
+    fun update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @NonNull @Body ${entityName}: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization") authorization:String '%>):${className}
     {
         log.info("update {}", ${entityName})
         return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)

@@ -8,6 +8,8 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.core.version.annotation.Version;
 import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.retry.annotation.CircuitBreaker;
+import io.micronaut.core.annotation.NonNull;
 <% if(principle) out.print 'import java.security.Principal;' %>
 <% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
 <% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 @ExecuteOn(TaskExecutors.IO)
 <% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@@Path'%>("/api/v1/${entityName}")
+@CircuitBreaker(attempts = "5", maxDelay = "3s", reset = "30")
 public class ${className}Controller {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
@@ -52,7 +55,7 @@ public class ${className}Controller {
     @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
     @ApiResponse(responseCode = "404", description = "${className} not stored")
     @Version("1")
-    public <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
+    public <% print reactor? "Mono" : "Single" %><${className}> save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> @NonNull @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
     {
         log.info("Saving  ${className} : {}", ${entityName});
         //TODO: enter your logic here before saving.
@@ -125,7 +128,7 @@ public class ${className}Controller {
     )
     @ApiResponse(responseCode = "404", description = "${className} not found")
     @Version("1")
-    public <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
+    public <% print reactor? "Mono" : "Single" %><${className}> update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> @NonNull @Body ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>) {
         log.info("update {}", ${entityName});
         return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
     }

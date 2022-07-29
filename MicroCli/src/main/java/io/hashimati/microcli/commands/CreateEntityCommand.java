@@ -411,13 +411,13 @@ private String path;
                    if(toAddUpdateBy.getConfirmed() == NO)
                        break updateByLoop;
                    else {
-                       var queryAttr = PromptGui.createListPrompt("queryAttribute", "Select the query attribute: ",attributes).getSelectedId();
+                       var queryAttr = PromptGui.createListPrompt("queryAttribute", "Select the query attribute: ", Arrays.stream(attributes).filter(x->!x.equals("id")).collect(Collectors.toList()).toArray(new String[]{})).getSelectedId();
                        if(entity.getUpdateByMethods().containsKey(queryAttr))
                        {
                            PromptGui.printlnErr("updateBy"+NameUtils.capitalize(queryAttr)+"() is already selected.");
                            continue updateByLoop;
                        }
-                       var updateAttributes = PromptGui.createChoiceResult("updateAttributes", "Select the attributes you want to update: ", attributes).getSelectedIds();
+                       var updateAttributes = PromptGui.createChoiceResult("updateAttributes", "Select the attributes you want to update: ", Arrays.stream(attributes).filter(x->!x.equals("id")).collect(Collectors.toList()).toArray(new String[]{})).getSelectedIds();
 
                        if(updateAttributes.isEmpty()){
                            PromptGui.printlnErr("You should select at least one attribute. ");

@@ -33,7 +33,7 @@ public class InitCommand implements Callable<Integer> {
 
     @Inject
     private ServiceGenerator serviceGenerator;
-    @Option(names = {"-f", "--file"}, defaultValue = "service.mdl",
+    @Option(names = {"-f", "--file"},
             description = "the file to use (default: ${DEFAULT-VALUE})")
     private File file;
     @Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
