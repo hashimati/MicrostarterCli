@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import static io.hashimati.microcli.utils.PromptGui.printlnSuccess;
 
@@ -39,7 +38,12 @@ public class ConfigurationInfo {
             dataMigrationTool, //liquibase, Flyway
             messaging,
             graphQLIntegrationLib;
-    private boolean jaxRs;
+
+    private String annotation; //{micronaut:default, JAX-RS, SpringBoot]
+    private boolean jaxRsAnnotation; // to be replaced with annotation
+    private boolean micronautAnnotation;
+    private boolean springBootAnnotation;
+    
     private int port;
     boolean graphQlSupport;
     private String reactiveFramework;

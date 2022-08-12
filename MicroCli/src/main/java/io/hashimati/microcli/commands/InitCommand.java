@@ -13,6 +13,7 @@ import io.hashimati.lang.syntax.ServiceSyntax;
 import io.hashimati.microcli.client.MicronautLaunchClient;
 import io.hashimati.microcli.services.ServiceGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.GradleReaderException;
 import io.hashimati.microcli.utils.PromptGui;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -74,7 +75,11 @@ public class InitCommand implements Callable<Integer> {
 //            System.out.println("----");
 //            System.out.println(serviceSyntax.getEntities().get(1));
 //            System.out.println(serviceSyntax.getEntities().stream().map(x->x.getName()).collect(Collectors.toList()));
-            return serviceGenerator.initiateService(serviceSyntax);
+            try {
+                return serviceGenerator.initiateService(serviceSyntax);
+            } catch (GradleReaderException e) {
+                throw new RuntimeException(e);
+            }
 
 
         }

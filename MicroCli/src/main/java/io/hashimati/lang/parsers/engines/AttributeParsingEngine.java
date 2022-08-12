@@ -17,8 +17,6 @@ public class AttributeParsingEngine extends ParsingEngine<AttributeDeclarationSy
     @Override
     public AttributeDeclarationSyntax parse(String sentence) {
         AttributeDeclarationSyntax attributeDeclarationSyntax = new AttributeDeclarationSyntax(sentence);
-
-
         auxParsing(attributeDeclarationSyntax);
         return attributeDeclarationSyntax;
     }

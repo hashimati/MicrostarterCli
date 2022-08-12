@@ -56,6 +56,10 @@ public class GeneratorUtils
         return builder.parse(is);
     }
 
+
+    public static <T> T altValue(T t1, T defaultT){
+        return t1 == null? defaultT:t1;
+    }
     public static String xmlToString(Document document) throws ParserConfigurationException, TransformerException {
         DOMSource domSource = new DOMSource(document);
         StringWriter writer = new StringWriter();

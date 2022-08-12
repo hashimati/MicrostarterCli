@@ -21,6 +21,7 @@ public class EntitySyntax extends Syntax{
     private boolean pagination;
     private boolean records;
     private boolean noendpoints;
+    private String tableCollectionName;
 
 
 
@@ -79,4 +80,11 @@ public class EntitySyntax extends Syntax{
         this.attributesDeclarations = attributesDeclarations;
     }
 
+    public String getTableCollectionName() {
+        return tableCollectionName;
+    }
+
+    public void setTableCollectionName(String tableCollectionName) {
+        this.tableCollectionName = tableCollectionName;
+    }
 }

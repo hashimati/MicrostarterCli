@@ -17,12 +17,15 @@ public class ServiceSyntax extends Syntax{
 
     }
     private String name = "demo", language = "JAVA", build = "GRADLE", reactive = "reactor", framework = "micronaut";
-    private boolean graphql;
 
+    private String annotation;
+    private String testFramework;
+    private boolean graphql;
 
     private String port="8080";
     private String database = "h2",Package ="io.demo", databaseName = "demo", dao= "jdbc", jaxRS, tracing, cache, messaging, metrics, file;
-
+    private String migrationTool = "none";
+    private String awsSecret = "aws_secret", awsKey = "aws_key";
     private ArrayList<String> dependencies = new ArrayList<>();
     private ArrayList<String> features = new ArrayList<>();
 
@@ -192,6 +195,46 @@ public class ServiceSyntax extends Syntax{
 
     public void setFeatures(ArrayList<String> features) {
         this.features = features;
+    }
+
+    public String getTestFramework() {
+        return testFramework;
+    }
+
+    public void setTestFramework(String testFramework) {
+        this.testFramework = testFramework;
+    }
+
+    public String getMigrationTool() {
+        return migrationTool;
+    }
+
+    public void setMigrationTool(String migrationTool) {
+        this.migrationTool = migrationTool;
+    }
+
+    public String getAnnotation() {
+        return annotation;
+    }
+
+    public void setAnnotation(String annotation) {
+        this.annotation = annotation;
+    }
+
+    public String getAwsKey() {
+        return awsKey;
+    }
+
+    public void setAwsKey(String awsKey) {
+        this.awsKey = awsKey;
+    }
+
+    public String getAwsSecret() {
+        return awsSecret;
+    }
+
+    public void setAwsSecret(String awsSecret) {
+        this.awsSecret = awsSecret;
     }
 }
 

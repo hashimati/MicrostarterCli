@@ -22,12 +22,68 @@ public class ProjectConstants {
 
     public static class DatabasesConstants{
         public final static String
-                MicroStream_Embedded_Storage = "MicroStream Embedded Storage",MongoDB = "MongoDB", H2 = "H2", MySql = "MySql", MariaDB = "MariaDB", Postgres = "Postgres", Oracle =  "Oracle", SqlServer = "Sqlserver";
-
+                MicroStream_Embedded_Storage = "MicroStream",MongoDB = "MongoDB", H2 = "H2", MySql = "MySql", MariaDB = "MariaDB", Postgres = "Postgres", Oracle =  "Oracle", SqlServer = "Sqlserver";
         public final static List<String> DATABASES = Arrays.asList(MicroStream_Embedded_Storage,MongoDB , H2, MySql, MariaDB ,Postgres, Oracle , SqlServer );
+        public final static List<String> RELATIONAL_DATABASES = Arrays.asList( H2, MySql, MariaDB ,Postgres, Oracle , SqlServer );
+
+        public static String findDatabaseConstantString(String db){
+            return DATABASES.stream().filter(x->x.equalsIgnoreCase(db)).findFirst().orElse(null);
+        }
+    }
+
+    public static class DaoConstants{
+        public final static String
+            JDBC = "jdbc", JPA = "jpa",R2DBC = "r2dbc",
+            DATA_MONGODB = "data-mongodb", DATA_MONGODB_REACTIVE = "data-mongodb-reactive", REACTIVE_MONGO= "reactiveMongo",
+            GORM = "gorm",
+
+            MICROSTREAM = "microstream";
+        public final static List<String> DAOS = Arrays.asList(JDBC,R2DBC, JPA, DATA_MONGODB, DATA_MONGODB_REACTIVE, REACTIVE_MONGO, GORM, MICROSTREAM );
+        public final static List<String> NON_BLOCKING_DAOS = Arrays.asList(R2DBC, DATA_MONGODB_REACTIVE, REACTIVE_MONGO );
+
+        public static String findDaoConstantString(String dao){
+            return DAOS.stream().filter(x->x.equalsIgnoreCase(dao)).findFirst().orElse(null);
+        }
 
     }
-    public static class BuildConstats{
+    public static  class DataMigrationToolConstants{
+        public static final String FLYWAY = "Flyway",
+        LIQUIBASE="liquibase";
+        public final static List<String> DATA_MIGRATIONS_TOOL = Arrays.asList(FLYWAY, LIQUIBASE);
+    }
+
+    public static class AnnotationTypes{
+
+        public static String JAXRS= "jax-rs",SPRING_BOOT = "springboot", MICRONAUT = "micronaut";
+
+        public static List <String> ANNOTATIONS = Arrays.asList(JAXRS, SPRING_BOOT, MICRONAUT);
+
+    }
+
+    public static class MessagingTypes{
+
+        public static String NATSIO= "nats",KAFKA = "kafka", RABBITMQ = "rabbitmq", GCP_PUB_SUB= "gcp-pubsub";
+
+        public static List <String> ANNOTATIONS = Arrays.asList(NATSIO, KAFKA,RABBITMQ, GCP_PUB_SUB);
+
+    }
+
+    public static class Metrics{
+
+        public static String PROMETHEUS= "prometheus",INFLUXDB = "influxdb", GRAPHITE = "graphite", STATSD= "statsd";
+
+        public static List <String> METRICS = Arrays.asList(PROMETHEUS, INFLUXDB,GRAPHITE, STATSD);
+
+    }
+
+    public static class Tracing{
+        public static String JAEGER= "jaeger",ZIPKIN ="zipkin", GCP_CLOUD_TRACING = "gcp-cloud-trace";
+
+        public static List <String> TRACINGS = Arrays.asList(ZIPKIN, JAEGER, GCP_CLOUD_TRACING);
+
+    }
+
+    public static class BuildConstants {
         public final static String GRADLE= "gradle",
         MAVEN = "maven";
         public final static List<String> BUILDS = Arrays.asList(GRADLE, MAVEN);

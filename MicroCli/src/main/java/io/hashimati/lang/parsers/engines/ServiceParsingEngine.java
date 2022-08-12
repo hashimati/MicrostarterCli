@@ -27,15 +27,21 @@ public class ServiceParsingEngine extends ParsingEngine{
         serviceSyntax.setCache(getAttribute(serviceSyntax,"cache"));
         serviceSyntax.setDatabase(getAttribute(serviceSyntax,"database"));
         serviceSyntax.setFile(getAttribute(serviceSyntax,"file"));
+        serviceSyntax.setAwsKey(getAttribute(serviceSyntax, "awsKey"));
+        serviceSyntax.setAwsSecret(getAttribute(serviceSyntax, "awsSecret"));
         serviceSyntax.setLanguage(getAttribute(serviceSyntax, "language"));
         serviceSyntax.setMessaging(getAttribute(serviceSyntax,"messaging"));
         serviceSyntax.setDatabaseName(getAttribute(serviceSyntax,"databaseName"));
         serviceSyntax.setMetrics(getAttribute(serviceSyntax,"metrics"));
-        serviceSyntax.setJaxRS(getAttribute(serviceSyntax,"jaxRX"));
-        serviceSyntax.setPackage(getAttribute(serviceSyntax,"package"));
+        serviceSyntax.setAnnotation(getAttribute(serviceSyntax,"annotation"));
         serviceSyntax.setTracing(getAttribute(serviceSyntax,"tracing"));
         serviceSyntax.setFramework(getAttribute(serviceSyntax,"framework"));
+        serviceSyntax.setFramework(getAttribute(serviceSyntax,"testFramework"));
         serviceSyntax.setDao(getAttribute(serviceSyntax,"dao"));
+        serviceSyntax.setMigrationTool(getAttribute(serviceSyntax, "migrationTool"));
+
+
+
 
         getGraphQl(serviceSyntax);
         getEntities(serviceSyntax); 

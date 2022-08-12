@@ -169,7 +169,7 @@ public class ConfigurationInitializer {
             boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
             if(jaxrs) {
                 MicronautProjectValidator.addDependency(workingPath,features.get("jax-rs"));
-                configurationInfo.setJaxRs(jaxrs);
+                configurationInfo.setJaxRsAnnotation(jaxrs);
             }
 
             //Getting Database Name;
@@ -353,7 +353,7 @@ public class ConfigurationInitializer {
 
                 ArrayList<String> options = new ArrayList<String>();
                 options.add("data-mongodb");
-                options.add("data-mongodb-async");
+                options.add("data-mongodb-reactive");
                 options.add("mongo-reactive");
 
 
@@ -370,11 +370,11 @@ public class ConfigurationInitializer {
                     configurationInfo.setMnData(true);
                     configurationInfo.setNonBlocking(false);
                 }
-                else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-async")) {
-                    projectInfo.getFeatures().add("data-mongodb-async");
-                    MicronautProjectValidator.addDependency(workingPath,features.get("data-mongodb-async"));
+                else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-reactive")) {
+                    projectInfo.getFeatures().add("data-mongodb-reactive");
+                    MicronautProjectValidator.addDependency(workingPath,features.get("data-mongodb-reactive"));
                     MicronautProjectValidator.addDependency(workingPath,features.get("mongo-sync"));
-                    configurationInfo.setDataBackendRun("data-mongodb-async");
+                    configurationInfo.setDataBackendRun("data-mongodb-reactive");
                     configurationInfo.setNonBlocking(true);
                     configurationInfo.setMnData(true);
                 }

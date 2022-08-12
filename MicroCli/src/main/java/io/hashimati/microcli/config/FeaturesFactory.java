@@ -203,9 +203,9 @@ public class FeaturesFactory {
 
         }});
 
-        features.put("data-mongodb-async", new Feature(){{
+        features.put("data-mongodb-reactive", new Feature(){{
 
-            setName("data-mongodb-async");
+            setName("data-mongodb-reactive");
             setGradle("    implementation(\"io.micronaut.data:micronaut-data-mongodb\")\n" +
                     "    runtimeOnly(\"org.mongodb:mongodb-driver-reactivestreams\")");
             setAnnotationGradle("    annotationProcessor(\"io.micronaut.data:micronaut-data-document-processor\")\n");
