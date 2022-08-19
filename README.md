@@ -152,7 +152,6 @@ You can also generate a project using the [Microstarter Domain Langauge](#domain
 Copy the below script and save in a file with name "FruitService.hdl". 
 ```javascript
 service FruitService{
-    // Project Configuration 
 	port 8080;   
 	reactive reactor; 
         package io.hashimati
@@ -165,7 +164,6 @@ service FruitService{
 	tracing jaeger; 
 	testFramework junit; 
 
-    //an entity definition 
 	entity Fruit {
 		name:String; 
 		quantity: int;
