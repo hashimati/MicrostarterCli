@@ -873,7 +873,7 @@ Supported attribute validation
 | max(y) |
 | size(x,y) |
 | email |
-| regex(```you regex```) |
+| regex(```your regex```) |
 
 
 
