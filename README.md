@@ -23,7 +23,7 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
     3. [Session](#session)
 11. [Metrics Command](#metrics)
 12. [Banner Command](#banner)
-13. [Hashim Domain Langauge](#domainLang)
+13. [Microstarter Domain Langauge](#domainLang)
 
 
 
@@ -143,7 +143,41 @@ mc entity -e fruit --graphql
 ```
 Please check the Micronaut Launch API: https://launch.micronaut.io/swagger/views/swagger-ui/index.html
 
+### Generating Service Using Domain Language
 
+You can also generate a project using the [Microstarter Domain Langauge](#domainLang) by passing a script file into the ```--file```  parameter. 
+
+<b>Example:</b>
+<br/>
+Copy the below script and save in a file with name "FruitService.hdl". 
+```javascript
+service FruitService{
+    // Project Configuration 
+	port 8080;   
+	reactive reactor; 
+        package io.hashimati
+	build gradle; 
+	database MicroStream; 
+	language java; 
+	dao jdbc; 
+	migrationTool liquibase; 
+	annotation micronaut; 
+	tracing jaeger; 
+	testFramework junit; 
+
+    //an entity definition 
+	entity Fruit {
+		name:String; 
+		quantity: int;
+		microstreamPath D:/fruitServiceMicrostream; 
+	}
+} 
+```
+Then run the below command: 
+``` shell 
+>mc init --file FruitService.hdl
+```
+The above command will download a Microanut project from Micronaut launch. Then, it will configure the project according to the specified configuration. Finally, it will generate the ```Fruit``` entity. 
 
 <a name="configure"></a>
 ## Configure Command
@@ -759,6 +793,7 @@ service FruitService{
 	build gradle; 
 	database MicroStream; 
 	language java; 
+        package io.hashimati
 	dao jdbc; 
 	migrationTool liquibase; 
 	annotation micronaut; 
@@ -769,7 +804,7 @@ service FruitService{
 	entity Fruit {
 		name:String; 
 		quantity: int;
-		microstreamPath D:/HelloMicrostreamPath; 
+		microstreamPath D:/fruitServiceMicrostream; 
 	}
 } 
 ```
