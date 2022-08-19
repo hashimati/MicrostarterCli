@@ -59,9 +59,9 @@ class ${entityClass}Repository(private val  rootProvider: RootProvider<${entityC
     {
         HashMap<String, ${entityClass}> map = rootProvider.root().${entity}s
         var ${entity} : ${entityClass} = map.get(update.id)
-        if(${entityClass} != null)
+        if(update != null)
         {
-            map.put(${entity}.id, ${entityClass})
+            map.put(${entity}.id, update)
             return ${entity}
         }
             return null

@@ -24,6 +24,7 @@ public class EntityParsingEngine extends ParsingEngine{
         getRecord(entitySyntax);
         getAttributesDeclarationStatements(entitySyntax);
         getAttributeDeclarationSyntax(entitySyntax);
+        getMicrostreamPath(entitySyntax);
         return entitySyntax;
     }
 
@@ -124,6 +125,33 @@ public class EntityParsingEngine extends ParsingEngine{
         }
     }
 
+    private void getMicrostreamPath(EntitySyntax entitySyntax)
+    {
+        try{
+
+            List<String> mPath = PatternUtils.getPatternsFromText(GrammarPatterns.MICROSTREAM_PATH,  entitySyntax.getSentence());
+            if(mPath.size() > 1){
+                throw new InvalidSyntaxException("\"microstreamPath\" exists more than once!");
+            }
+            if(mPath.size() == 0){
+                entitySyntax.setMicrostreamPath(null);
+            }
+            else {
+                entitySyntax.setMicrostreamPath(mPath.get(0)
+                        .replaceAll("microstreamPath", "")
+                        .replace(";", "")
+                        .trim()
+                );
+            }
+        }
+        catch (InvalidSyntaxException ex){
+            ex.printStackTrace();
+            entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
     private void getAttributesDeclarationStatements(EntitySyntax entitySyntax)
     {
             try{

@@ -25,11 +25,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ${className}{
     <% if(jpa || mongo) out.print '@Id '%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.Type.SEQUENCE) '%>
-    <% if(jpa) out.print '@EqualsAndHashCode.Exclude '%>
+    <% if(jpa && lombok) out.print '@EqualsAndHashCode.Exclude '%>
     <% if(jpa) out.println 'private Long id;'%>
     <% if(jdbc) out.print '@Id '%>
     <% if(jdbc || mongo) out.print '@GeneratedValue(GeneratedValue.Type.AUTO) ' %>
-    <% if(jdbc) out.print '@EqualsAndHashCode.Exclude ' %>
+    <% if(jdbc && lombok) out.print '@EqualsAndHashCode.Exclude ' %>
     <% if(jdbc) out.println 'private Long id;'%>
     <% if(normal) out.println 'private String id;' %>
     ${instances}

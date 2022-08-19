@@ -105,6 +105,9 @@ public class ServiceGenerator {
 
             for(Entity entity : entities)
             {
+
+
+
                 String entityFileContent  =micronautEntityGenerator.generateEntity(entity, configurationInfo.getRelations(),lang).replaceAll("\n\n\n", "\n");
 
                 String entityPath = GeneratorUtils.generateFromTemplate(ENTITY_PATH, new HashMap<String, String>(){{
@@ -114,6 +117,31 @@ public class ServiceGenerator {
                 GeneratorUtils.createFile(workingPath+"/"+entityPath+ "/"+entity.getName()+extension, entityFileContent);
 
                 if(!entity.isNoEndpoints()){
+
+                    if(configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
+                        entity.setMicrostreamRoot( entity.getName());
+                     //   entity.setMicrostreamPath(inputText("directory", "Enter the storage directory: ", "your-path").getInput());
+                        //entity.setMicrostreamPath();
+                        entity.setMicrostreamRootClass( new StringBuilder().append(entity.getMicrostreamPackage()).append(".").append(entity.getName()).append("Data").toString());
+                        entity.setMicrostreamChannelCount((short) 4);
+                        String microstreamPropertiesTemplate = templatesService.loadTemplateContent
+                                (templatesService.getProperties().get(MICROSTREAM_YML));
+
+
+                        String microstreamProperties = new SimpleTemplateEngine().createTemplate(microstreamPropertiesTemplate).make(new HashMap<String, Object>(){{
+                            put("root", entity.getMicrostreamRoot());
+                            put("storageDirectory",entity.getMicrostreamPath());
+                            put("rootClass", entity.getMicrostreamRootClass());
+                            put("count", entity.getMicrostreamChannelCount());
+                        }}).toString();
+                        MicronautProjectValidator.appendToProperties(workingPath, microstreamProperties);
+
+
+                        //===============
+
+
+                    }
+
                     //generate Repository
                     String repositoryFileContent = micronautEntityGenerator.generateRepository(entity, lang, null);
                     String repoPath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.REPOSITORY_PATH, new HashMap<String, String>(){{
@@ -344,6 +372,9 @@ public class ServiceGenerator {
             {
                 setDataBackendRun(altValue(serviceSyntax.getDao(), DATA_MONGODB));
             }
+            else if(getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
+                setDataBackendRun("microstream");
+            }
             setNonBlocking(NON_BLOCKING_DAOS.contains(getDataBackendRun()));
             setDataMigrationTool(altValue(serviceSyntax.getMigrationTool(), "none"));
 
@@ -455,109 +486,137 @@ public class ServiceGenerator {
                 MicronautProjectValidator.addDependency(workingPath, features.get("jax-rs"));
             }
 
-            Feature databaseFeature = null;
 
-            switch (configurationInfo.getDataBackendRun().toUpperCase())
-            {
-
-                case "GORM":
-                    configurationInfo.setGorm(true);
-                    MicronautProjectValidator.addDependency(workingPath,features.get("tomcat-jdbc"));
-                    projectInfo.getFeatures().add("tomcat-jdbc");
-                    databaseFeature = features.get("hibernate-gorm");
-
-                    projectInfo.getFeatures().add("hibernate-gorm");
-                    break;
-                case "R2DBC":
-                    configurationInfo.setNonBlocking(true);
-                    databaseFeature = features.get("data-r2dbc");
-                    projectInfo.getFeatures().add("r2dbc-data");
-                    break;
-                case "JPA" :
-
-                    if(!projectInfo.getFeatures().contains("data-jpa")) {
-                        projectInfo.getFeatures().add("data-jpa");
-                        databaseFeature = features.get("data-jpa");
-                    }
-                    break;
-                case "JDBC":
-                    if(!projectInfo.getFeatures().contains("data-jdbc")) {
-                        projectInfo.getFeatures().add("data-jdbc");
-                        databaseFeature = features.get("data-jdbc");
-                    }
-                    break;
-            }
-
-
-            //adding database:
             boolean testWithH2 = false;
-            String databasetype = configurationInfo.getDatabaseType().toLowerCase();
-            if(!projectInfo.getFeatures().contains(databasetype) )
-            {
+            if(!configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb") && !configurationInfo.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)) {
+                ArrayList<String> options = new ArrayList<String>();
+                options.add("JDBC");
+                options.add("JPA");
+                if(projectInfo.getSourceLanguage().equalsIgnoreCase(GROOVY_LANG))
+                    options.add("GORM");
+                if(!configurationInfo.getDatabaseType().equalsIgnoreCase("oracle"))
+                    options.add("R2DBC");
+                ListResult databaseBackend = PromptGui.createListPrompt("databaseBackend", "Select Database Backend: ", options.toArray(new String[options.size()]));
+                configurationInfo.setDataBackendRun(databaseBackend.getSelectedId());
+                configurationInfo.setMnData(!configurationInfo.getDataBackendRun().equalsIgnoreCase("GORM"));
 
 
-                projectInfo.getFeatures().add(databasetype);
+                ListResult dataMigrationTool = PromptGui.createListPrompt("databaseMigration", "Select Data Migration: ", "liquibase", "Flyway", "none");
+                configurationInfo.setDataMigrationTool(dataMigrationTool.getSelectedId());
 
 
-                if(testWithH2){
-                    Feature dbFeature = features.get(databasetype);
-                    dbFeature.setTestGradle("");
-                    dbFeature.setTestMaven(null);
-                    MicronautProjectValidator.addDependency(workingPath,dbFeature);
+                Feature databaseFeature = null;
+                switch (databaseBackend.getSelectedId())
+                {
 
-                    MicronautProjectValidator.addDependency(workingPath,new Feature(){{
-                        setGradle(features.get("h2").getTestGradle());
-                        getMaven().add(features.get("h2").getTestMaven());
-                    }});
-                    if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
-                    {
-                        MicronautProjectValidator.addDependency(workingPath,new Feature(){{
-                            setGradle(features.get("h2").getTestRdbcGradle());
-                            getMaven().add(features.get("h2").getTestRdbcMaven());
+                    case "GORM":
+                        configurationInfo.setGorm(true);
+                        MicronautProjectValidator.addDependency(workingPath,features.get("tomcat-jdbc"));
+                        projectInfo.getFeatures().add("tomcat-jdbc");
+                        databaseFeature = features.get("hibernate-gorm");
 
-                        }});
-                    }
+                        projectInfo.getFeatures().add("hibernate-gorm");
+                        break;
+                    case "R2DBC":
+                        configurationInfo.setNonBlocking(true);
+
+                        //The below three lines to be deleted.
+//                        MicronautProjectValidator.addDependency(workingPath,features.get("r2dbc"));
+//                        projectInfo.getFeatures().add("r2dbc");
+//                        projectInfo.getFeatures().add("reactor");
+                        databaseFeature = features.get("data-r2dbc");
+                        projectInfo.getFeatures().add("r2dbc-data");
+                        break;
+                    case "JPA" :
+
+                        if(!projectInfo.getFeatures().contains("data-jpa")) {
+                            projectInfo.getFeatures().add("data-jpa");
+                            databaseFeature = features.get("data-jpa");
+                        }
+                        break;
+                    case "JDBC":
+                        if(!projectInfo.getFeatures().contains("data-jdbc")) {
+                            projectInfo.getFeatures().add("data-jdbc");
+                            databaseFeature = features.get("data-jdbc");
+                        }
+                        break;
                 }
-                else {
-                    MicronautProjectValidator.addDependency(workingPath,
-                            features.get(databasetype));
-                    if(configurationInfo.getDataBackendRun().equalsIgnoreCase("R2DBC"))
-                        MicronautProjectValidator.addR2DBCependency(workingPath,
-                                features.get(databasetype));
-                    if(Arrays.asList("sqlserver", "oracle", "mysql", "mariadb").contains(databasetype))
-                    {
-                        if(!projectInfo.getFeatures().contains("testcontainers")) {
 
-                            projectInfo.getFeatures().add("testcontainers");
-                            MicronautProjectValidator.addDependency(workingPath,features.get("testcontainers"));
-                            if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
-                                MicronautProjectValidator.addDependency(workingPath,features.get(("testcontainers-spock")));
-                            }
-                            else
-                                MicronautProjectValidator.addDependency(workingPath,features.get(("junit-jupiter")));
 
+
+
+
+                //adding database:
+                String databasetype = configurationInfo.getDatabaseType().toLowerCase();
+                if(!projectInfo.getFeatures().contains(databasetype) )
+                {
+
+
+                    projectInfo.getFeatures().add(databasetype);
+
+                    if(testWithH2){
+                        Feature dbFeature = features.get(databasetype);
+                        dbFeature.setTestGradle("");
+                        dbFeature.setTestMaven(null);
+                        MicronautProjectValidator.addDependency(workingPath,dbFeature);
+
+                        MicronautProjectValidator.addDependency(workingPath,new Feature(){{
+                            setGradle(features.get("h2").getTestGradle());
+                            getMaven().add(features.get("h2").getTestMaven());
+                        }});
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
+                        {
+                            MicronautProjectValidator.addDependency(workingPath,new Feature(){{
+                                setGradle(features.get("h2").getTestRdbcGradle());
+                                getMaven().add(features.get("h2").getTestRdbcMaven());
+
+                            }});
                         }
                     }
+                    else {
+                        MicronautProjectValidator.addDependency(workingPath,
+                                features.get(databasetype));
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("R2DBC"))
+                            MicronautProjectValidator.addR2DBCependency(workingPath,
+                                    features.get(databasetype));
+                        if(Arrays.asList("sqlserver", "oracle", "mysql", "mariadb").contains(databasetype))
+                        {
+                            if(!projectInfo.getFeatures().contains("testcontainers")) {
+
+                                projectInfo.getFeatures().add("testcontainers");
+                                MicronautProjectValidator.addDependency(workingPath,features.get("testcontainers"));
+                                if(projectInfo.getTestFramework().equalsIgnoreCase("spock")){
+                                    MicronautProjectValidator.addDependency(workingPath,features.get(("testcontainers-spock")));
+                                }
+                                else
+                                    MicronautProjectValidator.addDependency(workingPath,features.get(("junit-jupiter")));
+
+                            }
+                        }
+                    }
+
+                    if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
+                        MicronautProjectValidator.appendJDBCToProperties(workingPath,databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa") || configurationInfo.getDataBackendRun().equalsIgnoreCase("gorm")) {
+
+                        MicronautProjectValidator.appendJPAToProperties(workingPath,configurationInfo.isGorm()? new StringBuilder().append(databasetype).append("_gorm").toString() : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    }
+                    else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc")){
+                        MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    }
+                    if(!databasetype.equalsIgnoreCase("h2")) {
+                        if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
+                            MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                        else
+                            MicronautProjectValidator.appendJDBCToProperties(workingPath, databasetype + "_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
+                    }
                 }
 
-                if(configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"))
-                    MicronautProjectValidator.appendJDBCToProperties(workingPath,databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                else if (configurationInfo.getDataBackendRun().equalsIgnoreCase("jpa") || configurationInfo.getDataBackendRun().equalsIgnoreCase("gorm")) {
 
-                    MicronautProjectValidator.appendJPAToProperties(workingPath,configurationInfo.isGorm()? databasetype + "_gorm" : databasetype, true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                }
-                else if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc")){
-                    MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype+"_r2dbc", true, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                }
-                if(!databasetype.equalsIgnoreCase("h2")) {
-                    if(configurationInfo.getDataBackendRun().equalsIgnoreCase("r2dbc"))
-                        MicronautProjectValidator.appendR2DBCToProperties(workingPath,databasetype + "_r2dbc_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                    else
-                        MicronautProjectValidator.appendJDBCToProperties(workingPath, databasetype + "_test", false, testWithH2, configurationInfo.getDatabaseName(), configurationInfo.getDataMigrationTool());
-                }
 
                 MicronautProjectValidator.addDependency(workingPath,databaseFeature);
                 MicronautProjectValidator.addDependency(workingPath,features.get("jdbc-hikari"));
+
                 if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("liquibase"))
                 {
                     projectInfo.getFeatures().add("liquibase");
@@ -573,11 +632,12 @@ public class ServiceGenerator {
                     MicronautProjectValidator.appendToProperties(workingPath,templatesService.loadTemplateContent(templatesService.getFlywayTemplates().get(TemplatesService.FLYAWAY_YML)));
                 }
                 projectInfo.dumpToFile(workingPath);
-            }  else if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb")){
+            }
+            else if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb")){
 
                 ArrayList<String> options = new ArrayList<String>();
                 options.add("data-mongodb");
-                options.add("data-mongodb-async");
+                options.add("data-mongodb-reactive");
                 options.add("mongo-reactive");
 
 
@@ -628,12 +688,14 @@ public class ServiceGenerator {
 
                 MicronautProjectValidator.appendToProperties(workingPath,mongoProperties);
 
+
                 if(!configurationInfo.isMnData()) {
                     String mongoDbDatabasePropertiesTemplate = templatesService.loadTemplateContent
                             (templatesService.getProperties().get(MDB_yml));
-                    ConfigurationInfo finalConfigurationInfo = configurationInfo;
+
+                    final ConfigurationInfo cf = configurationInfo;
                     String mongoDbDatabaseProperties = GeneratorUtils.generateFromTemplate(mongoDbDatabasePropertiesTemplate, new HashMap<String, String>() {{
-                        put("dbName", finalConfigurationInfo.getDatabaseName());
+                        put("dbName", cf.getDatabaseName());
                     }});
                     MicronautProjectValidator.appendToProperties(workingPath,mongoDbDatabaseProperties);
 
@@ -674,6 +736,9 @@ public class ServiceGenerator {
                 configurationInfo.setNonBlocking(false);
 
             }
+
+
+
 
             if(configurationInfo.getMessaging()!=null)
             {
@@ -1060,12 +1125,13 @@ public class ServiceGenerator {
         setToDefault();
         return 1;
         }
-    public Entity readyEntityFromEntitySyntax(ConfigurationInfo configurationInfo, EntitySyntax entitySyntax)
+    public Entity readyEntityFromEntitySyntax(final ConfigurationInfo configurationInfo, final EntitySyntax entitySyntax)
     {
 
         return  new Entity(){{
             setName(NameUtils.capitalize(entitySyntax.getName()));
             setDatabaseName(configurationInfo.getDatabaseName());
+
             setDatabaseType(configurationInfo.getDatabaseType());
             setCached(configurationInfo.isCaffeine());
             setNonBlocking(configurationInfo.isNonBlocking());
@@ -1073,7 +1139,7 @@ public class ServiceGenerator {
             setFileServiceType(configurationInfo.getFileServiceType());
             setLombok(configurationInfo.isLombok());
             setPageable(entitySyntax.isPagination());
-            setCollectionName(entitySyntax.getTableCollectionName());
+            setCollectionName(altValue(entitySyntax.getTableCollectionName(), entitySyntax.getName()+"s"));
             if(getDatabaseType().equalsIgnoreCase(MongoDB) || getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
             {
                 setIdType("String");
@@ -1081,7 +1147,7 @@ public class ServiceGenerator {
             else {
                 setIdType("Long");
             }
-
+            setMicrostreamPath(entitySyntax.getMicrostreamPath());
             setFrameworkType(configurationInfo.getDataBackendRun());
             setDatabaseName(configurationInfo.getDatabaseName());
             setReactiveFramework(configurationInfo.getReactiveFramework());
@@ -1095,14 +1161,16 @@ public class ServiceGenerator {
             setJavaVersion(configurationInfo.getJavaVersion());
             setNonBlocking(configurationInfo.isNonBlocking());
             setJavaRecord(entitySyntax.isRecords() && getJavaVersion().matches("^(1[4-9]|[2-9][0-9])$"));
+            final String cf = configurationInfo.getDataBackendRun();
             getAttributes().addAll(
                     entitySyntax.getAttributesDeclarations().stream().map(x->{
                         return new EntityAttribute(){{
+
                             setName(x.getName());
-                            setType(getType());
+                            setType(x.getType());
                             setFile(x.getType().equalsIgnoreCase("file"));
-                            setJdbc(getBackendDataRun().equalsIgnoreCase("jdbc"));
-                            setJpa(getBackendDataRun().equalsIgnoreCase("jpa"));
+                            setJdbc(cf.equalsIgnoreCase("jdbc"));
+                            setJpa(cf.equalsIgnoreCase("jpa"));
                             EntityConstraints constraints = new EntityConstraints();
                             if(x.getConstraints() !=null && !x.getConstraints().isEmpty())
                             {

@@ -23,6 +23,7 @@ MicrostarterCli is a command-line rapid development tool for Micronaut applicati
     3. [Session](#session)
 11. [Metrics Command](#metrics)
 12. [Banner Command](#banner)
+13. [Hashim Domain Langauge](#domainLang)
 
 
 
@@ -129,7 +130,7 @@ mc entity -e fruit --graphql
 <a name="init"></a>
 ## Init Command
 
-**_init Command_**: Enables you to generate Microanut Applications from [Micronaut Launch](https://launch.micronaut.io). 
+**_init Command_**: Enables you to generate Micronaut Applications from [Micronaut Launch](https://launch.micronaut.io). 
 
 **Example 1:** 
 
@@ -731,6 +732,149 @@ The banner command allows to the user to customize the displayed banner at launc
 ```shell
 > mc banner
 ```
+
+<a name="domainLang"></a>
+## Microstarter Domain Language
+
+
+Microstarer Domain Language is Domain Specific Application that used to describe the Service aspects including: 
+1. Configurations
+2. Enums
+2. Entities
+3. Security rules
+4. Relationship (<b>Upcoming Feature</b>)
+5. Microservices configurations (<b>Upcoming Feature</b>) 
+6. Clients (<b>Upcoming Feature</b>)
+
+### File extension:
+<b>.hdl</b> is the conventional extensions for the Microstarter Domain Language. 
+
+### Quick Start Example
+The below is a simple exampla to define a Micronaut project using Microstarter Domain Language. 
+```javascript
+service FruitService{
+    // Project Configuration 
+	port 8080;   
+	reactive reactor; 
+	build gradle; 
+	database MicroStream; 
+	language java; 
+	dao jdbc; 
+	migrationTool liquibase; 
+	annotation micronaut; 
+	tracing jaeger; 
+	testFramework junit; 
+
+    //an entity definition 
+	entity Fruit {
+		name:String; 
+		quantity: int;
+		microstreamPath D:/HelloMicrostreamPath; 
+	}
+} 
+```
+### Service Syntax:
+As shown below, you can declare a service as follows: 
+```
+service <serviceName> {
+    ...
+    <Service Configuration Commands>;
+    ...
+    <entities> 
+    ...
+    <Entity Relationships> 
+    ...
+    <Secuirty> 
+    ...
+    <Clients>
+    ...
+}   
+```
+
+The keywords service begins the service definition and followed by the servcie name. the body service body is sorrounded by curly braces the service body could contain the following: 
+1. Service Configuration commands. 
+2. Entity Declarations. 
+3. Entities' Relationships.
+3. Security Declaration. 
+4. Client Declaration. 
+
+### Service Configuration Commands
+The service configuration is as follows: 
+``` shell
+    command <parameters>; 
+```
+The support service configuration commands are:
+
+| Command | Parameter | Values | Default Value |
+| :--: | :-- | :-- | :-- |
+| package | package name | example: io.demo | io.demo |
+| language | main source language | java, groovy, kotlin | java |
+| build | build tool name | gradle, maven | gradle |
+| testFramework | test framework name | junit, spock, kotest | language default |
+| database | database type name | mongodb, microstream, H2, mysql, postgres, oracle, sqlserver | H2 |
+| dao | data access types | Relational DB:[jdbc,r2dbc, jpa] Mongodb[data-mongodb,data-mongodb-reactive,mongo-reactive] | [jdbc, data-mongodb, microstream] | 
+| migrationTool | Migration tool name | liquibase , Flyway | Liquibase |
+| reactive | reactive feature name | reactor, RxJava2, RxJava3 | reactor |
+| tracing | tracing tool Name | jaeger, zipkin | jaeger |
+| messaging | Messaging Tool Name | kafka, rabbitmq, nats | none |
+| graphql | no parameters | - | - |
+| annotation | framework name | micronaut, Jaxb | micronaut |
+| port | port number | 0-65535 | 8080 |
+
+
+### Entity Syntax
+As show below, you can declare an entity as follows: 
+``` 
+    entity <entityName>{    
+        ...
+        <attribute declartion>;
+        ...
+        <entity configuration commands>
+        ...
+    }
+```
+
+The entity declaration starts with ```entity```  keywords followed by the ```entity name``` and the body surrounded by curly barces. In the entity body you can include the following: 
+1. Attribute declarations. 
+2. Entity configuration commands. 
+
+
+### Attribute Syntax
+The attribute declaration starts with attribute ```name``` followed by ```type``` and validations. 
+```
+    <name>: <type> <validations>; 
+```
+#### Data Types: 
+String, byte, char, short, int long, float, double, defined enums (to be implemented), and defined classes (to be implemented). 
+
+
+### Entity Configuration Commands
+The syntax as follows: 
+``` shell
+    command <parameters>; 
+```
+Supported commands: 
+
+| Command | Parameter | Values | Default Value |
+| :--: |:--: | :--: | :-- |
+| records | none | - | - |
+| graphql | none | - | - |
+| microstreamPath | datastore path | path | null |
+
+### Attribute Validations 
+Supported attribute validation
+
+| Validation |
+| :--: |
+| required |
+| unique |
+| notnull |
+| min(x) |
+| max(y) |
+| size(x,y) |
+| email |
+| regex(```you regex```) |
+
 
 
 ## Contribution

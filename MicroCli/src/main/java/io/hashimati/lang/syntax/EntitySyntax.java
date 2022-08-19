@@ -24,7 +24,7 @@ public class EntitySyntax extends Syntax{
     private String tableCollectionName;
 
 
-
+    private String microstreamPath;
     public String getName() {
         return name;
     }
@@ -86,5 +86,13 @@ public class EntitySyntax extends Syntax{
 
     public void setTableCollectionName(String tableCollectionName) {
         this.tableCollectionName = tableCollectionName;
+    }
+
+    public String getMicrostreamPath() {
+        return microstreamPath;
+    }
+
+    public void setMicrostreamPath(String microstreamPath) {
+        this.microstreamPath = microstreamPath;
     }
 }

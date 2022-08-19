@@ -51,9 +51,10 @@ public class GrammarPatterns {
             //"[\\s*\\w+\\s*\\:\\s*\\w+\\s*[\\w+ ]*\\s*\\,]* "
                  //  "["+SINGLE_ATTRIBUTE_DECLARATION +"\\,]*" +
                            SINGLE_ATTRIBUTE_DECLARATION + "\\;";
-    public static String PAGINATION_COMMAND_PATTERN = "\\s+pagination\\s*;";
-    public static String RECORDS_COMMAND_PATTERN = "\\s+records\\s*;";
-    public static String NOENDPOINT_COMMAND_PATTERN = "\\s+noendpoints\\s*;";
+    public static String PAGINATION_COMMAND_PATTERN = "\\s+pagination\\s*\\;";
+    public static String RECORDS_COMMAND_PATTERN = "\\s+records\\s*\\;";
+    public static String NOENDPOINT_COMMAND_PATTERN = "\\s+noendpoints\\s*\\;";
+    public static String MICROSTREAM_PATH = "\\s+microstreamPath [\\w*\\:\\_\\-\\d*\\/\\\\]+\\;";
     public static String VALIDATION_SIZE = "\\s*size\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\)";
     public static String VALIDATION_MIN = "\\s*min\\s*\\(\\s*\\d+\\s*\\)";
     public static String VALIDATION_MAX = "\\s*max\\s*\\(\\s*\\d+\\s*\\)";
