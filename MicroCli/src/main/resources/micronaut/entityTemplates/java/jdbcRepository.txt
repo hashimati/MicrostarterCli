@@ -10,7 +10,9 @@ import io.micronaut.data.model.*;
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
 import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>;
 ${moreImports}
-
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 @Repository
 @JdbcRepository(dialect = Dialect.${dialect})
 public interface ${className}Repository extends <% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, Long> {

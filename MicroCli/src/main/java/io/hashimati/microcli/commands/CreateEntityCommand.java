@@ -295,7 +295,7 @@ private String path;
 //                                    "double",
 //                                    "Date");
 
-                    if (!Arrays.asList("String", "boolean", "short", "int", "long", "float", "double", "Date", "file").contains(attrTypeResult.getSelectedId())) {
+                    if (!Arrays.asList("String", "boolean", "short", "int", "long", "float", "double","BigInteger", "BigDecimal", "Date", "file").contains(attrTypeResult.getSelectedId())) {
                         entityAttribute.setEnumuration(true);
                         entityAttribute.setPremetive(false);
                         entityAttribute.setTypePackage(configurationInfo.getProjectInfo().getDefaultPackage() + ".enums." + entityAttribute.getName());

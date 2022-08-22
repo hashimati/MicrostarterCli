@@ -4,6 +4,8 @@ ${jpa?'import javax.persistence.*':''}
 ${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*' :''}
 import javax.validation.constraints.*
 ${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 import java.util.List
 
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema" %>

@@ -10,6 +10,9 @@ import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepositor
 ${moreImports}
 <% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 
 @Repository
 @JdbcRepository(dialect = Dialect.${dialect})

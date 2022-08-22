@@ -11,6 +11,8 @@ ${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*;' :''}
 ${jdbc?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
 
 ${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 import java.util.*
 
 

@@ -22,6 +22,8 @@ public class DataTypeMapper
         put("date", "Date");
         put("String", "String");
         put("file", "String");
+        put("BigInteger", "BigInteger");
+        put("BigDecimal", "BigDecimal");
     }};
 
     public final static HashMap<String ,String> mysqlMapper = new HashMap<String, String>(){{
@@ -37,6 +39,8 @@ public class DataTypeMapper
         put("string", "varchar");
         put("date", "timestamp");
         put("file", "varchar");
+        put("BigInteger", "bigint");
+        put("BigDecimal", "double");
     }};
 
     public final static HashMap<String ,String> oracleMapper = new HashMap<String, String>(){{
@@ -52,6 +56,8 @@ public class DataTypeMapper
         put("string", "varchar2");
         put("date", "timestamp");
         put("file", "varchar2");
+        put("BigInteger", "number(38,0)");
+        put("BigDecimal", "float(24)");
     }};
 
     public final static HashMap<String ,String> mssqlMapper = new HashMap<String, String>(){{
@@ -67,6 +73,8 @@ public class DataTypeMapper
         put("string", "varchar");
         put("date", "datetime");
         put("file", "varchar");
+        put("BigInteger", "bigint");
+        put("BigDecimal", "float");
     }};
 
     public final static HashMap<String ,String> postgresMapper = new HashMap<String, String>(){{
@@ -82,6 +90,8 @@ public class DataTypeMapper
         put("string", "varchar");
         put("date", "timestamp");
         put("file", "varchar");
+        put("BigInteger", "bigint");
+        put("BigDecimal", "double");
     }};
 
     public final static HashMap<String ,String> liquibaseMapper = new HashMap<String, String>(){{
@@ -97,6 +107,9 @@ public class DataTypeMapper
         put("string", "varchar");
         put("date", "datetime");
         put("file", "varchar");
+        put("BigDecimal", "NUMERIC");
+        put("BigInteger", "bigint");
+
     }};
 
 
@@ -122,6 +135,8 @@ public class DataTypeMapper
         put("string", "String");
         put("date", "String");
         put("file", "String");
+        put("BigInteger", "Int");
+        put("BigDecimal", "Float");
     }};
 
 
@@ -138,5 +153,7 @@ public class DataTypeMapper
         put("string", "BsonString");
         put("date", "BsonTimestamp");
         put("file", "BsonString");
+        put("BigInteger", "BsonString");
+        put("BigDecimal", "BsonString");
     }};
 }

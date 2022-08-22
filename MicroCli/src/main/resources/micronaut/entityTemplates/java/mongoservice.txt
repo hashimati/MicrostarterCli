@@ -11,6 +11,9 @@ import io.micronaut.http.multipart.CompletedFileUpload;
 <% if (reactor) out.print 'import reactor.core.publisher.Flux;' %><% if(rxjava2) out.print 'import io.reactivex.Flowable;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable;'%>
 <% if (reactor) out.print 'import reactor.core.publisher.Mono;' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%>
 import org.bson.*;
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

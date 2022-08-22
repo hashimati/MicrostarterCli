@@ -123,6 +123,8 @@ public class MicronautEntityGenerator
 
         String importedPackages = entity.getEntitiesImport(entity.getEntityPackage().replace(".domains", ""));
         boolean containDate = false;
+        boolean containsBigInteger = false;
+        boolean containsBigDecimal = false;
 
         StringBuilder contraints = new StringBuilder("");
         if(entity.getAttributes()!= null && !entity.getAttributes().isEmpty())
@@ -133,6 +135,7 @@ public class MicronautEntityGenerator
                 {
                     containDate = true;
                 }
+
 
                 String attributeDeclaration = "";
 
@@ -224,6 +227,8 @@ public class MicronautEntityGenerator
         String attributesDeclaration ="";
         String importedPackages = entity.getEntitiesImport(entity.getEntityPackage().replace(".domains", ""));
         boolean containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
 
         if(entity.getAttributes()!= null && !entity.getAttributes().isEmpty())
         for(EntityAttribute eA: entity.getAttributes())
@@ -234,6 +239,10 @@ public class MicronautEntityGenerator
             {
                 containDate = true;
             }
+            if(eA.isBigInteger())
+                containBigInteger = true;
+            if(eA.isBigDecimal())
+                containBigDecimal = true;
 
             String attributeDeclaration = "";
 
@@ -373,6 +382,9 @@ public class MicronautEntityGenerator
         binder.put("instances", attributesDeclaration.replaceAll("(?m)^[ \t]*\r?\n", ""));
         binder.put("importedPackages",importedPackages );
         binder.put("containDate", containDate);
+        binder.put("containBigInteger", containBigInteger);
+        binder.put("containBigDecimal", containBigDecimal);
+
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
@@ -474,10 +486,25 @@ public class MicronautEntityGenerator
         HashMap<String, Object> binder = new HashMap<>();
 
         String methods = "";
+
+        boolean  containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
         // Creating extra methods
         Tuple3<String, String, String> findMethodTemplates =  getFindUpdateDeleteMethodsTemplates(entity, language);
         for(EntityAttribute ea : entity.getAttributes())
         {
+
+            if(ea.isDate())
+            {
+                containDate = true;
+            }
+            if(ea.isBigDecimal())
+                containBigDecimal = true;
+            if(ea.isBigInteger())
+            {
+                containBigInteger =  true;
+            }
             HashMap<String, Object> attributeBinder = new HashMap<>(){{
                 put("Entity", entity.getName());
                 put("Attribute", NameUtils.capitalize(ea.getName()));
@@ -593,6 +620,9 @@ public class MicronautEntityGenerator
             binder.put("microstreamPackage", entity.getMicrostreamPackage());
             binder.put("entityPackage", entity.getEntityPackage());
             binder.put("entityClass", entity.getName());
+            binder.put("containDate", containDate);
+            binder.put("containBigInteger", containBigInteger);
+            binder.put("containBigDecimal", containBigDecimal);
             binder.put("entity", NameUtils.camelCase(entity.getName()));
             String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
             return new SimpleTemplateEngine().createTemplate(repositoryTemplate).make(binder).toString();
@@ -611,7 +641,9 @@ public class MicronautEntityGenerator
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
                 binder.put("pageable", entity.isPageable());
-
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 String templatePath= getTemplatePath(TemplatesService.REPOSITORY, language.toLowerCase());
 
 
@@ -631,7 +663,9 @@ public class MicronautEntityGenerator
                     binder.put("entityClass", entity.getName());
                     binder.put("storeType", "table");
                 binder.put("methods", methods);
-
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
 
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
@@ -654,6 +688,9 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 binder.put("pageable", entity.isPageable());
 
                 String templatePath= getTemplatePath(TemplatesService.JDBC_REPOSITORY, language.toLowerCase());
@@ -671,6 +708,9 @@ public class MicronautEntityGenerator
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("moreImports", "");
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
                 binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
                 binder.put("mongo", entity.getDatabaseType().equalsIgnoreCase("mongodb"));
@@ -689,6 +729,9 @@ public class MicronautEntityGenerator
                 binder.put("micrometer", entity.isMicrometer());
                 binder.put("isNonBlocking", entity.isNonBlocking());
                 binder.put("moreImports", "");
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 binder.put("pageable", entity.isPageable());
                 String templatePath= getTemplatePath(DATA_MONGODB_REPOSITORY, language.toLowerCase());
                 repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -714,7 +757,9 @@ public class MicronautEntityGenerator
                 binder.put("moreImports", "");
                 binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
                         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
-
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 binder.put("pageable", entity.isPageable());
                 binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
                 String repositoryTemplate = templatesService.loadTemplateContent(templatePath);
@@ -731,6 +776,9 @@ public class MicronautEntityGenerator
                 binder.put("entityClass", entity.getName());
                 binder.put("entityName", NameUtils.camelCase(entity.getName()));
                 binder.put("databaseName", entity.getDatabaseName());
+                binder.put("containDate", containDate);
+                binder.put("containBigInteger", containBigInteger);
+                binder.put("containBigDecimal", containBigDecimal);
                 binder.put("collectionName", entity.getCollectionName());
                 binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
                 binder.put("micrometer", entity.isMicrometer());
@@ -898,6 +946,9 @@ public class MicronautEntityGenerator
             return generateServiceGorm(entity, language);
         }
 
+      boolean containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
         String methods = "";
         var findUpdateTemplates = getFindUpdateTemplates(language,"service");
 
@@ -922,6 +973,13 @@ public class MicronautEntityGenerator
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
+
+            if(ea.isBigDecimal())
+                containBigDecimal = true;
+            if(ea.isDate())
+                containDate = true;
+            if(ea.isBigInteger())
+                containBigInteger = true;
 
             HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
                 put("servicePackage", entity.getServicePackage());
@@ -1053,6 +1111,9 @@ public class MicronautEntityGenerator
         binder.put("cached", entity.isCached());
         binder.put("transactional", entity.isMnData() && !entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml));
         binder.put("tableName", entity.getCollectionName()) ;
+        binder.put("containDate", containDate);
+        binder.put("containBigInteger", containBigInteger);
+        binder.put("containBigDecimal", containBigDecimal);
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
@@ -1163,6 +1224,10 @@ public class MicronautEntityGenerator
             return generateControllerGorm(entity, language);
 
         }
+
+        boolean containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
         String methods = "";
         var findUpdateTemplates = getFindUpdateTemplates(language,"controller");
 
@@ -1183,6 +1248,13 @@ public class MicronautEntityGenerator
 
         }
         for(EntityAttribute ea : entity.getAttributes()) {
+
+            if(ea.isDate())
+                containDate = true;
+            if(ea.isBigDecimal())
+                containBigDecimal = true;
+            if(ea.isBigInteger())
+                containBigInteger = true;
 
 
             HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
@@ -1315,7 +1387,9 @@ public class MicronautEntityGenerator
         binder.put("pageable", entity.isPageable());
         binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
-
+        binder.put("containDate", containDate);
+        binder.put("containBigInteger", containBigInteger);
+        binder.put("containBigDecimal", containBigDecimal);
         String serviceTemplate ;
         String templatePath= getTemplatePath(entity.isNonBlocking()? MONGO_CONTROLLER:CONTROLLER, language.toLowerCase());
         serviceTemplate = templatesService.loadTemplateContent(templatePath);
@@ -1359,6 +1433,10 @@ public class MicronautEntityGenerator
     public String generateClient(Entity entity, String language) throws IOException, ClassNotFoundException {
 
 
+
+        boolean containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
         if(entity.isGorm() && language.equalsIgnoreCase(GROOVY_LANG))
             return generateClientGorm(entity, language);
         String methods = "";
@@ -1381,6 +1459,13 @@ public class MicronautEntityGenerator
         }
         for(EntityAttribute ea : entity.getAttributes()) {
 
+
+            if(ea.isDate())
+                containDate = true;
+            if(ea.isBigDecimal())
+                containBigDecimal =true;
+            if(ea.isBigInteger())
+                containBigInteger = true;
 
             HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
                 put("controllerPackage", entity.getRestPackage());
@@ -1468,6 +1553,9 @@ public class MicronautEntityGenerator
         binder.put("entities", NameUtils.camelCase(entity.getName(), true));
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("methods", methods);
+        binder.put("containDate", containDate);
+        binder.put("containBigInteger", containBigInteger);
+        binder.put("containBigDecimal", containBigDecimal);
         binder.put("idType", entity.getDatabaseType().equalsIgnoreCase(MONGODB_yml)? "String": (language.equalsIgnoreCase(KOTLIN_LANG)? "Long":"long"));
         binder.put("className",  entity.getName());
         binder.put("classNameA", entity.getName());
@@ -1530,7 +1618,9 @@ public class MicronautEntityGenerator
 
 
         //Todo implement methods.
-
+        boolean containDate = false;
+        boolean containBigInteger = false;
+        boolean containBigDecimal = false;
 
         String methods = "";
         var findUpdateTemplates = getFindUpdateTemplates(language,"graphql");
@@ -1554,6 +1644,12 @@ public class MicronautEntityGenerator
         boolean principal = entity.isSecurityEnabled();
         for(EntityAttribute ea : entity.getAttributes()) {
 
+            if(ea.isBigInteger())
+                containBigInteger = true;
+            if(ea.isDate())
+                containDate = true;
+            if(ea.isBigDecimal())
+                containBigDecimal = true;
 
             HashMap<String, Object> sBinder = new HashMap<String, Object>() {{
                 put("servicePackage", entity.getServicePackage());
@@ -1650,6 +1746,9 @@ public class MicronautEntityGenerator
         binder.put("micrometer", entity.isMicrometer()) ;
         binder.put("methods", methods);
         binder.put("moreImports", "");
+        binder.put("containDate", containDate);
+        binder.put("containBigInteger", containBigInteger);
+        binder.put("containBigDecimal", containBigDecimal);
         binder.put("principal", entity.isSecurityEnabled());
         String idType  =language.equalsIgnoreCase(KOTLIN_LANG)? "Long": "long";
         binder.put("idType",entity.getDatabaseType().toLowerCase().contains("mongodb") || entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)? "String":idType);

@@ -51,6 +51,12 @@ public class EntityAttribute {
         return this.type.toString().trim().equalsIgnoreCase(DATE);
 
     }
+
+    @JsonIgnore
+    public boolean isBigDecimal(){
+        return this.type.toString().trim().equalsIgnoreCase(BIG_DECIMAL);
+
+    }
     @JsonIgnore
     public boolean isDouble(){
         return this.type.toString().trim().equalsIgnoreCase(DOUBLE);

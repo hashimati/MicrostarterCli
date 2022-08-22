@@ -11,7 +11,9 @@ import io.micronaut.data.model.*;
 import java.util.*;
 <% if(mongo) out.print 'import org.bson.types.ObjectId;' %>
 ${moreImports}
-
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 <% if(mongo) out.print '@MongoRepository' %><% if(r2dbc) out.print '@R2dbcRepository(dialect = Dialect.'+dialect+')' %>
 public interface ${className}Repository extends <% if(reactor) out.print 'ReactorCrudRepository' %><% if(rxjava3 || rxjava2) out.print 'ReactiveStreamsCrudRepository' %><${className}, <% if(!mongo) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
 ${methods}

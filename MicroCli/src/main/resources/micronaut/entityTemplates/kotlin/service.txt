@@ -12,6 +12,9 @@ import io.micronaut.http.multipart.CompletedFileUpload
 <% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 ${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

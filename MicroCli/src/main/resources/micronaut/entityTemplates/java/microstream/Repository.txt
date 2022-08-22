@@ -11,6 +11,9 @@ import jakarta.inject.Singleton;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 
 @Singleton
 public class ${entityClass}Repository{

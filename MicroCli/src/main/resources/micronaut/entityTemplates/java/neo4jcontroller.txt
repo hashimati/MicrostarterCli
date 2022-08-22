@@ -10,7 +10,9 @@ import io.micronaut.http.annotation.*;
 
 import ${entityPackage};
 import ${servicePackage};
-
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 
 @Controller("/api/v1/${entityName}s")
 public class ${className}Controller {

@@ -28,6 +28,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 <% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 ${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 
 @Tag(name = "${className}")
 <% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entities}")

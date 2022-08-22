@@ -26,6 +26,9 @@ import ${servicePackage}
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 ${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 <% if(jaxrs) out.print 'import javax.ws.rs.*'%>
 
 @ExecuteOn(TaskExecutors.IO)

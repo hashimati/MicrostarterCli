@@ -25,7 +25,9 @@ import org.slf4j.LoggerFactory;
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
 import jakarta.inject.Inject;
-
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 import ${entityPackage};
 import ${servicePackage};
 ${moreImports}

@@ -11,6 +11,9 @@ import ${servicePackage}.${className}Service;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 ${moreImports}
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 
 @Singleton
 public class ${className}QueryResolver implements GraphQLQueryResolver, GraphQLMutationResolver {

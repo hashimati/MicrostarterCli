@@ -14,7 +14,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed' %>
 ${moreImports}
-
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
 class ${className}Service(private val ${entityName}Repository: ${className}Repository<% if(file) out.print ', private val fileService:FileService ' %>){

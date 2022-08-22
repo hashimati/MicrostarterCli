@@ -9,6 +9,9 @@ import java.util.*
 ${moreImports}
 <% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 
 @Repository
 interface ${className}Repository:<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, Long> {

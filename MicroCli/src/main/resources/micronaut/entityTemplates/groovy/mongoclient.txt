@@ -12,7 +12,9 @@ import io.micronaut.http.multipart.CompletedFileUpload
 <% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 ${moreImports}
 import ${entityPackage}
-
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
 
 @Client("/api/v1/${entities}")
 interface ${classNameA}Client {

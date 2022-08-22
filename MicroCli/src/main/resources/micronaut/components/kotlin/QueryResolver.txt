@@ -10,7 +10,9 @@ import ${servicePackage}.${className}Service
 <% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
 import jakarta.inject.Singleton;
 ${moreImports}
-
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
 @Singleton
 class ${className}QueryResolver(private val ${entityName}Service :${className}Service<% if(principal) out.print ', private val defaultSecurityService:DefaultSecurityService' %>)  : GraphQLQueryResolver, GraphQLMutationResolver{
 
