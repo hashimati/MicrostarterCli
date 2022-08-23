@@ -81,8 +81,8 @@ public class FeaturesFactory {
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
                     "                </path>");
-            setVersionProperties("<micronaut.data.version>3.0.0</micronaut.data.version>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+            setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
 
         }});
 
@@ -107,7 +107,7 @@ public class FeaturesFactory {
                             "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                             "                  <version>${micronaut.data.version}</version>\n" +
                             "                </path>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.2.1");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
 
         }});
 
@@ -121,7 +121,7 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-r2dbc-core</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.2.1");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2);
 
 
         }});
@@ -165,8 +165,8 @@ public class FeaturesFactory {
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
                     "                </path>");
-            setVersionProperties("<micronaut.data.version>3.0.0</micronaut.data.version>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.0.0");
+            setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
         }});
 
         features.put("mongo-sync", new Feature(){{
@@ -192,13 +192,12 @@ public class FeaturesFactory {
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-mongodb</artifactId>\n" +
-                    "\t\t<version>3.3.0</version>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
-                    "\t\t<version>3.3.0</version>\n" +
+                    "\t\t<version>3.7.2</version>\n" +
                     "\t</path>");
 
         }});
@@ -212,13 +211,12 @@ public class FeaturesFactory {
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-mongodb</artifactId>\n" +
-                    "\t\t<version>3.3.0</version>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
-                    "\t\t<version>3.3.0</version>\n" +
+                    "\t\t<version>3.7.2</version>\n" +
                     "\t</path>");
 
         }});
@@ -560,12 +558,12 @@ public class FeaturesFactory {
         //	compile 'com.graphql-java:graphql-java-tools:5.2.4'
         features.put("graphql-java-tools", new Feature(){{
             setName("qraphql-java-tools");
-            setGradle("    implementation(\"com.graphql-java-kickstart:graphql-java-tools:12.0.1\")");
+            setGradle("    implementation(\"com.graphql-java-kickstart:graphql-java-tools:13.0.0\")");
             getMaven().add("\t<dependency>\n"+
                     "\t\t<groupId>com.graphql-java-kickstart</groupId>\n" +
                     "\t\t<artifactId>graphql-java-tools</artifactId>\n"+
                     "\t\t<scope>compile</scope>\n"+
-                    "\t\t<version>12.0.1</version>\n"+
+                    "\t\t<version>13.0.0</version>\n"+
                     "\t</dependency>");
         }});
 
