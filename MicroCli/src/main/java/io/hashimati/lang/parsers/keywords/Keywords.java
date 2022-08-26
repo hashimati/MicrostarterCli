@@ -28,6 +28,8 @@ public class Keywords {
             "int",
             "long",
             "float",
+            "BigInteger",
+            "BigDecimal",
             "double",
             "boolean");
     public final static Set<String> OBJECT_KEYWORDS = Set.of(

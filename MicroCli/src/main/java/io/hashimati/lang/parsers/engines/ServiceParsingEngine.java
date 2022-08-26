@@ -44,10 +44,13 @@ public class ServiceParsingEngine extends ParsingEngine{
 
 
         getGraphQl(serviceSyntax);
+        getEnums(serviceSyntax);
         getEntities(serviceSyntax); 
         return serviceSyntax;
 
     }
+
+
 
     private void getGraphQl(ServiceSyntax serviceSyntax) {
         try {
@@ -174,6 +177,21 @@ public class ServiceParsingEngine extends ParsingEngine{
         }
         else {
             serviceSyntax.getEntities().addAll(entityStatements.stream().map(x->entityParsingEngine.parse(x // to close the entity declaration bracket
+
+            )).collect(Collectors.toList()));
+
+        }
+    }
+    private void getEnums(ServiceSyntax serviceSyntax) {
+        EnumParsingEngine enumParsingEngine = new EnumParsingEngine();
+        // List<String> entityStatements = PatternUtils.getPatternsFromText("\\s*entity\\s+\\w+\\s*\\{[\\;\\!\\@\\#\\$\\%\\^\\&\\*\\:\\w*\\s*^\\}\\(\\)\\-]*\\}\\s*^(\\w*)", serviceSyntax.getSentence());
+        List<String> enumStatements = PatternUtils.getPatternsFromText("\\s*[^\\w]*enum\\s+\\w+\\s*\\{[\\s*\\/\\w*\\:\\;\\,\\-\\(\\)]*}\\s*", serviceSyntax.getSentence());
+        if(enumStatements.isEmpty())
+        {
+            return ;
+        }
+        else {
+            serviceSyntax.getEnums().addAll(enumStatements.stream().map(x->enumParsingEngine.parse(x // to close the entity declaration bracket
 
             )).collect(Collectors.toList()));
 

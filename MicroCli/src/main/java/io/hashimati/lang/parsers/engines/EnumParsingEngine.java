@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class EnumParsingEngine extends ParsingEngine{
     @Override
-    public Syntax parse(String sentence) {
+    public EnumSyntax parse(String sentence) {
 
         EnumSyntax enumSyntax = new EnumSyntax(sentence);
         getName(enumSyntax);

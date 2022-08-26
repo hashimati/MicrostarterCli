@@ -32,6 +32,9 @@ public class ServiceSyntax extends Syntax{
 
 
     private ArrayList<EntitySyntax> entities = new ArrayList<>();
+
+    private ArrayList<EnumSyntax> enums = new ArrayList<>();
+
     @Override
     public String toString() {
         return super.toString();
@@ -235,6 +238,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setAwsSecret(String awsSecret) {
         this.awsSecret = awsSecret;
+    }
+
+    public ArrayList<EnumSyntax> getEnums() {
+        return enums;
+    }
+
+    public void setEnums(ArrayList<EnumSyntax> enums) {
+        this.enums = enums;
     }
 }
 

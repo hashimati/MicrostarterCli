@@ -121,7 +121,7 @@ public class FeaturesFactory {
                     "\t\t<artifactId>micronaut-r2dbc-core</artifactId>\n" +
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2);
+            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
 
 
         }});

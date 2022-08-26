@@ -7,6 +7,7 @@ import groovy.lang.Tuple2;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.lang.parsers.engines.ValidationParser;
 import io.hashimati.lang.syntax.EntitySyntax;
+import io.hashimati.lang.syntax.EnumSyntax;
 import io.hashimati.lang.syntax.ServiceSyntax;
 import io.hashimati.microcli.client.MicronautLaunchClient;
 import io.hashimati.microcli.config.Feature;
@@ -21,10 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
@@ -36,6 +34,7 @@ import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstant
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.GROOVY_LANG;
 import static io.hashimati.microcli.constants.ProjectConstants.Metrics.*;
 import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENTITY_PATH;
+import static io.hashimati.microcli.constants.ProjectConstants.PathsTemplate.ENUMS;
 import static io.hashimati.microcli.constants.ProjectConstants.Tracing.JAEGER;
 import static io.hashimati.microcli.constants.ProjectConstants.Tracing.ZIPKIN;
 import static io.hashimati.microcli.services.TemplatesService.*;
@@ -91,6 +90,68 @@ public class ServiceGenerator {
         ConfigurationInfo configurationInfo = readConfigurationFromServiceSyntax(serviceSyntax);
         Integer configureResult = configureService(configurationInfo, workingPath);
         //end project configuration.
+
+        if(serviceSyntax.getEnums() != null && !serviceSyntax.getEnums().isEmpty()){
+            List<EnumClass> enums = serviceSyntax.getEnums().stream().map(e->readEnumFromEnumSyntax(configurationInfo, e)).collect(Collectors.toList());
+
+            for(EnumClass enumClass: enums)
+            {
+                boolean isExist = configurationInfo.getEnums().stream().anyMatch(x->x.getName().equals(enumClass.getName()));
+                if(isExist)
+                {
+                    printlnWarning("Warning: "+ enumClass.getName() + " is already exist. ");
+                    setToDefault();
+                    for(EnumClass e : configurationInfo.getEnums())
+                    {
+                        if(e.getName().equals(enumClass.getName())) {
+                            e.getValues().addAll(enumClass.getValues());
+                            enumClass.getValues().addAll(e.getValues());
+                            break;
+                        }
+                    }
+                }
+                String enumFilePath = GeneratorUtils.generateFromTemplate(ENUMS, new HashMap<String, String>(){{
+                    put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
+                    put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
+                }});
+
+                String extension = ".java";
+                switch (configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase())
+                {
+                    case GROOVY_LANG:
+                        extension= ".groovy";
+                        break;
+                    case KOTLIN_LANG:
+                        extension = ".kt";
+                        break;
+                    default:
+                        extension = ".java";
+                        break;
+                }
+                String outPutPath = workingPath+enumFilePath+"/"+enumClass.getName()+extension;
+
+
+                GeneratorUtils.createFile(outPutPath.replace("\\", "/"), micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase()));
+
+                //                System.out.println(micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage()));
+//                System.out.println(micronautEntityGenerator.generateEnum(enumClass, "groovy"));
+//                System.out.println(micronautEntityGenerator.generateEnum(enumClass, "kotlin"));
+                if(!isExist)
+                    configurationInfo.getEnums().add(enumClass);
+                configurationInfo.writeToFile(workingPath);
+
+
+                //if graphql is supported
+                if(configurationInfo.isGraphQlSupport())
+                {
+                    String enumGraphQlFilename = new StringBuilder().append(workingPath).append("/src/main/resources/").append(enumClass.getName()).append(".graphqls").toString();
+                    String enumContent =micronautEntityGenerator.generateEnumGraphQL(enumClass);
+                    GeneratorUtils.createFile(enumGraphQlFilename, enumContent);
+                }
+
+
+            }
+        }
 
         //--entity generating Entity
         if(serviceSyntax.getEntities() != null && !serviceSyntax.getEntities().isEmpty()){
@@ -1242,6 +1303,18 @@ public class ServiceGenerator {
 
         }};
     }
+
+
+    public EnumClass readEnumFromEnumSyntax(final ConfigurationInfo configurationInfo, EnumSyntax enumSyntax)
+    {
+       return new EnumClass(){{
+           setName(enumSyntax.getName());
+           HashSet<String> vs = new HashSet<String>();
+           vs.addAll(enumSyntax.getEnums());
+           setValues(vs);
+           setEnumPackage(configurationInfo.getProjectInfo().getDefaultPackage() + ".enums");
+       }} ;
+    }
     private String getTemplatePath(String key, String language) {
 
         if ("groovy".equals(language)) {
@@ -1254,5 +1327,8 @@ public class ServiceGenerator {
         else
             return templatesService.getJavaTemplates().get(key);
     }
+
+
+
 
 }

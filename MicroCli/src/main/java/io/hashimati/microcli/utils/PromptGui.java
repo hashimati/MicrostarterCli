@@ -80,6 +80,8 @@ public class PromptGui {
                 .newItem("long").add()
                 .newItem("float").add()
                 .newItem("double").add()
+                .newItem("BigInteger").add()
+                .newItem("BigDecimal").add()
                 .newItem("Date").add()
                 .newItem("file").add();
                if(!enums.isEmpty()) {
