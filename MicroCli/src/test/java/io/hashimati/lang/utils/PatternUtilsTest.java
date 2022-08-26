@@ -1,5 +1,6 @@
 package io.hashimati.lang.utils;
 
+import io.hashimati.lang.parsers.patterns.GrammarPatterns;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -36,5 +37,8 @@ class PatternUtilsTest {
         assertTrue(ps.size()>0);
 
 
+        assertTrue("OneToOne A(sf) to B(lksf);".matches(GrammarPatterns.relationShipSyntax));
+        assertTrue("OneToMany A(ff) to C(we);".matches(GrammarPatterns.relationShipSyntax));
+        assertTrue("ManyToMany A(ff) to C(we);".matches(GrammarPatterns.relationShipSyntax));
     }
 }

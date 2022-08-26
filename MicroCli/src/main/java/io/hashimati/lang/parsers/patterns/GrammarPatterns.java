@@ -63,6 +63,7 @@ public class GrammarPatterns {
     public static String VALIDATION_NOTNULL = "\\s*notnull\\s*";
 
 
+    public static String relationShipSyntax = "[OneToOne OneToMany ManyToMany]+\\s+\\w+\\s*\\(\\w+\\)\\s*to\\s+\\w+\\s*\\(\\w+\\)\\s*\\;";
 
 
 }

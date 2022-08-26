@@ -43,10 +43,10 @@ public class AttributeParsingEngine extends ParsingEngine<AttributeDeclarationSy
                     }
 
 
-                    if(!Keywords.DATA_TYPE_KEYWORDS.contains(nameType[1].trim()))
-                    {
-                        throw new InvalidSyntaxException("Cannot recognize type \""+nameType[1].trim()+"\" in ("+attributeDeclarationSyntax.getSentence()+")");
-                    }
+//                    if(!Keywords.DATA_TYPE_KEYWORDS.contains(nameType[1].trim()))
+//                    {
+//                        throw new InvalidSyntaxException("Cannot recognize type \""+nameType[1].trim()+"\" in ("+attributeDeclarationSyntax.getSentence()+")");
+//                    }
                     attributeDeclarationSyntax.setName(nameType[0].trim());
 
                     attributeDeclarationSyntax.setType(nameType[1].trim());

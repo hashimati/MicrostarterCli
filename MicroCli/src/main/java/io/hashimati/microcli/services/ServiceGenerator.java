@@ -344,6 +344,11 @@ public class ServiceGenerator {
                             GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
 
                         }
+
+
+                        String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);
+                        GeneratorUtils.createFile(workingPath + "/src/test/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage() + ".utils") + "/Randomizer" + extension, randromizerFileContent);
+
                         //========
                         String controllertest = micronautEntityGenerator.generateTestController(entity, lang, configurationInfo.getProjectInfo().getTestFramework());
                         String langDir = configurationInfo.getProjectInfo().getSourceLanguage();
@@ -412,6 +417,7 @@ public class ServiceGenerator {
                 }
             }
         }
+
 
         //--endGenerating Entities
         return createFileStatus && extract && deleteFile && (configureResult == 1) ? 1 : 0;

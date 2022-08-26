@@ -32,6 +32,14 @@ public class Keywords {
             "BigDecimal",
             "double",
             "boolean");
+
+
+    public final static Set<String> RelationShips = Set.of(
+            "OneToOne",
+            "OneToMany",
+            "ManyToMany"
+    );
+
     public final static Set<String> OBJECT_KEYWORDS = Set.of(
             "entity",
             "services",
