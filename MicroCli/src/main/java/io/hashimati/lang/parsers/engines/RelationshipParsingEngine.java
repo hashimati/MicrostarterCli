@@ -21,44 +21,41 @@ public class RelationshipParsingEngine extends ParsingEngine<RelationshipSyntax>
         }
         catch (InvalidSyntaxException ex)
         {
-
             relationshipSyntax.setValid(false);
-
         }
-
         return relationshipSyntax;
     }
 
     private void getEL(RelationshipSyntax relationshipSyntax) {
-    try {
-        if (relationshipSyntax.getType() == null)
-            getType(relationshipSyntax);
-        String trimSyntax = relationshipSyntax.getSentence().trim();
-        List<String> es = PatternUtils.getPatternsFromText("\\w+\\s*\\(\\w+\\)", trimSyntax);
+        try {
+            if (relationshipSyntax.getType() == null)
+                getType(relationshipSyntax);
+            String trimSyntax = relationshipSyntax.getSentence().trim();
+            List<String> es = PatternUtils.getPatternsFromText("\\w+\\s*\\(\\w+\\)", trimSyntax);
 
-        if(es.size()!=2) throw new InvalidSyntaxException(relationshipSyntax.getSentence()+": is not valid relationship declaration");
+            if(es.size()!=2) throw new InvalidSyntaxException(relationshipSyntax.getSentence()+": is not valid relationship declaration");
 
-        //e1
-        String e1Decalation = es.get(0);
-        String e1 = e1Decalation.replaceAll("\\(\\w+\\)", "").trim();
-        String l1 = e1Decalation.substring(e1Decalation.indexOf('(')).replace("(", "")
-                .replace(")", "").trim();
+            //e1
+            String e1Decalation = es.get(0);
+            String e1 = e1Decalation.replaceAll("\\(\\w+\\)", "").trim();
+            String l1 = e1Decalation.substring(e1Decalation.indexOf('(')).replace("(", "")
+                    .replace(")", "").trim();
 
-        //e2
+            //e2
 
-        String e2Decalation = es.get(1);
-        String e2 = e2Decalation.replaceAll("\\(\\w+\\)", "").trim();
-        String l2 = e2Decalation.substring(e2Decalation.indexOf('(')).replace("(", "")
-                .replace(")", "").trim();
-        relationshipSyntax.setE1(e1);
-        relationshipSyntax.setE2(e2);
-        relationshipSyntax.setL1(l1);
-        relationshipSyntax.setL2(l2);
-    }
-    catch (InvalidSyntaxException ex)
-    {
+            String e2Decalation = es.get(1);
+            String e2 = e2Decalation.replaceAll("\\(\\w+\\)", "").trim();
+            String l2 = e2Decalation.substring(e2Decalation.indexOf('(')).replace("(", "")
+                    .replace(")", "").trim();
+            relationshipSyntax.setE1(e1);
+            relationshipSyntax.setE2(e2);
+            relationshipSyntax.setL1(l1);
+            relationshipSyntax.setL2(l2);
+        }
+        catch (InvalidSyntaxException ex)
+        {
 
-    }
+        }
 
     }
 
