@@ -5,6 +5,7 @@ package io.hashimati.lang.syntax;
  * Github: https://www.github.com/hashimati
  * twitter: @hashimati
  */
+
 import java.util.ArrayList;
 
 public class ServiceSyntax extends Syntax{
@@ -34,6 +35,8 @@ public class ServiceSyntax extends Syntax{
     private ArrayList<EntitySyntax> entities = new ArrayList<>();
 
     private ArrayList<EnumSyntax> enums = new ArrayList<>();
+    private ArrayList<RelationshipSyntax> relationships = new ArrayList<>();
+
 
     @Override
     public String toString() {
@@ -246,6 +249,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setEnums(ArrayList<EnumSyntax> enums) {
         this.enums = enums;
+    }
+
+    public ArrayList<RelationshipSyntax> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(ArrayList<RelationshipSyntax> relationships) {
+        this.relationships = relationships;
     }
 }
 

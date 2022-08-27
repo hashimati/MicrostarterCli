@@ -56,9 +56,7 @@ public class RelationshipParsingEngine extends ParsingEngine<RelationshipSyntax>
         {
 
         }
-
     }
-
     private void getType(RelationshipSyntax relationshipSyntax) {
         if (relationshipSyntax.getSentence().trim()
                 .startsWith("OneToOne"))

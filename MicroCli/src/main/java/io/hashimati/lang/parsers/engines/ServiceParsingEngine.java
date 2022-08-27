@@ -166,6 +166,26 @@ public class ServiceParsingEngine extends ParsingEngine{
         }
     }
 
+
+    private void getRelationships(ServiceSyntax serviceSyntax)
+    {
+
+        RelationshipParsingEngine relationshipParsingEngine = new RelationshipParsingEngine();
+        List<String> relationshipStatements = PatternUtils.getPatternsFromText(GrammarPatterns.relationShipSyntax, serviceSyntax.getSentence()
+                .replaceAll("\\s*[^\\w]*entity\\s+\\w+\\s*\\{[\\s*\\/\\w*\\:\\;\\-\\(\\)]*}\\s*", "")
+                .replaceAll("\\s*[^\\w]*enum\\s+\\w+\\s*\\{[\\s*\\/\\w*\\:\\;\\,\\-\\(\\)]*}\\s*", "")
+        );
+        if(relationshipStatements != null && !relationshipStatements.isEmpty()) {
+            serviceSyntax.getRelationships().addAll(
+                    relationshipStatements
+                            .stream()
+                            .map(x->relationshipParsingEngine.parse(x))
+                            .collect(Collectors.toList()
+                            )
+            );
+        }
+
+    }
     private void getEntities(ServiceSyntax serviceSyntax)
     {
         EntityParsingEngine entityParsingEngine = new EntityParsingEngine();
