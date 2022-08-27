@@ -8,6 +8,7 @@ import groovy.text.SimpleTemplateEngine;
 import io.hashimati.lang.parsers.engines.ValidationParser;
 import io.hashimati.lang.syntax.EntitySyntax;
 import io.hashimati.lang.syntax.EnumSyntax;
+import io.hashimati.lang.syntax.RelationshipSyntax;
 import io.hashimati.lang.syntax.ServiceSyntax;
 import io.hashimati.microcli.client.MicronautLaunchClient;
 import io.hashimati.microcli.config.Feature;
@@ -91,6 +92,16 @@ public class ServiceGenerator {
         Integer configureResult = configureService(configurationInfo, workingPath);
         //end project configuration.
 
+        if(serviceSyntax.getRelationships() != null && !serviceSyntax.getRelationships().isEmpty())
+        {
+            configurationInfo.getRelations()
+                    .addAll(
+                            serviceSyntax
+                                    .getRelationships()
+                                    .stream()
+                                    .map(x->readEntityRelationfromRelationShipSyntax(configurationInfo, x))
+                                    .collect(Collectors.toList()));
+        }
         if(serviceSyntax.getEnums() != null && !serviceSyntax.getEnums().isEmpty()){
             List<EnumClass> enums = serviceSyntax.getEnums().stream().map(e->readEnumFromEnumSyntax(configurationInfo, e)).collect(Collectors.toList());
 
@@ -152,6 +163,7 @@ public class ServiceGenerator {
 
             }
         }
+
 
         //--entity generating Entity
         if(serviceSyntax.getEntities() != null && !serviceSyntax.getEntities().isEmpty()){
@@ -1311,6 +1323,18 @@ public class ServiceGenerator {
     }
 
 
+    public EntityRelation readEntityRelationfromRelationShipSyntax(final ConfigurationInfo configurationInfo, RelationshipSyntax relationshipSyntax){
+        return new EntityRelation(){{
+            if(relationshipSyntax.getType().equalsIgnoreCase("OneToOne"))
+                setRelationType(EntityRelationType.OneToOne);
+            else if(relationshipSyntax.getType().equalsIgnoreCase("OneToMany"))
+                setRelationType(EntityRelationType.OneToMany);
+            else if(relationshipSyntax.getType().equalsIgnoreCase("ManyToMany"))
+                setRelationType(EntityRelationType.ManyToMany);
+            setE1(relationshipSyntax.getE1());
+            setE2(relationshipSyntax.getE2());
+        }};
+    }
     public EnumClass readEnumFromEnumSyntax(final ConfigurationInfo configurationInfo, EnumSyntax enumSyntax)
     {
        return new EnumClass(){{
