@@ -526,24 +526,53 @@ public class Entity
         return String.format("\tpublic %s(){\t}", name);
     }
     public String getAllArgsConstructor(){
-        if(attributes.isEmpty()) return ""; 
-        String parameters = attributes.stream().map(x->x.getNormalDeclaration()).reduce((x, y) -> x + ", "+y).orElse("");
-        String body = attributes.stream().map(x->x.inConstructorInstantiation()).reduce((x, y) ->x+y).orElse("");
+        if(attributes.isEmpty()) return "";
+
+        String parameters = "";
+        if(!isNoEndpoints())
+         parameters = attributes.stream().map(x->x.getNormalDeclaration()).reduce((x, y) -> x + ", "+y).orElse("");
+        else
+            parameters =
+                    attributes.stream().filter(x->!x.getName().equals("id")).map(x->x.getNormalDeclaration()).reduce((x, y) -> x + ", "+y).orElse("");
+
+        String body = "";
+        if(!isNoEndpoints())
+            body = attributes.stream().map(x->x.inConstructorInstantiation()).reduce((x, y) ->x+y).orElse("");
+        else
+            body = attributes.stream().filter(x->!x.getName().equals("id")).map(x->x.inConstructorInstantiation()).reduce((x, y) ->x+y).orElse("");
+
         return String.format("\tpublic %s(%s){\n%s\t}", name, parameters, body);
     }
     public String getEqualMethods()
     {
         String o = NameUtils.camelCase(name);
-        String equalExpression = attributes.stream().map(x->x.getEqualsObject(o)).reduce((x, y)-> x + " && "+ y).orElse("true");
+        String equalExpression = "";
+        if(!isNoEndpoints())
+            equalExpression = attributes.stream().map(x->x.getEqualsObject(o)).reduce((x, y)-> x + " && "+ y).orElse("true");
+        else
+            equalExpression = attributes.stream().filter(x->!x.getName().equals("id")).map(x->x.getEqualsObject(o)).reduce((x, y)-> x + " && "+ y).orElse("true");
+
         return String.format("\t@Override\n\tpublic boolean equals(Object o) {\n\t\tif (this == o) return true;\n\t\tif (!(o instanceof %s)) return false;\n\t\t %s %s = (%s) o;\n\t\treturn %s;\n\t}", name, name, o, name, equalExpression);
     }
     public String getHashCode(){
-        String attrbs = attributes.stream().map(x ->x.getName()).reduce((x,y) -> x + ", " + y).orElse("");
+
+        String attrbs = "";
+        if(!isNoEndpoints())
+            attrbs = attributes.stream().map(x ->x.getName()).reduce((x,y) -> x + ", " + y).orElse("");
+        else
+            attrbs = attributes.stream().filter(x->!x.getName().equals("id")).map(x ->x.getName()).reduce((x,y) -> x + ", " + y).orElse("");
+
         String result = attrbs.isEmpty()?"0": String.format("Objects.hash(%s)", attrbs);
         return String.format("\t@Override\n\tpublic int hashCode() {\n\t\treturn %s;\n\t}", result);
     }
     public String getGetters() {
-        String result = attributes.stream().map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
+        String result = "";
+
+        if(!isNoEndpoints())
+            result = attributes.stream().map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
+
+        else
+            result = attributes.stream().filter(x->!x.getName().equals("id")).map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
 
         if (this.isMnData() || this.getDatabaseType().equalsIgnoreCase("mongodb"))
         {
@@ -556,12 +585,13 @@ public class Entity
         return result;
     }
     public String getSetters(){
+        String result = "";
 
+        if(!isNoEndpoints())
+            result = attributes.stream().map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
 
-
-
-
-        String result =  attributes.stream().map(x->x.getSetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+        else
+            result = attributes.stream().filter(x->!x.getName().equals("id")).map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
         if(this.isMnData() || this.getDatabaseType().equalsIgnoreCase("mongodb"))
         {
             result += "\n\tpublic void setDateCreated(Date dateCreated) {\n" +

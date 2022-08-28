@@ -9,6 +9,7 @@ import io.hashimati.lang.exceptions.InvalidSyntaxException;
 import io.hashimati.lang.parsers.patterns.GrammarPatterns;
 import io.hashimati.lang.syntax.EntitySyntax;
 import io.hashimati.lang.utils.PatternUtils;
+import io.vavr.control.Validation;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class EntityParsingEngine extends ParsingEngine{
         getAttributesDeclarationStatements(entitySyntax);
         getAttributeDeclarationSyntax(entitySyntax);
         getMicrostreamPath(entitySyntax);
+        getNoendpoint(entitySyntax);
         return entitySyntax;
     }
 
@@ -74,6 +76,28 @@ public class EntityParsingEngine extends ParsingEngine{
             entitySyntax.setValid(false);
             entitySyntax.getErrors().add(ex.getMessage());
 
+        }
+    }
+
+    private void getNoendpoint(EntitySyntax entitySyntax)
+    {
+        try {
+
+            List<String> recordsDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.NOENDPOINT_COMMAND_PATTERN, entitySyntax.getSentence());
+            if (recordsDeclaration.size() > 1) {
+                throw new InvalidSyntaxException("\"noendpoints;\" exists more than once!");
+            }
+            if (recordsDeclaration.size() == 0) {
+
+                entitySyntax.setNoendpoints(false);
+            }
+            else{
+                entitySyntax.setNoendpoints(true);
+            }
+        }
+        catch(InvalidSyntaxException ex)
+        {
+            entitySyntax.setValid(false);
         }
     }
     private void getRecord(EntitySyntax entitySyntax){

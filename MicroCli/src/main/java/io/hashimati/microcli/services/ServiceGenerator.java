@@ -1217,6 +1217,7 @@ public class ServiceGenerator {
             setJaxRs(configurationInfo.isJaxRsAnnotation());
             setFileServiceType(configurationInfo.getFileServiceType());
             setLombok(configurationInfo.isLombok());
+            setNoEndpoints(entitySyntax.isNoendpoints());
             setPageable(entitySyntax.isPagination());
             setCollectionName(altValue(entitySyntax.getTableCollectionName(), entitySyntax.getName()+"s"));
             if(getDatabaseType().equalsIgnoreCase(MongoDB) || getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))
