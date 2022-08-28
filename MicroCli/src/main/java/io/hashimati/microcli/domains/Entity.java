@@ -542,13 +542,35 @@ public class Entity
         String result = attrbs.isEmpty()?"0": String.format("Objects.hash(%s)", attrbs);
         return String.format("\t@Override\n\tpublic int hashCode() {\n\t\treturn %s;\n\t}", result);
     }
-    public String getGetters(){
-        return attributes.stream().map(x->x.getGetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+    public String getGetters() {
+        String result = attributes.stream().map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
 
+        if (this.isMnData() || this.getDatabaseType().equalsIgnoreCase("mongodb"))
+        {
+            result += "\n\tpublic Date getDateCreated() {\n" +
+                    "\t\treturn dateCreated;\n" +
+                    "\t}\n\tpublic Date getDateUpdated() {\n" +
+                    "\t\treturn dateUpdated;\n" +
+                    "\t}\n";
+        }
+        return result;
     }
-
     public String getSetters(){
-        return attributes.stream().map(x->x.getSetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+
+
+
+
+
+        String result =  attributes.stream().map(x->x.getSetterMethodImpl()).reduce((x,y)-> x+ "\n"+y).orElse("");
+        if(this.isMnData() || this.getDatabaseType().equalsIgnoreCase("mongodb"))
+        {
+            result += "\n\tpublic void setDateCreated(Date dateCreated) {\n" +
+                    "\t\tthis.dateCreated = dateCreated;\n" +
+                    "\t}\n\tpublic void setDateUpdated(Date dateUpdated) {\n" +
+                    "\t\tthis.dateUpdated = dateUpdated;\n" +
+                    "\t}";
+        }
+        return result;
     }
 
     public String getIdType() {
