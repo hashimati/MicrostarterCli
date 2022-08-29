@@ -588,10 +588,10 @@ public class Entity
         String result = "";
 
         if(!isNoEndpoints())
-            result = attributes.stream().map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
+            result = attributes.stream().map(x -> x.getSetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
 
         else
-            result = attributes.stream().filter(x->!x.getName().equals("id")).map(x -> x.getGetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
+            result = attributes.stream().filter(x->!x.getName().equals("id")).map(x -> x.getSetterMethodImpl()).reduce((x, y) -> x + "\n" + y).orElse("");
         if(this.isMnData() || this.getDatabaseType().equalsIgnoreCase("mongodb"))
         {
             result += "\n\tpublic void setDateCreated(Date dateCreated) {\n" +
