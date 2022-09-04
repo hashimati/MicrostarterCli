@@ -522,9 +522,12 @@ public class Entity
         isLombok = lombok;
     }
 
+    @JsonIgnore
     public String getEmptyConstructor(){
         return String.format("\tpublic %s(){\t}", name);
     }
+
+    @JsonIgnore
     public String getAllArgsConstructor(){
         if(attributes.isEmpty()) return "";
 
@@ -543,6 +546,7 @@ public class Entity
 
         return String.format("\tpublic %s(%s){\n%s\t}", name, parameters, body);
     }
+    @JsonIgnore
     public String getEqualMethods()
     {
         String o = NameUtils.camelCase(name);
@@ -554,6 +558,7 @@ public class Entity
 
         return String.format("\t@Override\n\tpublic boolean equals(Object o) {\n\t\tif (this == o) return true;\n\t\tif (!(o instanceof %s)) return false;\n\t\t %s %s = (%s) o;\n\t\treturn %s;\n\t}", name, name, o, name, equalExpression);
     }
+    @JsonIgnore
     public String getHashCode(){
 
         String attrbs = "";
@@ -565,6 +570,7 @@ public class Entity
         String result = attrbs.isEmpty()?"0": String.format("Objects.hash(%s)", attrbs);
         return String.format("\t@Override\n\tpublic int hashCode() {\n\t\treturn %s;\n\t}", result);
     }
+    @JsonIgnore
     public String getGetters() {
         String result = "";
 
@@ -584,6 +590,8 @@ public class Entity
         }
         return result;
     }
+
+    @JsonIgnore
     public String getSetters(){
         String result = "";
 
@@ -602,6 +610,7 @@ public class Entity
         }
         return result;
     }
+
 
     public String getIdType() {
         return idType;

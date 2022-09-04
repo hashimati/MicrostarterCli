@@ -12,6 +12,7 @@ import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.Visitor;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 
 import static io.hashimati.microcli.constants.ProjectConstants.EntityAttributeType.*;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
@@ -204,10 +205,13 @@ public class EntityAttribute {
         //  return "";
     }
 
+    @JsonIgnore
+
     public String getGetterMethodImpl(){
         return
                 String.format("\tpublic %s get%s() { return %s; }\n", this.getType(), NameUtils.capitalize(this.getName()), name);
     }
+    @JsonIgnore
     public String getSetterMethodImpl(){
         return String.format("\tpublic void set%s(%s %s) { this.%s = %s; }\n", NameUtils.capitalize(name), getType(), name, name, name);
     }
@@ -215,16 +219,20 @@ public class EntityAttribute {
     public String inConstructorInstantiation(){
         return String.format("\t\tthis.%s = %s;\n",name, name);
     }
+
+    @JsonIgnore
     public String getNormalDeclaration()
     {
         return String.format("%s %s", type, name);
 
     }
+    @JsonIgnore
     public String getEqualsObject(String compare){
         return String.format(" Objects.equals(%s, %s.%s)", name, compare, name);
     }
 
 
+    @JsonIgnore
     public String graphQLDeclaration()
     {
         String t = type;
@@ -232,6 +240,7 @@ public class EntityAttribute {
         t = DataTypeMapper.graphqlMapper.containsKey(type) ? DataTypeMapper.graphqlMapper.get(type) : "String";
         return new StringBuilder().append("\t").append(name).append(" : ").append(t).append(",\n").toString();
     }
+    @JsonIgnore
     public String getPackageSyntax(String lang)
     {
         if(this.getType().equalsIgnoreCase(BIG_DECIMAL))
