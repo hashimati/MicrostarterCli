@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "${defaultPackage}";
+option objc_class_prefix = "HLW";
+package ${defaultPackage};
+
+message MessageReply {
+  string message = 1;
+}
+
+message IdQuery{
+  int64 id = 1;
+}
+
+message BooleanReply{
+  bool flag = 1;
+}
+
+message PageQuery{
+  int64 page = 1;
+}

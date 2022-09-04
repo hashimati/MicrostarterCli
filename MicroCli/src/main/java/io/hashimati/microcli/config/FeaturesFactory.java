@@ -15,6 +15,7 @@ import org.apache.maven.model.Plugin;
 
 import javax.inject.Singleton;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
@@ -1012,6 +1013,45 @@ public class FeaturesFactory {
                     "            </path>");
         }});
 
+        features.put("grpc", new Feature(){{
+            setName("grpc");
+            setGradlePlugins(
+                    new ArrayList<String>(){{
+                        add("    id(\"com.google.protobuf\") version \"0.8.15\"");
+                    }}
+            );
+            setGradle("    implementation(\"io.micronaut.grpc:micronaut-grpc-runtime\")");
+            setGradleTask("sourceSets {\n" +
+                    "    main {\n" +
+                    "        java {\n" +
+                    "            srcDirs(\"build/generated/source/proto/main/grpc\")\n" +
+                    "            srcDirs(\"build/generated/source/proto/main/java\")\n" +
+                    "        }\n" +
+                    "    }\n" +
+                    "}\n\n" +
+                    "protobuf {\n" +
+                    "    protoc { artifact = \"com.google.protobuf:protoc:3.20.1\" }\n" +
+                    "    plugins {\n" +
+                    "        grpc { artifact = \"io.grpc:protoc-gen-grpc-java:1.46.0\" }\n" +
+                    "    }\n" +
+                    "    generateProtoTasks {\n" +
+                    "        all()*.plugins { grpc {} }\n" +
+                    "    }\n" +
+                    "}");
+            setMaven(new ArrayList<String>(){{
+
+                add("\t<dependency>\n" +
+                        "\t\t<groupId>io.micronaut.grpc</groupId>\n" +
+                        "\t\t<artifactId>micronaut-grpc-runtime</artifactId>\n" +
+                        "\t\t<scope>compile</scope>\n" +
+                        "\t</dependency>");
+            }});
+            setPlugin(new Plugin(){{
+                setGroupId("com.github.os72");
+                setArtifactId("protoc-jar-maven-plugin");
+            }});
+
+        }});
         features.put("microstream", new Feature(){{
             setName("microstream");
             setAnnotationGradle("    annotationProcessor(\"io.micronaut.microstream:micronaut-microstream-annotations\")");
