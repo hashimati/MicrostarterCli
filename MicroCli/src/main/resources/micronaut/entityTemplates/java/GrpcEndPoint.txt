@@ -1,0 +1,87 @@
+package ${grpcPackage};
+
+import io.grpc.stub.StreamObserver;
+import ${defaultPackage}.*;
+import ${defaultPackage}.domains.${entity};
+import io.hashimat${defaultPackage}i.services.${entity}Service;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class ${entity}Endpoint extends
+        ${entity}GrpcServiceGrpc.${entity}GrpcServiceImplBase {
+
+    @Inject
+    private ${entity}Service ${entityName}Service;
+
+    @Override
+    public void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+        super.save(request, responseObserver);
+        ${entity} ${entityName} = new ${entity}(){{
+            setName(request.getName());
+            setPrice(request.getPrice());
+            setQuantity(request.getQuantity());
+        }};
+        ${entity} result = ${entityName}Service.save(${entityName});
+        if(result != null)
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
+        else
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build());
+        responseObserver.onCompleted();;
+
+    }
+
+    @Override
+    public void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+        super.update(request, responseObserver);
+        ${entity} ${entityName} = new ${entity}(){{
+            setName(request.getName());
+            setPrice(request.getPrice());
+            setQuantity(request.getQuantity());
+        }};
+        ${entity} result = ${entityName}Service.update(${entityName});
+        if(result != null)
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
+        else
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
+        super.delete(request, responseObserver);
+        responseObserver.onNext(
+                ${entityName}Service.deleteById(request.getId())?
+                        MessageReply.newBuilder().setMessage("Done").build():
+                        MessageReply.newBuilder().setMessage("Failed").build());
+
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+        super.findById(request, responseObserver);
+
+        ${entity} ${entityName} = ${entityName}Service.findById(request.getId());
+        responseObserver.onNext(${entity}Grpc
+                .newBuilder()
+                .setName(${entityName}.getName())
+                .setPrice(${entityName}.getPrice())
+                .setQuantity(${entityName}.getQuantity())
+                .setId(${entityName}.getId())
+                .build());
+    }
+    @Override
+    public void findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+        super.findAll(request, responseObserver);
+        ${entityName}Service.findAll().forEach(
+                x-> responseObserver.onNext(${entity}Grpc.newBuilder()
+                        .setName(x.getName())
+                        .setId(x.getId())
+                        .setQuantity(x.getQuantity())
+                        .setPrice(x.getPrice())
+                        .build())
+        );
+        responseObserver.onCompleted();
+    }
+}
