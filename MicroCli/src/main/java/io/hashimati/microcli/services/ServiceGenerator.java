@@ -1251,6 +1251,10 @@ public class ServiceGenerator {
                             setFile(x.getType().equalsIgnoreCase("file"));
                             setJdbc(cf.equalsIgnoreCase("jdbc"));
                             setJpa(cf.equalsIgnoreCase("jpa"));
+                            if(configurationInfo.getEnums()
+                                    .stream()
+                                    .map(y->y.getName()).collect(Collectors.toList()).contains(x.getType()))
+                                setEnumuration(true);
                             EntityConstraints constraints = new EntityConstraints();
                             if(x.getConstraints() !=null && !x.getConstraints().isEmpty())
                             {
