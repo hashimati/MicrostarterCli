@@ -17,8 +17,10 @@ public class MavenProjectUtils {
 
 
     public static Model readPom(String path) throws IOException, XmlPullParserException {
+
+
         MavenXpp3Reader reader  = new MavenXpp3Reader();
-        Model model = reader.read(new FileReader(path));
+        Model model = reader.read(new FileReader(path+"/pom.xml"));
 
         return model;
     }
@@ -28,7 +30,7 @@ public class MavenProjectUtils {
     {
         MavenXpp3Writer writer = new MavenXpp3Writer();
         try {
-            writer.write(new FileWriter(path), model);
+            writer.write(new FileWriter(path +"/pom.xml"), model);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,7 +104,7 @@ public class MavenProjectUtils {
         String pomContent = MicronautProjectValidator.getPomFileContent(path);
 
         pomContent = pomContent.replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n\t\t</annotationProcessorPaths>");
-        GeneratorUtils.dumpContentToFile(path+"pom.xml", pomContent);
+        GeneratorUtils.dumpContentToFile(path+"/pom.xml", pomContent);
         //   GeneratorUtils.dumpContentToFile(path, MicronautProjectValidator.getPomFileContent(path).replace("</annotationProcessorPaths>", feature.getAnnotationMaven()+ "\n                    </annotationProcessorPaths>"));
 
         return true;
@@ -114,7 +116,7 @@ public class MavenProjectUtils {
         String pomContent = MicronautProjectValidator.getPomFileContent(path);
 
         pomContent = pomContent.replace("</compilerArgs>", feature.getMavenCompileArgs().stream().reduce((x,y)->x+y).orElse("")+ "\t</compilerArgs>");
-        GeneratorUtils.dumpContentToFile(path+"pom.xml", pomContent);
+        GeneratorUtils.dumpContentToFile(path+"/pom.xml", pomContent);
 
         return true;
     }

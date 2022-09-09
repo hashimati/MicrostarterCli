@@ -482,7 +482,7 @@ public class MicronautProjectValidator {
             }
             else if(projectInfo.getBuildTool().equalsIgnoreCase("maven"))
             {
-                MavenProjectUtils.addDependency(lombok, path+"pom.xml");
+                MavenProjectUtils.addDependency(lombok, path);
                 MavenProjectUtils.addAnnotation(lombok, path);
 
                 //todo
@@ -509,7 +509,7 @@ public class MicronautProjectValidator {
             {
 
                 MavenProjectUtils.addAnnotation(openapi, path);
-                MavenProjectUtils.addDependency(openapi,path+ "pom.xml");
+                MavenProjectUtils.addDependency(openapi,path);
                 MavenProjectUtils.addCompileArgs(openapi, path);
                 //todo
                 return true;
@@ -649,12 +649,12 @@ public class MicronautProjectValidator {
                             x.getMaven().add(x.getRdbcMaven());
                             x.setTestMaven(x.getRdbcMaven());
                             // todo it is not completed
-                            return MavenProjectUtils.addDependency(x, path+"pom.xml") &&
+                            return MavenProjectUtils.addDependency(x, path) &&
                                     MavenProjectUtils.addAnnotation(x, path)
-                                    && MavenProjectUtils.addDependencyToDependecyMgmt(x, path+"pom.xml")
-                                    && MavenProjectUtils.addTestDependency(x, path+"pom.xml")
-                                    && MavenProjectUtils.addPluginBuild(x, path+"pom.xml")
-                                    && MavenProjectUtils.addProperties(x, path+"pom.xml")
+                                    && MavenProjectUtils.addDependencyToDependecyMgmt(x, path)
+                                    && MavenProjectUtils.addTestDependency(x, path)
+                                    && MavenProjectUtils.addPluginBuild(x, path)
+                                    && MavenProjectUtils.addProperties(x, path)
 
                                     ;
                         } catch (IOException e) {
@@ -705,12 +705,12 @@ public class MicronautProjectValidator {
                         try {
 
                             // todo it is not completed
-                            return MavenProjectUtils.addDependency(x, path+"pom.xml") &&
+                            return MavenProjectUtils.addDependency(x, path) &&
                                     MavenProjectUtils.addAnnotation(x, path)
-                                    && MavenProjectUtils.addDependencyToDependecyMgmt(x, path+"pom.xml")
-                                    && MavenProjectUtils.addTestDependency(x, path+"pom.xml")
-                                    && MavenProjectUtils.addPluginBuild(x, path+"pom.xml")
-                                    && MavenProjectUtils.addProperties(x, path+ "pom.xml")
+                                    && MavenProjectUtils.addDependencyToDependecyMgmt(x, path)
+                                    && MavenProjectUtils.addTestDependency(x, path)
+                                    && MavenProjectUtils.addPluginBuild(x, path)
+                                    && MavenProjectUtils.addProperties(x, path)
 
                                     ;
                         } catch (IOException e) {
@@ -913,7 +913,7 @@ public class MicronautProjectValidator {
             return new GradleProjectUtils().getAppName(path);
         }
         else
-            return MavenProjectUtils.getArtifactId("pom.xml");
+            return MavenProjectUtils.getArtifactId(path);
     }
 }
 

@@ -86,7 +86,7 @@ public class ServiceGenerator {
         boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);
         //end generating project
 
-        String workingPath = GeneratorUtils.getCurrentWorkingPath() + "/" + serviceSyntax.getName();
+        String workingPath = GeneratorUtils.getCurrentWorkingPath() + "/" + serviceSyntax.getName() + "/";
         //project configuration:
         ConfigurationInfo configurationInfo = readConfigurationFromServiceSyntax(serviceSyntax);
         Integer configureResult = configureService(configurationInfo, workingPath);
