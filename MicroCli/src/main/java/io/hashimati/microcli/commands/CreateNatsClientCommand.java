@@ -87,7 +87,7 @@ public class CreateNatsClientCommand implements Callable<Integer> {
             //AddingYaml
             templatesService.loadTemplates(null);
             String messagingProperties = templatesService.loadTemplateContent
-                    (templatesService.getProperties().get("nats"));
+                    (templatesService.getProperties().get(TemplatesService.NATS_yml));
             MicronautProjectValidator.appendToProperties(path, messagingProperties);
 
             configurationInfo.writeToFile(path);

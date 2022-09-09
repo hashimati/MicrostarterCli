@@ -88,7 +88,7 @@ public class CreateRabbitMQListenerCommand implements Callable<Integer> {
             //AddingYaml
             templatesService.loadTemplates(null);
             String messagingProperties = templatesService.loadTemplateContent
-                    (templatesService.getProperties().get("rabbitmq"));
+                    (templatesService.getProperties().get(TemplatesService.RABBITMQ_yml));
             MicronautProjectValidator.appendToProperties(path, messagingProperties);
 
             configurationInfo.writeToFile(path);

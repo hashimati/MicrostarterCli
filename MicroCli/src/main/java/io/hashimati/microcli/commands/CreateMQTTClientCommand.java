@@ -89,7 +89,7 @@ public class CreateMQTTClientCommand implements Callable<Integer> {
             //AddingYaml
             templatesService.loadTemplates(null);
             String messagingProperties = templatesService.loadTemplateContent
-                    (templatesService.getProperties().get("mqtt"));
+                    (templatesService.getProperties().get(TemplatesService.MQTT_yml));
             MicronautProjectValidator.appendToProperties(path, messagingProperties);
 
             configurationInfo.writeToFile(path);

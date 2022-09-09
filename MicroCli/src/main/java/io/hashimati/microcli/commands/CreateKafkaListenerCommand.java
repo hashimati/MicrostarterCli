@@ -89,7 +89,7 @@ public class CreateKafkaListenerCommand implements Callable<Integer> {
             //AddingYaml
             templatesService.loadTemplates(null);
             String messagingProperties = templatesService.loadTemplateContent
-                    (templatesService.getProperties().get("kafka"));
+                    (templatesService.getProperties().get(TemplatesService.KAFKA_yml));
             MicronautProjectValidator.appendToProperties(path, messagingProperties);
 
             configurationInfo.writeToFile(path);
