@@ -10,6 +10,7 @@ import io.hashimati.microcli.exceptions.NotImplementedException;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
+import io.hashimati.microcli.utils.MicronautToSP;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.inject.Inject;
@@ -1010,10 +1011,21 @@ public class MicronautEntityGenerator
             if (ea.isFindAllMethod())
             {
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
+
             }
             if(ea.isFindByMethod()){
 
+
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
+
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
             if(ea.isFile()){
                 HashMap<String,Object> binder = new HashMap<>();
@@ -1035,9 +1047,14 @@ public class MicronautEntityGenerator
                 }
                 binder.put("block", block);
                 binder.put("updateBlock", updateBlock);
+
+
                 var fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS));
 
-
+                if(entity.isSpring())
+                {
+                    fileMethodTemplate = new MicronautToSP().springify(fileMethodTemplate);
+                }
                 switch (entity.getFileServiceType().toLowerCase())
                 {
                     case "aws":
@@ -1055,8 +1072,12 @@ public class MicronautEntityGenerator
                         fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_SERVICE_METHODS));
 
                 }
-                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(fileMethodTemplate).make(binder)).toString();
 
+                methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(fileMethodTemplate).make(binder)).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
 
         }
@@ -1091,6 +1112,10 @@ public class MicronautEntityGenerator
                 ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("returnType", updateReturnType);
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
 
             }
 
@@ -1130,17 +1155,25 @@ public class MicronautEntityGenerator
             templatePath = getTemplatePath(GENERAL_REACTIVE_SERVICE, language.toLowerCase());
             serviceTemplate = templatesService.loadTemplateContent(templatePath);
 
+
         } else if(entity.isNonBlocking() && !entity.isMnData())
         {
             templatePath = getTemplatePath(TemplatesService.MONGO_SERVICE, language.toLowerCase());
             serviceTemplate = templatesService.loadTemplateContent(templatePath);
 
+
         }
         else if(entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
             serviceTemplate = serviceTemplate.replace("import javax.transaction.Transactional;", "")
                     .replace("import javax.transaction.Transactional", "");
-        }
 
+
+
+        }
+        if(entity.isSpring())
+        {
+            serviceTemplate = new MicronautToSP().springify(serviceTemplate);
+        }
 //        switch (entity.getDatabaseType().toLowerCase())
 //        {
 //            case "mongodb":
@@ -1219,12 +1252,12 @@ public class MicronautEntityGenerator
     }
 
     public String generateController(Entity entity, String language) throws IOException, ClassNotFoundException {
+
         if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm())
         {
             return generateControllerGorm(entity, language);
 
         }
-
         boolean containDate = false;
         boolean containBigInteger = false;
         boolean containBigDecimal = false;
@@ -1283,10 +1316,18 @@ public class MicronautEntityGenerator
             if (ea.isFindAllMethod())
             {
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV2()).make(sBinder)).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
             if(ea.isFindByMethod()){
 
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV1()).make(sBinder)).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
 
             if(ea.isFile()){
@@ -1302,7 +1343,10 @@ public class MicronautEntityGenerator
 
                 var fileMethodTemplate = templatesService.loadTemplateContent(templatesService.getKeyByLanguage(language, FILE_CONTROLLER_METHODS));
                 methods = new StringBuilder().append(methods).append(new SimpleTemplateEngine().createTemplate(fileMethodTemplate).make(binder)).toString();
-
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
 
         }
@@ -1362,7 +1406,12 @@ public class MicronautEntityGenerator
                 ubinder.put("updates",entity.getUpdateByMethods().get(u).stream()
                        .reduce((x,y)-> x + ", "+y).orElse("") );
                 ubinder.put("returnType", updateReturnType);
+
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
+                if(entity.isSpring())
+                {
+                    methods = new MicronautToSP().springify(methods);
+                }
             }
         }
 
@@ -1410,6 +1459,12 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
         }
+        if(entity.isSpring())
+        {
+            serviceTemplate = new MicronautToSP().springify(serviceTemplate);
+
+        }
+
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
 

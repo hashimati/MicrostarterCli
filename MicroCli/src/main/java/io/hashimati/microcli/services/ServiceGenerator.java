@@ -1215,6 +1215,8 @@ public class ServiceGenerator {
             setCached(configurationInfo.isCaffeine());
             setNonBlocking(configurationInfo.isNonBlocking());
             setJaxRs(configurationInfo.isJaxRsAnnotation());
+            setSpring(configurationInfo.isSpringBootAnnotation());
+            setMicronaut(configurationInfo.isMicronautAnnotation());
             setFileServiceType(configurationInfo.getFileServiceType());
             setLombok(configurationInfo.isLombok());
             setNoEndpoints(entitySyntax.isNoendpoints());

@@ -1073,6 +1073,32 @@ public class FeaturesFactory {
                     "\t\t<scope>compile</scope>\n" +
                     "\t</dependency>");
         }});
+
+
+        features.put("spring", new Feature(){
+            {
+                setName("spring");
+                setAnnotationGradle(" annotationProcessor(\"io.micronaut.spring:micronaut-spring-annotation\")");
+                setTestGradleAnnotation("testAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-annotation\")");
+            }
+        });
+        features.put("spring-boot", new Feature(){
+            {
+                setName("spring-boot");
+                setAnnotationGradle("\tannotationProcessor(\"io.micronaut.spring:micronaut-spring-boot-annotation\")\n");
+                setTestGradleAnnotation("\ttestAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-boot-annotation\")\n");
+                setGradle("\timplementation(\"org.springframework.boot:spring-boot-starter\")\n\truntimeOnly(\"io.micronaut.spring:micronaut-spring-boot\")\n");
+            }
+        });
+
+        features.put("spring-web", new Feature(){
+            {
+                setName("spring-web");
+                setAnnotationGradle("\tannotationProcessor(\"io.micronaut.spring:micronaut-spring-web-annotation\")\n");
+                setGradle("\timplementation(\"org.springframework.boot:spring-boot-starter-web\")\n\truntimeOnly(\"io.micronaut.spring:micronaut-spring-web\")\n");
+                setTestGradleAnnotation("\ttestAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-web-annotation\")\n");
+            }
+        });
         return features;
     }
 

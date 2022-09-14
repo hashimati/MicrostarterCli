@@ -147,7 +147,10 @@ private String path;
             entity.setName(StringUtils.capitalize(entityName));
 
             entity.setNoEndpoints(noEndpoint);
+
             entity.setJaxRs(configurationInfo.isJaxRsAnnotation());
+            entity.setSpring(configurationInfo.isSpringBootAnnotation());
+            entity.setMicronaut(configurationInfo.isMicronautAnnotation());
             entity.setFileServiceType(configurationInfo.getFileServiceType());
 
             entity.setLombok(configurationInfo.isLombok());

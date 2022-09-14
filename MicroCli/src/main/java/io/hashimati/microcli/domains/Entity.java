@@ -48,6 +48,8 @@ public class Entity
 
     private short microstreamChannelCount = 4;
     private boolean jaxRs;
+    private boolean spring;
+    private boolean micronaut;
     private boolean pageable;
     private ArrayList<EntityAttribute> attributes = new ArrayList<EntityAttribute>();
     private int liquibaseSequence;
@@ -623,5 +625,21 @@ public class Entity
             setName("id");
 
         }});
+    }
+
+    public boolean isSpring() {
+        return spring;
+    }
+
+    public void setSpring(boolean spring) {
+        this.spring = spring;
+    }
+
+    public boolean isMicronaut() {
+        return micronaut;
+    }
+
+    public void setMicronaut(boolean micronaut) {
+        this.micronaut = micronaut;
     }
 }
