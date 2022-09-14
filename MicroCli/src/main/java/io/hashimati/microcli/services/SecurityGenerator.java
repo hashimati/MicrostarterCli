@@ -168,7 +168,7 @@ public class SecurityGenerator {
 
             String fileContent = GeneratorUtils.generateFromTemplateVsObject(template, new HashMap<String, Object>() {{
                 put("securityPackage", securityPackage);
-                put("mongo", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb"));
+                put("mongo", configurationInfo.isMnData() && (configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb") ||configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-reactive") ) );
                 put("jdbc", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"));
                 put("roles", roles);
                 put("persistToken", ""+persistRefreshToken);

@@ -247,14 +247,16 @@ public class ConfigurationInitializer {
 
                         if(!projectInfo.getFeatures().contains("data-jpa")) {
                             projectInfo.getFeatures().add("data-jpa");
-                            databaseFeature = features.get("data-jpa");
                         }
+                        databaseFeature = features.get("data-jpa");
+
                         break;
                     case "JDBC":
                         if(!projectInfo.getFeatures().contains("data-jdbc")) {
                             projectInfo.getFeatures().add("data-jdbc");
-                            databaseFeature = features.get("data-jdbc");
+
                         }
+                        databaseFeature = features.get("data-jdbc");
                         break;
                 }
 
