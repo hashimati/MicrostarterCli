@@ -166,11 +166,37 @@ public class ConfigurationInitializer {
                 boolean lombok = PromptGui.createConfirmResult("lombok", "Do you want to use Lombok?", NO).getConfirmed() == YES;
                 configurationInfo.setLombok(lombok);
             }
-            boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
-            if(jaxrs) {
-                MicronautProjectValidator.addDependency(workingPath,features.get("jax-rs"));
-                configurationInfo.setJaxRsAnnotation(jaxrs);
+
+
+            ListResult annotation = PromptGui.createListPrompt("annotation", "Select Annotation: ", "Micronaut", "JAX-RS", "Spring Boot");
+
+//            boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
+//            if(jaxrs) {
+
+            if(annotation.getSelectedId().equalsIgnoreCase("jax-rs")) {
+                MicronautProjectValidator.addDependency(workingPath, features.get("jax-rs"));
+                configurationInfo.setJaxRsAnnotation(true);
+                configurationInfo.setSpringBootAnnotation(false);
+                configurationInfo.setMicronautAnnotation(false);
+
             }
+            else if(annotation.getSelectedId().equalsIgnoreCase("spring boot"))
+            {
+                MicronautProjectValidator.addDependency(workingPath, features.get("spring"));
+
+                MicronautProjectValidator.addDependency(workingPath, features.get("spring-boot"));
+
+                MicronautProjectValidator.addDependency(workingPath, features.get("spring-web"));
+                configurationInfo.setSpringBootAnnotation(true);
+                configurationInfo.setMicronautAnnotation(false);
+                configurationInfo.setJaxRsAnnotation(false);
+            }
+            else{
+                configurationInfo.setMicronautAnnotation(true);
+                configurationInfo.setSpringBootAnnotation(false);
+                configurationInfo.setJaxRsAnnotation(false);
+            }
+//            }
 
             //Getting Database Name;
             InputResult  databaseNameResult = PromptGui.inputText("databaseName", "Enter the database name: ", "MyDatabase");
