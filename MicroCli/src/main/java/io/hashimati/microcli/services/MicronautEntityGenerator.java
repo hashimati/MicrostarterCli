@@ -1459,6 +1459,7 @@ public class MicronautEntityGenerator
                 serviceTemplate = templatesService.loadTemplateContent(templatePath);
                 break;
         }
+
         if(entity.isSpring())
         {
             serviceTemplate = new MicronautToSP().springify(serviceTemplate);
