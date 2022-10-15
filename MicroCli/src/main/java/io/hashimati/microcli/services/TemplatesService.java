@@ -23,6 +23,7 @@ import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstant
 public class TemplatesService {
 
 
+
     private HashMap<String, String> javaTemplates = new HashMap<>(), groovyTemplates = new HashMap<>(),
             kotlinTemplates = new HashMap<>(),
             sqlEntityTemplates = new HashMap<>(),
@@ -50,6 +51,7 @@ public class TemplatesService {
     public static final String
             CLIENT = "client",
             CONTROLLER = "controller",
+            GRPC_ENDPOINT = "GRPC_ENDPOINT",
             JDBC_REPOSITORY = "jdbcRepository",
             DATA_MONGODB_REPOSITORY = "DATA_MONGODB_REPOSITORY",
             JOIN_ANNOTATION = "joinAnnotation",
@@ -325,6 +327,7 @@ public class TemplatesService {
 
         javaTemplates.put(CLIENT, "micronaut/entityTemplates/java/client.txt");
         javaTemplates.put(CONTROLLER, "micronaut/entityTemplates/java/controller.txt");
+        javaTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/java/GrpcEndPoint.txt");
         javaTemplates.put(ENTITY, "micronaut/entityTemplates/java/entity.txt");
         javaTemplates.put(ENTITY_RECORD, "micronaut/entityTemplates/java/entityRecord.txt");
         javaTemplates.put(EXCEPTION_HANDLER, "micronaut/entityTemplates/java/entityExceptionHandler.txt");
@@ -429,6 +432,7 @@ public class TemplatesService {
 
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
+        groovyTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/groovy/GrpcEndPoint.txt");
         groovyTemplates.put(CONTROLLER, "micronaut/entityTemplates/groovy/controller.txt");
         groovyTemplates.put(ENTITY, "micronaut/entityTemplates/groovy/entity.txt");
         groovyTemplates.put(EXCEPTION_HANDLER, "micronaut/entityTemplates/groovy/entityExceptionHandler.txt");
@@ -539,6 +543,7 @@ public class TemplatesService {
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
+        kotlinTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/kotlin/GrpcEndPoint.txt");
         kotlinTemplates.put(ENTITY, "micronaut/entityTemplates/kotlin/entity.txt");
         kotlinTemplates.put(EXCEPTION_HANDLER, "micronaut/entityTemplates/kotlin/entityExceptionHandler.txt");
         kotlinTemplates.put(GENERAL_EXCEPTION, "micronaut/entityTemplates/kotlin/entityGeneralException.txt");

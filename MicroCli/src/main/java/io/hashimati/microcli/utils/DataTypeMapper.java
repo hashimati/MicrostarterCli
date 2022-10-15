@@ -156,4 +156,42 @@ public class DataTypeMapper
         put("BigInteger", "BsonString");
         put("BigDecimal", "BsonString");
     }};
+
+
+    public final static HashMap<String ,String> htmlVueTemplateMapper = new HashMap<String, String>(){{
+
+        putIfAbsent("int", "<input />");
+        put("byte", "Byte");
+        put("long", "Long");
+        put("short", "Short");
+        put("boolean", "Boolean");
+        put("char", "Character");
+        put("float", "Float");
+        put("double", "Double");
+        put("string", "String");
+        put("date", "Date");
+        put("String", "String");
+        put("file", "String");
+        put("BigInteger", "BigInteger");
+        put("BigDecimal", "BigDecimal");
+    }};
+
+
+    public final static HashMap<String ,String> protoMapper = new HashMap<String, String>(){{
+
+        putIfAbsent("int", "int64");
+        put("byte", "int32");
+        put("long", "int64");
+        put("short", "int64");
+        put("boolean", "bool");
+        put("char", "int32");
+        put("float", "float");
+        put("double", "double");
+        put("string", "string");
+        put("date", "string");
+        put("String", "string");
+        put("file", "string");
+        put("BigInteger", "string");
+        put("BigDecimal", "string");
+    }};
 }

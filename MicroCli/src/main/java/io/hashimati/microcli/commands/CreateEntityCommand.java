@@ -77,6 +77,8 @@ private String path;
     @Option(names ={"--graphql", "-gl"}, description = "To generate GraphQL components.")
     private boolean graphql;
 
+    @Option(names = {"--grpc"} , description = "To generate GRPC endpoints")
+    private boolean grpc;
     @Option(names={"--cache", "--caffeine"}, description = "To caching with caffeine.")
     private boolean caffeine;
     @Inject
@@ -608,6 +610,25 @@ private String path;
                         String queryGraphQlFilename = new StringBuilder().append(path).append("/src/main/resources/").append("queries.graphqls").toString();
                         String graphQLQuery = micronautEntityGenerator.generateGraphQLQuery(configurationInfo.getEntities());
                         GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
+
+                    }
+                    if(grpc)
+                    {
+                        String protoFile = new StringBuilder().append(path).append("/src/main/proto/").append(NameUtils.camelCase(entity.getName())+".proto").toString();
+                        String protoEntity = micronautEntityGenerator.generateProtoEntity(entity);
+                        GeneratorUtils.createFile(protoFile, protoEntity);
+
+
+
+                        String protoCommonFile = new StringBuilder().append(path).append("/src/main/proto/common.proto").toString();
+                        String protoCommon = micronautEntityGenerator.generateProtoEntity(entity);
+                        GeneratorUtils.createFile(protoCommonFile, protoCommon);
+
+
+
+                        String GRPC_endpointFile = path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getGrpcPackage()) + "/" + NameUtils.capitalize(entity.getName()) + "Endpoint" + extension;
+                        String grpcEndpoint = micronautEntityGenerator.generateGrpcEndpoint(entity,configurationInfo.getProjectInfo().getSourceLanguage());
+                        GeneratorUtils.createFile(GRPC_endpointFile, grpcEndpoint);
 
                     }
                     //========

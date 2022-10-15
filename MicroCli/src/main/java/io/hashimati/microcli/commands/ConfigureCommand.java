@@ -25,7 +25,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 
 
-@Command(name = "configure", description = {"This command will configure the Micronaut application with MicroCli command.", "To create the configuration file."})
+@Command(name = "configure", description = {"This command will configure the Micronaut application with MicrostarterCli command.", "To create the configuration file."})
 public class ConfigureCommand implements Callable<ConfigurationInfo> {
 
 //
@@ -36,6 +36,8 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
     @Option(names = "--path", description = "To specify the working directory.")
     private String path;
 
+    @Option(names = "--spring", description = "To configure a spring application")
+    private boolean spring;
 //    @Option(names = "--microservice", description = "To configure the microservices project.")
 //    private boolean microservice;
 
@@ -46,6 +48,7 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
     @Inject
     private SecurityCommand securityCommand;
     public ConfigurationInfo call() throws Exception {
+
 
         if(path == null || path.trim().isEmpty())
         {
@@ -84,7 +87,13 @@ public class ConfigureCommand implements Callable<ConfigurationInfo> {
 //        String prompt2 = "What's your name? ";
 //        String name = lineReader.readLine(prompt2);
         try {
-            new  ConfigurationInitializer().init(path);
+
+            if(spring)
+            {
+
+                return null;
+            }
+            else new  ConfigurationInitializer().init(path);
 //            if(PromptGui.createConfirmResult("security", "Do you want to configure security?", ConfirmChoice.ConfirmationValue.NO).getConfirmed() == ConfirmChoice.ConfirmationValue.YES){
 //                securityCommand.call();
 //            }

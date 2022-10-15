@@ -663,6 +663,14 @@ public class ConfigurationInitializer {
             }
         }
 
+        if(!projectInfo.getFeatures().contains("grpc")){
+            ConfirmResult grpcSupport = createConfirmResult("graphql", "Do you want to add GRPC support?",YES);
+            if(grpcSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+                projectInfo.getFeatures().add("grpc");
+//                configurationInfo.s(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
+                MicronautProjectValidator.addDependency(workingPath,features.get("grpc"));
+            }
+        }
         ConfirmResult fileSysRequest = createConfirmResult("fileService", "Do you want to use File Services?", YES);
         if(fileSysRequest.getConfirmed() == YES)
         {

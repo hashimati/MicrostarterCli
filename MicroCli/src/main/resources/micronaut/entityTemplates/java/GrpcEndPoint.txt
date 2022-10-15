@@ -18,9 +18,7 @@ public class ${entity}Endpoint extends
     public void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.save(request, responseObserver);
         ${entity} ${entityName} = new ${entity}(){{
-            setName(request.getName());
-            setPrice(request.getPrice());
-            setQuantity(request.getQuantity());
+            ${setAttributes}
         }};
         ${entity} result = ${entityName}Service.save(${entityName});
         if(result != null)
@@ -35,9 +33,7 @@ public class ${entity}Endpoint extends
     public void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.update(request, responseObserver);
         ${entity} ${entityName} = new ${entity}(){{
-            setName(request.getName());
-            setPrice(request.getPrice());
-            setQuantity(request.getQuantity());
+            ${setAttributes}
         }};
         ${entity} result = ${entityName}Service.update(${entityName});
         if(result != null)
@@ -65,9 +61,7 @@ public class ${entity}Endpoint extends
         ${entity} ${entityName} = ${entityName}Service.findById(request.getId());
         responseObserver.onNext(${entity}Grpc
                 .newBuilder()
-                .setName(${entityName}.getName())
-                .setPrice(${entityName}.getPrice())
-                .setQuantity(${entityName}.getQuantity())
+                ${setAttributesBuilder}
                 .setId(${entityName}.getId())
                 .build());
     }
@@ -76,10 +70,8 @@ public class ${entity}Endpoint extends
         super.findAll(request, responseObserver);
         ${entityName}Service.findAll().forEach(
                 x-> responseObserver.onNext(${entity}Grpc.newBuilder()
-                        .setName(x.getName())
-                        .setId(x.getId())
-                        .setQuantity(x.getQuantity())
-                        .setPrice(x.getPrice())
+                        ${setAttributesBuilder}
+                        .setId(${entityName}.getId())
                         .build())
         );
         responseObserver.onCompleted();

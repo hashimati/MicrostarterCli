@@ -65,21 +65,23 @@ class UserService (private val userRepository: UserRepository?, private val pass
     }
     @EventListener
     fun init(startupEvent: StartupEvent) {
-        val admin = User()
-        admin.username = "admin"
-        admin.password = "admin"
-        admin.active = true
-        admin.roles = Roles.ADMIN
-        admin.email = "Hello@gmail.com"
-        admin.lastTimeLogin = Instant.now()
-        admin.activationCode = "0000"
-        admin.lastTimeTryToLogin = Instant.now()
-        admin.lastLoginStatus = LoginStatus.SUCCEED
-        println(
-            admin
-        )
-        save(admin)
-        println(findByUsername("admin"))
+        if(!userRepository.existsByUsername("admin")) {
+            val admin = User()
+            admin.username = "admin"
+            admin.password = "admin"
+            admin.active = true
+            admin.roles = Roles.ADMIN
+            admin.email = "Hello@gmail.com"
+            admin.lastTimeLogin = Instant.now()
+            admin.activationCode = "0000"
+            admin.lastTimeTryToLogin = Instant.now()
+            admin.lastLoginStatus = LoginStatus.SUCCEED
+            println(
+                admin
+            )
+            save(admin)
+            println(findByUsername("admin"))
+        }
     }
 
 

@@ -26,6 +26,8 @@ public class ProjectInfo {
     defaultPackage,
     testFramework,
     sourceLanguage,
+    srcExtension,
+    artifact,
     buildTool;
 
     private LinkedHashSet<String> features;

@@ -15,6 +15,7 @@ import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.services.SecurityGenerator;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.GradleReaderException;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -100,6 +101,11 @@ public class SecurityCommand implements Callable<Integer> {
         switch (lang.toLowerCase())
         {
             case "java":
+                try {
+                    MicronautProjectValidator.addLombok(path,configurationInfo.getProjectInfo());
+                } catch (GradleReaderException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "kotlin":
                 break;

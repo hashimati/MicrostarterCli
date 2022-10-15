@@ -36,9 +36,11 @@ public class Feature {
     testRdbcGradle,
     testRdbcMaven,
     gradleTask;
+//    ArrayList<String> gradle = new ArrayList<>();
     ArrayList<String> gradlePlugins = new ArrayList<>();
     ArrayList<String> maven = new ArrayList<>();
     ArrayList<String> mavenCompileArgs = new ArrayList<>();
+    ArrayList<String> mavenDependenciesManagement = new ArrayList<>();
     private Plugin plugin;
     private HashMap<String, String> mavenProperties = new HashMap<>();
 

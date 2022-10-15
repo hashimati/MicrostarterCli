@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
@@ -2203,6 +2205,145 @@ public class MicronautEntityGenerator
 
     }
 
+    public String generateGrpcEndpoint(Entity entity, String language) throws IOException, ClassNotFoundException{
+
+        String templatePath= getTemplatePath(GRPC_ENDPOINT, language.toLowerCase());
+        String  grpcTemplate = templatesService.loadTemplateContent(templatePath);
+
+        String setter = "\t\t\t\tset${attr}(request.get${attr}());\n";
+        String setAttributes = entity.getAttributes()
+                .stream().filter(x->!x.getName().equalsIgnoreCase("id")).map(x-> {
+                    try {
+                        return new SimpleTemplateEngine().createTemplate(setter).make(
+                                new HashMap<String, String>(){{
+                                    putIfAbsent("attr",NameUtils.capitalize(x.getName()));
+                                }}
+                        ).toString();
+                    } catch (ClassNotFoundException e) {
+                       return "";
+                    } catch (IOException e) {
+                        return "";
+                    }
+                }).reduce((x,y)->x +y).get();
+
+
+
+        String setterBuilder = "\t\t\t.set${attr}(${entityCamel}.get${attr}())";
+        String setAttributesBuilder = entity.getAttributes()
+                .stream().filter(x->!x.getName().equalsIgnoreCase("id")).map(x-> {
+                    try {
+                        return new SimpleTemplateEngine().createTemplate(setterBuilder).make(
+                                new HashMap<String, String>(){{
+                                    putIfAbsent("attr",NameUtils.capitalize(x.getName()));
+                                    putIfAbsent("entityCamel", NameUtils.capitalize(entity.getName()));
+                                }}
+                        ).toString();
+                    } catch (ClassNotFoundException e) {
+                        return "";
+                    } catch (IOException e) {
+                        return "";
+                    }
+                }).reduce((x,y)->x +y).get();
+
+        HashMap<String, String> binder = new HashMap<>(){{
+            putIfAbsent("setAttributesBuilder", setAttributesBuilder);
+            putIfAbsent("setAttributes", setAttributes);
+            putIfAbsent("entityName",NameUtils.camelCase(entity.getName()));
+            putIfAbsent("entity", NameUtils.capitalize(entity.getName()));
+            putIfAbsent("grpcPackage",entity.getGrpcPackage() );
+        }};
+        return new SimpleTemplateEngine().createTemplate(grpcTemplate)
+                .make(binder)
+                .toString();
+    }
+
+    public String generateProtoEntity(Entity entity) throws IOException, ClassNotFoundException {
+
+        String protoEntityTemplate = "syntax = \"proto3\";\n" +
+                "\n" +
+                "option java_multiple_files = true;\n" +
+                "option java_package = \"${defaultPackage}\";\n" +
+                "option java_outer_classname = \"${entityName}Service\";\n" +
+                "option objc_class_prefix = \"HLW\";\n" +
+                "import \"common.proto\";\n" +
+                "\n" +
+                "package ${defaultPackage};\n" +
+                "\n" +
+                "\n" +
+                "service ${entityName}GrpcService {\n" +
+                "  rpc save (${entityName}Grpc) returns (MessageReply) {}\n" +
+                "  rpc update (${entityName}Grpc) returns (MessageReply){}\n" +
+                "  rpc delete (IdQuery) returns (MessageReply){}\n" +
+                "  rpc findById (IdQuery) returns (${entityName}Grpc) {}\n" +
+                "  rpc findAll (PageQuery) returns (stream ${entityName}Grpc){}\n" +
+                "}\n" +
+                "message ${entityName}Grpc {\n" +
+                "${attributes}\n" +
+                "}\n";
+        String attributeDelcarationTemplate = "\t${type} ${name} = ${number};\n";
+
+
+        HashMap< String, String> binder = new HashMap<>();
+        binder.putIfAbsent("defaultPackage", entity.getDefaultPackage());
+        binder.putIfAbsent("entityName", NameUtils.capitalize(entity.getName()));
+        String attributes = "";
+        AtomicInteger seq = new AtomicInteger(1) ;
+        if(!entity.getAttributes().isEmpty())
+        {
+            attributes =entity.getAttributes().stream().map(a-> {
+                HashMap<String, String> ab = new HashMap<>();
+                ab.put("number", "" + seq.getAndIncrement());
+                ab.put("name", a.getName());
+                ab.put("type", DataTypeMapper.protoMapper.get(a.getType()));
+
+                String m = "";
+                try {
+                    return new SimpleTemplateEngine()
+                            .createTemplate(attributeDelcarationTemplate).make(ab).toString();
+                } catch (ClassNotFoundException e) {
+                    return m;
+                } catch (IOException e) {
+                    return m;
+                }
+            }).reduce((x, y)-> x + y).get();
+        }
+
+        binder.putIfAbsent("attributes", attributes);
+
+        return new SimpleTemplateEngine().createTemplate(protoEntityTemplate).make(binder).toString();
+    }
+
+
+    public String generateCommonProtoFile(Entity entity) throws IOException, ClassNotFoundException {
+        String template = "syntax = \"proto3\";\n" +
+                "\n" +
+                "option java_multiple_files = true;\n" +
+                "option java_package = \"${defaultPackage}\";\n" +
+                "option objc_class_prefix = \"HLW\";\n" +
+                "package ${defaultPackage};\n" +
+                "\n" +
+                "message MessageReply {\n" +
+                "  string message = 1;\n" +
+                "}\n" +
+                "\n" +
+                "message IdQuery{\n" +
+                "  int64 id = 1;\n" +
+                "}\n" +
+                "\n" +
+                "message BooleanReply{\n" +
+                "  bool flag = 1;\n" +
+                "}\n" +
+                "\n" +
+                "message PageQuery{\n" +
+                "  int64 page = 1;\n" +
+                "}";
+
+            return new SimpleTemplateEngine()
+                    .createTemplate(template)
+                    .make(new HashMap<String, String>(){{
+                        put("defaultPackage", entity.getDefaultPackage());
+                    }}).toString();
+    }
     /**
      * All possible keys should be called
      * @param entity

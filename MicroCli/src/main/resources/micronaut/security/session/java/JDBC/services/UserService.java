@@ -93,23 +93,23 @@ public class UserService {
     @EventListener
     public void init(StartupEvent startupEvent){
 
+        if(!userRepository.existsByUsername("admin")) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword("admin");
+            admin.setActive(true);
+            admin.setRoles(Roles.ADMIN);
+            admin.setEmail("Hello@gmail.com");
+            admin.setLastTimeLogin(Instant.now());
+            admin.setActivationCode("0000");
+            admin.setLastTimeTryToLogin(Instant.now());
+            admin.setLastLoginStatus(LoginStatus.SUCCEED);
+            System.out.println(admin
+            );
+            save(admin);
 
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword("admin");
-        admin.setActive(true);
-        admin.setRoles(Roles.ADMIN);
-        admin.setEmail("Hello@gmail.com");
-        admin.setLastTimeLogin(Instant.now());
-        admin.setActivationCode("0000");
-        admin.setLastTimeTryToLogin(Instant.now());
-        admin.setLastLoginStatus(LoginStatus.SUCCEED);
-        System.out.println(admin
-        );
-        save(admin);
-
-        System.out.println(findByUsername("admin"));
-
+            System.out.println(findByUsername("admin"));
+        }
     }
 
 

@@ -26,7 +26,8 @@ public class Entity
 {
 
     private String name,idType, entityPackage,repoPackage, servicePackage,restPackage, clientPackage,exceptionPackage, exceptionHandlerPackage, microstreamPackage,
-    graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,
+    grpcPackage,
+    graphqlpackage, functionPackage, lambdaPackage, oraclePackage, azurePackage, googlePackage,defaultPackage,
 
 
 
@@ -240,6 +241,7 @@ public class Entity
 
     public void setPackages(String defaultPackage) {
 
+        this.setDefaultPackage(defaultPackage);
         this.setEntityPackage(new StringBuilder().append(defaultPackage).append(".domains").toString());
         this.setRepoPackage(new StringBuilder().append(defaultPackage).append(".repositories").toString());
         this.setServicePackage(new StringBuilder().append(defaultPackage).append(".services").toString());
@@ -249,7 +251,7 @@ public class Entity
         this.setGraphqlpackage(new StringBuilder().append(defaultPackage).append(".graphqls").toString());
         this.setFunctionPackage(new StringBuilder().append(defaultPackage).append(".function").toString());
         this.setLambdaPackage(String.format("%s.aws", getFunctionPackage()));
-
+        setGrpcPackage(new StringBuilder().append(defaultPackage).append(".grpc").toString());
         setOraclePackage(String.format("%s.oracle", getFunctionPackage()));
         setGooglePackage(String.format("%s.google", getFunctionPackage()));
         setAzurePackage((String.format("%s.azure", getFunctionPackage())));
@@ -641,5 +643,21 @@ public class Entity
 
     public void setMicronaut(boolean micronaut) {
         this.micronaut = micronaut;
+    }
+
+    public String getDefaultPackage() {
+        return defaultPackage;
+    }
+
+    public void setDefaultPackage(String defaultPackage) {
+        this.defaultPackage = defaultPackage;
+    }
+
+    public String getGrpcPackage() {
+        return grpcPackage;
+    }
+
+    public void setGrpcPackage(String grpcPackage) {
+        this.grpcPackage = grpcPackage;
     }
 }
