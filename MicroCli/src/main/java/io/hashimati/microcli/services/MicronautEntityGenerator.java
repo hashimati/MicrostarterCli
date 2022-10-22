@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MicroStream_Embedded_Storage;
+import static io.hashimati.microcli.constants.ProjectConstants.DatabasesConstants.MongoDB;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToMany;
 import static io.hashimati.microcli.domains.EntityRelationType.OneToOne;
@@ -2206,17 +2207,22 @@ public class MicronautEntityGenerator
     }
 
     public String generateGrpcEndpoint(Entity entity, String language) throws IOException, ClassNotFoundException{
-
-        String templatePath= getTemplatePath(GRPC_ENDPOINT, language.toLowerCase());
+        boolean record = language.equalsIgnoreCase(JAVA_LANG) && entity.isJavaRecord();
+        String templatePath= getTemplatePath(record? GRPC_ENDPOINT+"_Records":GRPC_ENDPOINT, language.toLowerCase());
         String  grpcTemplate = templatesService.loadTemplateContent(templatePath);
 
-        String setter = "\t\t\t\tset${attr}(request.get${attr}());\n";
-        String setAttributes = entity.getAttributes()
+        String setter = (record?"request.get${attrCap}()":"\t\t\t\tset${attrCap}(request.get${attrCap}());\n");
+//        if(record)
+//        {
+//            grpcTemplate = grpcTemplate.replace("getId", "id");
+//        }
+        String setAttributes = (record?"request.getId(), null, null,":"")+entity.getAttributes()
                 .stream().filter(x->!x.getName().equalsIgnoreCase("id")).map(x-> {
                     try {
                         return new SimpleTemplateEngine().createTemplate(setter).make(
                                 new HashMap<String, String>(){{
-                                    putIfAbsent("attr",NameUtils.capitalize(x.getName()));
+                                    putIfAbsent("attrCap",NameUtils.capitalize(x.getName()));
+                                    putIfAbsent("attr", x.getName());
                                 }}
                         ).toString();
                     } catch (ClassNotFoundException e) {
@@ -2224,18 +2230,19 @@ public class MicronautEntityGenerator
                     } catch (IOException e) {
                         return "";
                     }
-                }).reduce((x,y)->x +y).get();
+                }).reduce((x,y)->x +(record?",":"\n")+y).get();
 
 
 
-        String setterBuilder = "\t\t\t.set${attr}(${entityCamel}.get${attr}())";
+        String setterBuilder = record? "\t\t\t.set${attr}(${entityCamel}.${attrCamel}())" :"\t\t\t.set${attr}(${entityCamel}.get${attr}())";
         String setAttributesBuilder = entity.getAttributes()
                 .stream().filter(x->!x.getName().equalsIgnoreCase("id")).map(x-> {
                     try {
                         return new SimpleTemplateEngine().createTemplate(setterBuilder).make(
                                 new HashMap<String, String>(){{
                                     putIfAbsent("attr",NameUtils.capitalize(x.getName()));
-                                    putIfAbsent("entityCamel", NameUtils.capitalize(entity.getName()));
+                                    putIfAbsent("attrCamel",x.getName());
+                                    putIfAbsent("entityCamel", NameUtils.camelCase(entity.getName()));
                                 }}
                         ).toString();
                     } catch (ClassNotFoundException e) {
@@ -2251,6 +2258,7 @@ public class MicronautEntityGenerator
             putIfAbsent("entityName",NameUtils.camelCase(entity.getName()));
             putIfAbsent("entity", NameUtils.capitalize(entity.getName()));
             putIfAbsent("grpcPackage",entity.getGrpcPackage() );
+            putIfAbsent("defaultPackage", entity.getDefaultPackage());
         }};
         return new SimpleTemplateEngine().createTemplate(grpcTemplate)
                 .make(binder)
@@ -2278,6 +2286,7 @@ public class MicronautEntityGenerator
                 "  rpc findAll (PageQuery) returns (stream ${entityName}Grpc){}\n" +
                 "}\n" +
                 "message ${entityName}Grpc {\n" +
+                "\t${idType} id= 1;\n" +
                 "${attributes}\n" +
                 "}\n";
         String attributeDelcarationTemplate = "\t${type} ${name} = ${number};\n";
@@ -2287,10 +2296,10 @@ public class MicronautEntityGenerator
         binder.putIfAbsent("defaultPackage", entity.getDefaultPackage());
         binder.putIfAbsent("entityName", NameUtils.capitalize(entity.getName()));
         String attributes = "";
-        AtomicInteger seq = new AtomicInteger(1) ;
+        AtomicInteger seq = new AtomicInteger(2) ;
         if(!entity.getAttributes().isEmpty())
         {
-            attributes =entity.getAttributes().stream().map(a-> {
+            attributes =entity.getAttributes().stream().filter(x-> !x.getName().equalsIgnoreCase("id")).map(a-> {
                 HashMap<String, String> ab = new HashMap<>();
                 ab.put("number", "" + seq.getAndIncrement());
                 ab.put("name", a.getName());
@@ -2309,6 +2318,7 @@ public class MicronautEntityGenerator
         }
 
         binder.putIfAbsent("attributes", attributes);
+        binder.putIfAbsent("idType", entity.getDatabaseType().equals(MicroStream_Embedded_Storage)|| entity.getDatabaseType().equalsIgnoreCase(MongoDB)?"string":"int64" );
 
         return new SimpleTemplateEngine().createTemplate(protoEntityTemplate).make(binder).toString();
     }
@@ -2327,7 +2337,7 @@ public class MicronautEntityGenerator
                 "}\n" +
                 "\n" +
                 "message IdQuery{\n" +
-                "  int64 id = 1;\n" +
+                "  ${idType} id = 1;\n" +
                 "}\n" +
                 "\n" +
                 "message BooleanReply{\n" +
@@ -2342,6 +2352,8 @@ public class MicronautEntityGenerator
                     .createTemplate(template)
                     .make(new HashMap<String, String>(){{
                         put("defaultPackage", entity.getDefaultPackage());
+                        putIfAbsent("idType", entity.getDatabaseType().equals(MicroStream_Embedded_Storage)|| entity.getDatabaseType().equalsIgnoreCase(MongoDB)?"string":"int64" );
+
                     }}).toString();
     }
     /**

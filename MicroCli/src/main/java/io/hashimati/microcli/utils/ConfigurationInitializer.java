@@ -669,6 +669,7 @@ public class ConfigurationInitializer {
                 projectInfo.getFeatures().add("grpc");
 //                configurationInfo.s(graphqlSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES);
                 MicronautProjectValidator.addDependency(workingPath,features.get("grpc"));
+                MicronautProjectValidator.addingTaskToGradleFile(workingPath,features.get("grpc").getGradleTask());
             }
         }
         ConfirmResult fileSysRequest = createConfirmResult("fileService", "Do you want to use File Services?", YES);

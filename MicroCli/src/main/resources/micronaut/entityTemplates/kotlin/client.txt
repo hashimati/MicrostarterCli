@@ -8,8 +8,8 @@ import io.micronaut.http.client.annotation.Client
 import jakarta.inject.Inject
 import ${entityPackage}
 ${moreImports}
-<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
-<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
+<% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 import io.micronaut.http.MediaType
 import io.micronaut.http.multipart.CompletedFileUpload
 <% if(pageable) out.print 'import io.micronaut.data.model.Page' %>

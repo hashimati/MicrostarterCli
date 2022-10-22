@@ -328,6 +328,7 @@ public class TemplatesService {
         javaTemplates.put(CLIENT, "micronaut/entityTemplates/java/client.txt");
         javaTemplates.put(CONTROLLER, "micronaut/entityTemplates/java/controller.txt");
         javaTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/java/GrpcEndPoint.txt");
+        javaTemplates.put(GRPC_ENDPOINT+"_Records", "micronaut/entityTemplates/java/GrpcEndPoint_Records.txt");
         javaTemplates.put(ENTITY, "micronaut/entityTemplates/java/entity.txt");
         javaTemplates.put(ENTITY_RECORD, "micronaut/entityTemplates/java/entityRecord.txt");
         javaTemplates.put(EXCEPTION_HANDLER, "micronaut/entityTemplates/java/entityExceptionHandler.txt");

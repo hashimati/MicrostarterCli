@@ -17,7 +17,7 @@ import java.util.*
 
 
 
-<% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description")\" %>
+<% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
 <% if(jdbc || mongo) out.print "@MappedEntity(value = \"${collectionName}\", namingStrategy = Raw.class)"%>
 @CompileStatic

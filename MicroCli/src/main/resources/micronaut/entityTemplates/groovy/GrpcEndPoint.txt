@@ -8,14 +8,14 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 @Singleton
-public class ${entity}Endpoint extends
+class ${entity}Endpoint extends
         ${entity}GrpcServiceGrpc.${entity}GrpcServiceImplBase {
 
     @Inject
     private ${entity}Service ${entityName}Service;
 
     @Override
-    public void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+    void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.save(request, responseObserver);
         ${entity} ${entityName} = new ${entity}(){{
             ${setAttributes}
@@ -30,7 +30,7 @@ public class ${entity}Endpoint extends
     }
 
     @Override
-    public void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+    void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.update(request, responseObserver);
         ${entity} ${entityName} = new ${entity}(){{
             ${setAttributes}
@@ -44,7 +44,7 @@ public class ${entity}Endpoint extends
     }
 
     @Override
-    public void delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
+    void delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
         super.delete(request, responseObserver);
         responseObserver.onNext(
                 ${entityName}Service.deleteById(request.getId())?
@@ -55,7 +55,7 @@ public class ${entity}Endpoint extends
     }
 
     @Override
-    public void findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+    void findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
         super.findById(request, responseObserver);
 
         ${entity} ${entityName} = ${entityName}Service.findById(request.getId());
@@ -66,7 +66,7 @@ public class ${entity}Endpoint extends
                 .build());
     }
     @Override
-    public void findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+    void findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
         super.findAll(request, responseObserver);
         ${entityName}Service.findAll().forEach(
                 ${entityName}-> responseObserver.onNext(${entity}Grpc.newBuilder()

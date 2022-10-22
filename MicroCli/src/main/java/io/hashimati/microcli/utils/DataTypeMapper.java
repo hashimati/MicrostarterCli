@@ -179,10 +179,10 @@ public class DataTypeMapper
 
     public final static HashMap<String ,String> protoMapper = new HashMap<String, String>(){{
 
-        putIfAbsent("int", "int64");
+        putIfAbsent("int", "int32");
         put("byte", "int32");
         put("long", "int64");
-        put("short", "int64");
+        put("short", "int32");
         put("boolean", "bool");
         put("char", "int32");
         put("float", "float");

@@ -17,9 +17,8 @@ public class ${entity}Endpoint extends
     @Override
     public void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.save(request, responseObserver);
-        ${entity} ${entityName} = new ${entity}(){{
-            ${setAttributes}
-        }};
+        ${entity} ${entityName} = new ${entity}(${setAttributes});
+            ;
         ${entity} result = ${entityName}Service.save(${entityName});
         if(result != null)
             responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
@@ -32,9 +31,7 @@ public class ${entity}Endpoint extends
     @Override
     public void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
         super.update(request, responseObserver);
-        ${entity} ${entityName} = new ${entity}(){{
-            ${setAttributes}
-        }};
+        ${entity} ${entityName} = new ${entity}(${setAttributes});
         ${entity} result = ${entityName}Service.update(${entityName});
         if(result != null)
             responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
@@ -62,7 +59,7 @@ public class ${entity}Endpoint extends
         responseObserver.onNext(${entity}Grpc
                 .newBuilder()
                 ${setAttributesBuilder}
-                .setId(${entityName}.getId())
+                .setId(${entityName}.id())
                 .build());
     }
     @Override
@@ -71,7 +68,7 @@ public class ${entity}Endpoint extends
         ${entityName}Service.findAll().forEach(
                 ${entityName}-> responseObserver.onNext(${entity}Grpc.newBuilder()
                         ${setAttributesBuilder}
-                        .setId(${entityName}.getId())
+                        .setId(${entityName}.id())
                         .build())
         );
         responseObserver.onCompleted();

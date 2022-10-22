@@ -621,7 +621,7 @@ private String path;
 
 
                         String protoCommonFile = new StringBuilder().append(path).append("/src/main/proto/common.proto").toString();
-                        String protoCommon = micronautEntityGenerator.generateProtoEntity(entity);
+                        String protoCommon = micronautEntityGenerator.generateCommonProtoFile(entity);
                         GeneratorUtils.createFile(protoCommonFile, protoCommon);
 
 
