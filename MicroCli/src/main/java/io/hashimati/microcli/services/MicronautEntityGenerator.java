@@ -2252,13 +2252,14 @@ public class MicronautEntityGenerator
                     }
                 }).reduce((x,y)->x +y).get();
 
-        HashMap<String, String> binder = new HashMap<>(){{
+        HashMap<String, Object> binder = new HashMap<>(){{
             putIfAbsent("setAttributesBuilder", setAttributesBuilder);
             putIfAbsent("setAttributes", setAttributes);
             putIfAbsent("entityName",NameUtils.camelCase(entity.getName()));
             putIfAbsent("entity", NameUtils.capitalize(entity.getName()));
             putIfAbsent("grpcPackage",entity.getGrpcPackage() );
             putIfAbsent("defaultPackage", entity.getDefaultPackage());
+            putIfAbsent("micrometer", entity.isMicrometer());
         }};
         return new SimpleTemplateEngine().createTemplate(grpcTemplate)
                 .make(binder)
