@@ -22,6 +22,7 @@ public class EntitySyntax extends Syntax{
     private boolean records;
     private boolean noendpoints;
     private String tableCollectionName;
+    private boolean graphql, grpc;
 
 
     private String microstreamPath;
@@ -94,5 +95,21 @@ public class EntitySyntax extends Syntax{
 
     public void setMicrostreamPath(String microstreamPath) {
         this.microstreamPath = microstreamPath;
+    }
+
+    public boolean isGraphql() {
+        return graphql;
+    }
+
+    public void setGraphql(boolean graphql) {
+        this.graphql = graphql;
+    }
+
+    public boolean isGrpc() {
+        return grpc;
+    }
+
+    public void setGrpc(boolean grpc) {
+        this.grpc = grpc;
     }
 }

@@ -23,6 +23,7 @@ public class ServiceSyntax extends Syntax{
     private String testFramework;
     private boolean graphql;
 
+    private boolean grpc;
     private String port="8080";
     private String database = "h2",Package ="io.demo", databaseName = "demo", dao= "jdbc", jaxRS, tracing, cache, messaging, metrics, file;
     private String migrationTool = "none";
@@ -257,6 +258,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setRelationships(ArrayList<RelationshipSyntax> relationships) {
         this.relationships = relationships;
+    }
+
+    public boolean isGrpc() {
+        return grpc;
+    }
+
+    public void setGrpc(boolean grpc) {
+        this.grpc = grpc;
     }
 }
 

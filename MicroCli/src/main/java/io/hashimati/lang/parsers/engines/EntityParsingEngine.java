@@ -27,6 +27,8 @@ public class EntityParsingEngine extends ParsingEngine{
         getAttributeDeclarationSyntax(entitySyntax);
         getMicrostreamPath(entitySyntax);
         getNoendpoint(entitySyntax);
+        getGraphQL(entitySyntax);
+        getGrpc(entitySyntax);
         return entitySyntax;
     }
 
@@ -112,6 +114,55 @@ public class EntityParsingEngine extends ParsingEngine{
             }
             else {
                 entitySyntax.setRecords(true);
+            }
+
+        }
+        catch (InvalidSyntaxException ex){
+            ex.printStackTrace();
+            entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
+
+
+    private void getGraphQL(EntitySyntax entitySyntax){
+        try{
+
+            List<String> recordsDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.GRAPHQL_COMMAND_PATTERN,  entitySyntax.getSentence());
+            if(recordsDeclaration.size() > 1){
+                throw new InvalidSyntaxException("\"graphql;\" exists more than once!");
+            }
+            if(recordsDeclaration.size() == 0){
+                entitySyntax.setGraphql(false);
+            }
+            else {
+                entitySyntax.setGraphql(true);
+            }
+
+        }
+        catch (InvalidSyntaxException ex){
+            ex.printStackTrace();
+            entitySyntax.setValid(false);
+            entitySyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
+
+    private void getGrpc(EntitySyntax entitySyntax){
+        try{
+
+            List<String> recordsDeclaration = PatternUtils.getPatternsFromText(GrammarPatterns.GRPC_COMMAND_PATTERN,  entitySyntax.getSentence());
+            if(recordsDeclaration.size() > 1){
+                throw new InvalidSyntaxException("\"grpc;\" exists more than once!");
+            }
+            if(recordsDeclaration.size() == 0){
+                entitySyntax.setGrpc(false);
+            }
+            else {
+                entitySyntax.setGrpc(true);
             }
 
         }

@@ -614,6 +614,7 @@ private String path;
                     }
                     if(grpc)
                     {
+                        entity.setGrpc(true);
                         String protoFile = new StringBuilder().append(path).append("/src/main/proto/").append(NameUtils.camelCase(entity.getName())+".proto").toString();
                         String protoEntity = micronautEntityGenerator.generateProtoEntity(entity);
                         GeneratorUtils.createFile(protoFile, protoEntity);

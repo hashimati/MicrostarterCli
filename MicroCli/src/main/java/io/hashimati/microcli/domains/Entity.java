@@ -57,6 +57,7 @@ public class Entity
     private boolean nonBlocking;
     private boolean mnData;
     private boolean isGraphQl;
+    private boolean grpc;
     private boolean cached;
     private boolean micrometer;
     private boolean tracingEnabled;
@@ -659,5 +660,13 @@ public class Entity
 
     public void setGrpcPackage(String grpcPackage) {
         this.grpcPackage = grpcPackage;
+    }
+
+    public boolean isGrpc() {
+        return grpc;
+    }
+
+    public void setGrpc(boolean grpc) {
+        this.grpc = grpc;
     }
 }

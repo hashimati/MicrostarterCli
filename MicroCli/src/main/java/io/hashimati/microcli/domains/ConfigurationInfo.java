@@ -48,6 +48,7 @@ public class ConfigurationInfo {
     boolean graphQlSupport;
     private String reactiveFramework;
 
+    private boolean grpcSupport;
     private boolean isLombok = false;
     private boolean nonBlocking;
     private boolean micrometer;

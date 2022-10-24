@@ -44,6 +44,7 @@ public class ServiceParsingEngine extends ParsingEngine{
 
 
         getGraphQl(serviceSyntax);
+        getGrpc(serviceSyntax);
         getEnums(serviceSyntax);
         getEntities(serviceSyntax); 
         return serviceSyntax;
@@ -78,6 +79,32 @@ public class ServiceParsingEngine extends ParsingEngine{
         }
     }
 
+
+    private void getGrpc(ServiceSyntax serviceSyntax) {
+        try {
+            List<String> grpcLinePattern = PatternUtils.getPatternsFromText("\\s*grpc\\s*\\;", serviceSyntax.getSentence());
+
+            if(grpcLinePattern.isEmpty())
+            {
+                serviceSyntax.setGrpc(false);
+
+            }
+            else if(grpcLinePattern.size() > 1){
+                throw new InvalidSyntaxException("There are more than one grpc statement. ("+grpcLinePattern+")");
+            }
+            else {
+
+                serviceSyntax.setGrpc(true);
+            }
+
+        }catch (InvalidSyntaxException ex)
+        {
+            ex.printStackTrace();
+            serviceSyntax.getErrors().add(ex.getMessage());
+
+
+        }
+    }
 
     private void getServiceName(ServiceSyntax serviceSyntax){
         try {

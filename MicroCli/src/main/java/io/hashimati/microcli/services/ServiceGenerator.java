@@ -161,6 +161,8 @@ public class ServiceGenerator {
                 }
 
 
+
+
             }
         }
 
@@ -356,6 +358,25 @@ public class ServiceGenerator {
                             GeneratorUtils.createFile(queryGraphQlFilename, graphQLQuery);
 
                         }
+                        if(entity.isGrpc())
+                        {
+                            String protoFile = new StringBuilder().append(workingPath).append("/src/main/proto/").append(NameUtils.camelCase(entity.getName())+".proto").toString();
+                            String protoEntity = micronautEntityGenerator.generateProtoEntity(entity);
+                            GeneratorUtils.createFile(protoFile, protoEntity);
+
+
+
+                            String protoCommonFile = new StringBuilder().append(workingPath).append("/src/main/proto/common.proto").toString();
+                            String protoCommon = micronautEntityGenerator.generateCommonProtoFile(entity);
+                            GeneratorUtils.createFile(protoCommonFile, protoCommon);
+
+
+
+                            String GRPC_endpointFile = workingPath + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getGrpcPackage()) + "/" + NameUtils.capitalize(entity.getName()) + "Endpoint" + extension;
+                            String grpcEndpoint = micronautEntityGenerator.generateGrpcEndpoint(entity,configurationInfo.getProjectInfo().getSourceLanguage());
+                            GeneratorUtils.createFile(GRPC_endpointFile, grpcEndpoint);
+
+                        }
 
 
                         String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);
@@ -441,6 +462,7 @@ public class ServiceGenerator {
             setPort(Integer.parseInt(altValue(serviceSyntax.getPort(), "8080")));
             setReactiveFramework(altValue(serviceSyntax.getReactive(), "reactor"));
             setGraphQlSupport(serviceSyntax.isGraphql());
+            setGrpcSupport(serviceSyntax.isGrpc());
             setDatabaseType(altValue(findDatabaseConstantString(serviceSyntax.getDatabase()),ProjectConstants.DatabasesConstants.H2));
             setDatabaseName(altValue(serviceSyntax.getDatabaseName(), serviceSyntax.getName()));
 
@@ -1052,6 +1074,12 @@ public class ServiceGenerator {
                 MicronautProjectValidator.appendToProperties(workingPath,graphQLproperties);
             }
 
+            if(configurationInfo.isGrpcSupport()){
+                projectInfo.getFeatures().add("grpc");
+                MicronautProjectValidator.addDependency(workingPath,features.get("grpc"));
+                MicronautProjectValidator.addingTaskToGradleFile(workingPath,features.get("grpc").getGradleTask());
+
+            }
             if(configurationInfo.isSupportFileService()){
 
                 if(configurationInfo.getFileServiceType().equalsIgnoreCase("aws")){
@@ -1229,6 +1257,8 @@ public class ServiceGenerator {
             else {
                 setIdType("Long");
             }
+            setGraphQl(entitySyntax.isGraphql());
+            setGrpc(entitySyntax.isGrpc());
             setMicrostreamPath(entitySyntax.getMicrostreamPath());
             setFrameworkType(configurationInfo.getDataBackendRun());
             setDatabaseName(configurationInfo.getDatabaseName());

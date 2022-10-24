@@ -38,6 +38,8 @@ public class GrammarPatterns {
     public static String MESSAGING_COMMAND_PATTERN = "\\s*messaging \\s*\\w+\\s*;";
     public static String TRACING_COMMAND_PATTERN = "\\s*tracing \\s*\\w+\\s*;";
     public static String GRAPHQL_COMMAND_PATTERN = "\\s*graphql\\s*;";
+    public static String GRPC_COMMAND_PATTERN = "\\s*grpc\\s*;";
+
     public static String METRICS_COMMAND_PATTERN = "\\s*metrics\\s+\\w+\\s*;";
     public static String FILE_COMMAND_PATTERN = "\\s*file\\s+\\w+\\s*;";
     public static String VALIDATE_LINE_PATTERN = "\\s*[\\w\\s]*\\s*;\\s*";
