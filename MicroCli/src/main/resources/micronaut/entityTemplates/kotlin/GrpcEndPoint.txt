@@ -1,11 +1,11 @@
-package ${grpcPackage};
+package ${grpcPackage}
 
-import io.grpc.stub.StreamObserver;
-import ${defaultPackage}.*;
-import ${defaultPackage}.domains.${entity};
-import ${defaultPackage}.services.General${entity}Service;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import io.grpc.stub.StreamObserver
+import ${defaultPackage}.*
+import ${defaultPackage}.domains.${entity}
+import ${defaultPackage}.services.General${entity}Service
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 @Singleton
 public class ${entity}Endpoint :
@@ -15,62 +15,62 @@ public class ${entity}Endpoint :
 
     <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entity+' object")' %>
       override fun save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
-          super.save(request, responseObserver);
-          val ${entityName} : ${entity} = ${entity}(${setAttributes}); ;
-          val result:${entity}= ${entityName}Service.save(${entityName});
+          super.save(request, responseObserver)
+          val ${entityName} : ${entity} = ${entity}(${setAttributes}) 
+          val result:${entity}= ${entityName}Service.save(${entityName})
           if(result != null)
-              responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
+              responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build())
           else
-              responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build());
-          responseObserver.onCompleted();;
+              responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build())
+          responseObserver.onCompleted()
   
       }
   
       override <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for updating '+entity+' object")' %>
       fun update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
-          super.update(request, responseObserver);
-          val ${entityName} :${entity} = ${entity}(${setAttributes});
-          val result: ${entity} = ${entityName}Service.update(${entityName});
+          super.update(request, responseObserver)
+          val ${entityName} :${entity} = ${entity}(${setAttributes})
+          val result: ${entity} = ${entityName}Service.update(${entityName})
           if(result != null)
-              responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
+              responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build())
           else
-              responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build());
-          responseObserver.onCompleted();
+              responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build())
+          responseObserver.onCompleted()
       }
   
       <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.delete", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting '+entity+' object")' %>
       override fun delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
-          super.delete(request, responseObserver);
+          super.delete(request, responseObserver)
 
             responseObserver.onNext(
                       if (${entityName}Service!!.deleteById(request.id)) MessageReply.newBuilder().setMessage("Done")
                           .build() else MessageReply.newBuilder().setMessage("Failed").build()
                   )
                   responseObserver.onCompleted()
-          responseObserver.onCompleted();
+          responseObserver.onCompleted()
       }
   
       <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding '+entity+' object")' %>
       override fun findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
-          super.findById(request, responseObserver);
+          super.findById(request, responseObserver)
   
-          val ${entityName} :${entity}  = ${entityName}Service.findById(request.getId());
+          val ${entityName} :${entity}  = ${entityName}Service.findById(request.getId())
           responseObserver.onNext(${entity}Grpc
                   .newBuilder()
                   ${setAttributesBuilder}
                   .setId(${entityName}.id)
-                  .build());
+                  .build())
       }
   
       <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entity+' objects")' %>
       override fun findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
-          super.findAll(request, responseObserver);
+          super.findAll(request, responseObserver)
           ${entityName}Service.findAll().forEach(
                   ${entityName}-> responseObserver.onNext(${entity}Grpc.newBuilder()
                           ${setAttributesBuilder}
                           .setId(${entityName}.id)
                           .build())
-          );
-          responseObserver.onCompleted();
+          )
+          responseObserver.onCompleted()
       }
 }
