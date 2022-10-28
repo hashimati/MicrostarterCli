@@ -95,7 +95,7 @@ public class MicronautEntityGenerator
         System.out.println("***");
         System.out.println(generateRepository(entity, "java", null));
         System.out.println("***");
-        System.out.println(generateService(entity, "java"));
+        System.out.println(generateService(entity, "java", false));
         System.out.println("***");
         System.out.println(generateController(entity, "java"));
         System.out.println("-----------------groovy-------");
@@ -103,7 +103,7 @@ public class MicronautEntityGenerator
         System.out.println("***");
         System.out.println(generateRepository(entity, "groovy", null));
         System.out.println("***");
-        System.out.println(generateService(entity, "groovy"));
+        System.out.println(generateService(entity, "groovy", false));
         System.out.println("***");
         System.out.println(generateController(entity, "groovy"));
 
@@ -112,7 +112,7 @@ public class MicronautEntityGenerator
         System.out.println("***");
         System.out.println(generateRepository(entity, "kotlin", null));
         System.out.println("***");
-        System.out.println(generateService(entity, "kotlin"));
+        System.out.println(generateService(entity, "kotlin", false));
         System.out.println("***");
         System.out.println(generateController(entity, "kotlin"));
 
@@ -944,7 +944,7 @@ public class MicronautEntityGenerator
         binder.put("pageable", entity.isPageable());
         return new SimpleTemplateEngine().createTemplate(serviceTemplate).make(binder).toString();
     }
-    public String generateService(Entity entity, String language) throws IOException, ClassNotFoundException {
+    public String generateService(Entity entity, String language, boolean grpc) throws IOException, ClassNotFoundException {
 
         if(language.equalsIgnoreCase(GROOVY_LANG) && entity.isGorm()) {
             return generateServiceGorm(entity, language);
@@ -1005,7 +1005,7 @@ public class MicronautEntityGenerator
                 put("pageable", entity.isPageable());
 
             }};
-            sBinder.put("principle", entity.isSecurityEnabled());
+            sBinder.put("principle", entity.isSecurityEnabled() && (grpc == false));
             sBinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
 
             sBinder.put("blocking", blocking);
@@ -1111,7 +1111,7 @@ public class MicronautEntityGenerator
                     put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
 
                 }};
-                ubinder.put("principle", entity.isSecurityEnabled());
+                ubinder.put("principle", entity.isSecurityEnabled() && (grpc == false));
                 ubinder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
                 ubinder.put("returnType", updateReturnType);
                 methods  = new StringBuilder().append(methods).append("\n").append(new SimpleTemplateEngine().createTemplate(findUpdateTemplates.getV3()).make(ubinder).toString()).toString();
@@ -1132,6 +1132,7 @@ public class MicronautEntityGenerator
         binder.put("servicePackage", entity.getServicePackage() );
         binder.put("entityPackage", entity.getEntityPackage()+"." + entity.getName());
         binder.put("repoPackage", entity.getRepoPackage()+"."+entity.getName()+"Repository");
+        binder.put("ClassName", grpc?"General"+entity.getName():entity.getName() );
         binder.put("entityName", NameUtils.camelCase(entity.getName(), true));
         binder.put("className", entity.getName());
         binder.put("methods", methods);
@@ -1145,8 +1146,8 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("micrometer", entity.isMicrometer());
         binder.put("moreImports", "");
-        binder.put("principle", entity.isSecurityEnabled());
-        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("principle", entity.isSecurityEnabled() && (grpc == false));
+        binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt") && (grpc == false));
         binder.put("pageable", entity.isPageable());
         binder.put("rxjava2", entity.getReactiveFramework().equalsIgnoreCase("rxjava2") && entity.isNonBlocking());
         binder.put("rxjava3", entity.getReactiveFramework().equalsIgnoreCase("rxjava3") && entity.isNonBlocking());
@@ -1950,7 +1951,7 @@ public class MicronautEntityGenerator
                 generateRepository(entity,
                 language, null)));
         result.add(Tuple2.tuple(rootPath+entity.getServicePackage().replace(".", "/")+ "/"+ entity.getName() +"Service" + fileExtension, generateService(entity,
-                language )));
+                language,false )));
         result.add(Tuple2.tuple(rootPath+entity.getRestPackage().replace(".", "/")+ "/"+ entity.getName() +"Controller" +fileExtension,
                 generateController(entity,
                 language )));
@@ -2208,11 +2209,13 @@ public class MicronautEntityGenerator
 
     public String generateGrpcEndpoint(Entity entity, String language) throws IOException, ClassNotFoundException{
         boolean record = language.equalsIgnoreCase(JAVA_LANG) && entity.isJavaRecord();
+        boolean kotlin =  language.equalsIgnoreCase(KOTLIN_LANG);
         String templatePath= getTemplatePath(record? GRPC_ENDPOINT+"_Records":GRPC_ENDPOINT, language.toLowerCase());
         String  grpcTemplate = templatesService.loadTemplateContent(templatePath);
 
-        String setter = (record?"request.get${attrCap}()":"\t\t\t\tset${attrCap}(request.get${attrCap}());\n");
-//        if(record)
+        String setter = (record ||kotlin?"request.get${attrCap}()":"\t\t\t\tset${attrCap}(request.get${attrCap}());\n");
+
+        //        if(record)
 //        {
 //            grpcTemplate = grpcTemplate.replace("getId", "id");
 //        }
@@ -2234,7 +2237,7 @@ public class MicronautEntityGenerator
 
 
 
-        String setterBuilder = record? "\t\t\t.set${attr}(${entityCamel}.${attrCamel}())" :"\t\t\t.set${attr}(${entityCamel}.get${attr}())";
+        String setterBuilder = kotlin?"\t\t\t.set${attr}(${entityCamel}.${attrCamel})":(record? "\t\t\t.set${attr}(${entityCamel}.${attrCamel}())" :"\t\t\t.set${attr}(${entityCamel}.get${attr}())");
         String setAttributesBuilder = entity.getAttributes()
                 .stream().filter(x->!x.getName().equalsIgnoreCase("id")).map(x-> {
                     try {

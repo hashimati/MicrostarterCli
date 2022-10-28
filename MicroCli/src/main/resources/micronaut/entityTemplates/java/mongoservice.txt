@@ -21,7 +21,7 @@ ${moreImports}
 
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
-public class ${className}Service {
+public class ${ClassName}Service {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Service.class);
 

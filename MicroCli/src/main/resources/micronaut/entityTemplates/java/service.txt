@@ -21,7 +21,7 @@ ${containBigDecimal?'import java.math.BigDecimal;':''}
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 <% if(transactional) out.print '@Transactional'%>
 @Singleton
-public class ${className}Service {
+public class ${ClassName}Service {
 
     private static final Logger log = LoggerFactory.getLogger(${className}Service.class);
     @Inject private ${className}Repository ${entityName}Repository;

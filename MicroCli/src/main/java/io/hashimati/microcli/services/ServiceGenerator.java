@@ -238,7 +238,7 @@ public class ServiceGenerator {
 
                     //generate services
 
-                    String serviceFileContent = micronautEntityGenerator.generateService(entity, lang);
+                    String serviceFileContent = micronautEntityGenerator.generateService(entity, lang, false);
                     String servicePath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.SERVICES_PATH, new HashMap<String, String>(){{
                         put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));

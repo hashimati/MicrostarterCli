@@ -19,7 +19,7 @@ ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 <% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
 @Singleton
-class ${className}Service(private val ${entityName}Repository: ${className}Repository<% if(file) out.print ', private val fileService:FileService ' %>){
+class ${ClassName}Service(private val ${entityName}Repository: ${className}Repository<% if(file) out.print ', private val fileService:FileService ' %>){
 
     <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
 	fun save(${entityName}:${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>) :<% print reactor? "Mono" : "Single" %><${className}> {

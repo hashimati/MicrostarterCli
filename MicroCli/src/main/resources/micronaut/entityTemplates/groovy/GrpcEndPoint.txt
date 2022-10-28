@@ -3,7 +3,7 @@ package ${grpcPackage};
 import io.grpc.stub.StreamObserver;
 import ${defaultPackage}.*;
 import ${defaultPackage}.domains.${entity};
-import ${defaultPackage}.services.${entity}Service;
+import ${defaultPackage}.services.General${entity}Service;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 <% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed' %>
@@ -13,7 +13,7 @@ class ${entity}Endpoint extends
         ${entity}GrpcServiceGrpc.${entity}GrpcServiceImplBase {
 
     @Inject
-    private ${entity}Service ${entityName}Service;
+    private General${entity}Service ${entityName}Service;
 
     <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entity+' object")' %>
     @Override

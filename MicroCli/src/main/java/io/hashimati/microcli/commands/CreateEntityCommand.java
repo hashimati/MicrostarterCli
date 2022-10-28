@@ -492,7 +492,7 @@ private String path;
                 }
                 //----------------------
 
-                String serviceFileContent = micronautEntityGenerator.generateService(entity, lang);
+                String serviceFileContent = micronautEntityGenerator.generateService(entity, lang, false);
                 String servicePath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.SERVICES_PATH, new HashMap<String, String>(){{
                     put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
@@ -615,6 +615,12 @@ private String path;
                     if(grpc)
                     {
                         entity.setGrpc(true);
+
+                        String generalServiceFileContent = micronautEntityGenerator.generateService(entity, lang, true);
+                        GeneratorUtils.createFile(path+servicePath + "/General"+entity.getName()+"Service"+
+                                extension, generalServiceFileContent);
+
+                        //
                         String protoFile = new StringBuilder().append(path).append("/src/main/proto/").append(NameUtils.camelCase(entity.getName())+".proto").toString();
                         String protoEntity = micronautEntityGenerator.generateProtoEntity(entity);
                         GeneratorUtils.createFile(protoFile, protoEntity);
