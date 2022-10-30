@@ -1,6 +1,7 @@
 package io.hashimati.microcli.services;
 
 import com.google.googlejavaformat.java.FormatterException;
+import com.oracle.svm.core.jdk.UninterruptibleUtils;
 import groovy.lang.Tuple2;
 import groovy.lang.Tuple3;
 import groovy.text.SimpleTemplateEngine;
@@ -2255,6 +2256,20 @@ public class MicronautEntityGenerator
                     }
                 }).reduce((x,y)->x +y).get();
 
+
+        AtomicReference<String> reactiveBlocking = new AtomicReference<>("");
+        AtomicReference<String>  reactiveIterator = new AtomicReference<>("");
+
+        if(entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor"))//(entity.getFrameworkType().equalsIgnoreCase("r2dbc") || (entity.getDatabaseType().equalsIgnoreCase("mongodb") &&  entity.isNonBlocking() && entity.getReactiveFramework().equalsIgnoreCase("reactor")))
+        {
+            reactiveBlocking.set(".block()");
+            reactiveIterator.set(".toIterable()");
+        }
+        else if(entity.isNonBlocking() && !entity.getReactiveFramework().equalsIgnoreCase("reactor"))//if (entity.getDatabaseType().equalsIgnoreCase("mongodb") && entity.isNonBlocking()){
+        {
+            reactiveBlocking.set(".blockingGet()");
+            reactiveIterator.set(".blockingIterable()");
+        }
         HashMap<String, Object> binder = new HashMap<>(){{
             putIfAbsent("setAttributesBuilder", setAttributesBuilder);
             putIfAbsent("setAttributes", setAttributes);
@@ -2263,6 +2278,8 @@ public class MicronautEntityGenerator
             putIfAbsent("grpcPackage",entity.getGrpcPackage() );
             putIfAbsent("defaultPackage", entity.getDefaultPackage());
             putIfAbsent("micrometer", entity.isMicrometer());
+            putIfAbsent("reactiveBlocking", reactiveBlocking.get());
+            putIfAbsent("reactiveIterator", reactiveIterator.get());
         }};
         return new SimpleTemplateEngine().createTemplate(grpcTemplate)
                 .make(binder)

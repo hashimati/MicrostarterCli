@@ -13,7 +13,7 @@ public class ${entity}Endpoint extends
         ${entity}GrpcServiceGrpc.${entity}GrpcServiceImplBase {
 
     @Inject
-    private General$${entity}Service ${entityName}Service;
+    private General${entity}Service ${entityName}Service;
 
     <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entity+' object")' %>
     @Override
@@ -22,7 +22,7 @@ public class ${entity}Endpoint extends
         ${entity} ${entityName} = new ${entity}(){{
             ${setAttributes}
         }};
-        ${entity} result = ${entityName}Service.save(${entityName});
+        ${entity} result = ${entityName}Service.save(${entityName})${reactiveBlocking};
         if(result != null)
             responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
         else
@@ -38,7 +38,7 @@ public class ${entity}Endpoint extends
         ${entity} ${entityName} = new ${entity}(){{
             ${setAttributes}
         }};
-        ${entity} result = ${entityName}Service.update(${entityName});
+        ${entity} result = ${entityName}Service.update(${entityName})${reactiveBlocking};
         if(result != null)
             responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build());
         else
@@ -51,7 +51,7 @@ public class ${entity}Endpoint extends
     public void delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
         super.delete(request, responseObserver);
         responseObserver.onNext(
-                ${entityName}Service.deleteById(request.getId())?
+                ${entityName}Service.deleteById(request.getId())${reactiveBlocking}?
                         MessageReply.newBuilder().setMessage("Done").build():
                         MessageReply.newBuilder().setMessage("Failed").build());
 
@@ -63,7 +63,7 @@ public class ${entity}Endpoint extends
     public void findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
         super.findById(request, responseObserver);
 
-        ${entity} ${entityName} = ${entityName}Service.findById(request.getId());
+        ${entity} ${entityName} = ${entityName}Service.findById(request.getId())${reactiveBlocking};
         responseObserver.onNext(${entity}Grpc
                 .newBuilder()
                 ${setAttributesBuilder}
@@ -75,7 +75,7 @@ public class ${entity}Endpoint extends
     @Override
     public void findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
         super.findAll(request, responseObserver);
-        ${entityName}Service.findAll().forEach(
+        ${entityName}Service.findAll()${reactiveIterator}.forEach(
                 ${entityName}-> responseObserver.onNext(${entity}Grpc.newBuilder()
                         ${setAttributesBuilder}
                         .setId(${entityName}.getId())
