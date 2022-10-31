@@ -49,7 +49,7 @@ public class MicronautProjectValidator {
 
     public static boolean isValidProject(String path) throws FileNotFoundException {
         if(!path.endsWith("/")) path +="/";
-        return getProjectInfo(path) != null && (getProjectInfo(path).getApplicationType().equalsIgnoreCase("default") || getProjectInfo(path).getApplicationType().equalsIgnoreCase("function"));
+        return getProjectInfo(path) != null && (getProjectInfo(path).getApplicationType().equalsIgnoreCase("default") || getProjectInfo(path).getApplicationType().equalsIgnoreCase("grpc") || getProjectInfo(path).getApplicationType().equalsIgnoreCase("function"));
     }
     public static boolean isApplication(String path) throws FileNotFoundException {
         return getProjectInfo(path).getApplicationType().equalsIgnoreCase("default");
@@ -57,7 +57,9 @@ public class MicronautProjectValidator {
     public static boolean isFunction(String path) throws FileNotFoundException{
         return getProjectInfo( path).getApplicationType().equalsIgnoreCase("function");
     }
-
+    public static boolean isGrpc(String path) throws FileNotFoundException{
+        return getProjectInfo( path).getApplicationType().equalsIgnoreCase("grpc");
+    }
 
 
     public static boolean isGradleContainDependency(String dependency)
@@ -457,7 +459,7 @@ public class MicronautProjectValidator {
 
 
         return (projectInfo = yaml.loadAs(content, ProjectInfo.class))
-                .getApplicationType().equalsIgnoreCase("default") || projectInfo.getApplicationType().equalsIgnoreCase("function")?projectInfo:null;
+                .getApplicationType().equalsIgnoreCase("default") || projectInfo.getApplicationType().equalsIgnoreCase("function") || projectInfo.getApplicationType().equalsIgnoreCase("grpc")?projectInfo:null;
     }
 
     public static String getMainPackage(String path) throws IOException {

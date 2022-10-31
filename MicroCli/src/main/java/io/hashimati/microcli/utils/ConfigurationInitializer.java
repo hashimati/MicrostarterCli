@@ -108,24 +108,23 @@ public class ConfigurationInitializer {
 //                    }
 //            );
 
-
-            String port = inputText("port", "Enter the server port number between 0 - 65535: ", "8080").getInput();
-            try{
-                int portInt = Integer.parseInt(port);
-                if(portInt < 0 || portInt > 65535)
-                {
-                    configurationInfo.setPort(8080);
-                    PromptGui.printlnWarning(port +" is not valid port number. The port is set to 8080.");
-                }
-                configurationInfo.setPort( portInt);
-
-
-            }
-            catch (Exception ex)
+            if(MicronautProjectValidator.isApplication(workingPath))
             {
-                configurationInfo.setPort(8080);
-                PromptGui.printlnWarning(port +" is not valid port number. The port is set to 8080.");
+                String port = inputText("port", "Enter the server port number between 0 - 65535: ", "8080").getInput();
+                try {
+                    int portInt = Integer.parseInt(port);
+                    if (portInt < 0 || portInt > 65535) {
+                        configurationInfo.setPort(8080);
+                        PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
+                    }
+                    configurationInfo.setPort(portInt);
 
+
+                } catch (Exception ex) {
+                    configurationInfo.setPort(8080);
+                    PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
+
+                }
             }
             MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
                     "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
@@ -631,6 +630,7 @@ public class ConfigurationInitializer {
 //            }
 //        }
 
+        if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
         if(!projectInfo.getFeatures().contains("graphql"))
         {
             ConfirmResult graphqlSupport = createConfirmResult("graphql", "Do you want to add GraphQL-Java-Tools support?",YES);
@@ -663,6 +663,7 @@ public class ConfigurationInitializer {
             }
         }
 
+        if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
         if(!projectInfo.getFeatures().contains("grpc")){
             ConfirmResult grpcSupport = createConfirmResult("graphql", "Do you want to add GRPC support?",YES);
             if(grpcSupport.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
@@ -672,24 +673,24 @@ public class ConfigurationInitializer {
                 MicronautProjectValidator.addingTaskToGradleFile(workingPath,features.get("grpc").getGradleTask());
             }
         }
-        ConfirmResult fileSysRequest = createConfirmResult("fileService", "Do you want to use File Services?", YES);
-        if(fileSysRequest.getConfirmed() == YES)
-        {
+        if(projectInfo.getApplicationType().equalsIgnoreCase("default")) {
+            ConfirmResult fileSysRequest = createConfirmResult("fileService", "Do you want to use File Services?", YES);
+            if (fileSysRequest.getConfirmed() == YES) {
 
-            configurationInfo.setSupportFileService(true);
-            String fileServiceType = createListPrompt("fileService", "Select the file service", "AWS", "FileSystem").getSelectedId();
-            configurationInfo.setFileServiceType(fileServiceType);
+                configurationInfo.setSupportFileService(true);
+                String fileServiceType = createListPrompt("fileService", "Select the file service", "AWS", "FileSystem").getSelectedId();
+                configurationInfo.setFileServiceType(fileServiceType);
 
-            if(fileServiceType.equalsIgnoreCase("aws")){
+                if (fileServiceType.equalsIgnoreCase("aws")) {
 
-                String awsKey = inputText("awsKey", "Enter AWS key: ", "AWS-KEY").getInput();
-                String awsSecret = inputText("awsSecret", "Enter AWS Secret: ", "AWS-SECRET").getInput();
+                    String awsKey = inputText("awsKey", "Enter AWS key: ", "AWS-KEY").getInput();
+                    String awsSecret = inputText("awsSecret", "Enter AWS Secret: ", "AWS-SECRET").getInput();
 
-                configurationInfo.setAwsKey(awsKey);
-                configurationInfo.setAwsSecret(awsSecret);
+                    configurationInfo.setAwsKey(awsKey);
+                    configurationInfo.setAwsSecret(awsSecret);
+                }
             }
         }
-
 
         if(projectInfo.getApplicationType().equalsIgnoreCase("default"))
         {

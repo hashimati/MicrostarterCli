@@ -175,7 +175,7 @@ private String path;
                     }
 
                     collectionName = PromptGui.inputText("collection", "Enter the entity's collection/table Name:", defaultValue).getInput();
-                   if(configurationInfo.isMnData() && !configurationInfo.isNonBlocking())
+                   if(configurationInfo.isMnData() && !configurationInfo.isNonBlocking() && MicronautProjectValidator.isApplication(path))
                         entity.setPageable(PromptGui.createConfirmResult("pageable", "Do you want to use pagination?", NO).getConfirmed() == YES);
                 }
                 else  collectionName = "none";
@@ -492,15 +492,18 @@ private String path;
                 }
                 //----------------------
 
-                String serviceFileContent = micronautEntityGenerator.generateService(entity, lang, false);
-                String servicePath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.SERVICES_PATH, new HashMap<String, String>(){{
+                String servicePath = GeneratorUtils.generateFromTemplate(ProjectConstants.PathsTemplate.SERVICES_PATH, new HashMap<String, String>() {{
                     put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                 }});
+                if(configurationInfo.getProjectInfo().getApplicationType().equalsIgnoreCase("grpc"))
+                {
+                    String serviceFileContent = micronautEntityGenerator.generateService(entity, lang, false);
 
-                GeneratorUtils.createFile(path+servicePath + "/"+entity.getName()+"Service"+
-                        extension, serviceFileContent);
 
+                    GeneratorUtils.createFile(path + servicePath + "/" + entity.getName() + "Service" +
+                            extension, serviceFileContent);
+                }
                 if(MicronautProjectValidator.isApplication(path))
                 {                //============================
 
@@ -585,6 +588,7 @@ private String path;
                         put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                     }});
                     GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getClientPackage()) + "/" + entity.getName() + "Client" + extension, clientFileContent);
+
 
                     if (graphql) {
                         entity.setGraphQl(true);
@@ -750,7 +754,31 @@ private String path;
 //                                extension, update);
 //                    }
                 }
+                else if(MicronautProjectValidator.isGrpc(path)){
+                    entity.setGrpc(true);
 
+                    String generalServiceFileContent = micronautEntityGenerator.generateService(entity, lang, true);
+                    GeneratorUtils.createFile(path+servicePath + "/General"+entity.getName()+"Service"+
+                            extension, generalServiceFileContent);
+
+                    //
+                    String protoFile = new StringBuilder().append(path).append("/src/main/proto/").append(NameUtils.camelCase(entity.getName())+".proto").toString();
+                    String protoEntity = micronautEntityGenerator.generateProtoEntity(entity);
+                    GeneratorUtils.createFile(protoFile, protoEntity);
+
+
+
+                    String protoCommonFile = new StringBuilder().append(path).append("/src/main/proto/common.proto").toString();
+                    String protoCommon = micronautEntityGenerator.generateCommonProtoFile(entity);
+                    GeneratorUtils.createFile(protoCommonFile, protoCommon);
+
+
+
+                    String GRPC_endpointFile = path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getGrpcPackage()) + "/" + NameUtils.capitalize(entity.getName()) + "Endpoint" + extension;
+                    String grpcEndpoint = micronautEntityGenerator.generateGrpcEndpoint(entity,configurationInfo.getProjectInfo().getSourceLanguage());
+                    GeneratorUtils.createFile(GRPC_endpointFile, grpcEndpoint);
+
+                }
 
                 ///====== Generate Randomizer
                 String randromizerFileContent = micronautEntityGenerator.generateRandomizer(entity, lang);

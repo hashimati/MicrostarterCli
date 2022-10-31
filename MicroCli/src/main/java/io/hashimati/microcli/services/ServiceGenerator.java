@@ -367,7 +367,6 @@ public class ServiceGenerator {
                             String generalServiceFileContent = micronautEntityGenerator.generateService(entity, lang, true);
                             GeneratorUtils.createFile(workingPath+servicePath + "/General"+entity.getName()+"Service"+
                                     extension, generalServiceFileContent);
-
                             String protoCommonFile = new StringBuilder().append(workingPath).append("/src/main/proto/common.proto").toString();
                             String protoCommon = micronautEntityGenerator.generateCommonProtoFile(entity);
                             GeneratorUtils.createFile(protoCommonFile, protoCommon);
