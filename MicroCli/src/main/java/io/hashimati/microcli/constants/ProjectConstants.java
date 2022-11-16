@@ -203,6 +203,13 @@ public class ProjectConstants {
                 COMMAND, COMMAND_TEST, COMMAND_SPEC
         );
     }
+
+    public static class AttributeFieldType{
+        public static final String TEXT_FEILD = "TextField", SELECT = "Select", CHECKBOX = "Checkbox";
+        public static final List<String> LIST= Arrays.asList(
+                TEXT_FEILD, SELECT, CHECKBOX
+        );
+    }
     public static class KafkaTemplates{
         public final static String LISTENER = "Listener",
         PRODUCER = "Producer",

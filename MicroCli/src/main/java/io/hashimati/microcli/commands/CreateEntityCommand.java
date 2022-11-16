@@ -496,11 +496,11 @@ private String path;
                     put("lang", configurationInfo.getProjectInfo().getSourceLanguage());
                     put("defaultPackage", GeneratorUtils.packageToPath(configurationInfo.getProjectInfo().getDefaultPackage()));
                 }});
-                if(configurationInfo.getProjectInfo().getApplicationType().equalsIgnoreCase("grpc"))
+
+                if(!configurationInfo.getProjectInfo().getApplicationType().equalsIgnoreCase("grpc"))
                 {
+                    System.out.println("I'm generating Service");
                     String serviceFileContent = micronautEntityGenerator.generateService(entity, lang, false);
-
-
                     GeneratorUtils.createFile(path + servicePath + "/" + entity.getName() + "Service" +
                             extension, serviceFileContent);
                 }

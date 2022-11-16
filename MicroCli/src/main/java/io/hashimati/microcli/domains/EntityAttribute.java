@@ -35,6 +35,8 @@ public class EntityAttribute {
     private EntityConstraints constraints;
 
     private boolean isFile;
+
+    private String fieldType;
     public EntityAttribute()
     {}
     @JsonIgnore
@@ -352,5 +354,13 @@ public class EntityAttribute {
 
     public void setFile(boolean file) {
         isFile = file;
+    }
+
+    public String getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(String fieldType) {
+        this.fieldType = fieldType;
     }
 }

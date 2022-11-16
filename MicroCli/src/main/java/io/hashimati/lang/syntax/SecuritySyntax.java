@@ -16,4 +16,19 @@ public class SecuritySyntax extends Syntax{
     private String type;
     private ArrayList<String> roles = new ArrayList<>();
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ArrayList<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<String> roles) {
+        this.roles = roles;
+    }
 }
