@@ -1,6 +1,8 @@
 package io.hashimati.microcli.services;
 
 import de.codeshelf.consoleui.elements.ConfirmChoice;
+import de.codeshelf.consoleui.prompt.ConfirmResult;
+import de.codeshelf.consoleui.prompt.InputResult;
 import de.codeshelf.consoleui.prompt.ListResult;
 import groovy.lang.Tuple;
 import groovy.lang.Tuple2;
@@ -50,6 +52,8 @@ public class ServiceGenerator {
 
     @Inject
     private MicronautLaunchClient micronautLaunchClient;
+    @Inject SecurityGenerator securityGenerator;
+
     private final TemplatesService templatesService = new TemplatesService() ;
     public static ProjectInfo projectInfo;
     private final MicronautProjectValidator projectValidator = new MicronautProjectValidator();
@@ -91,6 +95,42 @@ public class ServiceGenerator {
         ConfigurationInfo configurationInfo = readConfigurationFromServiceSyntax(serviceSyntax);
         Integer configureResult = configureService(configurationInfo, workingPath);
         //end project configuration.
+
+
+        if(serviceSyntax.getSecuritySyntax() != null){
+            System.out.println("Having security");
+
+            String lang = configurationInfo.getProjectInfo().getSourceLanguage();
+            switch (lang.toLowerCase())
+            {
+                case "java":
+                    try {
+                        MicronautProjectValidator.addLombok(workingPath,configurationInfo.getProjectInfo());
+                    } catch (GradleReaderException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "kotlin":
+                    break;
+                case "groovy":
+                    break;
+                default:
+                    break;
+            }
+            try {
+                serviceSyntax.getSecuritySyntax().getRoles().add("ADMIN_ROLE");
+                configurationInfo.setSecurityEnable(true);
+                configurationInfo.setSecurityStrategy(serviceSyntax.getSecuritySyntax().getType());
+                configurationInfo.setSecurityRoles(serviceSyntax.getSecuritySyntax().getRoles());
+                securityGenerator.generateSecurityFiles(workingPath, serviceSyntax.getSecuritySyntax().getType().toLowerCase(), serviceSyntax.getSecuritySyntax().getRoles(), serviceSyntax.getSecuritySyntax().getType().toLowerCase().equalsIgnoreCase("jwt") );
+            } catch (GradleReaderException e) {
+
+            }
+        }
+
+
+
+
 
         if(serviceSyntax.getRelationships() != null && !serviceSyntax.getRelationships().isEmpty())
         {
@@ -466,6 +506,7 @@ public class ServiceGenerator {
             setGrpcSupport(serviceSyntax.isGrpc());
             setDatabaseType(altValue(findDatabaseConstantString(serviceSyntax.getDatabase()),ProjectConstants.DatabasesConstants.H2));
             setDatabaseName(altValue(serviceSyntax.getDatabaseName(), serviceSyntax.getName()));
+            System.out.println(getDatabaseType());
 
             if(RELATIONAL_DATABASES.stream().map(x->x.toLowerCase()).collect(Collectors.toList()).contains(getDatabaseType().toLowerCase())) {
                 setDataBackendRun(altValue(serviceSyntax.getDao(), JDBC));
@@ -477,6 +518,7 @@ public class ServiceGenerator {
             else if(getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
                 setDataBackendRun("microstream");
             }
+            System.out.println(getDataBackendRun());
             setNonBlocking(NON_BLOCKING_DAOS.contains(getDataBackendRun()));
             setDataMigrationTool(altValue(serviceSyntax.getMigrationTool(), "none"));
 
@@ -598,17 +640,19 @@ public class ServiceGenerator {
                     options.add("GORM");
                 if(!configurationInfo.getDatabaseType().equalsIgnoreCase("oracle"))
                     options.add("R2DBC");
-                ListResult databaseBackend = PromptGui.createListPrompt("databaseBackend", "Select Database Backend: ", options.toArray(new String[options.size()]));
-                configurationInfo.setDataBackendRun(databaseBackend.getSelectedId());
-                configurationInfo.setMnData(!configurationInfo.getDataBackendRun().equalsIgnoreCase("GORM"));
+//                ListResult databaseBackend = PromptGui.createListPrompt("databaseBackend", "Select Database Backend: ", options.toArray(new String[options.size()]));
+//                configurationInfo.setDataBackendRun(databaseBackend.getSelectedId());
+//                configurationInfo.setMnData(!configurationInfo.getDataBackendRun().equalsIgnoreCase("GORM"));
+//
+//
+//                ListResult dataMigrationTool = PromptGui.createListPrompt("databaseMigration", "Select Data Migration: ", "liquibase", "Flyway", "none");
+//                configurationInfo.setDataMigrationTool(dataMigrationTool.getSelectedId());
 
 
-                ListResult dataMigrationTool = PromptGui.createListPrompt("databaseMigration", "Select Data Migration: ", "liquibase", "Flyway", "none");
-                configurationInfo.setDataMigrationTool(dataMigrationTool.getSelectedId());
 
-
-                Feature databaseFeature = null;
-                switch (databaseBackend.getSelectedId())
+                Feature databaseFeature = features.get(configurationInfo.getDatabaseType().toLowerCase());
+                System.out.println(databaseFeature.getName());
+                switch (configurationInfo.getDataBackendRun())
                 {
 
                     case "GORM":
@@ -715,7 +759,7 @@ public class ServiceGenerator {
                 }
 
 
-
+                configurationInfo.setMnData(true);
                 MicronautProjectValidator.addDependency(workingPath,databaseFeature);
                 MicronautProjectValidator.addDependency(workingPath,features.get("jdbc-hikari"));
 
@@ -1230,6 +1274,7 @@ public class ServiceGenerator {
         configurationInfo.setConfigured(true);
         configurationInfo.writeToFile(workingPath);
 
+        ;
         setToDefault();
         return 1;
         }

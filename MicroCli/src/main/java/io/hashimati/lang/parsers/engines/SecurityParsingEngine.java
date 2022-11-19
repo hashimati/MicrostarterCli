@@ -12,33 +12,28 @@ import java.util.stream.Collectors;
 
 public class SecurityParsingEngine extends ParsingEngine{
 
-
     @Override
     public SecuritySyntax parse(String sentence) {
         SecuritySyntax securitySyntax = new SecuritySyntax(sentence);
-
         parseSecurityType(securitySyntax);
-
         parseRoles(securitySyntax);
-        return null;
-
+        return securitySyntax;
     }
 
     private void parseRoles(SecuritySyntax securitySyntax) {
         try{
-            List<String> roleslist = PatternUtils.getPatternsFromText("\\s*roles\\s+(\\s?([\\w\\s]*|\\d)\\s?(,|$)){16}\\;", securitySyntax.getSentence());
+            List<String> roleslist = PatternUtils.getPatternsFromText("\\s*roles\\s+[\\w\\,\\s*]*\\;", securitySyntax.getSentence());
+
             if(roleslist.isEmpty())
                 return;
             if(roleslist.size() > 1)
             {
                 throw new InvalidSyntaxException("There are more than one type command");
-
             }
-             String roles = roleslist.get(0).replace("roles", "").trim();
+             String roles = roleslist.get(0).replace("roles", "").replace(";", "").trim();
             securitySyntax.getRoles().addAll(Arrays.stream(roles.split(",")).map(
                     x->x.trim()
-            ).collect(Collectors.toList())
-            );
+            ).collect(Collectors.toList()));
         }
         catch (InvalidSyntaxException ex)
         {

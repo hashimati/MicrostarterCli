@@ -7,6 +7,7 @@ package io.hashimati.lang.parsers.engines;
  */
 import io.hashimati.lang.exceptions.InvalidSyntaxException;
 import io.hashimati.lang.parsers.patterns.GrammarPatterns;
+import io.hashimati.lang.syntax.SecuritySyntax;
 import io.hashimati.lang.syntax.ServiceSyntax;
 import io.hashimati.lang.utils.PatternUtils;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class ServiceParsingEngine extends ParsingEngine{
     @Override
     public ServiceSyntax parse(final String sentence) {
+
 
         ServiceSyntax serviceSyntax = new ServiceSyntax(sentence);
         getServiceName(serviceSyntax);
@@ -36,7 +38,9 @@ public class ServiceParsingEngine extends ParsingEngine{
         serviceSyntax.setAnnotation(getAttribute(serviceSyntax,"annotation"));
         serviceSyntax.setTracing(getAttribute(serviceSyntax,"tracing"));
         serviceSyntax.setFramework(getAttribute(serviceSyntax,"framework"));
-        serviceSyntax.setFramework(getAttribute(serviceSyntax,"testFramework"));
+        serviceSyntax.setTestFramework(getAttribute(serviceSyntax,"testFramework"));
+        getRelationships(serviceSyntax);
+
         serviceSyntax.setDao(getAttribute(serviceSyntax,"dao"));
         serviceSyntax.setMigrationTool(getAttribute(serviceSyntax, "migrationTool"));
 
@@ -46,7 +50,8 @@ public class ServiceParsingEngine extends ParsingEngine{
         getGraphQl(serviceSyntax);
         getGrpc(serviceSyntax);
         getEnums(serviceSyntax);
-        getEntities(serviceSyntax); 
+        getEntities(serviceSyntax);
+        getSecurity(serviceSyntax);
         return serviceSyntax;
 
     }
@@ -226,6 +231,34 @@ public class ServiceParsingEngine extends ParsingEngine{
             serviceSyntax.getEntities().addAll(entityStatements.stream().map(x->entityParsingEngine.parse(x // to close the entity declaration bracket
 
             )).collect(Collectors.toList()));
+
+        }
+    }
+    private void getSecurity(ServiceSyntax serviceSyntax)
+    {
+        SecurityParsingEngine securityParsingEngine = new SecurityParsingEngine();
+        // List<String> entityStatements = PatternUtils.getPatternsFromText("\\s*entity\\s+\\w+\\s*\\{[\\;\\!\\@\\#\\$\\%\\^\\&\\*\\:\\w*\\s*^\\}\\(\\)\\-]*\\}\\s*^(\\w*)", serviceSyntax.getSentence());
+        List<String> securityStatements = PatternUtils.getPatternsFromText("\\s*security\\s*\\{\\s*[\\w\\s*\\;\\,]*\\}\\s*", serviceSyntax.getSentence());
+
+        if(securityStatements.isEmpty())
+        {
+            return ;
+        }
+        else if(securityStatements.size() > 1){
+
+            try {
+                throw new InvalidSyntaxException("There is more than security declaration. ");
+            } catch (InvalidSyntaxException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        else {
+            serviceSyntax.setSecuritySyntax(securityParsingEngine.parse(securityStatements.get(0)));
+
+
+
+
 
         }
     }

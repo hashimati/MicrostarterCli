@@ -32,7 +32,7 @@ public class ServiceSyntax extends Syntax{
     private ArrayList<String> features = new ArrayList<>();
 
 
-
+    private SecuritySyntax securitySyntax;
     private ArrayList<EntitySyntax> entities = new ArrayList<>();
 
     private ArrayList<EnumSyntax> enums = new ArrayList<>();
@@ -266,6 +266,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setGrpc(boolean grpc) {
         this.grpc = grpc;
+    }
+
+    public SecuritySyntax getSecuritySyntax() {
+        return securitySyntax;
+    }
+
+    public void setSecuritySyntax(SecuritySyntax securitySyntax) {
+        this.securitySyntax = securitySyntax;
     }
 }
 

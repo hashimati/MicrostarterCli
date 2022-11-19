@@ -76,6 +76,7 @@ public class InitCommand implements Callable<Integer> {
 //            System.out.println(serviceSyntax.getEntities().get(1));
 //            System.out.println(serviceSyntax.getEntities().stream().map(x->x.getName()).collect(Collectors.toList()));
             try {
+
                 return serviceGenerator.initiateService(serviceSyntax);
             } catch (GradleReaderException e) {
                 throw new RuntimeException(e);

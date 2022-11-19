@@ -1,6 +1,7 @@
 package io.hashimati.lang.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @author Ahmed Al Hashmi
@@ -14,7 +15,7 @@ public class SecuritySyntax extends Syntax{
     }
 
     private String type;
-    private ArrayList<String> roles = new ArrayList<>();
+    private HashSet<String> roles = new HashSet<>();
 
     public String getType() {
         return type;
@@ -24,11 +25,11 @@ public class SecuritySyntax extends Syntax{
         this.type = type;
     }
 
-    public ArrayList<String> getRoles() {
+    public HashSet<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(ArrayList<String> roles) {
+    public void setRoles(HashSet<String> roles) {
         this.roles = roles;
     }
 }
