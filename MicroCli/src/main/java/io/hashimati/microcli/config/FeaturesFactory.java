@@ -1080,6 +1080,11 @@ public class FeaturesFactory {
                 setName("spring");
                 setAnnotationGradle(" annotationProcessor(\"io.micronaut.spring:micronaut-spring-annotation\")");
                 setTestGradleAnnotation("testAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-annotation\")");
+                setAnnotationMaven("\t<path>\n" +
+                        "\t\t<groupId>io.micronaut.spring</groupId>\n" +
+                        "\t\t<artifactId>micronaut-spring-annotation</artifactId>\n" +
+                        "\t\t<version>${micronaut.spring.version}</version>\n" +
+                        "\t</path>");
             }
         });
         features.put("spring-boot", new Feature(){
@@ -1088,8 +1093,15 @@ public class FeaturesFactory {
                 setAnnotationGradle("\tannotationProcessor(\"io.micronaut.spring:micronaut-spring-boot-annotation\")\n");
                 setTestGradleAnnotation("\ttestAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-boot-annotation\")\n");
                 setGradle("\timplementation(\"org.springframework.boot:spring-boot-starter\")\n\truntimeOnly(\"io.micronaut.spring:micronaut-spring-boot\")\n");
+                getMaven().add("\t<dependency>\n" +
+                        "\t\t<groupId>org.springframework.boot</groupId>\n" +
+                        "\t\t<artifactId>spring-boot-starter</artifactId>\n" +
+                        "\t\t<scope>compile</scope>\n" +
+                        "\t</dependency>");
+
             }
         });
+
 
         features.put("spring-web", new Feature(){
             {
@@ -1097,8 +1109,72 @@ public class FeaturesFactory {
                 setAnnotationGradle("\tannotationProcessor(\"io.micronaut.spring:micronaut-spring-web-annotation\")\n");
                 setGradle("\timplementation(\"org.springframework.boot:spring-boot-starter-web\")\n\truntimeOnly(\"io.micronaut.spring:micronaut-spring-web\")\n");
                 setTestGradleAnnotation("\ttestAnnotationProcessor(\"io.micronaut.spring:micronaut-spring-web-annotation\")\n");
+                getMaven().add("\t<dependency>\n" +
+                                                "\t\t<groupId>org.springframework.boot</groupId>\n" +
+                                                "\t\t<artifactId>spring-boot-starter-web</artifactId>\n" +
+                                                "\t\t<scope>compile</scope>\n" +
+
+                        "\t</dependency>");
+                getMaven().add("\t<dependency>\n" +
+                        "\t\t<groupId>io.micronaut.spring</groupId>\n" +
+
+                        "\t\t<artifactId>micronaut-spring-web</artifactId>\n" +
+
+                        "\t\t<scope>runtime</scope>\n" +
+
+                        "\t</dependency>");
+                setAnnotationMaven("\t<path>\n" +
+                        "\t\t<groupId>io.micronaut.spring</groupId>\n" +
+                        "\t\t<artifactId>micronaut-spring-web-annotation</artifactId>\n" +
+                        "\t\t<version>${micronaut.spring.version}</version>\n" +
+                        "\t</path>");
             }
         });
+
+        features.put("views-thymeleaf", new Feature(){{
+            setName("views-thymeleaf");
+            setGradle("\timplementation(\"io.micronaut.views:micronaut-views-thymeleaf\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.views</groupId>\n" +
+                    "\t\t<artifactId>micronaut-views-thymeleaf</artifactId>\n" +
+
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+        features.put("views-velocity", new Feature(){{
+            setName("views-velocity");
+            setGradle("\timplementation(\"io.micronaut.views:micronaut-views-velocity\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.views</groupId>\n" +
+                    "\t\t<artifactId>micronaut-views-velocity</artifactId>\n" +
+
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+
+        features.put("views-freemarker", new Feature(){{
+            setName("views-velocity");
+            setGradle("\timplementation(\"io.micronaut.views:micronaut-views-freemarker\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.views</groupId>\n" +
+                    "\t\t<artifactId>micronaut-views-freemarker</artifactId>\n" +
+
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+        features.put("email-template", new Feature(){{
+            setName("email-template");
+            setGradle("\timplementation(\"io.micronaut.email:micronaut-email-template\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.email</groupId>\n" +
+                    "\t\t<artifactId>micronaut-email-template</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
         return features;
     }
 

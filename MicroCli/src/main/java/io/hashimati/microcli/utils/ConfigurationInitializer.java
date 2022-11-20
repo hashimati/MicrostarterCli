@@ -717,6 +717,18 @@ public class ConfigurationInitializer {
                 }
 
             }
+
+            ConfirmResult viewsConfirm = createConfirmResult("fileService", "Do you want to configure VIEWS?", YES);
+            if(viewsConfirm.getConfirmed() == YES)
+            {
+                String viewsType = createListPrompt("fileService", "Select the views configuration", "views-thymeleaf", "views-velocity", "views-freemarker").getSelectedId();
+                MicronautProjectValidator.addDependency(workingPath, features.get(viewsType));
+                MicronautProjectValidator.appendToProperties(workingPath, templatesService.loadTemplateContent(templatesService.getProperties().get(VIEW_CONFIG)));
+                configurationInfo.setEnableViews(true);
+                configurationInfo.setViews(viewsType);
+            }
+
+
             configurationInfo.getUrls().add(
                     new URL(){{
                         setScope("/OpenAPI");

@@ -96,9 +96,16 @@ public class ServiceGenerator {
         Integer configureResult = configureService(configurationInfo, workingPath);
         //end project configuration.
 
+        if(serviceSyntax.getViews() != null)
+        {
+            MicronautProjectValidator.addDependency(workingPath, features.get(serviceSyntax.getViews()));
+            MicronautProjectValidator.appendToProperties(workingPath, templatesService.loadTemplateContent(templatesService.getProperties().get(VIEW_CONFIG)));
+            configurationInfo.setEnableViews(true);
+            configurationInfo.setViews(serviceSyntax.getViews());
+        }
+
 
         if(serviceSyntax.getSecuritySyntax() != null){
-            System.out.println("Having security");
 
             String lang = configurationInfo.getProjectInfo().getSourceLanguage();
             switch (lang.toLowerCase())
@@ -184,9 +191,6 @@ public class ServiceGenerator {
 
                 GeneratorUtils.createFile(outPutPath.replace("\\", "/"), micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage().toLowerCase()));
 
-                //                System.out.println(micronautEntityGenerator.generateEnum(enumClass, configurationInfo.getProjectInfo().getSourceLanguage()));
-//                System.out.println(micronautEntityGenerator.generateEnum(enumClass, "groovy"));
-//                System.out.println(micronautEntityGenerator.generateEnum(enumClass, "kotlin"));
                 if(!isExist)
                     configurationInfo.getEnums().add(enumClass);
                 configurationInfo.writeToFile(workingPath);
@@ -506,7 +510,6 @@ public class ServiceGenerator {
             setGrpcSupport(serviceSyntax.isGrpc());
             setDatabaseType(altValue(findDatabaseConstantString(serviceSyntax.getDatabase()),ProjectConstants.DatabasesConstants.H2));
             setDatabaseName(altValue(serviceSyntax.getDatabaseName(), serviceSyntax.getName()));
-            System.out.println(getDatabaseType());
 
             if(RELATIONAL_DATABASES.stream().map(x->x.toLowerCase()).collect(Collectors.toList()).contains(getDatabaseType().toLowerCase())) {
                 setDataBackendRun(altValue(serviceSyntax.getDao(), JDBC));
@@ -518,7 +521,6 @@ public class ServiceGenerator {
             else if(getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage)){
                 setDataBackendRun("microstream");
             }
-            System.out.println(getDataBackendRun());
             setNonBlocking(NON_BLOCKING_DAOS.contains(getDataBackendRun()));
             setDataMigrationTool(altValue(serviceSyntax.getMigrationTool(), "none"));
 
@@ -651,7 +653,6 @@ public class ServiceGenerator {
 
 
                 Feature databaseFeature = features.get(configurationInfo.getDatabaseType().toLowerCase());
-                System.out.println(databaseFeature.getName());
                 switch (configurationInfo.getDataBackendRun())
                 {
 

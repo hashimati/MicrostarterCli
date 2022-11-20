@@ -39,11 +39,13 @@ public class ConfigurationInfo {
             messaging,
             graphQLIntegrationLib;
 
+
     private String annotation; //{micronaut:default, JAX-RS, SpringBoot]
     private boolean jaxRsAnnotation; // to be replaced with annotation
     private boolean micronautAnnotation;
     private boolean springBootAnnotation;
-    
+    private boolean enableViews;
+    private String views;
     private int port;
     boolean graphQlSupport;
     private String reactiveFramework;

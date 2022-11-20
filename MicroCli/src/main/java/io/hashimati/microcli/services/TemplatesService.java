@@ -317,8 +317,8 @@ public class TemplatesService {
     PASSWORD_ENCODER_SERVICE = "password_encoder_service",
     SECURITY_CLIENT = "security_client",
     SECURITY_FACTORY = "security_factory",
-    SECURITY_CODERANDOMIZER = "code_randomizer";
-
+    SECURITY_CODERANDOMIZER = "code_randomizer",
+    VIEW_CONFIG = "view";
 
 
 
@@ -701,7 +701,7 @@ public class TemplatesService {
         properties.put(AWS_CONFIGURATION_PROPERTIES, "micronaut/components/aws_properties.txt");
         properties.put(MICROSTREAM_YML, "micronaut/entityTemplates/microstreams/microstream_properties.txt");
         properties.put(OPENAPI_PROPERTIES , "micronaut/components/openapi.properties");
-
+        properties.put(VIEW_CONFIG, "micronaut/components/view.yml");
 
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");

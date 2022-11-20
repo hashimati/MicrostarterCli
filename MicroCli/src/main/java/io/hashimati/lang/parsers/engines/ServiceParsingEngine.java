@@ -23,6 +23,7 @@ public class ServiceParsingEngine extends ParsingEngine{
         ServiceSyntax serviceSyntax = new ServiceSyntax(sentence);
         getServiceName(serviceSyntax);
         getPort(serviceSyntax);
+        getViews(serviceSyntax);
         serviceSyntax.setPackage(getAttribute(serviceSyntax, "package"));
         serviceSyntax.setReactive(getAttribute(serviceSyntax, "reactive"));
         serviceSyntax.setBuild(getAttribute(serviceSyntax,"build"));
@@ -56,6 +57,25 @@ public class ServiceParsingEngine extends ParsingEngine{
 
     }
 
+    private void getViews(ServiceSyntax serviceSyntax) {
+        try {
+            List<String> viewsCommand= PatternUtils.getPatternsFromText("\\s*views\\s+\\w+\\s*\\;", serviceSyntax.getSentence());
+
+            if(viewsCommand.size() > 1)
+                throw new InvalidSyntaxException("There are more than one views command.");
+                serviceSyntax.setViews(Optional.ofNullable(viewsCommand.get(0)
+                                .replaceAll("\\s*views\\s+", "")
+                                .replaceAll("\\s*\\;","" ).trim())
+                        .map(x->{return x.trim().isEmpty()?null:x.trim();})
+                        .orElse(null).split("\\s+")[1]);
+        }
+        catch (InvalidSyntaxException ex)
+        {
+            ex.printStackTrace();
+            serviceSyntax.setValid(false);
+            serviceSyntax.getErrors().add(ex.getMessage());
+        }
+    }
 
 
     private void getGraphQl(ServiceSyntax serviceSyntax) {

@@ -1,0 +1,7 @@
+micronaut:
+  router:
+    static-resources:
+      '*':
+        paths:
+          - "classpath:static"
+        enabled: true

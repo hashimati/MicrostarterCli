@@ -19,6 +19,7 @@ public class ServiceSyntax extends Syntax{
     }
     private String name = "demo", language = "JAVA", build = "GRADLE", reactive = "reactor", framework = "micronaut";
 
+    private String views;
     private String annotation;
     private String testFramework;
     private boolean graphql;
@@ -274,6 +275,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setSecuritySyntax(SecuritySyntax securitySyntax) {
         this.securitySyntax = securitySyntax;
+    }
+
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
     }
 }
 
