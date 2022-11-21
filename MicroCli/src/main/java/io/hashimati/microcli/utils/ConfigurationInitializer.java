@@ -482,14 +482,23 @@ public class ConfigurationInitializer {
         if(!projectInfo.getFeatures().contains("rabbitmq") &&
                 !projectInfo.getFeatures().contains("kafka") &&
                 !projectInfo.getFeatures().contains("nats") &&
-                !projectInfo.getFeatures().contains("gcp-pubsub"))
+                !projectInfo.getFeatures().contains("gcp-pubsub") &&
+                !projectInfo.getFeatures().contains("mqttv5") &&
+                !projectInfo.getFeatures().contains("mqttv3")
+        )
         {
-            ListResult messagingTypeResult = PromptGui.createListPrompt("databaseType", "Select Messaging type: ", "Nats", "RabbitMQ", "Kafka","GCP-PubSub", "none");
+            ListResult messagingTypeResult = PromptGui.createListPrompt("databaseType", "Select Messaging type: ", "Nats", "RabbitMQ", "Kafka","GCP-PubSub","mqtt", "none");
             configurationInfo.setMessaging(messagingTypeResult.getSelectedId().toLowerCase());
             if(!messagingTypeResult.getSelectedId().equalsIgnoreCase("none")){
 
+
                 projectInfo.getFeatures().add(configurationInfo.getMessaging());
-                MicronautProjectValidator.addDependency(workingPath,features.get(configurationInfo.getMessaging()));
+                if(configurationInfo.getMessaging().equalsIgnoreCase("mqtt"))
+                {
+                    MicronautProjectValidator.addDependency(workingPath,features.get("mqttv3"),features.get("mqttv5"));
+                }
+                else
+                    MicronautProjectValidator.addDependency(workingPath,features.get(configurationInfo.getMessaging()));
                 projectInfo.dumpToFile(workingPath);
 
 

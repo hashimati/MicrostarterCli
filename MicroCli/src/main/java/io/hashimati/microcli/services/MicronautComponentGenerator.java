@@ -202,6 +202,28 @@ public class MicronautComponentGenerator {
         return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
     }
 
+    public String generateMqttClient(String classPackage, String className, String queueName, Entity entity, String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("queueName", queueName);
+        map.put("Message", entity == null?"String": entity.getName());
+        map.put("micrometer", micrometers);
+
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+        return generate(TemplatesService.MQTT_CLIENT, map, lang);
+
+    }
+    public String generateMqttConsumer(String classPackage, String className,String queueName, Entity entity, String lang, boolean micrometers){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pack", classPackage);
+        map.put("className", className);
+        map.put("queueName", queueName);
+        map.put("Message", entity == null?"String": entity.getName());
+        map.put("micrometer", micrometers);
+        map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
+        return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
+    }
     public String generateEventPublisher(String pack, String className, String eventName, String lang){
         HashMap<String, Object> map = new HashMap<>();
         map.put("pack", pack);

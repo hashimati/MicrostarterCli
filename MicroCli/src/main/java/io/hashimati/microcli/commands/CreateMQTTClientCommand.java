@@ -78,7 +78,11 @@ public class CreateMQTTClientCommand implements Callable<Integer> {
             TemplatesService templatesService = new TemplatesService();
             projectInfo.getFeatures().add("mqtt");
             try {
-                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqtt"));
+                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqttv3"));
+                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqttv5"));
+                String messagingProperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get("mqtt")); /// The index == to featureName.toUppercase
+                MicronautProjectValidator.appendToProperties(path,messagingProperties);
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
@@ -114,7 +118,7 @@ public class CreateMQTTClientCommand implements Callable<Integer> {
         Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
 
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateRabbitMQClient(packageName, className,queueName, entity,lang, configurationInfo.isMicrometer());
+        String content = micronautComponentGenerator.generateMqttClient(packageName, className,queueName, entity,lang, configurationInfo.isMicrometer());
 
 
         String extension = GeneratorUtils.getSourceFileExtension(lang);

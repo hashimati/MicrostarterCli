@@ -76,8 +76,13 @@ public class CreateMQTTListenerCommand implements Callable<Integer> {
 
             TemplatesService templatesService = new TemplatesService();
             projectInfo.getFeatures().add("mqtt");
+
             try {
-                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqtt"));
+                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqttv3"));
+                MicronautProjectValidator.addDependency(path,FeaturesFactory.features(configurationInfo.getProjectInfo()).get("mqttv5"));
+                String messagingProperties = templatesService.loadTemplateContent
+                        (templatesService.getProperties().get("mqtt")); /// The index == to featureName.toUppercase
+                MicronautProjectValidator.appendToProperties(path,messagingProperties);
             } catch (GradleReaderException e) {
                 e.printStackTrace();
             }
@@ -98,7 +103,7 @@ public class CreateMQTTListenerCommand implements Callable<Integer> {
         String packageName = PromptGui.inputText("pack", "Enter the class's package: ", configurationInfo.getProjectInfo().getDefaultPackage()).getInput();
 
 
-        String className = PromptGui.inputText("className", "Enter the class name: ", "RabbitMQListener").getInput();
+        String className = PromptGui.inputText("className", "Enter the class name: ", "MqttListener").getInput();
 
         String queueName = PromptGui.inputText("queue", "Enter the queue name", className).getInput();
         if(entityName == null)
@@ -112,7 +117,7 @@ public class CreateMQTTListenerCommand implements Callable<Integer> {
         Entity entity = configurationInfo.getEntities().stream().filter(x->x.getName().equals(this.entityName)).findFirst().get();
 
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
-        String content = micronautComponentGenerator.generateRabbitMQConsumer(packageName, className,queueName, entity,lang, configurationInfo.isMicrometer());
+        String content = micronautComponentGenerator.generateMqttConsumer(packageName, className,queueName, entity,lang, configurationInfo.isMicrometer());
 
 
         String extension = GeneratorUtils.getSourceFileExtension(lang);

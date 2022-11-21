@@ -754,6 +754,16 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
         }});
+        features.put("mqttv3", new Feature(){{
+            setName("mqttv3");
+            setGradle("    implementation(\"io.micronaut.mqtt:micronaut-mqttv3\")");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.mqtt</groupId>\n" +
+                    "\t\t<artifactId>micronaut-mqttv5</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
 
 
 

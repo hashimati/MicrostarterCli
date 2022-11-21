@@ -318,7 +318,8 @@ public class TemplatesService {
     SECURITY_CLIENT = "security_client",
     SECURITY_FACTORY = "security_factory",
     SECURITY_CODERANDOMIZER = "code_randomizer",
-    VIEW_CONFIG = "view";
+    VIEW_CONFIG = "view",
+    MQTT ="MQTT";
 
 
 
@@ -702,6 +703,8 @@ public class TemplatesService {
         properties.put(MICROSTREAM_YML, "micronaut/entityTemplates/microstreams/microstream_properties.txt");
         properties.put(OPENAPI_PROPERTIES , "micronaut/components/openapi.properties");
         properties.put(VIEW_CONFIG, "micronaut/components/view.yml");
+        properties.put(MQTT, "micronaut/components/mqtt.yml");
+
 
         graphqlTemplates.put(GRAPHQL_ENUM, "micronaut/entityTemplates/graphql/enum.txt");
         graphqlTemplates.put(GRAPHQL_SCHEMA, "micronaut/entityTemplates/graphql/schema.txt");
