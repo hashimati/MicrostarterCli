@@ -222,7 +222,7 @@ public class MicronautComponentGenerator {
         map.put("Message", entity == null?"String": entity.getName());
         map.put("micrometer", micrometers);
         map.put("importMessage",entity == null?"":("import " +entity.getEntityPackage() + "."+entity.getName()+(lang.equalsIgnoreCase(JAVA_LANG)?";":"")));
-        return generate(TemplatesService.RABBITMQ_LISTENER, map, lang);
+        return generate(TemplatesService.MQTT_LISTENER, map, lang);
     }
     public String generateEventPublisher(String pack, String className, String eventName, String lang){
         HashMap<String, Object> map = new HashMap<>();
