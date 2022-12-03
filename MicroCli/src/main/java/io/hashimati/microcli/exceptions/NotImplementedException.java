@@ -1,6 +1,6 @@
 package io.hashimati.microcli.exceptions;
 
-public class NotImplementedException extends Exception{
+public class NotImplementedException extends IncompatibleClassChangeError{
     public NotImplementedException(String message)
     {
 
