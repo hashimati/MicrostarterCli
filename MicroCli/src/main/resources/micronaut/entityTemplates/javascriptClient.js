@@ -12,17 +12,6 @@ let ${Entity}Service ={
             }
         ).then(response => fn(response)).catch(error => console.log(error))
     },
-    findAllNames(fn) {
-        axios.get('http://localhost:3030/api/v1/${entity}/findAllNames'
-             ,
-             {
-                 headers: {
-                     'Authorization': token
-                 }
-             }
-        ).then(response => fn(response)).catch(error => console.log(error))
-    },
-
     findById(id, fn) {
         axios
             .get('http://localhost:3030/api/v1/${entity}/get?id=' + id

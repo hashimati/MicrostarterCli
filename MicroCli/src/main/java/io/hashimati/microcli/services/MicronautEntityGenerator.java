@@ -1563,7 +1563,6 @@ public class MicronautEntityGenerator
 
             if(ea.isFile()){
 
-
                 HashMap<String,Object> binder = new HashMap<>();
                 binder.put("entityCap", entity.getName());
                 binder.put("entity", NameUtils.camelCase(entity.getName()));
