@@ -129,7 +129,14 @@ public class ServiceGenerator {
                 configurationInfo.setSecurityEnable(true);
                 configurationInfo.setSecurityStrategy(serviceSyntax.getSecuritySyntax().getType());
                 configurationInfo.setSecurityRoles(serviceSyntax.getSecuritySyntax().getRoles());
-                securityGenerator.generateSecurityFiles(workingPath, serviceSyntax.getSecuritySyntax().getType().toLowerCase(), serviceSyntax.getSecuritySyntax().getRoles(), serviceSyntax.getSecuritySyntax().getType().toLowerCase().equalsIgnoreCase("jwt") );
+                configurationInfo.setSecurityJWTPropagate(serviceSyntax.getSecuritySyntax().isPropagate());
+                configurationInfo.getPropagateServices().addAll(serviceSyntax.getSecuritySyntax().getServices());
+                securityGenerator.generateSecurityFiles(workingPath,
+                        serviceSyntax.getSecuritySyntax().getType().toLowerCase(),
+                        serviceSyntax.getSecuritySyntax().getRoles(),
+                        serviceSyntax.getSecuritySyntax().getType().toLowerCase().equalsIgnoreCase("jwt"),
+                        serviceSyntax.getSecuritySyntax().isPropagate(),
+                        serviceSyntax.getSecuritySyntax().getServices());
             } catch (GradleReaderException e) {
 
             }

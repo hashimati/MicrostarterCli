@@ -29,7 +29,7 @@ public class SecurityGenerator {
     private TemplatesService templatesService;
 
 
-    public void generateSecurityFiles(String path, String strategy, HashSet<String> roles, boolean persistRefreshToken) throws IOException, GradleReaderException {
+    public void generateSecurityFiles(String path, String strategy, HashSet<String> roles, boolean persistRefreshToken, boolean propagate, final HashSet<String> serviceIds) throws IOException, GradleReaderException {
 
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
 
@@ -81,6 +81,20 @@ public class SecurityGenerator {
                                     templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPERTIES)
                     )
             );
+            if(propagate)
+            {
+                configurationInfo.setSecurityJWTPropagate(propagate);
+                String propagation =  templatesService.loadTemplateContent(
+                        templatesService.getSecurityPropertiesTemplates().get(TemplatesService.SECURITY_JWT_PROPAGATION_PROPERTIES)
+                );
+
+                configurationInfo.getPropagateServices().addAll(serviceIds);
+                String serviceString = serviceIds.stream().reduce((x,y)-> new StringBuilder(x).append("|").append(y).toString()).get();
+                propagation = propagation.replace("${servicesIds}", serviceString);
+                MicronautProjectValidator.appendToProperties(path,
+                       propagation
+                );
+            }
 
         }}
         else if(strategy.equalsIgnoreCase("basic")){

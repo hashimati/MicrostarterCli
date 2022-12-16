@@ -1,0 +1,11 @@
+micronaut:
+  security:
+    token:
+      writer:
+        header:
+          enabled: true
+          headerName: "Authorization"
+          prefix: "Bearer "
+        propagation:
+          enabled: true
+          service-id-regex: "${servicesIds}"

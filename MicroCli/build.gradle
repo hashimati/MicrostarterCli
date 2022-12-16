@@ -2,10 +2,13 @@ plugins {
     id "org.asciidoctor.jvm.convert" version "3.2.0"
     id "com.diffplug.eclipse.apt" version "3.22.0"
     id "com.github.johnrengelman.shadow" version "6.0.0"
+
+//    id("com.github.johnrengelman.shadow") version "7.1.2"
+//    id("io.micronaut.application") version "3.6.3"
     id "application"
 }
 
-version "0.2.4"
+version "0.2.5"
 group "io.hashimati.microcli"
 
 repositories {

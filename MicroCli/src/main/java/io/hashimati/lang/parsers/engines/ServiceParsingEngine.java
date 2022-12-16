@@ -63,11 +63,26 @@ public class ServiceParsingEngine extends ParsingEngine{
 
             if(viewsCommand.size() > 1)
                 throw new InvalidSyntaxException("There are more than one views command.");
-                serviceSyntax.setViews(Optional.ofNullable(viewsCommand.get(0)
-                                .replaceAll("\\s*views\\s+", "")
-                                .replaceAll("\\s*\\;","" ).trim())
-                        .map(x->{return x.trim().isEmpty()?null:x.trim();})
-                        .orElse(null).split("\\s+")[1]);
+
+
+            if(viewsCommand.isEmpty())
+            {
+                //   serviceSyntax.setReactive(null);
+                serviceSyntax.setViews(null);
+            }
+            else if (viewsCommand.size()>1){
+                throw new InvalidSyntaxException("The command views  is defined more than once: " + viewsCommand);
+            }
+            else{
+                String[] commandSplit = viewsCommand.get(0).trim().split(" ");
+                serviceSyntax.setViews( commandSplit[1].trim().replace(";", "").trim());
+            }
+
+//            serviceSyntax.setViews(Optional.ofNullable(viewsCommand.get(0)
+//                                .replaceAll("\\s*views\\s+", "")
+//                                .replaceAll("\\s*\\;","" ).trim())
+//                        .map(x->{return x.trim().isEmpty()?null:x.trim();})
+//                        .orElse(null).split("\\s+")[1]);
         }
         catch (InvalidSyntaxException ex)
         {

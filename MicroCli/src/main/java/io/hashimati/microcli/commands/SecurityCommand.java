@@ -97,6 +97,22 @@ public class SecurityCommand implements Callable<Integer> {
                 roles.add(role);
             }
         }
+        HashSet<String> servcieIds = new HashSet<>();
+        boolean propagate = false;
+      if(strategy.equalsIgnoreCase("jwt")){
+          ConfirmResult propagte = PromptGui.createConfirmResult("addServiceID", "Do you want to use Propagation?(hint: use it for if you want to build Microservices)", NO);
+          propagate = propagte.getConfirmed() == ConfirmChoice.ConfirmationValue.YES;
+          if(propagate)
+              for(;;){
+                  ConfirmResult addServiceIDConfirm = PromptGui.createConfirmResult("addServiceID", "Do you want to add Service ID?", NO);
+                  if(addServiceIDConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.NO)
+                      break;
+                  else{
+                      InputResult serviceIDnput = PromptGui.inputText("serviceIDnput", "Enter Service id (hint: Use Kebab formatting, like \"my-service-id\":", ("service-id"));
+                      servcieIds.add(serviceIDnput.getInput());
+                  }
+              }
+      }
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
         switch (lang.toLowerCase())
         {
@@ -115,7 +131,7 @@ public class SecurityCommand implements Callable<Integer> {
                 break;
         }
         try {
-            securityGenerator.generateSecurityFiles(path, strategy.toLowerCase(), roles, persistRefreshToken );
+            securityGenerator.generateSecurityFiles(path, strategy.toLowerCase(), roles, persistRefreshToken, propagate, servcieIds);
         } catch (GradleReaderException e) {
 
         }
