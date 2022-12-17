@@ -60,6 +60,7 @@ public class ConfigurationInfo {
     private boolean securityEnable;
     private String securityStrategy = "none"; //none, jwt, basic, session.
     private boolean securityJWTPropagate;
+    private boolean monolithic;
     private HashSet<String> propagateServices = new HashSet<>();
     private String authenticationStrategy;
     private String tracingFramework;

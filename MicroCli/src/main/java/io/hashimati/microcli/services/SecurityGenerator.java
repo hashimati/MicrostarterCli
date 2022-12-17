@@ -29,10 +29,9 @@ public class SecurityGenerator {
     private TemplatesService templatesService;
 
 
-    public void generateSecurityFiles(String path, String strategy, HashSet<String> roles, boolean persistRefreshToken, boolean propagate, final HashSet<String> serviceIds) throws IOException, GradleReaderException {
+    public void generateSecurityFiles(String path, String strategy, HashSet<String> roles, boolean persistRefreshToken, boolean propagate, final HashSet<String> serviceIds, boolean monolithic) throws IOException, GradleReaderException {
 
         ConfigurationInfo configurationInfo = ConfigurationInfo.fromFile(new File(ConfigurationInfo.getConfigurationFileName(path)));
-
         HashMap<String, Feature> features = FeaturesFactory.features(configurationInfo.getProjectInfo());
 
         String rolesDeclaration = "";
@@ -47,24 +46,27 @@ public class SecurityGenerator {
             templatesService.getSecurityTemplates().remove(SECURITY_CLIENT);
             templatesService.getSecurityTemplates().remove(REFRESH_TOKEN_REPOSITORY);
         }
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
-        auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
-
-        if (configurationInfo.getDataBackendRun().contains("mongoReactive"))
+        if(!strategy.equalsIgnoreCase("jwt") ||(strategy.equalsIgnoreCase("jwt") && propagate && !monolithic) || (strategy.equalsIgnoreCase("jwt") && monolithic))
         {
-            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityControllerTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityDomainsTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityRepositoryTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityServicesTemplates(), configurationInfo);
+            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityUtilsTemplates(), configurationInfo);
+            if (configurationInfo.getDataBackendRun().contains("mongoReactive"))
+            {
+                auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken, templatesService.getSecurityEventsTemplates(), configurationInfo);
+            }
+            if(persistRefreshToken && strategy.equalsIgnoreCase("jwt"))
+                auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
         }
-        if(persistRefreshToken && strategy.equalsIgnoreCase("jwt"))
-            auxGenerateSecurityFiles(path, strategy, rolesDeclaration, persistRefreshToken,templatesService.getSecurityRefreshTokenTemplates(), configurationInfo);
 
         configurationInfo.setSecurityRoles(roles);
         configurationInfo.setSecurityEnable(true);
         configurationInfo.setSecurityStrategy(strategy);
+        configurationInfo.setMonolithic(monolithic);
         MicronautProjectValidator.addDependency(path,features.get("jasypt"));
         if(!configurationInfo.getProjectInfo().getFeatures().contains("security-annotations"))
         {

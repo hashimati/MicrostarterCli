@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.concurrent.Callable;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
+import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
 import static org.fusesource.jansi.Ansi.ansi;
 
 @Command(name = "security", description = {"To enable Security", "This command will generate the security files based the configuration, and selected security mechanism."} , subcommands = {InterceptURLCommand.class})//,subcommands = SSLCommand.class)
@@ -98,20 +99,28 @@ public class SecurityCommand implements Callable<Integer> {
             }
         }
         HashSet<String> servcieIds = new HashSet<>();
+        boolean monolithic  = true;
         boolean propagate = false;
       if(strategy.equalsIgnoreCase("jwt")){
-          ConfirmResult propagte = PromptGui.createConfirmResult("addServiceID", "Do you want to use Propagation?(hint: use it for if you want to build Microservices)", NO);
-          propagate = propagte.getConfirmed() == ConfirmChoice.ConfirmationValue.YES;
-          if(propagate)
-              for(;;){
-                  ConfirmResult addServiceIDConfirm = PromptGui.createConfirmResult("addServiceID", "Do you want to add Service ID?", NO);
-                  if(addServiceIDConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.NO)
-                      break;
-                  else{
-                      InputResult serviceIDnput = PromptGui.inputText("serviceIDnput", "Enter Service id (hint: Use Kebab formatting, like \"my-service-id\":", ("service-id"));
-                      servcieIds.add(serviceIDnput.getInput());
+
+          ConfirmResult monolithicConfirm = PromptGui.createConfirmResult("microservice", "Is this a monolithic service?", YES);
+          monolithic = monolithicConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.YES;
+
+          if(!monolithic)
+          {
+              ConfirmResult propagte = PromptGui.createConfirmResult("addServiceID", "Is this Token Propagation service?", NO);
+              propagate = propagte.getConfirmed() == ConfirmChoice.ConfirmationValue.YES;
+              if (propagate)
+                  for (; ; ) {
+                      ConfirmResult addServiceIDConfirm = PromptGui.createConfirmResult("addServiceID", "Do you want to add Service ID?", NO);
+                      if (addServiceIDConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.NO)
+                          break;
+                      else {
+                          InputResult serviceIDnput = PromptGui.inputText("serviceIDnput", "Enter Service id (hint: Use Kebab formatting, like \"my-service-id\":", ("service-id"));
+                          servcieIds.add(serviceIDnput.getInput());
+                      }
                   }
-              }
+          }
       }
         String lang = configurationInfo.getProjectInfo().getSourceLanguage();
         switch (lang.toLowerCase())
@@ -131,7 +140,7 @@ public class SecurityCommand implements Callable<Integer> {
                 break;
         }
         try {
-            securityGenerator.generateSecurityFiles(path, strategy.toLowerCase(), roles, persistRefreshToken, propagate, servcieIds);
+            securityGenerator.generateSecurityFiles(path, strategy.toLowerCase(), roles, persistRefreshToken, propagate, servcieIds, monolithic);
         } catch (GradleReaderException e) {
 
         }
