@@ -22,7 +22,7 @@ public class StartSpringClient {
     @Client("https://start.spring.io")
     private HttpClient startSpringClient;
 
-    public byte[] generateEurekaServer(String build, String lang, String version, String group, String javaVersion ){
+    public byte[] generateEurekaServer(String build, String lang, String version, String group, String javaVersion, String artifact){
         try{
 
             new Socket().connect(new InetSocketAddress("start.spring.io", 80), 6000);
@@ -34,7 +34,19 @@ public class StartSpringClient {
             return null;
         }
 
-        HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?type={0}-project&language={1}&bootVersion={2}&baseDir=eurekaService&groupId={3}&artifactId=eurekaService&name=eurekaService&description=Eureka Service&packageName={3}.eurekaService&packaging=jar&javaVersion={4}&dependencies=cloud-eureka-server",
+        HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?type={0}-project" +
+                        "&language={1}" +
+                        "&bootVersion={2}" +
+                        "&baseDir=eureka" +
+                        "&groupId={3}" +
+                        "&artifactId=eureka" +
+                        "&name=eureka" +
+                        "&description=Eureka%20Server%20for%20Spring%20Boot" +
+                        "&packageName={3}.eureka" +
+                        "&packaging=jar" +
+                        "&javaVersion={4}" +
+                        "&dependencies=cloud-eureka-server" +
+                        ",native",
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading eurekaService.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 
@@ -43,4 +55,42 @@ public class StartSpringClient {
 
     }
 
+
+    public byte[] generateGatewayServer(String build, String lang, String version, String group, String javaVersion , String artifact, String discovery){
+
+        //https://start.spring.io/starter.zip?type=gradle-project&language=java&bootVersion=3.0.1&baseDir=demo&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.demo&packaging=jar&javaVersion=17&dependencies=cloud-gateway,webflux,oauth2-client,security,native
+        try{
+
+            new Socket().connect(new InetSocketAddress("start.spring.io", 80), 6000);
+
+        }
+        catch (Exception ex)
+        {
+            PromptGui.printlnErr("https://start.spring.io is not reachable. Please, check your internet connection.");
+            return null;
+        }
+
+        String discoveryStarter = discovery.equalsIgnoreCase("eureka")? "cloud-eureka":"cloud-starter-consul-discovery";
+        HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?" +
+                        "type={0}-project" +
+                        "&language={1}" +
+                        "&bootVersion={2}" +
+                        "&baseDir=gateway" +
+                        "&groupId={3}" +
+                        "&artifactId=gateway" +
+                        "&name=gateway" +
+                        "&description=Gateway" +
+                        "&packageName={3}.gateway" +
+                        "&packaging=jar" +
+                        "&javaVersion={4}" +
+                        "&dependencies=webflux,cloud-gateway" +
+//                        ",oauth2-client,security" +
+                        ",native,"+discoveryStarter,
+                build, lang, version, group, javaVersion));
+        PromptGui.println("Downloading gateway.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
+
+        return startSpringClient.toBlocking().retrieve(request, new byte[]{}.getClass());
+
+
+    }
 }

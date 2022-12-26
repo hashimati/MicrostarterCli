@@ -136,7 +136,8 @@ public class ServiceGenerator {
                         serviceSyntax.getSecuritySyntax().getRoles(),
                         serviceSyntax.getSecuritySyntax().getType().toLowerCase().equalsIgnoreCase("jwt"),
                         serviceSyntax.getSecuritySyntax().isPropagate(),
-                        serviceSyntax.getSecuritySyntax().getServices());
+                        serviceSyntax.getSecuritySyntax().getServices(),
+                        serviceSyntax.isMonlithic());
             } catch (GradleReaderException e) {
 
             }

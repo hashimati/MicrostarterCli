@@ -49,6 +49,13 @@ public class ConfigurationInfo {
     private int port;
     boolean graphQlSupport;
     private String reactiveFramework;
+    private String serviceId;
+    private boolean discoveryClientEnabled;
+    private String discoveryClient;
+    private String consulUrl;
+    private String discoveryServer;
+    private String discoveryServerPort;
+
 
     private boolean grpcSupport;
     private boolean isLombok = false;

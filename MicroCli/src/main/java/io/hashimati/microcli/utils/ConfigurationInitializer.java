@@ -118,17 +118,68 @@ public class ConfigurationInitializer {
                         PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
                     }
                     configurationInfo.setPort(portInt);
+                    MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
+                            "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
+                            "---");
 
 
                 } catch (Exception ex) {
                     configurationInfo.setPort(8080);
                     PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
-
                 }
+
+
+                boolean monilithic = PromptGui.createConfirmResult("monolithic", "Is the application monolithic?", YES).getConfirmed() == YES;
+                configurationInfo.setMonolithic(monilithic);
+
+                if(!monilithic)
+                {
+                    boolean usingDiscoveryClient = PromptGui.createConfirmResult("discoveryClient", "Is the application using Discovery Client?", YES).getConfirmed() == YES;
+                    configurationInfo.setDiscoveryClientEnabled(usingDiscoveryClient);
+                    if(usingDiscoveryClient)
+                    {
+
+                        String discoveryClient = PromptGui.createListPrompt("discoveryClient", "Select the Discovery Client", "eureka", "consul").getSelectedId();
+                        configurationInfo.setDiscoveryClient("discovery-" +discoveryClient);
+                        if(discoveryClient.equalsIgnoreCase("eureka"))
+                        {
+                            String eurekaUrl = inputText("eurekaUrl", "Enter the Eureka Server: ", "localhost").getInput();
+                            configurationInfo.setDiscoveryServer(eurekaUrl);
+                            String eurekaPort = inputText("eurekaPort", "Enter the Eureka Server Port: ", "8761").getInput();
+                            configurationInfo.setDiscoveryServerPort(eurekaPort);
+                            MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
+                                    "eureka:\n" +
+                                    "  client:\n" +
+                                    "    serviceUrl:\n" +
+                                    "      defaultZone: ${EUREKA_HOST:"+configurationInfo.getDiscoveryServer()+"}:${EUREKA_PORT:"+configurationInfo.getDiscoveryServerPort()+"}\n" +
+                                    "    registration:\n" +
+                                    "      enabled: true\n");
+                            MicronautProjectValidator.addDependency(workingPath, features.get("discovery-eureka"));
+                        }
+                        else if(discoveryClient.equalsIgnoreCase("consul"))
+                        {
+                            String eurekaUrl = inputText("eurekaUrl", "Enter the Consul Server: ", "localhost").getInput();
+                            configurationInfo.setDiscoveryServer(eurekaUrl);
+                            String eurekaPort = inputText("eurekaPort", "Enter the Consul Server Port: ", "8500").getInput();
+                            configurationInfo.setDiscoveryServerPort(eurekaPort);
+                            MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
+                                    "consul:\n" +
+                                    "  client:\n" +
+                                    "    serviceUrl:\n" +
+                                    "      defaultZone: ${CONSUL_HOST:"+configurationInfo.getDiscoveryServer()+"}:${CONSUL_PORT:"+configurationInfo.getDiscoveryServerPort()+"}\n" +
+                                    "    registration:\n" +
+                                    "      enabled: true\n" );
+                            MicronautProjectValidator.addDependency(workingPath, features.get("discovery-eureka"));
+
+                        }
+                    }
+                }
+                String serviceId = inputText("serviceId", "Enter the service id: ", "service-id").getInput();
+                configurationInfo.setServiceId(serviceId);
+                MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
+                        "micronaut.application.instance.id: "+configurationInfo.getServiceId()+"\n" );
             }
-            MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
-                    "micronaut.server.port: "+configurationInfo.getPort()+"\n" +
-                    "---");
+
 
             if(!projectInfo.getFeatures().contains("reactor") &&!projectInfo.getFeatures().contains("rxjava2") && !projectInfo.getFeatures().contains("rxjava3") ){
 

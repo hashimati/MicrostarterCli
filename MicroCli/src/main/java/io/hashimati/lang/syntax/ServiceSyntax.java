@@ -21,6 +21,7 @@ public class ServiceSyntax extends Syntax{
 
     private String views;
     private String annotation;
+    private boolean monlithic = true ;
     private String testFramework;
     private boolean graphql;
 
@@ -283,6 +284,14 @@ public class ServiceSyntax extends Syntax{
 
     public void setViews(String views) {
         this.views = views;
+    }
+
+    public boolean isMonlithic() {
+        return monlithic;
+    }
+
+    public void setMonlithic(boolean monlithic) {
+        this.monlithic = monlithic;
     }
 }
 

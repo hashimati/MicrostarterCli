@@ -45,7 +45,9 @@ import picocli.CommandLine.Option;
         ConfigureMetricsCommand.class,
         CreateEventCommand.class,
         ListingCommand.class,
-        InitCommand.class
+        InitCommand.class,
+        GatewayCommand.class,
+        EurekaCommand.class
 
 })
 public class MicroCliCommand implements Runnable {

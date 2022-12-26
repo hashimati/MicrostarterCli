@@ -1185,6 +1185,83 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
         }});
+
+
+        features.put("discovery-eureka", new Feature(){{
+            setName("discovery-eureka");
+            setGradle("\timplementation(\"io.micronaut.discovery:micronaut-discovery-client\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.discovery</groupId>\n" +
+                    "\t\t<artifactId>micronaut-discovery-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+        features.put("discovery-consul", new Feature(){{
+            setName("discovery-consul");
+            setGradle("\timplementation(\"io.micronaut.discovery:micronaut-discovery-client\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.discovery</groupId>\n" +
+                    "\t\t<artifactId>micronaut-discovery-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
+        features.put("discovery-kubernetes", new Feature(){{
+            setName("discovery-kubernetes");
+            setGradle("\timplementation(\"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.kubernetes</groupId>\n" +
+                    "\t\t<artifactId>micronaut-kubernetes-discovery-client</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("object-storage-aws", new Feature(){{
+            setName("object-storage-aws");
+            setGradle("\timplementation(\"io.micronaut.objectstorage:micronaut-object-storage-aws\")\n" +
+                    "\timplementation(\"io.micronaut.aws:micronaut-aws-sdk-v2\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.objectstorage</groupId>\n" +
+                    "\t\t<artifactId>micronaut-object-storage-aws</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("object-storage-gcp", new Feature(){{
+            setName("object-storage-gcp");
+            setGradle("\timplementation(\"io.micronaut.objectstorage:micronaut-object-storage-gcp\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.objectstorage</groupId>\n" +
+                    "\t\t<artifactId>micronaut-object-storage-gcp</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+
+        features.put("object-storage-oracle-cloud", new Feature(){{
+            setName("object-storage-oracle-cloud");
+            setGradle("\timplementation(\"io.micronaut.objectstorage:micronaut-object-storage-oracle-cloud\")\n" +
+                    "\timplementation(\"io.micronaut.oraclecloud:micronaut-oraclecloud-sdk\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.objectstorage</groupId>\n" +
+                    "\t\t<artifactId>micronaut-object-storage-oracle-cloud</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.oraclecloud</groupId>\n" +
+                    "\t\t<artifactId>micronaut-oraclecloud-sdk</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+        }});
+        features.put("object-storage-azure", new Feature(){{
+            setName("object-storage-azure");
+            setGradle("\timplementation(\"io.micronaut.objectstorage:micronaut-object-storage-azure\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.micronaut.objectstorage</groupId>\n" +
+                    "\t\t<artifactId>micronaut-object-storage-azure</artifactId>\n" +
+                    "\t\t<scope>compile</scope>\n" +
+                    "\t</dependency>");
+
+        }});
         return features;
     }
 

@@ -73,6 +73,8 @@ public class TemplatesService {
             RANDOMIZER = "Randomizer",
             REPOSITORY = "repository",
             SERVICE = "service",
+            EUREKA_SERVER = "eurekaServer",
+            GATEWAY = "gateway",
             FIND_BY_DATA_REPO= "FIND_BY_DATA_REPO",
             FIND_BY_REACTIVE_REPO = "FIND_BY_R2DBC_REPO",
             FIND_BY_MONGODB_REPO = "FIND_BY_MONGODB_REPO",
@@ -431,7 +433,8 @@ public class TemplatesService {
         javaTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/java/methods/Files/Services_aws.txt");
         javaTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/java/microstream/Repository.txt");
         javaTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/java/Microsstream/RootClass.txt");
-
+        javaTemplates.put(EUREKA_SERVER, "cloud/eureka/Eureka.java");
+        javaTemplates.put(GATEWAY,"cloud/gateways/Gateway.java");
 
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
@@ -542,6 +545,8 @@ public class TemplatesService {
         groovyTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/groovy/microstream/Repository.txt");
         groovyTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/groovy/Microsstream/RootClass.txt");
 
+        groovyTemplates.put(EUREKA_SERVER, "cloud/eureka/Eureka.groovy");
+        groovyTemplates.put(GATEWAY,"cloud/gateways/Gateway.groovy");
 
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
@@ -645,6 +650,8 @@ public class TemplatesService {
         kotlinTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/kotlin/methods/Files/Services_aws.txt");
         kotlinTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/kotlin/microstream/Repository.txt");
         kotlinTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/kotlin/Microsstream/RootClass.txt");
+        kotlinTemplates.put(EUREKA_SERVER,"cloud/eureka/Eureka.kt");
+        kotlinTemplates.put(GATEWAY, "cloud/gateways/Gateway.kt");
 
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
