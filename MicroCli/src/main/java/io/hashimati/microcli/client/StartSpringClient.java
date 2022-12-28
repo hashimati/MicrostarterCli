@@ -45,8 +45,9 @@ public class StartSpringClient {
                         "&packageName={3}.eureka" +
                         "&packaging=jar" +
                         "&javaVersion={4}" +
-                        "&dependencies=cloud-eureka-server" +
-                        ",native",
+                        "&dependencies=cloud-eureka-server" //+
+//                        ",native"
+                ,
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading eurekaService.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 
@@ -85,7 +86,8 @@ public class StartSpringClient {
                         "&javaVersion={4}" +
                         "&dependencies=webflux,cloud-gateway" +
 //                        ",oauth2-client,security" +
-                        ",native,"+discoveryStarter,
+//                        ",native" +
+                        "," +discoveryStarter,
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading gateway.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 

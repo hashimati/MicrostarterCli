@@ -3,9 +3,12 @@ package io.hashimati.microcli.commands;
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import groovy.text.SimpleTemplateEngine;
 import io.hashimati.microcli.domains.ConfigurationInfo;
+import io.hashimati.microcli.domains.GatewayConfig;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
+import io.micronaut.core.naming.NameUtils;
+import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.NO;
 import static de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue.YES;
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 @CommandLine.Command(name = "register", description = "To configure the gateway to registered services' endpoint")
@@ -25,12 +29,8 @@ public class GatewayRegisterCommand implements Callable<Integer> {
     public static final String SERVICE_CONFIG = "---\nspring:\n" +
             "  cloud:\n" +
             "    gateway:\n" +
-            "      routes:\n" +
-            "        - id: ${id}\n" +
-            "          uri: ${uri}\n" +
-            "          predicates:\n" +
-            "            - Path=${path}\n" +
-            "${paths}";
+            "      routes:\n" ;
+
 
 
     @CommandLine.Option(names = {"-d", "--service-directory"}, description = "The registered services' directory")
@@ -39,39 +39,49 @@ public class GatewayRegisterCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
 
+        AnsiConsole.systemInstall();
+        ansi().eraseScreen();
+
+
+        GatewayConfig gatewayConfig = GatewayConfig.readFromFile(GeneratorUtils.getCurrentWorkingPath());
+
+
         if(servicePath == null)
         {
-            String serviceId = PromptGui.inputText("serviceId", "Please enter the service id: ","service-id").getInput();
-            String serviceUrl = PromptGui.inputText("serviceUrl", "Please enter the service url: ", "lb://serviceid").getInput();
-
+            var serviceIdRead = PromptGui.inputText("serviceId", "Please enter the service id: ","service");
+            String serviceId = serviceIdRead.getInput();
+            var serviceUrlRead = PromptGui.inputText("serviceUrl", "Please enter the service name:", "myApp");
+            String serviceUrl = "lb://"+NameUtils.hyphenate(serviceUrlRead.getInput(), true);
             ArrayList<String> paths = new ArrayList<>();
             boolean enteringPath = false;
             do{
-                String path = PromptGui.inputText("path", "Please enter the path: ", "/path").getInput();
+                String path = PromptGui.inputText("path", "Please enter the path: ", "/**").getInput();
                 paths.add(path);
                 enteringPath = PromptGui.createConfirmResult("enteringPath", "Do you want to enter another path? ", NO).getConfirmed() == YES;
             }while(enteringPath);
-            HashMap<String, String> binder = new HashMap<>();
-            binder.put("id", serviceId);
-            binder.put("uri", serviceUrl);
-            binder.put("path", paths.get(0));
-            paths.remove(0);
-            if(!paths.isEmpty())
-            {
-                String pathsString = paths.stream().reduce("", (a, b)-> a + "            - Path=" + b + "\n");
-                binder.put("paths", pathsString);
-            }
-            else
-            {
-                binder.put("paths", "");
-            }
 
+
+            gatewayConfig.getRoutes().add(new GatewayConfig.Route(){{
+                setId(serviceId);
+                setUri(serviceUrl);
+                setPaths(paths);
+            }});
+            String newConfiguration = SERVICE_CONFIG + gatewayConfig.getRoutes().stream().map(r->r.toProperties())
+                    .collect(Collectors.joining("\n"));
 
             String currentDir = System.getProperty("user.dir");
-            MicronautProjectValidator.appendToProperties(currentDir,
-                    GeneratorUtils.generateFromTemplate(SERVICE_CONFIG, binder));
+            if(gatewayConfig.getRoutesConfiguration() == null || gatewayConfig.getRoutesConfiguration().isBlank()) {
+                MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath(), newConfiguration);
+                gatewayConfig.setRoutesConfiguration(newConfiguration);
+            }
+            else {
+                String applicationYml = GeneratorUtils.getFileContent(new File(GeneratorUtils.getCurrentWorkingPath() + "/src/main/resources/application.yml"))
+                        .replace(gatewayConfig.getRoutesConfiguration(), newConfiguration);
+                GeneratorUtils.dumpContentToFile(GeneratorUtils.getCurrentWorkingPath() + "/src/main/resources/application.yml",applicationYml);
+                gatewayConfig.setRoutesConfiguration(newConfiguration);
+            }
 
-
+            gatewayConfig.writeToFile(GeneratorUtils.getCurrentWorkingPath());
         }
         else{
 
@@ -109,30 +119,31 @@ public class GatewayRegisterCommand implements Callable<Integer> {
                 return 1;
             }
             String serviceId  = configurationInfo.getServiceId();
-            String serviceUrl = "lb:/"+configurationInfo.getServiceId().replace("-", "");
+            String serviceUrl = "lb://"+NameUtils.hyphenate(configurationInfo.getAppName(), true);
             ArrayList<String> paths = new ArrayList<>();
-            paths.add("/");
+//            paths.add("/**");
             paths.addAll(configurationInfo.getEntities().stream().map(e->"/api/"+ e.getName()).collect(Collectors.toSet()));
 
-            HashMap<String, String> binder = new HashMap<>();
-            binder.put("id", serviceId);
-            binder.put("uri", serviceUrl);
-            binder.put("path", paths.get(0));
-            paths.remove(0);
-            if(!paths.isEmpty())
-            {
-                String pathsString = paths.stream().reduce("", (a, b)-> a + "            - Path=" + b + "\n");
-                binder.put("paths", pathsString);
-            }
-            else
-            {
-                binder.put("paths", "");
-            }
+            gatewayConfig.getRoutes().add(new GatewayConfig.Route(){{
+                setId(serviceId);
+                setUri(serviceUrl);
+                setPaths(paths);
+            }});
+            String newConfiguration = SERVICE_CONFIG + gatewayConfig.getRoutes().stream().map(r->r.toProperties())
+                    .collect(Collectors.joining("\n"));
+
             String currentDir = System.getProperty("user.dir");
-            MicronautProjectValidator.appendToProperties(currentDir,
-                    GeneratorUtils.generateFromTemplate(SERVICE_CONFIG, binder));
-
-
+            if(gatewayConfig.getRoutesConfiguration() == null || gatewayConfig.getRoutesConfiguration().isBlank()) {
+                MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath(), newConfiguration);
+                gatewayConfig.setRoutesConfiguration(newConfiguration);
+            }
+            else {
+                String applicationYml = GeneratorUtils.getFileContent(new File(GeneratorUtils.getCurrentWorkingPath() + "/src/main/resources/application.yml"))
+                        .replace(gatewayConfig.getRoutesConfiguration(), newConfiguration);
+                GeneratorUtils.dumpContentToFile(GeneratorUtils.getCurrentWorkingPath() + "/src/main/resources/application.yml",applicationYml);
+                gatewayConfig.setRoutesConfiguration(newConfiguration);
+            }
+            gatewayConfig.writeToFile(GeneratorUtils.getCurrentWorkingPath());
         }
         return 0;
     }

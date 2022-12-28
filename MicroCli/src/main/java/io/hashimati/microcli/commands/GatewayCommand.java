@@ -2,6 +2,7 @@ package io.hashimati.microcli.commands;
 
 
 import io.hashimati.microcli.client.StartSpringClient;
+import io.hashimati.microcli.domains.GatewayConfig;
 import io.hashimati.microcli.services.TemplatesService;
 import io.hashimati.microcli.utils.GeneratorUtils;
 import io.hashimati.microcli.utils.MicronautProjectValidator;
@@ -51,7 +52,7 @@ public class GatewayCommand  implements Callable<Integer> {
     @Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
-    @Option(names = "--name", defaultValue = "demo", description = "To specify the application name.\n It should be without spaces.")
+    @Option(names = "--name", defaultValue = "gateway", description = "To specify the application name.\n It should be without spaces.")
     private String name;
 
     @Option(names= {"--javaVersion"}, defaultValue = "11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: 8, 11, 17, 19\nDefault value: 11\nPlease, check: https://start.spring.io/")
@@ -95,6 +96,10 @@ public class GatewayCommand  implements Callable<Integer> {
 
         String projectFilePath = GeneratorUtils.getCurrentWorkingPath() + "/" + name + ".zip";
 
+        GatewayConfig gatewayConfig = new GatewayConfig();
+
+
+
 
         byte[] projectZipFile = startSpringClient.generateGatewayServer(build, language, version, pack, javaVersion, artifact, discovery);
         if (projectZipFile == null) {
@@ -113,6 +118,19 @@ public class GatewayCommand  implements Callable<Integer> {
         boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);
 
 
+        gatewayConfig.setName(name);
+        gatewayConfig.setPort(port);
+        gatewayConfig.setDiscovery(discovery);
+        gatewayConfig.setDiscoveryPort(discoveryPort);
+        gatewayConfig.setDiscoveryServer(discoveryServer);
+        gatewayConfig.setPack(pack);
+        gatewayConfig.setArtifact(artifact);
+        gatewayConfig.setBuild(build);
+        gatewayConfig.setLanguage(language);
+        gatewayConfig.setVersion(version);
+        gatewayConfig.setJavaVersion(javaVersion);
+        gatewayConfig.setGroup(pack);
+        gatewayConfig.setVersion(version);
         String gatewayTemplate = templatesService.loadTemplateContent(templatesService.getJavaTemplates().get(templatesService.GATEWAY));
         String extension = "java";
         if(language.equalsIgnoreCase("groovy"))
@@ -149,15 +167,16 @@ public class GatewayCommand  implements Callable<Integer> {
             String currentDir = System.getProperty("user.dir");
             MicronautProjectValidator.appendToProperties(currentDir+"/gateway", EUREKA_CLIENT_YML.replace("host", discoveryServer).replace("port", discoveryPort));
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "server.port: "+ port+"\n");
-
+            MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "spring.application.name: gateway\n");
         }
         else
         {
             String currentDir = System.getProperty("user.dir");
             MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", CONSUL_CLIENT_YML.replace("host", discoveryServer).replace("port", discoveryPort));
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "server.port: "+ port+"\n");
-
+            MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "spring.application.name: gateway\n");
         }
+        gatewayConfig.writeToFile(GeneratorUtils.getCurrentWorkingPath() + "/gateway");
         return createFileStatus && extract && deleteFile ? 1 : 0;
 
     }

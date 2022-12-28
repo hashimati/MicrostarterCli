@@ -110,6 +110,7 @@ public class EurekaCommand implements Callable<Integer> {
 
         //configure ports.
         MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/eureka", "server.port: "+ port+"\n");
+        MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/eureka", "spring.application.name: eureka\n");
 
         return createFileStatus && extract && deleteFile ? 1 : 0;
 
