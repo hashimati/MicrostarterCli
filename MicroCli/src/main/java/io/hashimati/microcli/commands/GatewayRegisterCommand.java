@@ -55,7 +55,7 @@ public class GatewayRegisterCommand implements Callable<Integer> {
             ArrayList<String> paths = new ArrayList<>();
             boolean enteringPath = false;
             do{
-                String path = PromptGui.inputText("path", "Please enter the path: ", "/**").getInput();
+                String path = PromptGui.inputText("path", "Please enter the path: ", "/api/v1/{entity}/**").getInput();
                 paths.add(path);
                 enteringPath = PromptGui.createConfirmResult("enteringPath", "Do you want to enter another path? ", NO).getConfirmed() == YES;
             }while(enteringPath);
