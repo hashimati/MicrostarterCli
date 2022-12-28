@@ -108,9 +108,12 @@ public class ConfigurationInitializer {
 //                    }
 //            );
 
+            boolean monilithic = PromptGui.createConfirmResult("monolithic", "Is the application monolithic?", YES).getConfirmed() == YES;
+            configurationInfo.setMonolithic(monilithic);
+
             if(MicronautProjectValidator.isApplication(workingPath))
             {
-                String port = inputText("port", "Enter the server port number between 0 - 65535: ", "8080").getInput();
+                String port = inputText("port", "Enter the server port number between 0 - 65535: ", monilithic?"8080" :"-1").getInput();
                 try {
                     int portInt = Integer.parseInt(port);
                     if (portInt < 0 || portInt > 65535) {
@@ -129,8 +132,6 @@ public class ConfigurationInitializer {
                 }
 
 
-                boolean monilithic = PromptGui.createConfirmResult("monolithic", "Is the application monolithic?", YES).getConfirmed() == YES;
-                configurationInfo.setMonolithic(monilithic);
 
                 if(!monilithic)
                 {
