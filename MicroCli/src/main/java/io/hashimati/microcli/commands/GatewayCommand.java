@@ -86,6 +86,10 @@ public class GatewayCommand  implements Callable<Integer> {
 
     @Option(names = "--discovery", defaultValue = "eureka", description = "To specify the discovery server type.\nvalues set =[eureka, consul]" )
     private String discovery;
+    @Option(names = "--config", defaultValue = "spring", description = "To specify the configuration server type.\nvalues set =[spring, consul]" )
+    private String config;
+    @Option(names = "--configPort", defaultValue = "8888", description = "To specify the configuration server port.]" )
+    private String configPort;
 
     public GatewayCommand() {
     }
@@ -101,7 +105,7 @@ public class GatewayCommand  implements Callable<Integer> {
 
 
 
-        byte[] projectZipFile = startSpringClient.generateGatewayServer(build, language, version, pack, javaVersion, artifact, discovery);
+        byte[] projectZipFile = startSpringClient.generateGatewayServer(build, language, version, pack, javaVersion, artifact, discovery, config);
         if (projectZipFile == null) {
             PromptGui.printlnErr("Failed to generate " + name + " project.");
             return 0;

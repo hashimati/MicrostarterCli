@@ -57,7 +57,7 @@ public class StartSpringClient {
     }
 
 
-    public byte[] generateGatewayServer(String build, String lang, String version, String group, String javaVersion , String artifact, String discovery){
+    public byte[] generateGatewayServer(String build, String lang, String version, String group, String javaVersion , String artifact, String discovery, String config){
 
         //https://start.spring.io/starter.zip?type=gradle-project&language=java&bootVersion=3.0.1&baseDir=demo&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.demo&packaging=jar&javaVersion=17&dependencies=cloud-gateway,webflux,oauth2-client,security,native
         try{
@@ -72,6 +72,7 @@ public class StartSpringClient {
         }
 
         String discoveryStarter = discovery.equalsIgnoreCase("eureka")? "cloud-eureka":"cloud-starter-consul-discovery";
+       String configStarter = config.equalsIgnoreCase("spring")? "cloud-config-client":"cloud-starter-consul-config";
         HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?" +
                         "type={0}-project" +
                         "&language={1}" +
@@ -87,12 +88,50 @@ public class StartSpringClient {
                         "&dependencies=webflux,cloud-gateway" +
 //                        ",oauth2-client,security" +
 //                        ",native" +
-                        "," +discoveryStarter,
+                        "," +discoveryStarter +
+                        "," + configStarter,
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading gateway.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 
         return startSpringClient.toBlocking().retrieve(request, new byte[]{}.getClass());
 
 
+    }
+
+    //generate Spring Cloud Config Server
+    public byte[] generateConfigServer(String build, String lang, String version, String group, String javaVersion , String artifact, String discovery) {
+
+        //https://start.spring.io/starter.zip?type=gradle-project&language=java&bootVersion=3.0.1&baseDir=demo&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.demo&packaging=jar&javaVersion=17&dependencies=cloud-gateway,webflux,oauth2-client,security,native
+        try {
+
+            new Socket().connect(new InetSocketAddress("start.spring.io", 80), 6000);
+
+        } catch (Exception ex) {
+            PromptGui.printlnErr("https://start.spring.io is not reachable. Please, check your internet connection.");
+            return null;
+        }
+
+        String discoveryStarter = discovery.equalsIgnoreCase("eureka") ? "cloud-eureka" : "cloud-starter-consul-discovery";
+        HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?" +
+                "type={0}-project" +
+                "&language={1}" +
+                "&bootVersion={2}" +
+                "&baseDir=config" +
+                "&groupId={3}" +
+                "&artifactId=config" +
+                "&name=config" +
+                "&description=Config" +
+                "&packageName={3}.config" +
+                "&packaging=jar" +
+                "&javaVersion={4}" +
+                "&dependencies=webflux,cloud-config-server",
+//                        ",oauth2-client,security" +
+//                        ",native" +
+//                        "," +discoveryStarter,
+        build, lang, version, group, javaVersion));
+       // cloud-config-client,cloud-config-server,cloud-starter-consul-config
+        PromptGui.println("Downloading config.zip:\nGET: https://start.spring.io" + request.getUri(), Ansi.Color.WHITE);
+
+        return startSpringClient.toBlocking().retrieve(request, new byte[]{}.getClass());
     }
 }

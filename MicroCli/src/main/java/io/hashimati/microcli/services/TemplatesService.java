@@ -74,6 +74,7 @@ public class TemplatesService {
             REPOSITORY = "repository",
             SERVICE = "service",
             EUREKA_SERVER = "eurekaServer",
+            CONFIG_SERVER = "configServer",
             GATEWAY = "gateway",
             FIND_BY_DATA_REPO= "FIND_BY_DATA_REPO",
             FIND_BY_REACTIVE_REPO = "FIND_BY_R2DBC_REPO",
@@ -435,7 +436,7 @@ public class TemplatesService {
         javaTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/java/Microsstream/RootClass.txt");
         javaTemplates.put(EUREKA_SERVER, "cloud/eureka/Eureka.java");
         javaTemplates.put(GATEWAY,"cloud/gateways/Gateway.java");
-
+        javaTemplates.put(CONFIG_SERVER, "cloud/config/Config.java");
 
         groovyTemplates.put(CLIENT, "micronaut/entityTemplates/groovy/client.txt");
         groovyTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/groovy/GrpcEndPoint.txt");
@@ -547,7 +548,7 @@ public class TemplatesService {
 
         groovyTemplates.put(EUREKA_SERVER, "cloud/eureka/Eureka.groovy");
         groovyTemplates.put(GATEWAY,"cloud/gateways/Gateway.groovy");
-
+        groovyTemplates.put(CONFIG_SERVER, "cloud/config/Config.groovy");
 
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
@@ -652,7 +653,7 @@ public class TemplatesService {
         kotlinTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/kotlin/Microsstream/RootClass.txt");
         kotlinTemplates.put(EUREKA_SERVER,"cloud/eureka/Eureka.kt");
         kotlinTemplates.put(GATEWAY, "cloud/gateways/Gateway.kt");
-
+        kotlinTemplates.put(CONFIG_SERVER, "cloud/config/ConfigServer.kt");
 
         sqlEntityTemplates.put(ATTRIBUTE, "micronaut/entityTemplates/sql/attribute_template.txt");
         sqlEntityTemplates.put(CONSTRAINT, "micronaut/entityTemplates/sql/constraint_template.sql");

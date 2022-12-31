@@ -47,7 +47,8 @@ import picocli.CommandLine.Option;
         ListingCommand.class,
         InitCommand.class,
         GatewayCommand.class,
-        EurekaCommand.class
+        EurekaCommand.class,
+        ConfigServerCommand.class
 
 })
 public class MicroCliCommand implements Runnable {
