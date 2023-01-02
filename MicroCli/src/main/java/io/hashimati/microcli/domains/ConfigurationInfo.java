@@ -56,6 +56,11 @@ public class ConfigurationInfo {
     private String discoveryServer;
     private String discoveryServerPort;
 
+    private boolean configServerEnabled;
+
+    private String configServer;
+    private String configServerUrl;
+    private String configServerPort;
 
     private boolean grpcSupport;
     private boolean isLombok = false;

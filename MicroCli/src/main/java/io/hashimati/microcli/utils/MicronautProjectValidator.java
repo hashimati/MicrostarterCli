@@ -835,6 +835,21 @@ public class MicronautProjectValidator {
         }
         return false;
     }
+
+    public static boolean appendToBootstrap(String cwd, String properties) throws IOException {
+        //todo
+        if(!cwd.endsWith("/")) cwd +="/";
+        String propertiesPath = cwd + "src/main/resources/bootstrap.yml";
+        String propertiesContent = GeneratorUtils.getFileContent(new File(propertiesPath)).replaceAll("^\\s+","");
+        if(!propertiesContent.contains(properties))
+        {
+
+            boolean appending =  GeneratorUtils.appendContentToFile(propertiesPath, propertiesContent + "\n---\n"+properties) ;
+
+            return appending;  //&& formattingYamlFile(propertiesPath);
+        }
+        return false;
+    }
     public static boolean writeProperties(String properties) throws IOException {
         //todo
         String propertiesPath = "src/main/resources/application.yml";

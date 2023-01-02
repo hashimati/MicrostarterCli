@@ -174,6 +174,52 @@ public class ConfigurationInitializer {
 
                         }
                     }
+
+
+                    boolean usingConfigServer = PromptGui.createConfirmResult("configServer", "Is the application using Configuration Server?", YES).getConfirmed() == YES;
+                    configurationInfo.setConfigServerEnabled(usingConfigServer);
+                    if(usingConfigServer)
+                    {
+                        String configServer = PromptGui.createListPrompt("discoveryClient", "Select the Configuration Server", "Spring Cloud Config", "consul").getSelectedId();
+                        configurationInfo.setDiscoveryClient("config-" +configServer);
+                        if(configServer.equalsIgnoreCase("consul"))
+                        {
+                            String configServerUrl = inputText("configServerUrl", "Enter the Consul Server: ", "localhost").getInput();
+                            configurationInfo.setConfigServerUrl(  configServerUrl);
+                            String configServerPort = inputText("configServerPort", "Enter the Consul Server Port: ", "8500").getInput();
+                            configurationInfo.setConfigServerPort(configServerPort);
+                            MicronautProjectValidator.appendToBootstrap(workingPath, "micronaut.config-client.enabled: true");
+
+                            MicronautProjectValidator.appendToBootstrap(workingPath,"---\n" +
+                                    "consul:\n" +
+                                    "  client:\n" +
+                                    "    serviceUrl:\n" +
+                                    "      defaultZone: ${CONSUL_HOST:"+configurationInfo.getConfigServerUrl()+"}:${CONSUL_PORT:"+configurationInfo.getConfigServerPort()+"}\n");
+
+
+                            MicronautProjectValidator.addDependency(workingPath, features.get("discovery-consul"));
+
+
+                        }
+                        else if(configServer.equalsIgnoreCase("spring-cloud-config"))
+                        {
+
+                            String configServerUrl = inputText("configServerUrl", "Enter the Spring Cloud Config Server: ", "localhost").getInput();
+                            configurationInfo.setConfigServerUrl(  configServerUrl);
+                            String configServerPort = inputText("configServerPort", "Enter the Spring Cloud Config Server Port: ", "8888").getInput();
+                            configurationInfo.setConfigServerPort(configServerPort);
+                            MicronautProjectValidator.appendToBootstrap(workingPath, "micronaut.config-client.enabled: true");
+
+                            MicronautProjectValidator.appendToBootstrap(workingPath,"spring:\n" +
+                                    "    application:\n" +
+                                    "        name: ${micronaut.application.name}\n" +
+                                    "    cloud:\n" +
+                                    "        config:\n" +
+                                    "            enabled: true\n" +
+                                    "            uri: http://localhost:8888/".replace("localhost", configurationInfo.getConfigServerUrl()).replace("8888", configurationInfo.getConfigServerPort()));
+                           }
+
+                    }
                 }
                 String serviceId = inputText("serviceId", "Enter the service id: ", "service-id").getInput();
                 configurationInfo.setServiceId(serviceId);
