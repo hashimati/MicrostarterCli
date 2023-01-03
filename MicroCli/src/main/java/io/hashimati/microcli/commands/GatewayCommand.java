@@ -40,6 +40,19 @@ public class GatewayCommand  implements Callable<Integer> {
             "   discovery:\n" +
             "    instance-id: gateway\n" +
             "    serviceName: gateway-${spring.application.name}";
+    private String SPRING_CONFIG_YML = "spring.cloud.config.uri: http://host:port";
+    private String CONSUL_CONFIG_YML = "spring:\n" +
+            " cloud:\n" +
+            "  consul:\n" +
+            "   host: host\n" +
+            "   port: port\n" +
+            "   config:\n" +
+            "    enabled: true\n" +
+            "    prefix: ${spring.application.name}\n" +
+            "    format: yaml\n" +
+            "    data-key: data\n" +
+            "    fail-fast: true\n" +
+            "    acl-token: ${CONSUL_TOKEN:}";
     @Inject
     private StartSpringClient startSpringClient;;
 
@@ -86,7 +99,7 @@ public class GatewayCommand  implements Callable<Integer> {
 
     @Option(names = "--discovery", defaultValue = "eureka", description = "To specify the discovery server type.\nvalues set =[eureka, consul]" )
     private String discovery;
-    @Option(names = "--config", defaultValue = "spring", description = "To specify the configuration server type.\nvalues set =[spring, consul]" )
+    @Option(names = "--config", defaultValue = "none", description = "To specify the configuration server type.\nvalues set =[spring, consul]" )
     private String config;
     @Option(names = "--configPort", defaultValue = "8888", description = "To specify the configuration server port.]" )
     private String configPort;
@@ -179,6 +192,17 @@ public class GatewayCommand  implements Callable<Integer> {
             MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", CONSUL_CLIENT_YML.replace("host", discoveryServer).replace("port", discoveryPort));
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "server.port: "+ port+"\n");
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "spring.application.name: gateway\n");
+        }
+
+        if(config.equalsIgnoreCase("spring"))
+        {
+            String currentDir = System.getProperty("user.dir");
+            MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", SPRING_CONFIG_YML.replace("host", discoveryServer).replace("port", configPort));
+        }
+        else
+        {
+            String currentDir = System.getProperty("user.dir");
+            MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", CONSUL_CONFIG_YML.replace("host", discoveryServer).replace("port", configPort));
         }
         gatewayConfig.writeToFile(GeneratorUtils.getCurrentWorkingPath() + "/gateway");
         return createFileStatus && extract && deleteFile ? 1 : 0;

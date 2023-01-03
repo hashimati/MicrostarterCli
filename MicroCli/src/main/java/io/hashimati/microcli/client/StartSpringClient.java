@@ -93,6 +93,7 @@ public class StartSpringClient {
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading gateway.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 
+
         return startSpringClient.toBlocking().retrieve(request, new byte[]{}.getClass());
 
 
@@ -131,6 +132,8 @@ public class StartSpringClient {
         build, lang, version, group, javaVersion));
        // cloud-config-client,cloud-config-server,cloud-starter-consul-config
         PromptGui.println("Downloading config.zip:\nGET: https://start.spring.io" + request.getUri(), Ansi.Color.WHITE);
+
+
 
         return startSpringClient.toBlocking().retrieve(request, new byte[]{}.getClass());
     }

@@ -61,6 +61,8 @@ public class ConfigurationInfo {
     private String configServer;
     private String configServerUrl;
     private String configServerPort;
+    private String configFormat;
+
 
     private boolean grpcSupport;
     private boolean isLombok = false;

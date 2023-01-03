@@ -190,16 +190,15 @@ public class ConfigurationInitializer {
                             configurationInfo.setConfigServerPort(configServerPort);
                             MicronautProjectValidator.appendToBootstrap(workingPath, "micronaut.config-client.enabled: true");
 
+                            String configFormat = PromptGui.createListPrompt("configFormat", "Select the Configuration Format", "YAML", "JSON", "FILE").getSelectedId();
+                            configurationInfo.setConfigFormat(configFormat);
+                            MicronautProjectValidator.appendToBootstrap(workingPath, "micronaut.client.config.format: "+configFormat);
                             MicronautProjectValidator.appendToBootstrap(workingPath,"---\n" +
                                     "consul:\n" +
                                     "  client:\n" +
                                     "    serviceUrl:\n" +
                                     "      defaultZone: ${CONSUL_HOST:"+configurationInfo.getConfigServerUrl()+"}:${CONSUL_PORT:"+configurationInfo.getConfigServerPort()+"}\n");
-
-
                             MicronautProjectValidator.addDependency(workingPath, features.get("discovery-consul"));
-
-
                         }
                         else if(configServer.equalsIgnoreCase("spring-cloud-config"))
                         {
