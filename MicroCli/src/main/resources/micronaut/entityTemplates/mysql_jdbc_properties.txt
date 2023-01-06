@@ -4,5 +4,5 @@ datasources:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: 'Hello1234'
-    schema-generate: ${schemaGenerate}
+#    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration
     dialect: MYSQL
