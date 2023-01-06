@@ -92,6 +92,8 @@ public class SecurityGenerator {
 
                 configurationInfo.getPropagateServices().addAll(serviceIds);
                 String serviceString = serviceIds.stream().reduce((x,y)-> new StringBuilder(x).append("|").append(y).toString()).get();
+                configurationInfo
+                        .setCurrentPropagateString(serviceString);
                 propagation = propagation.replace("${servicesIds}", serviceString);
                 MicronautProjectValidator.appendToProperties(path,
                        propagation
