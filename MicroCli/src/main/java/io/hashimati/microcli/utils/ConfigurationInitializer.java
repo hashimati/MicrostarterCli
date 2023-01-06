@@ -116,9 +116,13 @@ public class ConfigurationInitializer {
                 String port = inputText("port", "Enter the server port number between 0 - 65535: ", monilithic?"8080" :"-1").getInput();
                 try {
                     int portInt = Integer.parseInt(port);
-                    if (portInt < 0 || portInt > 65535) {
-                        configurationInfo.setPort(8080);
-                        PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
+                    if (portInt < -1 || portInt > 65535) {
+                       if(configurationInfo.isMonolithic())
+                           configurationInfo.setPort(-1);
+                       else
+                           configurationInfo.setPort(8080);
+
+                //        PromptGui.printlnWarning(port + " is not valid port number. The port is set to 8080.");
                     }
                     configurationInfo.setPort(portInt);
                     MicronautProjectValidator.appendToProperties(workingPath,"---\n" +
