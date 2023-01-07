@@ -30,7 +30,7 @@ public class EurekaCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"--package"}, defaultValue = "com.example", description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
-    @CommandLine.Option(names = "--name", defaultValue = "demo", description = "To specify the application name.\n It should be without spaces.")
+    @CommandLine.Option(names = "--name", defaultValue = "eureka", description = "To specify the application name.\n It should be without spaces.")
     private String name;
 
     @CommandLine.Option(names= {"--javaVersion"}, defaultValue = "11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: 8, 11, 17, 19\nDefault value: 11\nPlease, check: https://start.spring.io/")
