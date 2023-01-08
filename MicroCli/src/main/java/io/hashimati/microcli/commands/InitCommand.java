@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-@Command(name = "init", description = "To generate a Micronaut project from Micronaut Launch(https:\\\\launch.micronaut.io).\nPlease, check: https://launch.micronaut.io/swagger/views/swagger-ui/index.html")
+@Command(name = "init", description = "To generate a Micronaut project from Micronaut Launch(https:\\\\launch.micronaut.io).\nPlease, check: https://launch.micronaut.io/swagger/views/swagger-ui/index.html", subcommands = {MicroserviceCommand.class})
 public class InitCommand implements Callable<Integer> {
 
     @Inject
