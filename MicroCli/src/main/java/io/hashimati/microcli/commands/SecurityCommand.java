@@ -99,13 +99,14 @@ public class SecurityCommand implements Callable<Integer> {
             }
         }
         HashSet<String> servcieIds = new HashSet<>();
-        boolean monolithic  = true;
+        boolean monolithic  = configurationInfo.isMonolithic();
         boolean propagate = false;
       if(strategy.equalsIgnoreCase("jwt")){
 
-          ConfirmResult monolithicConfirm = PromptGui.createConfirmResult("microservice", "Is this a monolithic service?", YES);
-          monolithic = monolithicConfirm.getConfirmed()== ConfirmChoice.ConfirmationValue.YES;
-
+          if(monolithic) {
+              ConfirmResult monolithicConfirm = PromptGui.createConfirmResult("microservice", "Is this a monolithic service?", YES);
+              monolithic = monolithicConfirm.getConfirmed() == ConfirmChoice.ConfirmationValue.YES;
+          }
           if(!monolithic)
           {
               ConfirmResult propagte = PromptGui.createConfirmResult("addServiceID", "Is this Token Propagation service?", NO);
@@ -127,6 +128,7 @@ public class SecurityCommand implements Callable<Integer> {
         {
             case "java":
                 try {
+
                     MicronautProjectValidator.addLombok(path,configurationInfo.getProjectInfo());
                 } catch (GradleReaderException e) {
                     throw new RuntimeException(e);

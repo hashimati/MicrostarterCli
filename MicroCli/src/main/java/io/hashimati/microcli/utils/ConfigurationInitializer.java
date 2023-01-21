@@ -272,7 +272,7 @@ public class ConfigurationInitializer {
 
 //            boolean jaxrs = PromptGui.createConfirmResult("jaxrs", "Do you want to use JAX-RS?", NO).getConfirmed() == YES;
 //            if(jaxrs) {
-
+            
             if(annotation.getSelectedId().equalsIgnoreCase("jax-rs")) {
                 MicronautProjectValidator.addDependency(workingPath, features.get("jax-rs"));
                 configurationInfo.setJaxRsAnnotation(true);
@@ -958,7 +958,7 @@ public class ConfigurationInitializer {
         {
 
         }
-        if(configurationInfo.isLombok())
+//        if(configurationInfo.isLombok())
             MicronautProjectValidator.addLombok(workingPath,projectInfo);
     //MicronautProjectValidator.addDependency(workingPath,features.get("openapi"));
 
