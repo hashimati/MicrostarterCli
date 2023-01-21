@@ -7,6 +7,7 @@ package io.hashimati.microcli;
  * @email: hashimati.ahmed@gmail.com
  */
 import io.hashimati.microcli.commands.*;
+import io.hashimati.microcli.commands.spring.SpringStarter;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -48,7 +49,10 @@ import picocli.CommandLine.Option;
         InitCommand.class,
         GatewayCommand.class,
         EurekaCommand.class,
-        ConfigServerCommand.class
+        ConfigServerCommand.class,
+        SpringStarter.class,
+        DockerCommand.class
+
 
 })
 public class MicroCliCommand implements Runnable {

@@ -276,7 +276,6 @@ public class MicronautProjectValidator {
 
     public static boolean updateGradlewDependencies(String cwd, String newDependencies, int index) throws IOException, GradleReaderException {
         GradleProjectUtils gradleProjectUtils = new GradleProjectUtils();
-
         String gradleContent = getGradleFileContent(cwd);
 
         if(gradleContent.contains(newDependencies.trim()))
@@ -430,10 +429,14 @@ public class MicronautProjectValidator {
 
     private static String getGradleFileContent(String cwd) throws FileNotFoundException {
         String kts = "";
-        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
-            kts = ".kts";
 
-        File  build = new File(cwd + "/build.gradle"+kts);
+//        if(projectInfo.getBuildTool().equalsIgnoreCase("gradle_kotlin"))
+//            kts = ".kts";
+
+
+        File  build = new File(cwd + "/build.gradle");
+        if(!build.exists())
+            build = new File(cwd + "/build.gradle.kts");
         return GeneratorUtils.getFileContent(build);
     }
 

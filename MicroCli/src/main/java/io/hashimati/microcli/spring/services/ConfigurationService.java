@@ -22,10 +22,15 @@ public class ConfigurationService {
     private ProjectValidator projectValidator = new ProjectValidator();
 
     private FeaturesFactory featuresFactory = new FeaturesFactory();
-    public Integer configure() throws IOException, XmlPullParserException {
+    public Integer configure(String path) throws IOException, XmlPullParserException {
         PromptGui.println("Detecting Project information", Ansi.Color.CYAN);
         ConfigurationInfo configurationInfo = new ConfigurationInfo();
-        String currentDir = getWorkingDirectory();
+
+        String currentDir = path;
+        if(currentDir == null || currentDir.isBlank())
+            currentDir = getWorkingDirectory();
+
+
         File configurationFile = new File(currentDir+"/MicroCliConfig.json");
         if(configurationFile.exists())
         {
@@ -63,7 +68,8 @@ public class ConfigurationService {
         var databaseTypeResult =PromptGui.createListPrompt("databaseType", "Select Database Type: ",
                 "MongoDB", "Couchbase", "Neo4J", "Cassandra",
                 "H2", "MySQL", "MariaDB", "Postgres",
-                "Oracle", "SqlServer", "IBM DB2");
+                "Oracle", "SqlServer", "IBM DB2"
+        );
         var databaseType ="";
         configurationInfo.setDatabaseType((databaseType=databaseTypeResult.getSelectedId().toLowerCase()));
         if(Arrays.asList("h2", "mysql", "mariadb", "postgres",
