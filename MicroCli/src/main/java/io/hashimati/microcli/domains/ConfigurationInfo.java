@@ -40,6 +40,9 @@ public class ConfigurationInfo {
             graphQLIntegrationLib;
 
 
+
+    private boolean relationalDatabase ;
+
     private String annotation; //{micronaut:default, JAX-RS, SpringBoot]
     private boolean jaxRsAnnotation; // to be replaced with annotation
     private boolean micronautAnnotation;
