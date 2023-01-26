@@ -46,7 +46,7 @@ public class SpringStarter  implements Callable<Integer> {
     @CommandLine.Option(names = {"--package"}, description = "To specify the project's package.\nDefault Value: com.example")
     private String pack;
 
-    @CommandLine.Option(names = "--name", defaultValue = "demo", description = "To specify the application name.\n It should be without spaces.")
+    @CommandLine.Option(names = "--name", description = "To specify the application name.\n It should be without spaces.")
     private String name;
 
     @CommandLine.Option(names= {"--javaVersion", "-jv"}, defaultValue = "11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: 8, 11, 17, 19\nDefault value: 11\nPlease, check: https://start.spring.io/")
@@ -70,7 +70,7 @@ public class SpringStarter  implements Callable<Integer> {
     @CommandLine.Option(names = "--port", defaultValue = "8888", description = "To specify the port.\nDefault Value: 8761")
     private String port;
 
-    @CommandLine.Option(names = "--artifact", defaultValue = "demo", description = "To specify the artifact.")
+    @CommandLine.Option(names = "--artifact", description = "To specify the artifact.")
     private String artifact;
     @CommandLine.Option(names = "--ld", description = "To list all dependencies.")
     private boolean listDependencies;
@@ -96,7 +96,7 @@ public class SpringStarter  implements Callable<Integer> {
         ansi().eraseScreen();
 
         if(pack == null) {
-            projectInfo.setDefaultPackage(PromptGui.inputText("package", "Enter the package", "demo.example").getInput());
+            projectInfo.setDefaultPackage(PromptGui.inputText("package", "Enter the package", "com.example").getInput());
             pack = projectInfo.getDefaultPackage();
         }
         else
