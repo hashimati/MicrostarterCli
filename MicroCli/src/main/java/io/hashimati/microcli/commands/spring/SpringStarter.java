@@ -103,19 +103,19 @@ public class SpringStarter  implements Callable<Integer> {
             projectInfo.setDefaultPackage(pack);
 
         if(name == null)
-            projectInfo.setArtifact(PromptGui.inputText("artifact", "Enter the artifact", "demo").getInput());
+            projectInfo.setArtifact(name = PromptGui.inputText("artifact", "Enter the artifact", "demo").getInput());
         else
             projectInfo.setArtifact(name);
 
         if(language == null)
-            projectInfo.setSourceLanguage(PromptGui.createListPrompt("language", "Select the language", "java", "groovy", "kotlin").getSelectedId());
+            projectInfo.setSourceLanguage(language = PromptGui.createListPrompt("language", "Select the language", "java", "groovy", "kotlin").getSelectedId());
         else
             projectInfo.setSourceLanguage(language);
 
 
 
         if(build == null)
-            projectInfo.setBuildTool(PromptGui
+            projectInfo.setBuildTool(build = PromptGui
                     .createListPrompt("build", "Select the build tool", "gradle", "maven")
                     .getSelectedId());
         else
