@@ -164,8 +164,7 @@ public class SpringStarter  implements Callable<Integer> {
        configurationInfo.setDatabaseType(PromptGui.createListPrompt("Database Type", "Select the database type", "mongodb", "h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").getSelectedId());
        if(Arrays.asList("h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").contains(configurationInfo.getDatabaseType().toString()))
        {
-           configurationInfo.setDataBackendRun(PromptGui.createListPrompt("Data Backend", "Select data backend?", "JPA", "JDBC", "R2DBC").toString());
-           configurationInfo.setDataMigrationTool(PromptGui.createListPrompt("Data Migration Tool", "Select data migration tool?", "Flyway", "Liquibase", "none").toString());
+           configurationInfo.setDataMigrationTool(PromptGui.createListPrompt("Data Migration Tool", "Select data migration tool?", "Liquibase", "Flyway", "none").toString());
            if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("Flyway"))
                dependencies.add("flyway");
            else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("Liquibase"))
