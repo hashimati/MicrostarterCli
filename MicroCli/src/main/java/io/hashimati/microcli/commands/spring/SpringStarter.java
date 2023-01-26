@@ -49,13 +49,13 @@ public class SpringStarter  implements Callable<Integer> {
     @CommandLine.Option(names = "--name", defaultValue = "demo", description = "To specify the application name.\n It should be without spaces.")
     private String name;
 
-    @CommandLine.Option(names= {"--javaVersion"}, defaultValue = "11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: 8, 11, 17, 19\nDefault value: 11\nPlease, check: https://start.spring.io/")
+    @CommandLine.Option(names= {"--javaVersion", "-jv"}, defaultValue = "11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: 8, 11, 17, 19\nDefault value: 11\nPlease, check: https://start.spring.io/")
     private String javaVersion;
 
-    @CommandLine.Option(names = {"--lang"}, defaultValue = "java", description = "To specify the project's language.\nOptions: java, groovy, kotlin")
+    @CommandLine.Option(names = {"--lang", "--language"}, description = "To specify the project's language.\nOptions: java, groovy, kotlin")
     private String language;
 
-    @CommandLine.Option(names = {"-version"}, defaultValue = "3.0.1", description = "To specify the spring boot version.")
+    @CommandLine.Option(names = {"-version", "-v"}, defaultValue = "3.0.1", description = "To specify the spring boot version.")
     private String version;
 
     @CommandLine.Option(names = {"--feature"} , description = "To add features by name.")
@@ -63,7 +63,7 @@ public class SpringStarter  implements Callable<Integer> {
 
 
 
-    @CommandLine.Option(names = "--build", defaultValue = "gradle", description = "To specify the build tool.\nOptions: gradle, maven")
+    @CommandLine.Option(names = "--build",  description = "To specify the build tool.\nOptions: gradle, maven")
     private String build;
 
 
@@ -108,9 +108,11 @@ public class SpringStarter  implements Callable<Integer> {
             projectInfo.setArtifact(name);
 
         if(language == null)
-            projectInfo.setSourceLanguage(PromptGui.inputText("language", "Enter the language", "java").getInput());
+            projectInfo.setSourceLanguage(PromptGui.createListPrompt("language", "Select the language", "java", "groovy", "kotlin").getSelectedId());
         else
             projectInfo.setSourceLanguage(language);
+
+
 
         if(build == null)
             projectInfo.setBuildTool(PromptGui
