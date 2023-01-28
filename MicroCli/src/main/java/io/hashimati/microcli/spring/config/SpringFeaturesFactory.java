@@ -353,16 +353,16 @@ public class SpringFeaturesFactory {
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>org.springdoc</groupId>\n" +
                     "\t\t<artifactId>springdoc-openapi-ui</artifactId>\n" +
-                    "\t\t<version>1.5.13</version>\n" +
+                    "\t\t<version>1.5.14</version>\n" +
                     "\t</dependency>");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>org.springdoc</groupId>\n" +
                     "\t\t<artifactId>springdoc-openapi-data-rest</artifactId>\n" +
-                    "\t\t<version>1.5.13</version>\n" +
+                    "\t\t<version>1.5.14</version>\n" +
                     "\t</dependency>");
 
-            setGradle("implementation 'org.springdoc:springdoc-openapi-ui:1.5.13'\n" +
-                    "\timplementation 'org.springdoc:springdoc-openapi-data-rest:1.5.13'\n");
+            setGradle("implementation 'org.springdoc:springdoc-openapi-ui:1.5.14'\n" +
+                    "\timplementation 'org.springdoc:springdoc-openapi-data-rest:1.5.14'\n");
 
         }});
         features.put("springdoc-security", new Feature(){{
@@ -485,11 +485,37 @@ public class SpringFeaturesFactory {
                     "\t\t</dependency>");
         }});
 
+        features.put("jaeger-core", new Feature(){{
+setName("jaeger");
+            setGradle("implementation 'io.jaegertracing:jaeger-client'");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.jaegertracing</groupId>\n" +
+                    "\t\t<artifactId>jaeger-core</artifactId>\n" +
+                    "\t\t<<version>1.8.1</version>\n"+
+                    "\t</dependency>");
+        }});
+        features.put("jaeger", new Feature(){{
+            setGradle("implementation 'io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.3.1'");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.opentracing.contrib</groupId>\n" +
+                    "\t\t<artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>\n" +
+                    "\t\t<version>3.3.1</version>\n"+
+                    "\t</dependency>");
+        }});
+        features.put("jaeger-client", new Feature(){{
+            setName("jaeger-client");
+            setGradle("implementation 'io.jaegertracing:jaeger-client'");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>io.jaegertracing</groupId>\n" +
+                    "\t\t<artifactId>jaeger-core</artifactId>\n" +
+                    "\t\t<<version>1.8.1</version>\n"+
+                    "\t</dependency>");
+                }});
         //Netflix-dgs
         features.put("netflix-dgs", new Feature(){{
             setName("netflix-dgs");
-            setGradle("\timplementation(platform(\"com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release\"))n" +
-                    "\timplementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter'");
+            setGradle("implementation(platform(\"com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release\"))\n" +
+                    "\timplementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter'\n");
             getMaven().add("\t<dependency>\n" +
                     "\t\t<groupId>com.netflix.graphql.dgs</groupId>\n" +
                     "\t\t<artifactId>graphql-dgs-spring-boot-starter</artifactId>\n" +

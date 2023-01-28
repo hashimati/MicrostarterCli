@@ -39,6 +39,9 @@ public class MavenProjectUtils {
     }
 
     public static boolean addDependency(Feature feature, String path) throws IOException, XmlPullParserException {
+
+
+
         if(feature.getMaven() == null|| feature.getMaven().isEmpty()) return true;
         Model model = readPom(path);
 //        System.out.println(feature.getMaven());

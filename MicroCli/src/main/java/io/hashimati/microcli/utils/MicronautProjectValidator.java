@@ -6,6 +6,7 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import groovy.lang.Tuple3;
 import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.config.FeaturesFactory;
+import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.services.TemplatesService;
 import org.apache.maven.model.Model;
@@ -290,9 +291,9 @@ public class MicronautProjectValidator {
         );
 
         if(index < 0)
-            gradleContentAsList.add(dependencies.getV2() + 1, "\t\t"+newDependencies.trim());
+            gradleContentAsList.add(dependencies.getV2() + 1, "\t"+newDependencies.trim());
         else
-            gradleContentAsList.add(dependencies.getV3() -1, "\t\t"+newDependencies.trim());
+            gradleContentAsList.add(dependencies.getV3() -1, "\t"+newDependencies.trim());
 
 
 
@@ -682,9 +683,11 @@ public class MicronautProjectValidator {
 
     public static boolean addDependency(String path, Feature... feature) throws IOException, GradleReaderException {
 
-
-        if(projectInfo == null)
+        if(projectInfo == null) {
             projectInfo = getProjectInfo(path);
+            if(projectInfo == null)
+                projectInfo = ConfigurationInfo.fromFile(new File(path+"/MicroCliConfig.json")).getProjectInfo();
+        }
         if(projectInfo.getBuildTool().equalsIgnoreCase("gradle"))
         {
 

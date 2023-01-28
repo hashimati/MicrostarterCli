@@ -4,11 +4,15 @@ package io.hashimati.microcli.commands.spring;
 import de.codeshelf.consoleui.elements.ConfirmChoice;
 import de.codeshelf.consoleui.elements.ConfirmChoice.ConfirmationValue;
 import io.hashimati.microcli.client.StartSpringClient;
+import io.hashimati.microcli.config.Feature;
 import io.hashimati.microcli.domains.ConfigurationInfo;
 import io.hashimati.microcli.domains.ProjectInfo;
 import io.hashimati.microcli.domains.spring.SpringDependencies;
 import io.hashimati.microcli.services.TemplatesService;
+import io.hashimati.microcli.spring.config.SpringFeaturesFactory;
 import io.hashimati.microcli.utils.GeneratorUtils;
+import io.hashimati.microcli.utils.GradleReaderException;
+import io.hashimati.microcli.utils.MicronautProjectValidator;
 import io.hashimati.microcli.utils.PromptGui;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -16,10 +20,7 @@ import picocli.CommandLine;
 import javax.inject.Inject;
 import java.io.File;
 import java.lang.module.Configuration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 import static com.google.googlejavaformat.OpsBuilder.BlankLineWanted.YES;
@@ -33,6 +34,8 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class SpringStarter  implements Callable<Integer> {
 
 
+
+    private HashMap<String, Feature> springFeaturesFactory ;
 
     @Inject
     private StartSpringClient startSpringClient;
@@ -87,6 +90,7 @@ public class SpringStarter  implements Callable<Integer> {
         ConfigurationInfo configurationInfo = new ConfigurationInfo();
         ProjectInfo projectInfo = new ProjectInfo();
 
+        configurationInfo.setProjectInfo(projectInfo);
         LinkedHashSet<String> dependencies = new LinkedHashSet<>();
         LinkedHashSet<String> postDependencies = new LinkedHashSet<>();
 
@@ -120,6 +124,7 @@ public class SpringStarter  implements Callable<Integer> {
                     .getSelectedId());
         else
             projectInfo.setBuildTool(build);
+        System.out.println(projectInfo.getBuildTool());
 
        configurationInfo.setMonolithic( createConfirmResult("Monolithic", "Is the project a monolithic application?", ConfirmationValue.YES).getConfirmed() == ConfirmationValue.YES);
        if(configurationInfo.isMonolithic()){
@@ -164,14 +169,14 @@ public class SpringStarter  implements Callable<Integer> {
        configurationInfo.setSpringBootAnnotation(true);
        configurationInfo.setDatabaseName(PromptGui.inputText("Database Name", "Enter the database name", name).getInput());
        configurationInfo.setDatabaseType(PromptGui.createListPrompt("Database Type", "Select the database type", "mongodb", "h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").getSelectedId());
-       if(Arrays.asList("h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").contains(configurationInfo.getDatabaseType().toString()))
+       if(Arrays.asList("h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").contains(configurationInfo.getDatabaseType()))
        {
-           configurationInfo.setDataMigrationTool(PromptGui.createListPrompt("Data Migration Tool", "Select data migration tool?", "Liquibase", "Flyway", "none").toString());
+           configurationInfo.setDataMigrationTool(PromptGui.createListPrompt("Data Migration Tool", "Select data migration tool?", "Liquibase", "Flyway", "none").getSelectedId());
            if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("Flyway"))
                dependencies.add("flyway");
            else if(configurationInfo.getDataMigrationTool().equalsIgnoreCase("Liquibase"))
                dependencies.add("liquibase");
-           switch (configurationInfo.getDatabaseName()){
+           switch (configurationInfo.getDatabaseType()){
                 case "mysql":
                      dependencies.add("mysql");
                      break;
@@ -202,6 +207,7 @@ public class SpringStarter  implements Callable<Integer> {
               }
               else if(springData.equalsIgnoreCase("R2DBC")) {
                   dependencies.add("data-r2dbc");
+                  configurationInfo.setNonBlocking(true);
               }
        }
        else if(configurationInfo.getDatabaseType().equalsIgnoreCase("mongodb"))
@@ -212,14 +218,28 @@ public class SpringStarter  implements Callable<Integer> {
                 dependencies.add("data-mongodb");
             }
             else if(springData.equalsIgnoreCase("mongodb reactive")) {
+                configurationInfo.setNonBlocking(true);
                 dependencies.add("data-mongodb-reactive");
             }
 
 
        }
-       configurationInfo.setMessaging(PromptGui.createListPrompt("Messaging", "Select the messaging?", "RabbitMQ", "Kafka", "none").toString());
+       configurationInfo.setMessaging(PromptGui.createListPrompt("Messaging", "Select the messaging?", "RabbitMQ", "Kafka", "none").getSelectedId());
+       if(!configurationInfo.getMessaging().equalsIgnoreCase("none"))
 
-         configurationInfo.setCaffeine( createConfirmResult("Caffeine", "Do you want to use caffeine?", ConfirmationValue.NO).getConfirmed() == ConfirmationValue.YES);
+       {
+           dependencies.add("cloud-stream");
+            if (configurationInfo.getMessaging().equalsIgnoreCase("RabbitMQ")) {
+                dependencies.add("amqp");
+            } else if (configurationInfo.getMessaging().equalsIgnoreCase("Kafka")) {
+                dependencies.add("kafka");
+                dependencies.add("kafka-streams");
+            }
+        }
+
+         configurationInfo.setCaffeine( createConfirmResult("Caffeine", "Do you want to use cache?", ConfirmationValue.NO).getConfirmed() == ConfirmationValue.YES);
+            if(configurationInfo.isCaffeine())
+                dependencies.add("cache");
          configurationInfo.setMicrometer( createConfirmResult("Micrometer", "Do you want to use micrometer?", ConfirmationValue.NO).getConfirmed() == ConfirmationValue.YES);
 
          if(configurationInfo.isMicrometer())
@@ -230,39 +250,47 @@ public class SpringStarter  implements Callable<Integer> {
              if(configurationInfo.isPrometheus())
              {
                  dependencies.add("prometheus");
+                 configurationInfo.setPrometheus(true);
              }
              configurationInfo.setInflux(framework.equals("InfluxDB"));
                 if(configurationInfo.isInflux())
                 {
                     dependencies.add("influx");
+                    configurationInfo.setInflux(true);
                 }
              configurationInfo.setGraphite(framework.equals("Graphite"));
                 if(configurationInfo.isGraphite())
                 {
+                    configurationInfo.setGraphite(true);
                     dependencies.add("graphite");
                 }
          }
 
-         configurationInfo.setTracingFramework(PromptGui.createListPrompt("Tracing Framework", "Select the tracing framework?", "Zipkin", "Jaeger", "none").toString());
+         configurationInfo.setTracingFramework(PromptGui.createListPrompt("Tracing Framework", "Select the tracing framework?", "Zipkin", "Jaeger", "none").getSelectedId().toLowerCase());
          if(!configurationInfo.getTracingFramework().equalsIgnoreCase("none")) {
              configurationInfo.setTracingEnabled(true);
              dependencies.add("distributed-tracing");
-                if(configurationInfo.getTracingFramework().equalsIgnoreCase("Zipkin"))
+                if(configurationInfo.getTracingFramework().equalsIgnoreCase("Zipkin")) {
                     dependencies.add("zipkin");
-                else if(configurationInfo.getTracingFramework().equalsIgnoreCase("Jaeger"))
+                }
+                else if(configurationInfo.getTracingFramework().equalsIgnoreCase("Jaeger")) {
                     postDependencies.add("jaeger");
+                    configurationInfo.setTracingFramework("jaeger");
+                }
          }
-         configurationInfo.setGraphQLIntegrationLib(PromptGui.createListPrompt("GraphQL Integration Lib", "Select the GraphQL Framework", "Spring", "Netflix", "KickStarter", "none").toString());
+         configurationInfo.setGraphQLIntegrationLib(PromptGui.createListPrompt("GraphQL Integration Lib", "Select the GraphQL Framework", "Spring", "Netflix-DGS",  "none").getSelectedId().toLowerCase());
             if(!configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("none")) {
                 configurationInfo.setGraphQlSupport(true);
-                if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("Spring"))
-                    dependencies.add("graphql-spring");
-                else if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("Netflix"))
-                    postDependencies.add("graphql-netflix");
-                else if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("KickStarter"))
+
+                if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("Spring")) {
+                    dependencies.add("graphql");
+                }
+                else if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("Netflix-DGS")) {
+                    postDependencies.add("netflix-dgs");
+                }                else if(configurationInfo.getGraphQLIntegrationLib().equalsIgnoreCase("KickStarter"))
                     postDependencies.add("graphql-kickstarter");
             }
-        configurationInfo.setViews(PromptGui.createListPrompt("Views", "Select the views?", "Thymeleaf", "Freemarker", "none").toString());
+        configurationInfo.setViews(PromptGui.createListPrompt("Views", "Select the views?", "Thymeleaf", "Freemarker", "none").getSelectedId());
         if(configurationInfo.getViews().equalsIgnoreCase("Thymeleaf")) {
             configurationInfo.setEnableViews(true);
             dependencies.add("thymeleaf");
@@ -272,30 +300,49 @@ public class SpringStarter  implements Callable<Integer> {
         }
 
 
-        String projectFilePath = GeneratorUtils.getCurrentWorkingPath() + "/" + name + ".zip";
-        name = artifact;
+        String projectFilePath = GeneratorUtils.getCurrentWorkingPath() + "/" + projectInfo.getArtifact() + ".zip";
+
 
 
         dependencies.removeIf(x->x== null); //remove null values
-
+        dependencies.add("web");
+        dependencies.add("actuator");
+        dependencies.add("webflux");
+        postDependencies.add("springdoc");
         System.out.println(dependencies);
-        byte[] projectZipFile = startSpringClient.generateApp(build, language,version, pack, javaVersion, artifact,dependencies.toArray(new String[dependencies.size()]));
+        byte[] projectZipFile = startSpringClient.generateApp(build, language,version, pack, javaVersion, name,dependencies.toArray(new String[dependencies.size()]));
         if (projectZipFile == null) {
-            PromptGui.printlnErr("Failed to generate " + name + " project.");
+            PromptGui.printlnErr("Failed to generate " + projectInfo.getArtifact() + " project.");
             return 0;
         }
 
         boolean createFileStatus = GeneratorUtils.writeBytesToFile(projectFilePath, projectZipFile);
         if (createFileStatus)
-            PromptGui.printlnSuccess("Complete downloading " + name + ".zip. ");
+            PromptGui.printlnSuccess("Complete downloading " + projectInfo.getArtifact() + ".zip. ");
 
 
         boolean extract = GeneratorUtils.unzipFile(projectFilePath, GeneratorUtils.getCurrentWorkingPath());
         if (extract)
-            PromptGui.printlnSuccess("Successfully created \"" + name + "\" project folder!");
+            PromptGui.printlnSuccess("Successfully created \"" + projectInfo.getArtifact() + "\" project folder!");
         boolean deleteFile = GeneratorUtils.deleteFile(projectFilePath);
 
+        if(deleteFile)
+        {
 
+            configurationInfo.writeToFile(projectInfo.getArtifact() + "/");
+
+            if (!postDependencies.isEmpty()) {
+                springFeaturesFactory = SpringFeaturesFactory.dependencies();
+                for (String postDependency : postDependencies) {
+
+                    try {
+                        MicronautProjectValidator.addDependency(projectInfo.getArtifact(), springFeaturesFactory.get(postDependency));
+                    } catch (GradleReaderException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
         return 0;
     }
 }
