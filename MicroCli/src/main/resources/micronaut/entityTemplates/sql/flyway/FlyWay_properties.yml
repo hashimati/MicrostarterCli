@@ -3,5 +3,5 @@ flyway:
     default:
       enabled: true
       locations:
-        - classpath:databasemigrations
-        - classpath:sqls
+        - classpath:/db/migration
+        - classpath:/sqls

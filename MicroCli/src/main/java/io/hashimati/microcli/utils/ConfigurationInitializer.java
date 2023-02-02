@@ -580,6 +580,7 @@ public class ConfigurationInitializer {
 
         }
 
+        configurationInfo.setFramework("micronaut");
         if(!projectInfo.getFeatures().contains("rabbitmq") &&
                 !projectInfo.getFeatures().contains("kafka") &&
                 !projectInfo.getFeatures().contains("nats") &&

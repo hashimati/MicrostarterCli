@@ -88,6 +88,7 @@ public class SpringStarter  implements Callable<Integer> {
             return 0;
         }
         ConfigurationInfo configurationInfo = new ConfigurationInfo();
+        configurationInfo.setFramework("spring");
         ProjectInfo projectInfo = new ProjectInfo();
 
         configurationInfo.setProjectInfo(projectInfo);
@@ -163,9 +164,11 @@ public class SpringStarter  implements Callable<Integer> {
        }
        configurationInfo.setServiceId(PromptGui.inputText("Service Id", "Enter the service id", name).getInput());
        configurationInfo.setReactiveFramework("reactor");
-       configurationInfo.setLombok( createConfirmResult("Lombok", "Do you want to use lombok?", ConfirmationValue.NO).getConfirmed() == ConfirmationValue.YES);
-       if(configurationInfo.isLombok())
-           dependencies.add("lombok");
+        if(language.equalsIgnoreCase("java")){
+            configurationInfo.setLombok(createConfirmResult("Lombok", "Do you want to use lombok?", ConfirmationValue.NO).getConfirmed() == ConfirmationValue.YES);
+            if (configurationInfo.isLombok())
+                dependencies.add("lombok");
+        }
        configurationInfo.setSpringBootAnnotation(true);
        configurationInfo.setDatabaseName(PromptGui.inputText("Database Name", "Enter the database name", name).getInput());
        configurationInfo.setDatabaseType(PromptGui.createListPrompt("Database Type", "Select the database type", "mongodb", "h2", "mysql", "postgresql", "mariadb", "oracle", "sqlserver").getSelectedId());

@@ -37,7 +37,8 @@ public class ConfigurationInfo {
             dataBackendRun, // JPA, JDBC or none
             dataMigrationTool, //liquibase, Flyway
             messaging,
-            graphQLIntegrationLib;
+            graphQLIntegrationLib,
+            framework; //micronaut, springboot, quarkus, vertx, etc
 
 
 

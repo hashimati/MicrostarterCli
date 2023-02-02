@@ -68,7 +68,7 @@ public class MicroCliCommand implements Runnable {
 //                " |_|  |_|_|\\___|_|  \\___/|___/\\__\\__,_|_|   \\__\\___|_|     \\_____|_|_|\n" +
 //                "                                                                      \n" +
 //                "                                                                      \n" +
-//                "(Microstarter CLI v0.2.5)\n");
+//                "(Microstarter CLI v0.2.6)\n");
 
 
         System.out.println("'##::::'##'####:'######:'########::'#######::'######:'########:::'###:::'########:'########'########'########::\n" +
@@ -87,7 +87,7 @@ public class MicroCliCommand implements Runnable {
                 " ##::: ##:##::::::: ##:::: ##:::::                                                                             \n" +
                 ". ######::########'####:::##::::::                                                                             \n" +
                 ":......::........:....:::..:::::::   \n" +
-                "Microstarter CLI v0.2.5");
+                "Microstarter CLI v0.2.6");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;

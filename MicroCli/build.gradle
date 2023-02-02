@@ -8,7 +8,7 @@ plugins {
     id "application"
 }
 
-version "0.2.5"
+version "0.2.6"
 group "io.hashimati.microcli"
 
 repositories {

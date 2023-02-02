@@ -1,3 +1,4 @@
 CREATE TABLE ${talbeName}(
     ${attributes}
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
+--     ENGINE=InnoDB DEFAULT CHARSET=utf8;
