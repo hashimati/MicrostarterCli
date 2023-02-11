@@ -29,7 +29,8 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 @CommandLine.Command(name = "spring-starter",aliases = "spring",  description = "Create a Spring Starter", subcommands = {
         CommandLine.HelpCommand.class,
-        ConfigureCommand.class
+        ConfigureCommand.class,
+        CreateEntityCommand.class
 })
 public class SpringStarter  implements Callable<Integer> {
 
