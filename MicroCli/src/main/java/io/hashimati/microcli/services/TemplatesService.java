@@ -35,7 +35,8 @@ public class TemplatesService {
             cacheTemplates = new HashMap<>(),
             micrometersTemplates = new HashMap<>(),
             securityTemplates = new HashMap<>(),
-            securityControllerTemplates = new HashMap<>(), 
+            securityControllerTemplates = new HashMap<>(),
+            securityAPIKeyTemplates = new HashMap<>(),
             securityDomainsTemplates = new HashMap<>(), 
             securityRepositoryTemplates = new HashMap<>(), 
             securityServicesTemplates = new HashMap<>(), 
@@ -303,7 +304,13 @@ public class TemplatesService {
     STATSD_yml = "statsd",
     INFLUX_yml = "influx",
     PROMETHEUS_JOB_YML = "prometheus.yml",
-
+     APIKEY = "APIKEY",
+     APIKEY_REPOSITORY = "APIKEY_REPOSITORY",
+     APIKEY_SERVICE = "APIKEY_SERVICE",
+     APIKEY_CONTROLLER = "APIKEY_CONTROLLER",
+     APIKEY_TOKEN_READER = "APIKEY_TOKEN_READER",
+     APIKEY_TOKEN_VALIDATOR = "APIKEY_TOKEN_VALIDATOR",
+     APIKEY_TOKEN_GENERATOR = "APIKEY_TOKEN_GENERATOR",
 
     //Security Constants
     USER_CONTROLLER = "usercontroller",
@@ -545,11 +552,9 @@ public class TemplatesService {
         groovyTemplates.put(FILE_SERVICE_METHODS_AWS, "micronaut/entityTemplates/groovy/methods/Files/Services_aws.txt");
         groovyTemplates.put(MICROSTREAM_ROPOSITORY, "micronaut/entityTemplates/groovy/microstream/Repository.txt");
         groovyTemplates.put(MICROSTREAM_ROOT_DATA, "micronaut/components/groovy/Microsstream/RootClass.txt");
-
         groovyTemplates.put(EUREKA_SERVER, "cloud/eureka/Eureka.groovy");
         groovyTemplates.put(GATEWAY,"cloud/gateways/Gateway.groovy");
         groovyTemplates.put(CONFIG_SERVER, "cloud/config/Config.groovy");
-
         kotlinTemplates.put(CLIENT, "micronaut/entityTemplates/kotlin/client.txt");
         kotlinTemplates.put(CONTROLLER, "micronaut/entityTemplates/kotlin/controller.txt");
         kotlinTemplates.put(GRPC_ENDPOINT, "micronaut/entityTemplates/kotlin/GrpcEndPoint.txt");
@@ -760,7 +765,15 @@ public class TemplatesService {
         securityDomainsTemplates.put(LOGIN_STATUS ,"micronaut/security/${auth}/${lang}/${db}/domains/LoginStatus${ext}");
         securityDomainsTemplates.put(ROLES ,"micronaut/security/${auth}/${lang}/${db}/domains/Roles${ext}");
         securityDomainsTemplates.put(USER ,"micronaut/security/${auth}/${lang}/${db}/domains/User${ext}");
-        securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${auth}/${lang}/${db}/repository/RefreshTokenRepository${ext}");
+
+        securityAPIKeyTemplates.put(APIKEY, "micronaut/security/api key/${lang}/JDBC/domains/ApiKey${ext}");
+        securityAPIKeyTemplates.put(APIKEY_REPOSITORY, "micronaut/security/api key/${lang}/JDBC/repository/ApiKeyRepository${ext}");
+        securityAPIKeyTemplates.put(APIKEY_SERVICE, "micronaut/security/api key/${lang}/JDBC/service/ApiKeyService${ext}");
+        securityAPIKeyTemplates.put(APIKEY_CONTROLLER, "micronaut/security/api key/${lang}/JDBC/controllers/ApiKeyController${ext}");
+        securityAPIKeyTemplates.put(APIKEY_TOKEN_READER, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenReader${ext}");
+        securityAPIKeyTemplates.put(APIKEY_TOKEN_VALIDATOR, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenValidator${ext}");
+        securityAPIKeyTemplates.put(APIKEY_TOKEN_GENERATOR, "micronaut/security/api key/${lang}/JDBCtoken/ApiKeyTokenGenerator${ext}");
+        securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${auth}/${lang}/JDBC/repository/RefreshTokenRepository${ext}");
         securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${auth}/${lang}/${db}/repository/UserRepository${ext}");
         securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${auth}/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");
         securityServicesTemplates.put(USER_SERVICE ,"micronaut/security/${auth}/${lang}/${db}/services/UserService${ext}");
@@ -892,5 +905,6 @@ public class TemplatesService {
     public HashMap<String, String> getDistributedTracingTemplates() {
         return distributedTracingTemplates;
     }
+    public HashMap<String, String > getSecurityApiKeyTemplates(){return securityAPIKeyTemplates; }
 }
 

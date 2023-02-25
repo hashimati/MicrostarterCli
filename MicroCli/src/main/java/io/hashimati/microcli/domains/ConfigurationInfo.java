@@ -103,6 +103,8 @@ public class ConfigurationInfo {
 
     private HashSet<URL> urls = new HashSet<>();
 
+    private boolean apikey ;
+    private String apiKeyHeader ;
 
     public String toJson() throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();

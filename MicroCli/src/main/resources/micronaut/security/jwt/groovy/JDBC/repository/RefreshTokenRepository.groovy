@@ -8,7 +8,7 @@ import io.micronaut.data.repository.CrudRepository
 
 import javax.validation.constraints.NotBlank
 
-<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.H2)'%><% if(mongo) out.print '@MongoRepository'%>
+<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.'+dialect+')'%><% if(mongo) out.print '@MongoRepository'%>
 interface RefreshTokenRepository extends CrudRepository<RefreshToken, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
 
     public Optional<RefreshToken> findByRefreshToken(@NonNull @NotBlank String refreshToken)

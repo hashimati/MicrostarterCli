@@ -97,7 +97,10 @@ public class StartSpringClient {
         }
 
         String discoveryStarter = discovery.equalsIgnoreCase("eureka")? "cloud-eureka":"cloud-starter-consul-discovery";
-       String configStarter = config.equalsIgnoreCase("spring")? "cloud-config-client":"cloud-starter-consul-config";
+       String configStarter;
+        if (config.equalsIgnoreCase("spring")) configStarter = "cloud-config-client";
+        else if (config.equalsIgnoreCase("consul")) configStarter = "cloud-starter-consul-config";
+        else configStarter = "";
         HttpRequest request = HttpRequest.GET(MessageFormat.format("/starter.zip?" +
                         "type={0}-project" +
                         "&language={1}" +
@@ -114,7 +117,7 @@ public class StartSpringClient {
 //                        ",oauth2-client,security" +
 //                        ",native" +
                         "," +discoveryStarter +
-                        "," + configStarter,
+                        (!configStarter.isEmpty()?"," + configStarter:""),
                 build, lang, version, group, javaVersion));
         PromptGui.println("Downloading gateway.zip:\nGET: https://start.spring.io"+request.getUri(), Ansi.Color.WHITE);
 

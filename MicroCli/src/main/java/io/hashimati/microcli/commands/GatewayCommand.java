@@ -99,7 +99,7 @@ public class GatewayCommand  implements Callable<Integer> {
 
     @Option(names = "--discovery", defaultValue = "eureka", description = "To specify the discovery server type.\nvalues set =[eureka, consul]" )
     private String discovery;
-    @Option(names = "--config", defaultValue = "none", description = "To specify the configuration server type.\nvalues set =[spring, consul]" )
+    @Option(names = "--config", defaultValue = "", description = "To specify the configuration server type.\nvalues set =[spring, consul]" )
     private String config;
     @Option(names = "--configPort", defaultValue = "8888", description = "To specify the configuration server port.]" )
     private String configPort;
@@ -189,6 +189,7 @@ public class GatewayCommand  implements Callable<Integer> {
         else
         {
             String currentDir = System.getProperty("user.dir");
+
             MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", CONSUL_CLIENT_YML.replace("host", discoveryServer).replace("port", discoveryPort));
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "server.port: "+ port+"\n");
             MicronautProjectValidator.appendToProperties(GeneratorUtils.getCurrentWorkingPath() + "/gateway", "spring.application.name: gateway\n");
@@ -199,7 +200,7 @@ public class GatewayCommand  implements Callable<Integer> {
             String currentDir = System.getProperty("user.dir");
             MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", SPRING_CONFIG_YML.replace("host", discoveryServer).replace("port", configPort));
         }
-        else
+        else if(config.equalsIgnoreCase("consul"))
         {
             String currentDir = System.getProperty("user.dir");
             MicronautProjectValidator.appendToProperties(currentDir+ "/gateway", CONSUL_CONFIG_YML.replace("host", discoveryServer).replace("port", configPort));

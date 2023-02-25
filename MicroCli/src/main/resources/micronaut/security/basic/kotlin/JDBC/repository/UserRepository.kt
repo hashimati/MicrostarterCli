@@ -7,7 +7,7 @@ import ${securityPackage}.domains.User
 import io.micronaut.data.repository.CrudRepository
 import java.time.Instant
 
-<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.H2)'%><% if(mongo) out.print '@MongoRepository'%>
+<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.'+dialect+')'%><% if(mongo) out.print '@MongoRepository'%>
 interface UserRepository : CrudRepository<User, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
     fun findByUsername(username: String?): User?
     override fun findAll(): List<User?>

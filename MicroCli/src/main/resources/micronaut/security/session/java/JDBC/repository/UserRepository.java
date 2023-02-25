@@ -10,7 +10,7 @@ import io.micronaut.data.repository.CrudRepository;
 import java.time.Instant;
 import java.util.List;
 
-<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.H2)'%><% if(mongo) out.print '@MongoRepository'%>
+<% if(jdbc) out.print '@JdbcRepository(dialect = Dialect.'+dialect+')'%><% if(mongo) out.print '@MongoRepository'%>
 public interface UserRepository extends CrudRepository<User, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>> {
     public User findByUsername(String username);
     public List<User> findAll();
