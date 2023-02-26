@@ -103,14 +103,15 @@ public class ApiKeyCommand implements Callable<Integer> {
                     .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
             String domainTemplate = templatesService.loadTemplateContent(domainPath);
 
-            String domainContent = GeneratorUtils.generateFromTemplate(domainTemplate,
-                    new HashMap<String, String>(){{
+            String domainContent = GeneratorUtils.generateFromTemplateObj(domainTemplate,
+                    new HashMap<String, Object>(){{
                         put("securityPackage", securityPackage);
-                        put("jdbc", configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc") ? "true" : "false");
+                        put("mongo", configurationInfo.isMnData() && (configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb") ||configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-reactive") ) );
+                        put("jdbc", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"));
 
-            }});
+                    }});
 
-            String domainFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKey."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String domainFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/domains/ApiKey."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
             GeneratorUtils.createFile(domainFilePath, domainContent);
 
 
@@ -121,39 +122,39 @@ public class ApiKeyCommand implements Callable<Integer> {
 
             String repoTemplate = templatesService.loadTemplateContent(repoPath);
 
-            String repoContent = GeneratorUtils.generateFromTemplateVsObject(repoTemplate,
+            String repoContent = GeneratorUtils.generateFromTemplateObj(repoTemplate,
                     new HashMap<String, Object>(){{
                         put("securityPackage", securityPackage);
                         put("mongo", configurationInfo.isMnData() && (configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb") ||configurationInfo.getDataBackendRun().equalsIgnoreCase("data-mongodb-reactive") ) );
                         put("jdbc", configurationInfo.isMnData() && configurationInfo.getDataBackendRun().equalsIgnoreCase("jdbc"));
                         put("dialect", configurationInfo.getDatabaseType().toUpperCase());
             }});
-            String repoFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyRepository."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String repoFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/repository/ApiKeyRepository."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
 
             GeneratorUtils.createFile(repoFilePath, repoContent);
 
             //generate the services;
 
-
-            String servicePath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_SERVICE).replace("${lang}", language)
-                    .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
-            String serviceTemplate = templatesService.loadTemplateContent(servicePath);
-
-            String serviceContent = GeneratorUtils.generateFromTemplate(serviceTemplate,
-                    new HashMap<String, String>(){{
-                        put("securityPackage", securityPackage);
-            }});
-            String serviceFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyService."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
-            GeneratorUtils.createFile(serviceFilePath, serviceContent);
+//
+//            String servicePath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_SERVICE).replace("${lang}", language)
+//                    .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
+//            String serviceTemplate = templatesService.loadTemplateContent(servicePath);
+//
+//            String serviceContent = GeneratorUtils.generateFromTemplateObj(serviceTemplate,
+//                    new HashMap<String, Object>(){{
+//                        put("securityPackage", securityPackage);
+//            }});
+//            String serviceFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/service/ApiKeyService."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+//            GeneratorUtils.createFile(serviceFilePath, serviceContent);
             // generate the token validator
             String tokenValidatorPath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_TOKEN_VALIDATOR).replace("${lang}", language)
                     .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
             String tokenValidatorTemplate = templatesService.loadTemplateContent(tokenValidatorPath);
-            String tokenValidatorContent = GeneratorUtils.generateFromTemplate(tokenValidatorTemplate,
-                    new HashMap<String, String>(){{
+            String tokenValidatorContent = GeneratorUtils.generateFromTemplateObj(tokenValidatorTemplate,
+                    new HashMap<String, Object>(){{
                         put("securityPackage", securityPackage);
             }});
-            String tokenValidatorFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyTokenValidator."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String tokenValidatorFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/token/ApiKeyTokenValidator."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
             GeneratorUtils.createFile(tokenValidatorFilePath, tokenValidatorContent);
 
 
@@ -161,22 +162,22 @@ public class ApiKeyCommand implements Callable<Integer> {
             String tokenReaderPath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_TOKEN_READER).replace("${lang}", language)
                     .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
             String tokenReaderTemplate = templatesService.loadTemplateContent(tokenReaderPath);
-            String tokenReaderContent = GeneratorUtils.generateFromTemplate(tokenReaderTemplate,
-                    new HashMap<String, String>(){{
+            String tokenReaderContent = GeneratorUtils.generateFromTemplateObj(tokenReaderTemplate,
+                    new HashMap<String, Object>(){{
                         put("securityPackage", securityPackage);
                         put("securityTokenHeader", header);
             }});
-            String tokenReaderFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyTokenReader."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String tokenReaderFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/token/ApiKeyTokenReader."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
             GeneratorUtils.createFile(tokenReaderFilePath, tokenReaderContent);
 
             String tokenGeneratorPath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_TOKEN_GENERATOR).replace("${lang}", language)
                     .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
             String tokenGeneratorTemplate = templatesService.loadTemplateContent(tokenGeneratorPath);
-            String tokenGeneratorContent = GeneratorUtils.generateFromTemplate(tokenGeneratorTemplate,
-                    new HashMap<String, String>(){{
+            String tokenGeneratorContent = GeneratorUtils.generateFromTemplateObj(tokenGeneratorTemplate,
+                    new HashMap<String, Object>(){{
                         put("securityPackage", securityPackage);
             }});
-            String tokenGeneratorFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyTokenGenerator."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String tokenGeneratorFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/token/ApiKeyTokenGenerator."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
             GeneratorUtils.createFile(tokenGeneratorFilePath, tokenGeneratorContent);
 
 
@@ -190,7 +191,7 @@ public class ApiKeyCommand implements Callable<Integer> {
 //                    new HashMap<String, String>(){{
 //                        put("securityPackage", securityPackage);
 //            }});
-//            String controllerFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/ApiKeyController."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+//            String controllerFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/controller/ApiKeyController."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
 //            GeneratorUtils.createFile(controllerFilePath, controllerContent);
 
             // generate the liquibase files

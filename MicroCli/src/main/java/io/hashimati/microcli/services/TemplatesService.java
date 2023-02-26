@@ -766,13 +766,13 @@ public class TemplatesService {
         securityDomainsTemplates.put(ROLES ,"micronaut/security/${auth}/${lang}/${db}/domains/Roles${ext}");
         securityDomainsTemplates.put(USER ,"micronaut/security/${auth}/${lang}/${db}/domains/User${ext}");
 
-        securityAPIKeyTemplates.put(APIKEY, "micronaut/security/api key/${lang}/JDBC/domains/ApiKey${ext}");
+        securityAPIKeyTemplates.put(APIKEY, "micronaut/security/api key/${lang}/JDBC/domains/APIKey${ext}");
         securityAPIKeyTemplates.put(APIKEY_REPOSITORY, "micronaut/security/api key/${lang}/JDBC/repository/ApiKeyRepository${ext}");
         securityAPIKeyTemplates.put(APIKEY_SERVICE, "micronaut/security/api key/${lang}/JDBC/service/ApiKeyService${ext}");
         securityAPIKeyTemplates.put(APIKEY_CONTROLLER, "micronaut/security/api key/${lang}/JDBC/controllers/ApiKeyController${ext}");
         securityAPIKeyTemplates.put(APIKEY_TOKEN_READER, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenReader${ext}");
         securityAPIKeyTemplates.put(APIKEY_TOKEN_VALIDATOR, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenValidator${ext}");
-        securityAPIKeyTemplates.put(APIKEY_TOKEN_GENERATOR, "micronaut/security/api key/${lang}/JDBCtoken/ApiKeyTokenGenerator${ext}");
+        securityAPIKeyTemplates.put(APIKEY_TOKEN_GENERATOR, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenGenerator${ext}");
         securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${auth}/${lang}/JDBC/repository/RefreshTokenRepository${ext}");
         securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${auth}/${lang}/${db}/repository/UserRepository${ext}");
         securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${auth}/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");
