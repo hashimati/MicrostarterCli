@@ -22,7 +22,7 @@ public class APIKey {
     @DateUpdated
     private Instant updated;
 
-    private KeyStatus status;
+
     public APIKey(String name, String key){
         this.name = name;
         this.key = key;
@@ -44,11 +44,11 @@ public class APIKey {
         this.key = key;
     }
 
-    public String getId() {
+    public <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>  getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(<% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>  id) {
         this.id = id;
     }
 

@@ -311,7 +311,7 @@ public class TemplatesService {
      APIKEY_TOKEN_READER = "APIKEY_TOKEN_READER",
      APIKEY_TOKEN_VALIDATOR = "APIKEY_TOKEN_VALIDATOR",
      APIKEY_TOKEN_GENERATOR = "APIKEY_TOKEN_GENERATOR",
-
+    APIKEY_LIQUIBASE = "APIKEY_LIQUIBASE",
     //Security Constants
     USER_CONTROLLER = "usercontroller",
     LOGIN_EVENT = "loginevent",
@@ -773,6 +773,7 @@ public class TemplatesService {
         securityAPIKeyTemplates.put(APIKEY_TOKEN_READER, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenReader${ext}");
         securityAPIKeyTemplates.put(APIKEY_TOKEN_VALIDATOR, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenValidator${ext}");
         securityAPIKeyTemplates.put(APIKEY_TOKEN_GENERATOR, "micronaut/security/api key/${lang}/JDBC/token/ApiKeyTokenGenerator${ext}");
+        securityAPIKeyTemplates.put(APIKEY_LIQUIBASE, "micronaut/security/db/changelog/db.apikeys-1.xml");
         securityRefreshTokenTemplates.put(REFRESH_TOKEN_REPOSITORY,"micronaut/security/${auth}/${lang}/JDBC/repository/RefreshTokenRepository${ext}");
         securityRepositoryTemplates.put(USER_REPOSITORY ,"micronaut/security/${auth}/${lang}/${db}/repository/UserRepository${ext}");
         securityRefreshTokenTemplates.put(CUSTOM_REFRESH_TOKEN ,"micronaut/security/${auth}/${lang}/${db}/services/CustomRefreshTokenPersistence${ext}");

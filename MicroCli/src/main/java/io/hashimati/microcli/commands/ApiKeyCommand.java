@@ -111,7 +111,7 @@ public class ApiKeyCommand implements Callable<Integer> {
 
                     }});
 
-            String domainFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/domains/ApiKey."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            String domainFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/domains/APIKey."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
             GeneratorUtils.createFile(domainFilePath, domainContent);
 
 
@@ -183,18 +183,27 @@ public class ApiKeyCommand implements Callable<Integer> {
 
             //generate the controller.
 
-//            String controllerPath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_CONTROLLER).replace("${lang}", language)
-//                    .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
-//            String controllerTemplate = templatesService.loadTemplateContent(controllerPath);
-//
-//            String controllerContent = GeneratorUtils.generateFromTemplate(controllerTemplate,
-//                    new HashMap<String, String>(){{
-//                        put("securityPackage", securityPackage);
-//            }});
-//            String controllerFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/controller/ApiKeyController."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
-//            GeneratorUtils.createFile(controllerFilePath, controllerContent);
+            String controllerPath = templatesService.getSecurityApiKeyTemplates().get(templatesService.APIKEY_CONTROLLER).replace("${lang}", language)
+                    .replace("${ext}", language.equalsIgnoreCase("kotlin") ? ".kt" : "."+ language);
+            String controllerTemplate = templatesService.loadTemplateContent(controllerPath);
+
+            String controllerContent = GeneratorUtils.generateFromTemplate(controllerTemplate,
+                    new HashMap<String, String>(){{
+                        put("securityPackage", securityPackage);
+            }});
+            String controllerFilePath = path + "/src/main/"+language+"/" + securityPackage.replace(".", "/") + "/controllers/ApiKeyController."+(language.equalsIgnoreCase("kotlin") ? "kt" : language.toLowerCase());
+            GeneratorUtils.createFile(controllerFilePath, controllerContent);
 
             // generate the liquibase files
+            String liquibaseTemplateContent= templatesService.loadTemplateContent(templatesService.getSecurityApiKeyTemplates().get(TemplatesService.APIKEY_LIQUIBASE));
+            String liquibaseFilePath = path + "/src/main/resources/db/changelog/db.apikey.1.xml";
+            GeneratorUtils.createFile(liquibaseFilePath, liquibaseTemplateContent);
+
+            String liquibaseChangeTemplateContent= templatesService.loadTemplateContent(templatesService.getSecurityLiquibase().get(TemplatesService.SECURITY_LIQUIBASE_CONFIG));
+
+            String liquibaseChangeFilePath = path + "/src/main/resources/db/liquibase-changelog.xml";
+            GeneratorUtils.createFile(liquibaseChangeFilePath, liquibaseChangeTemplateContent);
+
         } catch (GradleReaderException e) {
             throw new RuntimeException(e);
 
