@@ -33,10 +33,11 @@ public class ApiKeyController {
     String generateKey(@Body HashMap<String, String> request) {
         APIKey apiKey = new APIKey(request.get("name"), "123456789");
         apiKey.setExpiry(Instant.now().plus(5, java.time.temporal.ChronoUnit.MINUTES));
-        apiKey.setKey(apiKeyTokenGenerator.generateKey(request.get("name"), request.get("password"), Instant.now()));
-        return apiKeyRepository.save(apiKey).getKey();
+        apiKey.setSecret(apiKeyTokenGenerator.generateKey(request.get("name"), request.get("password"), Instant.now()));
+        return apiKeyRepository.save(apiKey).getSecret();
 
 
     }
 
 }
+

@@ -12,7 +12,8 @@ public class APIKey {
     @Id
      @GeneratedValue(GeneratedValue.Type.AUTO)
     private <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id;
-    private String name, key;
+    private String name;
+    private String secret;
 
     private Instant expiry;
 
@@ -22,10 +23,10 @@ public class APIKey {
     @DateUpdated
     private Instant updated;
 
-
+    public APIKey(){}
     public APIKey(String name, String key){
         this.name = name;
-        this.key = key;
+        this.secret = key;
     }
 
     public String getName() {
@@ -36,19 +37,13 @@ public class APIKey {
         this.name = name;
     }
 
-    public String getKey() {
-        return key;
-    }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
 
-    public <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>  getId() {
+    public Long  getId() {
         return id;
     }
 
-    public void setId(<% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>  id) {
+    public void setId(Long  id) {
         this.id = id;
     }
 
@@ -75,4 +70,13 @@ public class APIKey {
     public void setUpdated(Instant updated) {
         this.updated = updated;
     }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 }
+

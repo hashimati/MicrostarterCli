@@ -26,7 +26,7 @@ class ApiKeyTokenValidator implements TokenValidator {
         if (request == null || !request.getPath().startsWith("/api")) {
             return Publishers.empty()
         }
-        return apiKeyRepository.findByKey(token)
+        return apiKeyRepository.findBySecret(token)
                 .filter(x-> x.getExpiry().isAfter(java.time.Instant.now()))
                 .map(principle ->Authentication.build(principle.getName()))
                 .map(Publishers::just).orElse(Publishers.empty())

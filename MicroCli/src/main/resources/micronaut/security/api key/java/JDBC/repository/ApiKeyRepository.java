@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ApiKeyRepository extends CrudRepository<APIKey, <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> > {
 
     public Optional<APIKey> findByName(String name);
-    public Optional<APIKey> findByKey(String key);
+    public Optional<APIKey> findBySecret(String secret);
 
 }
 

@@ -11,15 +11,18 @@
 
             </column>
 
-            <column name="dateCreated" type="datetime">
+            <column name="created" type="datetime">
 
             </column>
 
-            <column name="dateUpdated" type="datetime">
+            <column name="updated" type="datetime">
+
+            </column>
+            <column name="expiry" type="datetime">
 
             </column>
 
-            <column name="key" type="varchar(255)">
+            <column name="secret" type="varchar(255)">
 
                 <constraints unique="true" nullable="false"/>
 
@@ -38,4 +41,5 @@
     </changeSet>
 
 </databaseChangeLog>
+
 
