@@ -10,7 +10,7 @@ import java.time.Instant;
 public class APIKey {
 
     @Id
-     @GeneratedValue(GeneratedValue.Type.AUTO)
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     private <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%> id;
     private String name;
     private String secret;

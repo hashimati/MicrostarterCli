@@ -5,16 +5,14 @@ import io.micronaut.data.model.naming.NamingStrategies
 import java.time.Instant
 
 @MappedEntity(value = "apikeys", namingStrategy = NamingStrategies.Raw::class)
-class APIKey(var name: String, var key: String) {
-    @Id
+data class APIKey(
+    @field:Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
-    var id: Long? = null
-    var expiry: Instant? = null
-
+    var id: <% if(jdbc) out.print 'Long'%><% if(mongo) out.print 'String'%>? = null,
+    var name: String, var key: String,
     @DateCreated
-    var created: Instant? = null
-
+    var created: Instant? = null,
     @DateUpdated
-    var updated: Instant? = null
+    var updated: Instant? = null) {
 
 }

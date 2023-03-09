@@ -21,8 +21,8 @@ class ApiKeyTokenValidator(apiKeyRepository: ApiKeyRepository) : TokenValidator 
         return if (request == null || !request.path.startsWith("/api")) {
             Publishers.empty<Authentication>()
         } else apiKeyRepository.findByKey(token)
-            .filter { x -> x.getExpiry().isAfter(Instant.now()) }
-            .map { principle -> Authentication.build(principle.getName()) }
+            .filter { x -> x.expiry.isAfter(Instant.now()) }
+            .map { principle -> Authentication.build(principle.name) }
             .map(Publishers::just).orElse(Publishers.empty())
     }
 }

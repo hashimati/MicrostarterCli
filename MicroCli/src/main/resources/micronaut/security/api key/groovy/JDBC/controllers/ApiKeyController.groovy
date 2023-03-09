@@ -32,7 +32,7 @@ class ApiKeyController {
     @Secured(SecurityRule.IS_ANONYMOUS) // secure this method in the production environment
     String generateKey(@Body HashMap<String, String> request) {
         APIKey apiKey = new APIKey(request.get("name"), "123456789")
-        apiKey.setExpiry(Instant.now().plus(5, java.time.temporal.ChronoUnit.MINUTES))
+        apiKey.setExpiry(Instant.now().plus(500, java.time.temporal.ChronoUnit.MINUTES))
         apiKey.setSecret(apiKeyTokenGenerator.generateKey(request.get("name"), request.get("password"), Instant.now()))
         return apiKeyRepository.save(apiKey).getSecret()
 
