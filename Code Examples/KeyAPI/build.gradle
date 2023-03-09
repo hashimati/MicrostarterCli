@@ -1,0 +1,64 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.3"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("io.micronaut.data:micronaut-data-processor")
+	annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+	compileOnly("org.projectlombok:lombok")
+	implementation("com.graphql-java-kickstart:graphql-java-tools:13.0.0")
+	implementation("io.micronaut.data:micronaut-data-jdbc")
+	implementation("io.micronaut.graphql:micronaut-graphql")
+	implementation("io.micronaut.liquibase:micronaut-liquibase")
+	implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+	implementation("io.micronaut.reactor:micronaut-reactor")
+	implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+	implementation("io.micronaut.security:micronaut-security")
+	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+	implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
+	implementation("io.micronaut:micronaut-management")
+	implementation("io.swagger.core.v3:swagger-annotations")
+	implementation("org.jasypt:jasypt:1.9.3")
+	runtimeOnly("com.h2database:h2")
+	testRuntimeOnly("com.h2database:h2")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+}
+
+
+application {
+    mainClass.set("com.example.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.fork = true
+    options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
+}

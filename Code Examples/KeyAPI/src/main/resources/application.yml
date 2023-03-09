@@ -1,0 +1,101 @@
+
+micronaut:
+  application:
+    name: demo
+netty:
+  default:
+    allocator:
+      max-order: 3
+
+
+---
+micronaut.server.port: 8080
+---
+
+---
+---
+micronaut.application.instance.id: service-id
+
+---
+datasources:
+  default:
+    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+#    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration
+    dialect: H2
+
+---
+liquibase:
+  datasources:
+    default:
+      change-log: 'classpath:db/liquibase-changelog.xml'
+
+---
+micronaut:
+  metrics:
+    enabled: true
+    sensitive: Boolean
+
+---
+endpoints:
+  prometheus:
+    sensitive: false
+micronaut:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+
+---
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+
+---
+graphql:
+  graphiql.enabled: true
+
+---
+micronaut:
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      redoc:
+        paths: classpath:META-INF/swagger/views/redoc
+        mapping: /redoc/**
+      rapidoc:
+        paths: classpath:META-INF/swagger/views/rapidoc
+        mapping: /rapidoc/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+
+---
+micronaut:
+  security:
+    enabled: true
+
+---
+--- #Intercept URL Map
+micronaut:
+  security:
+    intercept-url-map:
+      -
+        pattern: "/swagger/views/swagger-ui/index.html"
+        http-method: "GET"
+        access: ["isAnonymous()"]
+
+      -
+        pattern: "/swagger/views/rapidoc/index.html"
+        http-method: "GET"
+        access: ["isAnonymous()"]
+
+--- #End Intercept URL Map

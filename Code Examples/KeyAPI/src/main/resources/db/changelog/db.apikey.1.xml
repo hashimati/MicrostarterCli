@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="Ahmed">
+
+
+        <createTable tableName="apikeys" remarks="A table to store all APIKEY records">
+
+            <column name="id" type="bigint">
+
+                <constraints unique="true" nullable="false" primaryKey="true"/>
+
+            </column>
+
+            <column name="created" type="datetime">
+
+            </column>
+
+            <column name="updated" type="datetime">
+
+            </column>
+            <column name="expiry" type="datetime">
+
+            </column>
+
+            <column name="secret" type="varchar(255)">
+
+                <constraints unique="true" nullable="false"/>
+
+            </column>
+            <column name="name" type="varchar(255)">
+
+                <constraints unique="true" nullable="false"/>
+
+            </column>
+
+        </createTable>
+
+        <addAutoIncrement columnDataType="bigint" columnName="id" incrementBy="1" startWith="1" tableName="apikeys"/>
+
+
+    </changeSet>
+
+</databaseChangeLog>
+
+
+

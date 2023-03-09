@@ -1,0 +1,210 @@
+{
+  "projectInfo": {
+    "applicationType": "default",
+    "defaultPackage": "com.example",
+    "testFramework": "junit",
+    "sourceLanguage": "java",
+    "buildTool": "gradle",
+    "features": [
+      "annotation-api",
+      "app-name",
+      "gradle",
+      "http-client",
+      "jackson-databind",
+      "java",
+      "java-application",
+      "junit",
+      "logback",
+      "micronaut-build",
+      "netty-server",
+      "readme",
+      "shade",
+      "yaml",
+      "data-jdbc",
+      "h2",
+      "liquibase",
+      "management",
+      "micrometer",
+      "tracing-jaeger",
+      "graphql",
+      "openapi",
+      "lombok",
+      "security",
+      "reactor",
+      "reactor-http-client"
+    ]
+  },
+  "liquibaseSequence": 1,
+  "appName": "demo",
+  "databaseName": "MyDatabase",
+  "databaseType": "H2",
+  "dataBackendRun": "JDBC",
+  "dataMigrationTool": "liquibase",
+  "messaging": "none",
+  "graphQLIntegrationLib": "graphql-java-tools",
+  "framework": "micronaut",
+  "relationalDatabase": false,
+  "jaxRsAnnotation": false,
+  "micronautAnnotation": true,
+  "springBootAnnotation": false,
+  "enableViews": false,
+  "port": 8080,
+  "graphQlSupport": true,
+  "reactiveFramework": "reactor",
+  "serviceId": "service-id",
+  "discoveryClientEnabled": false,
+  "configServerEnabled": false,
+  "grpcSupport": false,
+  "nonBlocking": false,
+  "micrometer": true,
+  "influx": false,
+  "prometheus": false,
+  "graphite": false,
+  "statsd": false,
+  "caffeine": false,
+  "gorm": false,
+  "securityEnable": true,
+  "securityStrategy": "none",
+  "securityJWTPropagate": false,
+  "monolithic": true,
+  "propagateServices": [],
+  "tracingFramework": "tracing-jaeger",
+  "tracingEnabled": true,
+  "mnData": true,
+  "javaVersion": "11",
+  "entities": [
+    {
+      "name": "Fruit",
+      "idType": "Long",
+      "entityPackage": "com.example.domains",
+      "repoPackage": "com.example.repositories",
+      "servicePackage": "com.example.services",
+      "restPackage": "com.example.controllers",
+      "clientPackage": "com.example.clients",
+      "microstreamPackage": "com.example.microstream",
+      "grpcPackage": "com.example.grpc",
+      "graphqlpackage": "com.example.graphqls",
+      "functionPackage": "com.example.function",
+      "lambdaPackage": "com.example.function.aws",
+      "oraclePackage": "com.example.function.oracle",
+      "azurePackage": "com.example.function.azure",
+      "googlePackage": "com.example.function.google",
+      "defaultPackage": "com.example",
+      "reactiveFramework": "reactor",
+      "databaseType": "H2",
+      "collectionName": "fruits",
+      "databaseName": "MyDatabase",
+      "gorm": false,
+      "frameworkType": "JDBC",
+      "microstreamChannelCount": 4,
+      "jaxRs": false,
+      "spring": false,
+      "micronaut": true,
+      "pageable": false,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "Long",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": false
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "premetive": true,
+          "enumuration": false,
+          "array": false,
+          "jdbc": false,
+          "jpa": false,
+          "findByMethod": false,
+          "findAllMethod": false
+        }
+      ],
+      "liquibaseSequence": 1,
+      "nonBlocking": false,
+      "mnData": true,
+      "grpc": false,
+      "cached": false,
+      "micrometer": true,
+      "tracingEnabled": true,
+      "securityEnabled": true,
+      "securityStrategy": "none",
+      "noEndpoints": false,
+      "javaVersion": "11",
+      "javaRecord": false,
+      "updateByMethods": {},
+      "urls": [
+        {
+          "url": "/api/v1/fruit/get",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/findAll",
+          "method": "GET",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/save",
+          "method": "POST",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/update",
+          "method": "PUT",
+          "roles": []
+        },
+        {
+          "url": "/api/v1/fruit/delete/{id}",
+          "method": "DELETE",
+          "roles": []
+        }
+      ],
+      "graphQl": false,
+      "lombok": false
+    }
+  ],
+  "relations": [],
+  "enums": [],
+  "configured": true,
+  "supportFileService": false,
+  "securityRoles": [],
+  "urls": [
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/swagger-ui/index.html",
+      "method": "GET",
+      "roles": [
+        "isAnonymous()"
+      ]
+    },
+    {
+      "scope": "/OpenAPI",
+      "url": "/swagger/views/rapidoc/index.html",
+      "method": "GET",
+      "roles": [
+        "isAnonymous()"
+      ]
+    },
+    {
+      "scope": "/GraphQL",
+      "url": "/graphql",
+      "method": "POST",
+      "roles": []
+    },
+    {
+      "scope": "/GraphQL",
+      "url": "/graphiql",
+      "method": "GET",
+      "roles": []
+    }
+  ],
+  "apikey": true,
+  "apiKeyHeader": "API-HEADER",
+  "lombok": false
+}

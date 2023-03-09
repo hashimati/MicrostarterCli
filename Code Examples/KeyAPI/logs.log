@@ -1,0 +1,875 @@
+00:22:49.175 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+00:22:49.536 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+00:22:49.756 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+00:22:52.647 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5091ms. Server Running: http://localhost:8080
+00:23:13.353 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+00:23:13.369 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+00:23:13.377 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-07T21:28:12.562304Z with data type: TIMESTAMP
+00:23:13.377 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-07T21:23:13.345689500Z with data type: TIMESTAMP
+00:23:13.377 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-07T21:23:13.345689500Z with data type: TIMESTAMP
+00:23:13.377 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value oLt5PBa4+dnZv8ohF3CdIiiBhLco3JV4t1JNcS+p/eUGCglrkGgrUXM8+yQaQCux with data type: STRING
+00:25:58.747 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+00:25:59.155 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+00:25:59.297 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+00:26:02.092 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5042ms. Server Running: http://localhost:8080
+00:26:15.655 [default-nioEventLoopGroup-1-3] ERROR i.m.http.server.RouteExecutor - Unexpected error occurred: Unsupported unit: Months
+java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Months
+	at java.base/java.time.Instant.plus(Instant.java:861)
+	at com.example.security.controllers.ApiKeyController.generateKey(ApiKeyController.java:36)
+	at com.example.security.controllers.$ApiKeyController$Definition$Exec.dispatch(Unknown Source)
+	at io.micronaut.context.AbstractExecutableMethodsDefinition$DispatchedExecutableMethod.invoke(AbstractExecutableMethodsDefinition.java:371)
+	at io.micronaut.context.DefaultBeanContext$4.invoke(DefaultBeanContext.java:594)
+	at io.micronaut.web.router.AbstractRouteMatch.execute(AbstractRouteMatch.java:303)
+	at io.micronaut.web.router.RouteMatch.execute(RouteMatch.java:111)
+	at io.micronaut.http.context.ServerRequestContext.with(ServerRequestContext.java:103)
+	at io.micronaut.http.server.RouteExecutor.lambda$executeRoute$14(RouteExecutor.java:659)
+	at reactor.core.publisher.FluxDeferContextual.subscribe(FluxDeferContextual.java:49)
+	at reactor.core.publisher.Flux.subscribe(Flux.java:8660)
+	at reactor.core.publisher.FluxFlatMap$FlatMapMain.onNext(FluxFlatMap.java:426)
+	at io.micronaut.reactive.reactor.instrument.ReactorSubscriber.onNext(ReactorSubscriber.java:57)
+	at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:172)
+	at io.micronaut.http.server.netty.RoutingInBoundHandler$4.doOnComplete(RoutingInBoundHandler.java:965)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor$1.doOnComplete(JsonContentProcessor.java:136)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at java.base/java.util.Optional.ifPresent(Optional.java:183)
+	at io.micronaut.core.async.processor.SingleThreadedBufferingProcessor.doOnComplete(SingleThreadedBufferingProcessor.java:48)
+	at io.micronaut.jackson.core.parser.JacksonCoreProcessor.doOnComplete(JacksonCoreProcessor.java:94)
+	at io.micronaut.core.async.subscriber.SingleThreadedBufferingSubscriber.onComplete(SingleThreadedBufferingSubscriber.java:71)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor.doOnComplete(JsonContentProcessor.java:161)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessage(HandlerPublisher.java:383)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.flushBuffer(HandlerPublisher.java:470)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessageLater(HandlerPublisher.java:360)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.complete(HandlerPublisher.java:423)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.handlerRemoved(HandlerPublisher.java:418)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:1122)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:477)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:423)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.removeHandlerIfActive(HttpStreamsHandler.java:483)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.handleReadHttpContent(HttpStreamsHandler.java:319)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.channelRead(HttpStreamsHandler.java:282)
+	at io.micronaut.http.netty.stream.HttpStreamsServerHandler.channelRead(HttpStreamsServerHandler.java:134)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.channelRead(WebSocketServerExtensionHandler.java:99)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.HttpServerKeepAliveHandler.channelRead(HttpServerKeepAliveHandler.java:64)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.flow.FlowControlHandler.dequeue(FlowControlHandler.java:200)
+	at io.netty.handler.flow.FlowControlHandler.read(FlowControlHandler.java:139)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeRead(AbstractChannelHandlerContext.java:837)
+	at io.netty.channel.AbstractChannelHandlerContext.read(AbstractChannelHandlerContext.java:814)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.requestDemand(HandlerPublisher.java:165)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler$2.requestDemand(HttpStreamsHandler.java:273)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.receivedDemand(HandlerPublisher.java:556)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.lambda$request$0(HandlerPublisher.java:494)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:174)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:167)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+00:27:29.148 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+00:27:29.541 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+00:27:29.698 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+00:27:32.463 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5058ms. Server Running: http://localhost:8080
+00:27:44.607 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+00:27:44.615 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+00:27:44.615 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-14T20:07:43.933424300Z with data type: TIMESTAMP
+00:27:44.615 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-07T21:27:44.598997600Z with data type: TIMESTAMP
+00:27:44.615 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-07T21:27:44.598997600Z with data type: TIMESTAMP
+00:27:44.615 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value puZPd9ElTou1QOIyQ9VdNyYP8K8NnBUcX1Ez/88rwIbKS1H8eOBCednYU8x4tqx5 with data type: STRING
+00:30:26.544 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+00:30:26.993 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+00:30:27.154 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+00:30:31.210 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6359ms. Server Running: http://localhost:8080
+00:30:35.929 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+00:30:35.937 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+00:30:35.945 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-14T20:10:35.301888Z with data type: TIMESTAMP
+00:30:35.945 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-07T21:30:35.929288800Z with data type: TIMESTAMP
+00:30:35.945 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-07T21:30:35.929288800Z with data type: TIMESTAMP
+00:30:35.945 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Bp++4pGG5WihhT9eE8ecrpZ7JchX1GQhes+p6kn9qM3oNsYNfRWDj21DX91yhvr9 with data type: STRING
+00:31:07.366 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+00:31:07.366 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+00:31:07.366 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-14T20:11:07.366367Z with data type: TIMESTAMP
+00:31:07.366 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-07T21:31:07.366367Z with data type: TIMESTAMP
+00:31:07.366 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-07T21:31:07.366367Z with data type: TIMESTAMP
+00:31:07.366 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value S6QH9nwt17VlSdmy6MmEPSZQGgB0kPg5Ef0seKv9I9lso1ssJVRCjdaC1HIgIxV1 with data type: STRING
+00:31:07.397 [default-nioEventLoopGroup-1-5] ERROR i.m.http.server.RouteExecutor - Unexpected error occurred: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB2_INDEX_C ON PUBLIC.APIKEYS(NAME) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+io.micronaut.data.exceptions.DataAccessException: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB2_INDEX_C ON PUBLIC.APIKEYS(NAME) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.failed(BaseOperations.java:141)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:90)
+	at io.micronaut.data.runtime.operations.internal.EntityOperations.persist(EntityOperations.java:31)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$persist$15(DefaultJdbcRepositoryOperations.java:647)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$executeWrite$19(DefaultJdbcRepositoryOperations.java:729)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.execute(AbstractSynchronousStateTransactionManager.java:145)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.executeWrite(AbstractSynchronousStateTransactionManager.java:165)
+	at io.micronaut.transaction.support.AbstractSynchronousTransactionManager.executeWrite(AbstractSynchronousTransactionManager.java:155)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.executeWrite(DefaultJdbcRepositoryOperations.java:726)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.persist(DefaultJdbcRepositoryOperations.java:643)
+	at io.micronaut.data.runtime.intercept.DefaultSaveEntityInterceptor.intercept(DefaultSaveEntityInterceptor.java:45)
+	at io.micronaut.data.runtime.intercept.DataIntroductionAdvice.intercept(DataIntroductionAdvice.java:83)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at io.micronaut.validation.ValidatingInterceptor.intercept(ValidatingInterceptor.java:143)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at com.example.security.repository.ApiKeyRepository$Intercepted.save(Unknown Source)
+	at com.example.security.controllers.ApiKeyController.generateKey(ApiKeyController.java:37)
+	at com.example.security.controllers.$ApiKeyController$Definition$Exec.dispatch(Unknown Source)
+	at io.micronaut.context.AbstractExecutableMethodsDefinition$DispatchedExecutableMethod.invoke(AbstractExecutableMethodsDefinition.java:371)
+	at io.micronaut.context.DefaultBeanContext$4.invoke(DefaultBeanContext.java:594)
+	at io.micronaut.web.router.AbstractRouteMatch.execute(AbstractRouteMatch.java:303)
+	at io.micronaut.web.router.RouteMatch.execute(RouteMatch.java:111)
+	at io.micronaut.http.context.ServerRequestContext.with(ServerRequestContext.java:103)
+	at io.micronaut.http.server.RouteExecutor.lambda$executeRoute$14(RouteExecutor.java:659)
+	at reactor.core.publisher.FluxDeferContextual.subscribe(FluxDeferContextual.java:49)
+	at reactor.core.publisher.Flux.subscribe(Flux.java:8660)
+	at reactor.core.publisher.FluxFlatMap$FlatMapMain.onNext(FluxFlatMap.java:426)
+	at io.micronaut.reactive.reactor.instrument.ReactorSubscriber.onNext(ReactorSubscriber.java:57)
+	at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:172)
+	at io.micronaut.http.server.netty.RoutingInBoundHandler$4.doOnComplete(RoutingInBoundHandler.java:965)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor$1.doOnComplete(JsonContentProcessor.java:136)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at java.base/java.util.Optional.ifPresent(Optional.java:183)
+	at io.micronaut.core.async.processor.SingleThreadedBufferingProcessor.doOnComplete(SingleThreadedBufferingProcessor.java:48)
+	at io.micronaut.jackson.core.parser.JacksonCoreProcessor.doOnComplete(JacksonCoreProcessor.java:94)
+	at io.micronaut.core.async.subscriber.SingleThreadedBufferingSubscriber.onComplete(SingleThreadedBufferingSubscriber.java:71)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor.doOnComplete(JsonContentProcessor.java:161)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessage(HandlerPublisher.java:383)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.flushBuffer(HandlerPublisher.java:470)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessageLater(HandlerPublisher.java:360)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.complete(HandlerPublisher.java:423)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.handlerRemoved(HandlerPublisher.java:418)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:1122)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:477)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:423)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.removeHandlerIfActive(HttpStreamsHandler.java:483)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.handleReadHttpContent(HttpStreamsHandler.java:319)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.channelRead(HttpStreamsHandler.java:282)
+	at io.micronaut.http.netty.stream.HttpStreamsServerHandler.channelRead(HttpStreamsServerHandler.java:134)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.channelRead(WebSocketServerExtensionHandler.java:99)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.HttpServerKeepAliveHandler.channelRead(HttpServerKeepAliveHandler.java:64)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.flow.FlowControlHandler.dequeue(FlowControlHandler.java:200)
+	at io.netty.handler.flow.FlowControlHandler.read(FlowControlHandler.java:139)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeRead(AbstractChannelHandlerContext.java:837)
+	at io.netty.channel.AbstractChannelHandlerContext.read(AbstractChannelHandlerContext.java:814)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.requestDemand(HandlerPublisher.java:165)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler$2.requestDemand(HttpStreamsHandler.java:273)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.receivedDemand(HandlerPublisher.java:556)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.lambda$request$0(HandlerPublisher.java:494)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:174)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:167)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB2_INDEX_C ON PUBLIC.APIKEYS(NAME) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.index.BaseIndex.getDuplicateKeyException(BaseIndex.java:103)
+	at org.h2.mvstore.db.MVSecondaryIndex.checkUnique(MVSecondaryIndex.java:221)
+	at org.h2.mvstore.db.MVSecondaryIndex.add(MVSecondaryIndex.java:196)
+	at org.h2.mvstore.db.MVTable.addRow(MVTable.java:531)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:195)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.executeUpdateWithGeneratedKeys(CommandContainer.java:272)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:191)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations$JdbcEntityOperations.execute(DefaultJdbcRepositoryOperations.java:1086)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:84)
+	... 88 common frames omitted
+12:10:27.664 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:10:27.946 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:10:28.041 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+12:10:29.987 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3615ms. Server Running: http://localhost:8080
+12:11:08.243 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+12:11:08.248 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+12:11:09.453 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+12:11:09.455 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+12:11:09.455 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T07:51:09.230398800Z with data type: TIMESTAMP
+12:11:09.455 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T09:11:09.450965300Z with data type: TIMESTAMP
+12:11:09.455 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T09:11:09.450965300Z with data type: TIMESTAMP
+12:11:09.456 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value dDPW43kplzVX0KlvlqOY5YtWJjtIZ1ydPqmUn77QLVoz5H9rZXFIhT3cRUhgsaqy with data type: STRING
+12:14:15.553 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:14:15.804 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:14:15.898 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+12:14:17.827 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3603ms. Server Running: http://localhost:8080
+12:14:34.279 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+12:14:34.295 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+12:14:35.441 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+12:14:35.457 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+12:14:35.457 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T07:54:35.222295600Z with data type: TIMESTAMP
+12:14:35.457 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T09:14:35.441935900Z with data type: TIMESTAMP
+12:14:35.551 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T09:14:35.441935900Z with data type: TIMESTAMP
+12:14:35.551 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value ZtdD3W0Fx0lhrKgKlamwi/4RLCRcdLgyBtW2p4SjquZA88fbA3TtH+zWemcGyL9g with data type: STRING
+12:18:00.935 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:18:01.155 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:18:01.265 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+12:18:03.109 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3363ms. Server Running: http://localhost:8080
+12:18:24.496 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+12:18:24.501 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+12:18:25.666 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+12:18:25.668 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+12:18:25.669 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T07:58:25.438550900Z with data type: TIMESTAMP
+12:18:25.669 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T09:18:25.663363500Z with data type: TIMESTAMP
+12:18:25.669 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T09:18:25.663363500Z with data type: TIMESTAMP
+12:18:25.669 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value fJKo1vIZXjS3OQ6ldiHVG8Z/YRiZ/bkFF6DsVDJQ7FZ5ncL5eeqFC+5Vw+8dqySK with data type: STRING
+12:21:25.624 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:21:25.860 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:21:25.954 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+12:21:27.916 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3504ms. Server Running: http://localhost:8080
+12:21:41.212 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+12:21:41.217 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+12:21:42.225 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+12:21:42.228 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+12:21:42.228 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T08:01:42.207293Z with data type: TIMESTAMP
+12:21:42.229 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T09:21:42.221309200Z with data type: TIMESTAMP
+12:21:42.229 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T09:21:42.221309200Z with data type: TIMESTAMP
+12:21:42.230 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+12:22:58.862 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:22:59.097 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:22:59.191 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+12:23:01.702 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 3970ms. Server Running: http://localhost:8080
+12:23:06.565 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+12:23:06.569 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+12:23:07.484 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+12:23:07.487 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+12:23:07.489 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T08:03:07.461094900Z with data type: TIMESTAMP
+12:23:07.491 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T09:23:07.480177900Z with data type: TIMESTAMP
+12:23:07.491 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T09:23:07.480177900Z with data type: TIMESTAMP
+12:23:07.491 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+13:43:14.347 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:43:14.998 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:43:15.335 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+13:43:20.465 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 8126ms. Server Running: http://localhost:8080
+13:43:22.415 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:43:22.422 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:43:23.925 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+13:43:23.928 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+13:43:23.928 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:23:23.898509900Z with data type: TIMESTAMP
+13:43:23.930 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T10:43:23.919511400Z with data type: TIMESTAMP
+13:43:23.930 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T10:43:23.919511400Z with data type: TIMESTAMP
+13:43:23.930 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+13:46:16.581 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:46:17.031 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:46:17.222 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+13:46:21.174 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6549ms. Server Running: http://localhost:8080
+13:46:32.613 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:46:32.620 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:46:34.040 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+13:46:34.043 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+13:46:34.043 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:26:34.017329900Z with data type: TIMESTAMP
+13:46:34.044 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T10:46:34.034869Z with data type: TIMESTAMP
+13:46:34.044 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T10:46:34.034869Z with data type: TIMESTAMP
+13:46:34.044 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+13:49:40.847 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:49:40.848 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:49:40.851 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+13:49:40.852 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+13:49:40.852 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:29:40.851386400Z with data type: TIMESTAMP
+13:49:40.852 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T10:49:40.851386400Z with data type: TIMESTAMP
+13:49:40.852 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T10:49:40.851386400Z with data type: TIMESTAMP
+13:49:40.852 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+13:49:40.876 [default-nioEventLoopGroup-1-7] ERROR i.m.http.server.RouteExecutor - Unexpected error occurred: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+io.micronaut.data.exceptions.DataAccessException: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.failed(BaseOperations.java:141)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:90)
+	at io.micronaut.data.runtime.operations.internal.EntityOperations.persist(EntityOperations.java:31)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$persist$15(DefaultJdbcRepositoryOperations.java:647)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$executeWrite$19(DefaultJdbcRepositoryOperations.java:729)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.execute(AbstractSynchronousStateTransactionManager.java:145)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.executeWrite(AbstractSynchronousStateTransactionManager.java:165)
+	at io.micronaut.transaction.support.AbstractSynchronousTransactionManager.executeWrite(AbstractSynchronousTransactionManager.java:155)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.executeWrite(DefaultJdbcRepositoryOperations.java:726)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.persist(DefaultJdbcRepositoryOperations.java:643)
+	at io.micronaut.data.runtime.intercept.DefaultSaveEntityInterceptor.intercept(DefaultSaveEntityInterceptor.java:45)
+	at io.micronaut.data.runtime.intercept.DataIntroductionAdvice.intercept(DataIntroductionAdvice.java:83)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at io.micronaut.validation.ValidatingInterceptor.intercept(ValidatingInterceptor.java:143)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at com.example.security.repository.ApiKeyRepository$Intercepted.save(Unknown Source)
+	at com.example.security.controllers.ApiKeyController.generateKey(ApiKeyController.java:37)
+	at com.example.security.controllers.$ApiKeyController$Definition$Exec.dispatch(Unknown Source)
+	at io.micronaut.context.AbstractExecutableMethodsDefinition$DispatchedExecutableMethod.invoke(AbstractExecutableMethodsDefinition.java:378)
+	at io.micronaut.context.DefaultBeanContext$4.invoke(DefaultBeanContext.java:594)
+	at io.micronaut.web.router.AbstractRouteMatch.execute(AbstractRouteMatch.java:303)
+	at io.micronaut.web.router.RouteMatch.execute(RouteMatch.java:111)
+	at io.micronaut.http.context.ServerRequestContext.with(ServerRequestContext.java:103)
+	at io.micronaut.http.server.RouteExecutor.lambda$executeRoute$14(RouteExecutor.java:659)
+	at reactor.core.publisher.FluxDeferContextual.subscribe(FluxDeferContextual.java:49)
+	at reactor.core.publisher.Flux.subscribe(Flux.java:8660)
+	at reactor.core.publisher.FluxFlatMap$FlatMapMain.onNext(FluxFlatMap.java:426)
+	at io.micronaut.reactive.reactor.instrument.ReactorSubscriber.onNext(ReactorSubscriber.java:57)
+	at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:172)
+	at io.micronaut.http.server.netty.RoutingInBoundHandler$4.doOnComplete(RoutingInBoundHandler.java:965)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor$1.doOnComplete(JsonContentProcessor.java:136)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at java.base/java.util.Optional.ifPresent(Optional.java:183)
+	at io.micronaut.core.async.processor.SingleThreadedBufferingProcessor.doOnComplete(SingleThreadedBufferingProcessor.java:48)
+	at io.micronaut.jackson.core.parser.JacksonCoreProcessor.doOnComplete(JacksonCoreProcessor.java:94)
+	at io.micronaut.core.async.subscriber.SingleThreadedBufferingSubscriber.onComplete(SingleThreadedBufferingSubscriber.java:71)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor.doOnComplete(JsonContentProcessor.java:161)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessage(HandlerPublisher.java:383)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.flushBuffer(HandlerPublisher.java:470)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessageLater(HandlerPublisher.java:360)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.complete(HandlerPublisher.java:423)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.handlerRemoved(HandlerPublisher.java:418)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:1122)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:477)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:423)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.removeHandlerIfActive(HttpStreamsHandler.java:483)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.handleReadHttpContent(HttpStreamsHandler.java:319)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.channelRead(HttpStreamsHandler.java:282)
+	at io.micronaut.http.netty.stream.HttpStreamsServerHandler.channelRead(HttpStreamsServerHandler.java:134)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.channelRead(WebSocketServerExtensionHandler.java:99)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.HttpServerKeepAliveHandler.channelRead(HttpServerKeepAliveHandler.java:64)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.flow.FlowControlHandler.dequeue(FlowControlHandler.java:200)
+	at io.netty.handler.flow.FlowControlHandler.read(FlowControlHandler.java:139)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeRead(AbstractChannelHandlerContext.java:837)
+	at io.netty.channel.AbstractChannelHandlerContext.read(AbstractChannelHandlerContext.java:814)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.requestDemand(HandlerPublisher.java:165)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler$2.requestDemand(HttpStreamsHandler.java:273)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.receivedDemand(HandlerPublisher.java:556)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.lambda$request$0(HandlerPublisher.java:494)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:174)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:167)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.index.BaseIndex.getDuplicateKeyException(BaseIndex.java:103)
+	at org.h2.mvstore.db.MVSecondaryIndex.checkUnique(MVSecondaryIndex.java:221)
+	at org.h2.mvstore.db.MVSecondaryIndex.add(MVSecondaryIndex.java:196)
+	at org.h2.mvstore.db.MVTable.addRow(MVTable.java:531)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:195)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.executeUpdateWithGeneratedKeys(CommandContainer.java:272)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:191)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations$JdbcEntityOperations.execute(DefaultJdbcRepositoryOperations.java:1086)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:84)
+	... 88 common frames omitted
+13:50:26.810 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:50:26.811 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:51:30.196 [default-nioEventLoopGroup-1-13] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:51:30.200 [default-nioEventLoopGroup-1-13] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:52:22.301 [default-nioEventLoopGroup-1-15] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:52:22.301 [default-nioEventLoopGroup-1-15] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:52:23.999 [default-nioEventLoopGroup-1-17] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:52:24.000 [default-nioEventLoopGroup-1-17] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:53:15.063 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:53:15.064 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:53:35.477 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:53:35.478 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:53:35.519 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - find All
+13:53:35.525 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Find All
+13:53:35.536 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT fruit_.`id`,fruit_.`name`,fruit_.`dateCreated`,fruit_.`dateUpdated` FROM `fruits` fruit_
+13:53:46.883 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:53:46.883 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:55:35.117 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:55:35.118 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:56:05.889 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:56:05.889 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:56:58.446 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:56:58.890 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:56:59.046 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+13:57:02.200 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5874ms. Server Running: http://localhost:8080
+13:57:10.538 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:57:10.544 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:57:35.251 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:57:35.253 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:57:59.065 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:57:59.404 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:57:59.554 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+13:58:02.768 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5348ms. Server Running: http://localhost:8080
+13:58:07.444 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:58:07.453 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+13:58:09.010 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+13:58:09.015 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+13:58:09.015 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:38:08.981024100Z with data type: TIMESTAMP
+13:58:09.017 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T10:58:09.004035200Z with data type: TIMESTAMP
+13:58:09.017 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T10:58:09.004035200Z with data type: TIMESTAMP
+13:58:09.017 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+13:58:18.565 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:58:18.565 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+13:59:45.688 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:59:46.010 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:59:46.148 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+13:59:49.282 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5172ms. Server Running: http://localhost:8080
+13:59:58.991 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+13:59:58.999 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:00:01.450 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:00:01.450 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:00:06.668 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:00:06.669 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:00:08.104 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:00:08.107 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:00:08.107 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:40:08.083116900Z with data type: TIMESTAMP
+14:00:08.108 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:00:08.099112900Z with data type: TIMESTAMP
+14:00:08.108 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:00:08.099112900Z with data type: TIMESTAMP
+14:00:08.108 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:00:13.256 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:00:13.256 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:04:37.981 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:04:38.621 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:04:38.895 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:04:43.389 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 7382ms. Server Running: http://localhost:8080
+14:04:44.957 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:04:44.966 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:04:49.221 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:04:49.221 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:04:50.585 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:04:50.588 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:04:50.589 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:44:50.565210800Z with data type: TIMESTAMP
+14:04:50.589 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:04:50.582197300Z with data type: TIMESTAMP
+14:04:50.589 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:04:50.582197300Z with data type: TIMESTAMP
+14:04:50.590 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:04:53.384 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:04:53.385 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:05:48.529 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:05:48.960 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:05:49.145 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:05:53.641 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6740ms. Server Running: http://localhost:8080
+14:05:54.934 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:05:54.942 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:05:56.365 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:05:56.368 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:05:56.368 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:45:56.337958300Z with data type: TIMESTAMP
+14:05:56.369 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:05:56.359964Z with data type: TIMESTAMP
+14:05:56.371 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:05:56.359964Z with data type: TIMESTAMP
+14:05:56.371 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:05:59.326 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:05:59.326 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:06:03.905 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:06:03.906 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:07:01.530 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:07:01.909 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:07:02.063 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:07:04.964 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5381ms. Server Running: http://localhost:8080
+14:07:31.020 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:07:31.029 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:07:35.914 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:07:35.914 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:07:37.490 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:07:37.495 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:07:37.496 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:47:37.458749300Z with data type: TIMESTAMP
+14:07:37.497 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:07:37.484361900Z with data type: TIMESTAMP
+14:07:37.497 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:07:37.484361900Z with data type: TIMESTAMP
+14:07:37.498 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:07:40.631 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:07:40.632 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:07:40.635 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:07:40.636 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:07:40.636 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:47:40.635383400Z with data type: TIMESTAMP
+14:07:40.636 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:07:40.635383400Z with data type: TIMESTAMP
+14:07:40.637 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:07:40.635383400Z with data type: TIMESTAMP
+14:07:40.637 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:07:40.658 [default-nioEventLoopGroup-1-7] ERROR i.m.http.server.RouteExecutor - Unexpected error occurred: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+io.micronaut.data.exceptions.DataAccessException: Error executing PERSIST: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.failed(BaseOperations.java:141)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:90)
+	at io.micronaut.data.runtime.operations.internal.EntityOperations.persist(EntityOperations.java:31)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$persist$15(DefaultJdbcRepositoryOperations.java:647)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.lambda$executeWrite$19(DefaultJdbcRepositoryOperations.java:729)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.execute(AbstractSynchronousStateTransactionManager.java:145)
+	at io.micronaut.transaction.support.AbstractSynchronousStateTransactionManager.executeWrite(AbstractSynchronousStateTransactionManager.java:165)
+	at io.micronaut.transaction.support.AbstractSynchronousTransactionManager.executeWrite(AbstractSynchronousTransactionManager.java:155)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.executeWrite(DefaultJdbcRepositoryOperations.java:726)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations.persist(DefaultJdbcRepositoryOperations.java:643)
+	at io.micronaut.data.runtime.intercept.DefaultSaveEntityInterceptor.intercept(DefaultSaveEntityInterceptor.java:45)
+	at io.micronaut.data.runtime.intercept.DataIntroductionAdvice.intercept(DataIntroductionAdvice.java:83)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at io.micronaut.validation.ValidatingInterceptor.intercept(ValidatingInterceptor.java:143)
+	at io.micronaut.aop.chain.MethodInterceptorChain.proceed(MethodInterceptorChain.java:137)
+	at com.example.security.repository.ApiKeyRepository$Intercepted.save(Unknown Source)
+	at com.example.security.controllers.ApiKeyController.generateKey(ApiKeyController.java:37)
+	at com.example.security.controllers.$ApiKeyController$Definition$Exec.dispatch(Unknown Source)
+	at io.micronaut.context.AbstractExecutableMethodsDefinition$DispatchedExecutableMethod.invoke(AbstractExecutableMethodsDefinition.java:371)
+	at io.micronaut.context.DefaultBeanContext$4.invoke(DefaultBeanContext.java:594)
+	at io.micronaut.web.router.AbstractRouteMatch.execute(AbstractRouteMatch.java:303)
+	at io.micronaut.web.router.RouteMatch.execute(RouteMatch.java:111)
+	at io.micronaut.http.context.ServerRequestContext.with(ServerRequestContext.java:103)
+	at io.micronaut.http.server.RouteExecutor.lambda$executeRoute$14(RouteExecutor.java:659)
+	at reactor.core.publisher.FluxDeferContextual.subscribe(FluxDeferContextual.java:49)
+	at reactor.core.publisher.Flux.subscribe(Flux.java:8660)
+	at reactor.core.publisher.FluxFlatMap$FlatMapMain.onNext(FluxFlatMap.java:426)
+	at io.micronaut.reactive.reactor.instrument.ReactorSubscriber.onNext(ReactorSubscriber.java:57)
+	at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:172)
+	at io.micronaut.http.server.netty.RoutingInBoundHandler$4.doOnComplete(RoutingInBoundHandler.java:965)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor$1.doOnComplete(JsonContentProcessor.java:136)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at java.base/java.util.Optional.ifPresent(Optional.java:183)
+	at io.micronaut.core.async.processor.SingleThreadedBufferingProcessor.doOnComplete(SingleThreadedBufferingProcessor.java:48)
+	at io.micronaut.jackson.core.parser.JacksonCoreProcessor.doOnComplete(JacksonCoreProcessor.java:94)
+	at io.micronaut.core.async.subscriber.SingleThreadedBufferingSubscriber.onComplete(SingleThreadedBufferingSubscriber.java:71)
+	at io.micronaut.http.server.netty.jackson.JsonContentProcessor.doOnComplete(JsonContentProcessor.java:161)
+	at io.micronaut.core.async.subscriber.CompletionAwareSubscriber.onComplete(CompletionAwareSubscriber.java:79)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessage(HandlerPublisher.java:383)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.flushBuffer(HandlerPublisher.java:470)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.publishMessageLater(HandlerPublisher.java:360)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.complete(HandlerPublisher.java:423)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.handlerRemoved(HandlerPublisher.java:418)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:1122)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:477)
+	at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:423)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.removeHandlerIfActive(HttpStreamsHandler.java:483)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.handleReadHttpContent(HttpStreamsHandler.java:319)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler.channelRead(HttpStreamsHandler.java:282)
+	at io.micronaut.http.netty.stream.HttpStreamsServerHandler.channelRead(HttpStreamsServerHandler.java:134)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.channelRead(WebSocketServerExtensionHandler.java:99)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+	at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.HttpServerKeepAliveHandler.channelRead(HttpServerKeepAliveHandler.java:64)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.handler.flow.FlowControlHandler.dequeue(FlowControlHandler.java:200)
+	at io.netty.handler.flow.FlowControlHandler.read(FlowControlHandler.java:139)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeRead(AbstractChannelHandlerContext.java:837)
+	at io.netty.channel.AbstractChannelHandlerContext.read(AbstractChannelHandlerContext.java:814)
+	at io.micronaut.http.netty.reactive.HandlerPublisher.requestDemand(HandlerPublisher.java:165)
+	at io.micronaut.http.netty.stream.HttpStreamsHandler$2.requestDemand(HttpStreamsHandler.java:273)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.receivedDemand(HandlerPublisher.java:556)
+	at io.micronaut.http.netty.reactive.HandlerPublisher$ChannelSubscription.lambda$request$0(HandlerPublisher.java:494)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:174)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:167)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation: "PUBLIC.CONSTRAINT_FB_INDEX_C ON PUBLIC.APIKEYS(SECRET) VALUES 1"; SQL statement:
+INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?) [23505-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.index.BaseIndex.getDuplicateKeyException(BaseIndex.java:103)
+	at org.h2.mvstore.db.MVSecondaryIndex.checkUnique(MVSecondaryIndex.java:221)
+	at org.h2.mvstore.db.MVSecondaryIndex.add(MVSecondaryIndex.java:196)
+	at org.h2.mvstore.db.MVTable.addRow(MVTable.java:531)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:195)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.executeUpdateWithGeneratedKeys(CommandContainer.java:272)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:191)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at io.micronaut.data.jdbc.operations.DefaultJdbcRepositoryOperations$JdbcEntityOperations.execute(DefaultJdbcRepositoryOperations.java:1086)
+	at io.micronaut.data.runtime.operations.internal.BaseOperations.persist(BaseOperations.java:84)
+	... 88 common frames omitted
+14:07:45.525 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:07:45.526 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:07:54.369 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:07:54.370 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:09:13.906 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:09:14.677 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:09:15.044 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:09:21.979 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 10600ms. Server Running: http://localhost:8080
+14:09:45.820 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:09:45.828 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:09:49.674 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:09:49.675 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:09:51.328 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:09:51.333 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:09:51.335 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T09:49:51.306225200Z with data type: TIMESTAMP
+14:09:51.336 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:09:51.324225900Z with data type: TIMESTAMP
+14:09:51.337 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:09:51.324225900Z with data type: TIMESTAMP
+14:09:51.337 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+14:09:53.865 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:09:53.866 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:10:15.847 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:10:15.848 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:10:24.026 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:10:24.026 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:18:31.022 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:18:31.455 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:18:31.620 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:18:35.573 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6623ms. Server Running: http://localhost:8080
+14:20:31.627 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:20:31.964 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:20:32.139 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:20:34.982 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 4911ms. Server Running: http://localhost:8080
+14:20:43.734 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:20:43.742 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:22:42.377 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:22:42.785 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:22:42.951 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:22:46.500 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6004ms. Server Running: http://localhost:8080
+14:22:50.048 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:22:50.055 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:23:29.357 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:23:29.358 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:23:30.939 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:23:30.940 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:24:20.878 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:24:21.293 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:24:21.446 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:24:25.120 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6074ms. Server Running: http://localhost:8080
+14:24:26.331 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:24:26.337 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:24:58.388 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:24:58.389 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:25:00.226 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:25:00.227 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:30:14.451 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:30:14.801 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:30:14.965 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:30:18.670 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5776ms. Server Running: http://localhost:8080
+14:30:30.968 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:30:30.979 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:31:26.143 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:31:26.610 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:31:26.747 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:31:30.198 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5824ms. Server Running: http://localhost:8080
+14:31:35.536 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:31:35.544 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:32:38.935 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:32:39.341 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:32:39.505 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:32:42.557 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5838ms. Server Running: http://localhost:8080
+14:32:44.472 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:32:44.479 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:32:55.182 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:32:55.183 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:33:15.795 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:33:15.796 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:33:55.507 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:33:55.508 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:33:57.752 [default-nioEventLoopGroup-1-11] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:33:57.753 [default-nioEventLoopGroup-1-11] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:35:15.053 [default-nioEventLoopGroup-1-13] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:35:15.053 [default-nioEventLoopGroup-1-13] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:35:16.701 [default-nioEventLoopGroup-1-15] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:35:16.702 [default-nioEventLoopGroup-1-15] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:36:07.285 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:36:07.664 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:36:07.855 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:36:10.999 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6768ms. Server Running: http://localhost:8080
+14:36:13.925 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:36:13.934 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:36:18.556 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:36:18.557 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:36:29.532 [default-nioEventLoopGroup-1-7] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:36:29.533 [default-nioEventLoopGroup-1-7] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:36:31.251 [default-nioEventLoopGroup-1-9] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:36:31.251 [default-nioEventLoopGroup-1-9] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:37:14.215 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:37:14.525 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:37:14.672 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:37:17.335 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 4942ms. Server Running: http://localhost:8080
+14:37:38.489 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:37:38.497 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:50:02.496 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:50:02.841 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:50:02.970 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+14:50:05.275 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 4530ms. Server Running: http://localhost:8080
+14:50:23.888 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:50:23.898 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+14:50:43.780 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+14:50:43.781 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+14:50:43.902 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+14:50:43.906 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+14:50:43.906 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-15T10:30:43.874633500Z with data type: TIMESTAMP
+14:50:43.907 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-08T11:50:43.896667200Z with data type: TIMESTAMP
+14:50:43.907 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-08T11:50:43.896667200Z with data type: TIMESTAMP
+14:50:43.908 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+15:41:58.526 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m54s766ms691µs400ns).
+10:20:47.099 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+10:20:47.570 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+10:20:47.761 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+10:20:51.258 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 6323ms. Server Running: http://localhost:8080
+10:21:39.629 [default-nioEventLoopGroup-1-3] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:21:39.700 [default-nioEventLoopGroup-1-3] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:21:40.016 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:21:40.051 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:21:40.061 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:21:40 AST 2023 with data type: DATE
+10:21:40.086 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:21:40 AST 2023 with data type: DATE
+10:23:17.245 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+10:23:17.790 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+10:23:18.385 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+10:23:23.081 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 8413ms. Server Running: http://localhost:8080
+10:23:30.032 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:23:30.040 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+10:23:31.497 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+10:23:31.499 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+10:23:31.500 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-16T06:03:31.476035100Z with data type: TIMESTAMP
+10:23:31.500 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-09T07:23:31.492647100Z with data type: TIMESTAMP
+10:23:31.501 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-09T07:23:31.492647100Z with data type: TIMESTAMP
+10:23:31.501 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+10:23:50.123 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:23:50.123 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:23:50.253 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:23:50.261 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:23:50.263 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:23:50.264 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:23:50.264 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:23:50 AST 2023 with data type: DATE
+10:23:50.284 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:23:50 AST 2023 with data type: DATE
+10:26:02.121 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+10:26:02.589 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+10:26:02.767 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+10:26:05.542 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5455ms. Server Running: http://localhost:8080
+10:26:11.399 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:26:11.417 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:26:15.085 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:26:15.086 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value 1234 with data type: STRING
+10:26:16.479 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+10:26:16.482 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+10:26:16.482 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-16T06:06:16.459429Z with data type: TIMESTAMP
+10:26:16.482 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-09T07:26:16.475421Z with data type: TIMESTAMP
+10:26:16.483 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-09T07:26:16.475421Z with data type: TIMESTAMP
+10:26:16.483 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+10:26:21.216 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:26:21.216 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:26:21.365 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:26:21.375 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:26:21.378 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:26:21.378 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:26:21.379 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:26:21 AST 2023 with data type: DATE
+10:26:21.395 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:26:21 AST 2023 with data type: DATE
+10:27:54.643 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+10:27:55.001 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+10:27:55.156 [main] INFO  i.m.l.AbstractLiquibaseMigration - Running migrations for database with qualifier [default]
+10:27:57.926 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 5099ms. Server Running: http://localhost:8080
+10:28:08.713 [default-nioEventLoopGroup-1-3] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `apikeys` (`name`,`expiry`,`created`,`updated`,`secret`) VALUES (?,?,?,?,?)
+10:28:08.724 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Ahmeeed with data type: STRING
+10:28:08.725 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 2 to value 2023-03-16T06:08:08.399229100Z with data type: TIMESTAMP
+10:28:08.728 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 3 to value 2023-03-09T07:28:08.707643300Z with data type: TIMESTAMP
+10:28:08.729 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 4 to value 2023-03-09T07:28:08.707643300Z with data type: TIMESTAMP
+10:28:08.729 [default-nioEventLoopGroup-1-3] TRACE io.micronaut.data.query - Binding parameter at position 5 to value Hello with data type: STRING
+10:28:16.819 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:28:16.821 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:16.993 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:17.005 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:17.008 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:28:17.009 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:17.009 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:28:17 AST 2023 with data type: DATE
+10:28:17.027 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:28:17 AST 2023 with data type: DATE
+10:28:22.640 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:28:22.641 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:22.649 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:22.649 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:22.652 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:28:22.652 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:22.652 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:28:22 AST 2023 with data type: DATE
+10:28:22.654 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:28:22 AST 2023 with data type: DATE
+10:28:45.425 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing Query: SELECT apikey_.`id`,apikey_.`name`,apikey_.`expiry`,apikey_.`created`,apikey_.`updated`,apikey_.`secret` FROM `apikeys` apikey_ WHERE (apikey_.`secret` = ?)
+10:28:45.426 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:45.430 [default-nioEventLoopGroup-1-5] INFO  c.e.controllers.FruitController - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:45.431 [default-nioEventLoopGroup-1-5] INFO  com.example.services.FruitService - Saving  Fruit : com.example.domains.Fruit@4262c73
+10:28:45.431 [default-nioEventLoopGroup-1-5] DEBUG io.micronaut.data.query - Executing SQL query: INSERT INTO `fruits` (`name`,`dateCreated`,`dateUpdated`) VALUES (?,?,?)
+10:28:45.432 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 1 to value Hello with data type: STRING
+10:28:45.432 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 2 to value Thu Mar 09 10:28:45 AST 2023 with data type: DATE
+10:28:45.432 [default-nioEventLoopGroup-1-5] TRACE io.micronaut.data.query - Binding parameter at position 3 to value Thu Mar 09 10:28:45 AST 2023 with data type: DATE
