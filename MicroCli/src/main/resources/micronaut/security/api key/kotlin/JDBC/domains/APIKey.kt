@@ -4,7 +4,7 @@ import io.micronaut.data.annotation.*
 import io.micronaut.data.model.naming.NamingStrategies
 import java.time.Instant
 
-@MappedEntity(value = "keys", namingStrategy = NamingStrategies.Raw::class)
+@MappedEntity(value = "apikeys", namingStrategy = NamingStrategies.Raw::class)
 class APIKey(var name: String, var key: String) {
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)

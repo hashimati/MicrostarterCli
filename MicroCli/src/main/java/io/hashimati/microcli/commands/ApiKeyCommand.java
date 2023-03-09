@@ -70,6 +70,7 @@ public class ApiKeyCommand implements Callable<Integer> {
         String securityPackage = new StringBuilder().append(configurationInfo.getProjectInfo().getDefaultPackage()).append(".security").toString();
 
         configurationInfo.setApikey(true);
+        configurationInfo.setSecurityEnable(true);
         HashMap<String, Feature> features = FeaturesFactory.features(configurationInfo.getProjectInfo());
 
         String header= PromptGui.inputText("Header", "Enter the header name: ","API-HEADER" ).getInput() ;
@@ -204,6 +205,8 @@ public class ApiKeyCommand implements Callable<Integer> {
             String liquibaseChangeFilePath = path + "/src/main/resources/db/liquibase-changelog.xml";
             GeneratorUtils.createFile(liquibaseChangeFilePath, liquibaseChangeTemplateContent);
 
+            MicronautProjectValidator.appendToProperties(path, "micronaut.security.enabled: true");
+            configurationInfo.writeToFile(path);
         } catch (GradleReaderException e) {
             throw new RuntimeException(e);
 
