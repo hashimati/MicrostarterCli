@@ -1,8 +1,7 @@
-package $
+package ${securityPackage}.domains
 
 import groovy.transform.Canonical
 
-{securityPackage}.domains
 
 import groovy.transform.Canonical
 import io.micronaut.data.annotation.*
@@ -28,5 +27,58 @@ class APIKey {
 
     @DateUpdated
     private Instant updated
+    APIKey(String name, String secret) {
+        this.name = name
+        this.secret = secret
+    }
+    Long getId()
+    {
+        return id;
+    }
+    void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    String getName()
+    {
+        return name;
+    }
+    void setName(String name)
+    {
+        this.name = name;
+    }
+    String getSecret()
+    {
+        return secret;
+    }
+    void setSecret(String secret)
+    {
+        this.secret = secret;
+    }
+    Instant getExpiry()
+    {
+        return expiry;
+    }
+    void setExpiry(Instant expiry)
+    {
+        this.expiry = expiry;
+    }
+    Instant getCreated()
+    {
+        return created;
+    }
+    void setCreated(Instant created)
+    {
+        this.created = created;
+    }
+    Instant getUpdated()
+    {
+        return updated;
+    }
+    void setUpdated(Instant updated)
+    {
+        this.updated = updated;
+    }
 }
 
