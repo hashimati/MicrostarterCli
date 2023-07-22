@@ -1,0 +1,1 @@
+    @Join(value = "${attribute}", type = Join.Type.FETCH)

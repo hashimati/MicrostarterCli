@@ -8,6 +8,7 @@ package io.hashimati.microcli.domains;
  * @email: hashimati.ahmed@gmail.com
  */
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.hashimati.microcli.constants.FieldTypes;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.Visitor;
 import io.micronaut.core.naming.NameUtils;
@@ -36,7 +37,7 @@ public class EntityAttribute {
 
     private boolean isFile;
 
-    private String fieldType;
+    private FieldTypes fieldType;
     public EntityAttribute()
     {}
     @JsonIgnore

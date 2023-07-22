@@ -1,0 +1,8 @@
+r2dbc:
+  datasources:
+    default:
+      url: r2dbc:mssql://localhost:1433/${databaseName}
+      username: sa
+      password: 'Hello1234'
+      schema-generate: ${schemaGenerate}
+      dialect: SQL_SERVER

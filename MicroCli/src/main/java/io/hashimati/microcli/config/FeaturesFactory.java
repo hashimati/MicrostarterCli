@@ -1262,6 +1262,16 @@ public class FeaturesFactory {
                     "\t</dependency>");
 
         }});
+
+        features.put("yaml", new Feature(){{
+            setName("yaml");
+            setGradle("\truntimeOnly(\"org.yaml:snakeyaml\")\n");
+            getMaven().add("\t<dependency>\n" +
+                    "\t\t<groupId>org.yaml</groupId>\n" +
+                    "\t\t<artifactId>snakeyaml</artifactId>\n" +
+                    "\t\t<scope>runtime</scope>\n" +
+                    "\t</dependency>");
+        }});
         return features;
     }
 

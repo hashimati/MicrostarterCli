@@ -1,0 +1,33 @@
+package ${packageName}.utils;
+
+import org.testcontainers.containers.MongoDBContainer;
+
+import org.testcontainers.utility.DockerImageName;
+
+public class MongoDBContainerUtil {
+    static MongoDBContainer mongoDBContainer;
+
+    public static void startServer() {
+        if (mongoDBContainer == null) {
+            mongoDBContainer = new MongoDBContainer(
+                                DockerImageName.parse("mongo:latest")
+            ).withExposedPorts(27017);
+        }
+        if (!mongoDBContainer.isRunning()) {
+            mongoDBContainer.start();
+        }
+    }
+
+    public static String getMdbUri() {
+        if (mongoDBContainer == null || !mongoDBContainer.isRunning()) {
+            startServer();
+        }
+        return mongoDBContainer.getReplicaSetUrl();
+    }
+
+    public static void closeMongoDb() {
+        if (mongoDBContainer != null) {
+            mongoDBContainer.close();
+        }
+    }
+}

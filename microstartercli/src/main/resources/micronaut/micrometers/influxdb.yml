@@ -1,0 +1,9 @@
+micronaut:
+  metrics:
+    export:
+      influx:
+        enabled: true
+        org: "${org}"
+        bucket: "${bucket}"
+        token: "${token}"
+        step: PT1M

@@ -1,0 +1,16 @@
+type Query{
+    ${methods}
+}
+
+type Mutation {
+    ${mutationMethods}
+}
+
+input PageableInput{
+	number:Int,
+	size:Int,
+	offset:Int,
+	unpaged:Boolean,
+	sorted:Boolean
+
+}

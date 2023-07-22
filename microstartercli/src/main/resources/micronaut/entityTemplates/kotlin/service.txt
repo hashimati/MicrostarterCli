@@ -1,0 +1,74 @@
+package ${servicePackage}
+
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
+<% if(principle) out.print 'import java.security.Principal' %>
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+<% if(transactional) out.print 'import jakarta.transaction.Transactional' %>
+import ${entityPackage}
+import ${repoPackage}
+import io.micronaut.http.multipart.CompletedFileUpload
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
+${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
+<% if(transactional) out.print '@Transactional'%>
+@Singleton
+class ${ClassName}Service(private val ${entityName}Repository: ${className}Repository <% if(file) out.print ', private val fileService:FileService ' %>)  {
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", description = "Observing all service metric for saving '+entityName+' object")' %>
+    fun save(${entityName}: ${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):  ${className} {
+        log.info("Saving ${className} :{}", ${entityName})
+        return ${entityName}Repository.save(${entityName})
+
+    }
+
+    <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    fun findById(id:${idType}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>): ${className} {
+        log.info("Finding ${className} by id:{}", id)
+        return ${entityName}Repository.findById(id).orElse(null)
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    fun deleteById(id:${idType}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>): Boolean {
+        try{
+
+            ${entityName}Repository.deleteById(id)
+            log.info("Deleting ${className} by id:{}", id)
+            return true
+        }
+        catch(e: Exception)
+        {
+            log.error("Failed to delete ${className} by id:{}", id)
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    fun  findAll(<% if(pageable) out.print 'pageable:Pageable' %><% if(pageable && principle) out.print ', ' %><%if(principle) out.print 'principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):<% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> {
+        log.info("Find All")
+      return  ${entityName}Repository.findAll(<% if(pageable) out.print 'pageable' %>)
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", description = "Observing all service metric for update a '+entityName+' object")' %>
+    fun update( ${entityName}:${className}<%if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>):${className}
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Repository.update(${entityName})
+
+    }
+
+${methods}
+      companion object {
+            val log :Logger = LoggerFactory.getLogger(${className}Service::class.java)
+        }
+ }

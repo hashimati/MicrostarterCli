@@ -1,0 +1,8 @@
+datasources:
+  default:
+    url: jdbc:sqlserver://localhost:1433;databaseName=${databaseName}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: 'Hello1234'
+#    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration
+    dialect: SQL_SERVER

@@ -1,0 +1,37 @@
+package ${mainPackage}
+
+
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import io.micronaut.context.annotation.Bean
+import io.micronaut.context.annotation.Factory
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+@Factory
+class AwsClientFactory {
+    static final Logger log = LoggerFactory.getLogger(AwsClientFactory.class)
+
+    @Inject
+    AwsCredentials awsCredentials
+
+    @Bean
+    AmazonS3 amazonS3(){
+        log.info("Creating AmazonS3 service object")
+        return AmazonS3ClientBuilder
+                .standard()
+                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(
+                        awsCredentials.getKey(),
+                        awsCredentials.getSecret()
+                )))
+                .withRegion(Regions.US_EAST_1)
+                .build()
+
+    }
+
+}

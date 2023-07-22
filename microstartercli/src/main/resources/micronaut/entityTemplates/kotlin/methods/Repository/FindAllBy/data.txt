@@ -1,0 +1,1 @@
+    fun findAllBy${Attribute}(${attr} : ${type}<% if(pageable) out.print ', pageable:Pageable' %>) : <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><$Entity>

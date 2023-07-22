@@ -1,0 +1,14 @@
+package ${pack};
+
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+@Singleton
+public class ${className} {
+    private static final Logger log = LoggerFactory.getLogger(${className}.class);
+
+}

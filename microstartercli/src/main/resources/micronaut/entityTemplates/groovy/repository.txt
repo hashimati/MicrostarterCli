@@ -1,0 +1,19 @@
+package ${entityRepositoryPackage}
+
+import ${importEntity}
+import io.micronaut.data.annotation.*
+import io.micronaut.data.model.*
+import io.micronaut.data.annotation.Repository
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>
+import java.util.*
+${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@Repository
+interface ${className}Repository extends <% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, Long> {
+    ${methods}
+}

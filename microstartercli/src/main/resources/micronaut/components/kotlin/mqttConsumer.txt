@@ -1,0 +1,18 @@
+package ${pack};
+
+
+${importMessage}
+import io.micronaut.mqtt.annotation.MqttSubscriber;
+import io.micronaut.mqtt.annotation.Topic;
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
+@MqttSubscriber
+class ${className} {
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", description = "Observing all Consumer metric for receive a '+Message+' object")' %>
+    @Topic("${queueName}")
+    fun receive(message: ${Message})
+    {
+        System.out.println(message);
+    }
+}

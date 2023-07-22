@@ -1,0 +1,1 @@
+    public <% if(reactor) out.print 'Mono'%><% if(!reactor) out.print 'Single'%><${Entity}> findBy${Attribute}(${type} ${attr});

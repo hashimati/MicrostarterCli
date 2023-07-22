@@ -1,0 +1,55 @@
+package ${securityPackage};
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
+@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+public class User {
+
+
+
+    private String id;
+
+    @NotNull
+    @Size(min = 5, max = 15)
+    private String username;
+
+    @NotNull
+    @Email
+    private String email;
+    private List<String> roles = new ArrayList<String>();
+
+    @NotNull
+    private String password;
+
+    private Date dateCreated;
+
+    private Date dateUpdated;
+
+    private boolean active ;
+
+    private boolean disabled ;
+
+    private boolean locked;
+    private Date expiration;
+
+    private Date passwordExpiration;
+    private Date lastTimeLogin;
+    private Date lastTimeTryToLogin;
+    private LoginStatus lastLoginStatus;
+
+    private String activationCode;
+}

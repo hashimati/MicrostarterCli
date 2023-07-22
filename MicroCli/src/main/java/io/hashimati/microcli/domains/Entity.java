@@ -9,6 +9,7 @@ package io.hashimati.microcli.domains;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hashimati.microcli.utils.Visitor;
 import io.micronaut.core.naming.NameUtils;
+import j2html.TagCreator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -249,6 +250,8 @@ public class Entity
         this.setRestPackage(new StringBuilder().append(defaultPackage).append(".controllers").toString());
         this.setMicrostreamPackage(new StringBuilder().append(defaultPackage).append(".microstream").toString());
         this.setClientPackage(new StringBuilder().append(defaultPackage).append(".clients").toString());
+        this.setExceptionHandlerPackage(new StringBuilder().append(defaultPackage).append(".exceptions").toString());
+        setExceptionPackage(new StringBuilder().append(defaultPackage).append(".exceptions").toString());
         this.setGraphqlpackage(new StringBuilder().append(defaultPackage).append(".graphqls").toString());
         this.setFunctionPackage(new StringBuilder().append(defaultPackage).append(".function").toString());
         this.setLambdaPackage(String.format("%s.aws", getFunctionPackage()));
@@ -256,6 +259,7 @@ public class Entity
         setOraclePackage(String.format("%s.oracle", getFunctionPackage()));
         setGooglePackage(String.format("%s.google", getFunctionPackage()));
         setAzurePackage((String.format("%s.azure", getFunctionPackage())));
+
     }
     @JsonIgnore
     public String getEntitiesImport(String defaultPackage)

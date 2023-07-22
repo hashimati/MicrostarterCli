@@ -1,0 +1,58 @@
+package ${repositoryPackage};
+
+
+import ${defaultPackage}.utils.Randomizer;
+import ${entityPackage}.${className};
+import ${repositoryPackage}.${className}Repository;
+import io.micronaut.test.annotation.MicronautTest;
+import org.junit.jupiter.api.*;
+import jakarta.inject.Inject;
+
+
+@MicronautTest
+public class ${className}RepositoryTest {
+
+    @Inject
+    private ${className}Repository ${entityName}Repository;
+
+    ${className} ${entityName};
+
+    public ${className}RepositoryTest() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        this.${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance();
+
+    }
+    @Order(1)
+    @Test
+    public void saveAndFind(){
+
+        this.${entityName} = ${entityName}Repository.save(${entityName});
+
+        Assertions.assertNotNull(this.${entityName}.getId());
+        ${className} findResult  = ${entityName}Repository.findById(${entityName}.getId()).get();
+        Assertions.assertEquals(this.${entityName}.getId(), findResult.getId());
+    }
+
+
+    @Order(2)
+    @Test
+    public void update() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        ${className} update = new Randomizer<${className}>(${className}.class).getRandomInstance();
+        update.setId(${entityName}.getId());
+        this.${entityName} = ${entityName}Repository.update(update);
+        Assertions.assertEquals(update.getId(), this.${entityName}.getId());
+    }
+
+    @Order(3)
+    @Test
+    public void deleteById() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        try {
+            ${entityName}Repository.deleteById(this.${entityName}.getId());
+            Assertions.assertTrue(true);
+        }catch (Exception ex){
+
+        }
+
+    }
+
+}
+

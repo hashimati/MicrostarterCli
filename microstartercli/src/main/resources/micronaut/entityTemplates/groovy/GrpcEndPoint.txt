@@ -1,0 +1,86 @@
+package ${grpcPackage}
+
+import io.grpc.stub.StreamObserver
+import ${defaultPackage}.*
+import ${defaultPackage}.domains.${entity}
+import ${defaultPackage}.services.General${entity}Service
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed' %>
+
+@Singleton
+class ${entity}Endpoint extends
+        ${entity}GrpcServiceGrpc.${entity}GrpcServiceImplBase {
+
+    @Inject
+    private General${entity}Service ${entityName}Service
+
+    <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entity+' object")' %>
+    @Override
+    void save(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+        super.save(request, responseObserver)
+        ${entity} ${entityName} = new ${entity}(){{
+            ${setAttributes}
+        }}
+        ${entity} result = ${entityName}Service.save(${entityName})${reactiveBlocking}
+        if(result != null)
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build())
+        else
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build())
+        responseObserver.onCompleted()
+
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for updating '+entity+' object")' %>
+    @Override
+    void update(${entity}Grpc request, StreamObserver<MessageReply> responseObserver) {
+        super.update(request, responseObserver)
+        ${entity} ${entityName} = new ${entity}(){{
+            ${setAttributes}
+        }}
+        ${entity} result = ${entityName}Service.update(${entityName})${reactiveBlocking}
+        if(result != null)
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Done").build())
+        else
+            responseObserver.onNext(MessageReply.newBuilder().setMessage("Failed").build())
+        responseObserver.onCompleted()
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.delete", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting '+entity+' object")' %>
+    @Override
+    void delete(IdQuery request, StreamObserver<MessageReply> responseObserver) {
+        super.delete(request, responseObserver)
+        responseObserver.onNext(
+                ${entityName}Service.deleteById(request.getId())${reactiveBlocking}?
+                        MessageReply.newBuilder().setMessage("Done").build():
+                        MessageReply.newBuilder().setMessage("Failed").build())
+
+        responseObserver.onCompleted()
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding '+entity+' object")' %>
+    @Override
+    void findById(IdQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+        super.findById(request, responseObserver)
+
+        ${entity} ${entityName} = ${entityName}Service.findById(request.getId())${reactiveBlocking}
+        responseObserver.onNext(${entity}Grpc
+                .newBuilder()
+                ${setAttributesBuilder}
+                .setId(${entityName}.getId())
+                .build())
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+grpcPackage+'.'+entity+'GRPCService.findAll", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entity+' objects")' %>
+    @Override
+    void findAll(PageQuery request, StreamObserver<${entity}Grpc> responseObserver) {
+        super.findAll(request, responseObserver)
+        ${entityName}Service.findAll()${reactiveIterator}.forEach(
+                ${entityName}-> responseObserver.onNext(${entity}Grpc.newBuilder()
+                        ${setAttributesBuilder}
+                        .setId(${entityName}.getId())
+                        .build())
+        )
+        responseObserver.onCompleted()
+    }
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "${defaultPackage}";
+option java_outer_classname = "${entityName}Service";
+option objc_class_prefix = "HLW";
+import "common.proto";
+
+package ${defaultPackage};
+
+
+service ${entityName}GrpcService {
+  rpc save (${entityName}Grpc) returns (MessageReply) {}
+  rpc update (${entityName}Grpc) returns (MessageReply){}
+  rpc delete (IdQuery) returns (MessageReply){}
+  rpc findById (IdQuery) returns (${entityName}Grpc) {}
+  rpc findAll (PageQuery) returns (stream ${entityName}Grpc){}
+}
+message ${entityName}Grpc {
+${attributes}
+}

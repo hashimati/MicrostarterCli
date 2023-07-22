@@ -1,0 +1,10 @@
+package ${mainPackage}
+
+import ${entityPackage}.${entityCap}
+import io.micronaut.core.annotation.Introspected
+
+import java.util.HashMap
+import io.micronaut.core.annotation.NonNull
+
+@Introspected
+data class ${entityCap}Data(val ${entity}s: HashMap<String, ${entityCap}> = HashMap<String, ${entityCap}>())

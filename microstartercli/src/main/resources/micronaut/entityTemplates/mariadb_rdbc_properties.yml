@@ -1,0 +1,8 @@
+r2dbc:
+  datasources:
+    default:
+      schema-generate: ${schemaGenerate}
+      dialect: MYSQL
+      url: r2dbc:mariadb://localhost:3306/${databaseName}
+      username: root
+      password: 'Hello1234'

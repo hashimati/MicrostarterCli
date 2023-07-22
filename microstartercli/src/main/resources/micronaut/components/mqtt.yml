@@ -1,0 +1,7 @@
+#This configuration is the default configuration for HiveMQ in localhost
+mqtt:
+  client:
+    client-id: ${random.uuid}
+    user-name: admin
+    password: hivemq
+    server-uri: tcp://localhost:1883

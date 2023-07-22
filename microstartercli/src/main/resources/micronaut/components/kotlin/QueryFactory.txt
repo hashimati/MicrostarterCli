@@ -1,0 +1,28 @@
+package ${pack};
+
+import graphql.kickstart.tools.SchemaParser
+import graphql.kickstart.tools.SchemaParserBuilder
+import graphql.GraphQL
+import graphql.schema.GraphQLSchema
+import io.micronaut.context.annotation.Bean
+import io.micronaut.context.annotation.Factory
+
+import jakarta.inject.Singleton
+
+@Factory
+class QueryFactory {
+
+    @Bean
+    @Singleton
+    fun graphQL(${QueryResolvers}): GraphQL
+    {
+        var builder :SchemaParserBuilder = SchemaParser.newParser()
+                .files("queries.graphqls" ${schemafiles})
+                .resolvers(${resolverObject});
+
+
+        var graphQLSchema :GraphQLSchema= builder.build().makeExecutableSchema()
+        return GraphQL.newGraphQL(graphQLSchema).build();
+
+    }
+}

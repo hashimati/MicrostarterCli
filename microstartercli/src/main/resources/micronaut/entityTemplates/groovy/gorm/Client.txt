@@ -1,0 +1,28 @@
+package ${clientPackage}
+
+import ${entityPackage}
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client
+import java.util.List
+${moreImports}
+
+@Client("/api/v1/${entityName}")
+interface ${className}Client {
+
+    @Post("/save")
+    ${className} save(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Get("/get")
+    ${className} findById(@Parameter("id") long id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Delete("/delete/{id}")
+    boolean deleteById(@PathVariable("id") long id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Get("/findAll")
+    List<${className}> findAll(<% if(header) out.print '@Header("Authorization") String authorization'%>)
+
+    @Put("/update")
+    ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+${methods}
+}

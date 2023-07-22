@@ -1960,14 +1960,15 @@ public class MicronautEntityGenerator
                         language )));
 
 
+        result.add(Tuple2.tuple(rootPath+entity.getExceptionPackage().replace(".", "/")+ "/"+ entity.getName() +"GeneralException" +fileExtension,
+                generateEntityException(entity,
+                        language )));
+        result.add(Tuple2.tuple(rootPath+entity.getExceptionHandlerPackage().replace(".", "/")+ "/"+ entity.getName() +"ExceptionHandler" +fileExtension,
+                generateEntityExceptionHandler(entity,
+                        language )));
         if(language.equalsIgnoreCase(JAVA_LANG))
         {
-            result.add(Tuple2.tuple(rootPath+entity.getExceptionPackage().replace(".", "/")+ "/"+ entity.getName() +"GeneralException" +fileExtension,
-                    generateEntityException(entity,
-                            language )));
-            result.add(Tuple2.tuple(rootPath+entity.getExceptionHandlerPackage().replace(".", "/")+ "/"+ entity.getName() +"ExceptionHandler" +fileExtension,
-                    generateEntityExceptionHandler(entity,
-                            language )));
+
 
             if(entity.getFrameworkType().equalsIgnoreCase("jdbc") || entity.getFrameworkType().equalsIgnoreCase("jpa"))
             {

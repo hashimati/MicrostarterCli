@@ -1,0 +1,14 @@
+dataSource:
+  url: jdbc:mysql://localhost:3306/${databaseName}
+  driverClassName: com.mysql.cj.jdbc.Driver
+  username: root
+  password: 'Hello1234'
+  pooled: true
+  jmxExport: true
+hibernate:
+  hbm2ddl:
+    auto: update
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false

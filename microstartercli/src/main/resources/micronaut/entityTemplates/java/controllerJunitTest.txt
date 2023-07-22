@@ -1,0 +1,80 @@
+package ${defaultPackage}.controllers;
+
+import ${defaultPackage}.domains.${className};
+import ${defaultPackage}.utils.Randomizer;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.jupiter.api.Test;
+import java.util.HashMap;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient;'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials;'%>
+<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken;'%>
+${moreImports}
+
+import jakarta.inject.Inject;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@MicronautTest
+class ${className}ControllerTest {
+
+    @Inject
+    @Client("/api/v1/${entityName}")
+    HttpClient client;
+
+    HashMap<String, Object> randomObject;
+    <% if(header) out.print '@Inject SecurityClient securityClient;'%>
+
+    @Test
+    void save() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
+        Randomizer randomizer= new Randomizer<${className}>(${className}.class);
+        randomObject = randomizer.getRandomInstance();
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<HashMap<String, Object>> request = HttpRequest.POST("/save", randomObject)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        this.randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
+    }
+
+    @Test
+    void findById() throws InstantiationException, IllegalAccessException, NoSuchFieldException {
+        save();
+         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/get?id="+this.randomObject.get("id"))<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        HashMap<String, Object> randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
+    }
+
+    @Test
+    void deleteById() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
+        save();
+         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.DELETE("/delete/"+this.randomObject.get("id"))<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+        assertTrue(body.booleanValue());
+    }
+
+    @Test
+    void findAll() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
+        save();
+         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        assertNotNull(list);
+
+    }
+
+    @Test
+    void update() throws InstantiationException, IllegalAccessException, NoSuchFieldException{
+        save();
+         <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<HashMap<String, Object>> request = HttpRequest.PUT("/update", this.randomObject)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        HashMap<String, Object> randomObject = client.toBlocking().retrieve(request, HashMap.class);
+        assertNotNull(randomObject);
+    }
+}
+

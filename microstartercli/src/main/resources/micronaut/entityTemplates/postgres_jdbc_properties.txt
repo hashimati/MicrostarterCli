@@ -1,0 +1,8 @@
+datasources:
+  default:
+    url: jdbc:postgresql://127.0.0.1:5432/${databaseName}
+    driverClassName: org.postgresql.Driver
+    username: ${username}
+    password: '${password}'
+    dialect: POSTGRES
+#    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration

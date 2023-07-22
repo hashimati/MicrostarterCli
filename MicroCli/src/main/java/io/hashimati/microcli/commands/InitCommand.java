@@ -43,7 +43,7 @@ public class InitCommand implements Callable<Integer> {
     @Option(names = "--name", defaultValue = "demo", description = "To sepcify the application name.\n It should be without spaces.")
     private String name;
 
-    @Option(names= {"--javaVersion"}, defaultValue = "JDK_11",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11\nPlease, check: https://launch.micronaut.io/select-options")
+    @Option(names= {"--javaVersion"}, defaultValue = "JDK_17",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11\nPlease, check: https://launch.micronaut.io/select-options")
     private String javaVersion;
 
     @Option(names = {"--lang"}, defaultValue = "JAVA", description = "To specify the project's language.\nOptions: JAVA, GROOVY, KOTLIN\nPlease, check: https://launch.micronaut.io/select-options")

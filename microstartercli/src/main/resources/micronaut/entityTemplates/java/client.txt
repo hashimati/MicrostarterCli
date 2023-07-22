@@ -1,0 +1,37 @@
+package ${clientPackage};
+
+
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.http.annotation.*;
+import io.micronaut.http.client.annotation.Client;
+import jakarta.inject.Inject;
+import ${entityPackage};
+${moreImports}
+import io.micronaut.http.MediaType;
+import io.micronaut.http.multipart.CompletedFileUpload;
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
+@Client("/api/v1/${entities}")
+public interface ${classNameA}Client {
+
+    @Post("/save")
+    public ${className} save(${classNameA} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
+
+    @Get("/get")
+    public ${className} findById(@Parameter("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
+
+    @Delete("/delete/{id}")
+    public boolean deleteById(@PathVariable("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>);
+
+    @Get("/findAll")
+    public <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && header) out.print ', ' %> <% if(header) out.print ' @Header("Authorization") String authorization'%>);
+
+    @Put("/update")
+    public ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>);
+
+${methods}
+}
+

@@ -1,0 +1,69 @@
+package ${servicePackage};
+
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*;' %>
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import ${entityPackage};
+import ${repoPackage};
+import io.micronaut.http.multipart.CompletedFileUpload;
+<% if(principle) out.print 'import java.security.Principal;' %>
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+<% if (reactor) out.print 'import reactor.core.publisher.Flux;' %><% if(rxjava2) out.print 'import io.reactivex.Flowable;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable;'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono;' %><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single;'%>
+import org.bson.*;
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+${moreImports}
+
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
+@Singleton
+public class ${ClassName}Service {
+
+    private static final Logger log = LoggerFactory.getLogger(${className}Service.class);
+
+    @Inject private ${className}Repository ${entityName}Repository;
+    <% if(file) out.print '@Inject FileService fileService;' %>
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
+	public <% print reactor? "Mono" : "Single" %><${className}> save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
+        log.info("Saving  ${className} : {}", ${entityName});
+
+        //TODO insert your logic here!
+        //saving Object
+
+        return ${entityName}Repository.save(${entityName});
+    }
+
+    <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    public <% print reactor? "Mono" : "Single" %><${className}> findById(String id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+
+          log.info("Finding ${className} By Id: {}", id);
+          return ${entityName}Repository.findById(id);
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    public <% print reactor? "Flux" : "Flowable" %><${className}> findAll(<%if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+        log.info("Finding All ${className}");
+        return ${entityName}Repository.findAll();
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    public <% print reactor? "Mono" : "Single" %><Boolean> deleteById(String id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>) {
+        log.info("Deleting ${className} By Id: {}", id);
+	    return ${entityName}Repository.deleteById(id);
+	}
+
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+	public <% print reactor? "Mono" : "Single" %><${className}> update(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)   {
+	    log.info("Updating ${className}: {}", ${entityName});
+	    return ${entityName}Repository.update(${entityName});
+    }
+
+${methods}
+}

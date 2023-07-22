@@ -1,0 +1,1 @@
+    <% print reactor? "Flux" : "Flowable" %><$Entity> findAllBy${Attribute}(${type} ${attr})

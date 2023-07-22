@@ -1,0 +1,89 @@
+package ${mainPackage};
+
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.server.types.files.StreamedFile;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+@Singleton
+public class FileService {
+
+
+    @Inject
+    private AmazonS3 amazonS3;
+
+    public Bucket createBucket(String bucketName)
+    {
+        return amazonS3.createBucket(bucketName);
+    }
+
+
+    public void createFile( String bucket, String filePath) throws IOException {
+
+
+        if(!amazonS3.doesBucketExistV2(bucket))
+            createBucket(bucket);
+        File file = new File(filePath);
+
+        ObjectMetadata metaData = new ObjectMetadata();
+        metaData.setContentLength(file.length());
+        amazonS3.putObject(bucket, file.getName(), new FileInputStream(file), metaData);
+    }
+    public String createFile(String bucket, String key, InputStream inputStream, ObjectMetadata objectMetadata) throws IOException {
+
+
+
+          if (!amazonS3.doesBucketExistV2(bucket))
+              createBucket(bucket);
+
+
+         return  amazonS3.putObject(bucket, key, inputStream, objectMetadata) == null? "Failed": "Success";
+
+    }
+
+
+
+    public String deleteFile(String bucket, String key){
+
+        try{
+            amazonS3.deleteObject(bucket, key);
+            return "Success";
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            return "Failed";
+
+        }
+    }
+
+    public String deleteBucket(String bucket)
+    {
+
+        if( amazonS3.doesBucketExistV2(bucket))
+        {
+            amazonS3.listObjects(bucket).getObjectSummaries().stream().map(s->s.getKey())
+                    .forEach(x->deleteFile(bucket, x));
+            amazonS3.deleteBucket(bucket);
+            return "Success";
+        }
+        else {return "Failed"; }
+    }
+    public StreamedFile OutputStreamFile(String bucket, String key, String filename)
+    {
+        S3Object s3Object = amazonS3.getObject(bucket, key);
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        return new StreamedFile(inputStream,MediaType.forFilename(filename));
+    }
+}

@@ -1,0 +1,16 @@
+package ${pack};
+
+
+
+${importMessage}
+import io.micronaut.rabbitmq.annotation.Binding;
+import io.micronaut.rabbitmq.annotation.RabbitClient;
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
+@RabbitClient
+public interface ${className} {
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all Client metric for send a '+Message+' object")' %>
+    @Binding("${queueName}")
+    void sendOrder(${Message} message);
+}

@@ -1,0 +1,8 @@
+     fun update${Attribute}(query: ${type}, ${updates} ):  <% print reactor? "Mono" : "Single" %><Long>
+     {
+         log.info("Updating by ${Attribute} : {}", query)
+          var document: BsonDocument = BsonDocument()
+         document.append("${attribute}", ${queryBsonDocument}(query))
+         var update = BsonDocument()${appendUpdates}
+         return  <% print reactor? "Mono" : "Single" %>.from<% print reactor? "" : "Publisher" %>(getCollection().updateMany(document, update)).map{x->x.getMatchedCount()}
+     }

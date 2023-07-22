@@ -1,0 +1,39 @@
+package ${clientPackage}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client
+<% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
+import io.micronaut.http.MediaType
+import io.micronaut.http.multipart.CompletedFileUpload
+<% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
+${moreImports}
+import ${entityPackage}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@Client("/api/v1/${entities}")
+interface ${classNameA}Client {
+
+    @Post("/save")
+    ${className} save(@Body ${classNameA} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Get("/get")
+    ${className} findById(@Parameter("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Delete("/delete/{id}")
+    boolean deleteById(@PathVariable("id") ${idType} id<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+
+    @Get("/findAll")
+    <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && header) out.print ', ' %><% if(header) out.print '@Header("Authorization") String authorization'%>)
+
+    @Put("/update")
+    ${className} update(@Body ${className} ${entityName}<% if(header) out.print ', @Header("Authorization") String authorization'%>)
+${methods}
+}
+

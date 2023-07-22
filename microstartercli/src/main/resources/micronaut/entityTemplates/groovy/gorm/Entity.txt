@@ -1,0 +1,16 @@
+package ${entitypackage}
+
+import grails.gorm.annotation.Entity
+
+@Entity
+class ${className} {
+    ${instances}
+    static constraints = {
+        ${constraints}
+    }
+    static mapping = {
+        ${storeType} "${collection}"
+        database "${db}"
+    }
+
+}

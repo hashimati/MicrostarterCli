@@ -1,0 +1,43 @@
+package ${controllerPackage};
+
+
+import jakarta.inject.Inject;
+
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.http.annotation.*;
+<% print reactor? "import reactor.core.publisher.Flux;" : "import io.reactivex.Flowable;" %>
+<% print reactor? "import reactor.core.publisher.Mono;" : "import io.reactivex.Single;" %>
+
+import ${entityPackage};
+import ${servicePackage};
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
+
+@Controller("/api/v1/${entityName}s")
+public class ${className}Controller {
+
+    @Inject
+    private ${className}Service ${entityName}Service ;
+
+
+
+    @Post("/save")
+    public Single<${className}> save(@Body ${className} ${entityName})
+    {
+
+        //TODO: enter your logic here before saving.
+        return ${entityName}Service.save(${entityName});
+    }
+    @Get("/find")
+    public Single<${className}> findById(@Parameter("id") String id)
+    {
+            return ${entityName}Service.findById(id);
+    }
+
+    @Get("/find/all")
+    public Flowable<${className}> findAll()
+    {
+            return ${entityName}Service.findAll();
+    }
+}

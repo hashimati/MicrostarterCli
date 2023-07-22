@@ -1,0 +1,1 @@
+${attributeName} ${attributeType} ${contraints}

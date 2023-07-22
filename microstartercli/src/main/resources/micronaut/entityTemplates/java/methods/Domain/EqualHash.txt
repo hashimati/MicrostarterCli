@@ -1,0 +1,14 @@
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ${className})) return false;
+        ${className} ${entity} = (${entityCap}) o;
+        return ${equalExpression};
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(${getters});
+    }
+

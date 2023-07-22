@@ -26,6 +26,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,6 +64,30 @@ public class MicronautProjectValidator {
     }
 
 
+    public static String getMicronautVersion(String path) throws IOException, XmlPullParserException {
+        if(isGradle(path))
+        {
+            //read the version from gradle.properties
+            //load the content of the gradle.properties
+            String content = Files.readString(new File(path+"/gradle.properties").toPath());
+            String[] lines = content.split("\n");
+            for(String line: lines)
+            {
+                if(line.startsWith("micronautVersion"))
+                {
+                    return line.split("=")[1];
+                }
+            }
+        }
+        else
+        {
+            //read the version from pom.xml
+            MavenXpp3Reader reader = new MavenXpp3Reader();
+            Model model = reader.read(new FileReader(path+"/pom.xml"));
+            return model.getProperties().getProperty("micronaut.version");
+        }
+        return null;
+    }
     public static boolean isGradleContainDependency(String dependency)
     {
             return false;

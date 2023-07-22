@@ -1,0 +1,120 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.0"
+}
+
+version = "0.1"
+group = "io.hashimati"
+
+repositories {// url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("info.picocli:picocli-codegen")
+    implementation("info.picocli:picocli")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.picocli:micronaut-picocli")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("org.projectlombok:lombok")
+    compileOnly("org.graalvm.nativeimage:svm")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
+
+
+
+    // https://mvnrepository.com/artifact/com.esotericsoftware.yamlbeans/yamlbeans
+    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.15'
+
+    // https://mvnrepository.com/artifact/org.openrewrite/rewrite-yaml
+    runtimeOnly 'org.openrewrite:rewrite-yaml:8.1.10'
+
+
+
+    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation("io.micronaut.validation:micronaut-validation")
+    implementation("jakarta.validation:jakarta.validation-api")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+// https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.13.0'
+
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+// https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format
+    implementation 'com.google.googlejavaformat:google-java-format:1.17.0'
+
+// https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils
+    implementation 'eu.bitwalker:UserAgentUtils:1.21'
+    implementation("io.micronaut:micronaut-http-client")
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+
+// https://mvnrepository.com/artifact/org.atteo/xml-combiner
+    implementation 'org.atteo:xml-combiner:3.0.0'
+
+// https://mvnrepository.com/artifact/com.github.bmoliveira/snake-yaml
+//	compile group: 'com.github.bmoliveira': 'snake-yaml', version: 'v1.18-android'
+    implementation "com.querydsl:querydsl-collections:s4.4.0"
+
+    implementation "org.fusesource.jansi:jansi:1.18"
+    implementation "org.yaml:snakeyaml:1.26"
+    // https://mvnrepository.com/artifact/org.jline/jline
+// https://mvnrepository.
+//
+// com/artifact/info.picocli/picocli-shell-jline3
+    // compile group: 'info.picocli', name: 'picocli-shell-jline3', version: '4.1.4'
+    implementation group: 'de.codeshelf.consoleui', name: 'consoleui', version: '0.0.13'
+    implementation 'jline:jline:2.14.6'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    implementation 'org.apache.commons:commons-text:1.8'
+    // https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-templates
+    implementation group: 'org.codehaus.groovy', name: 'groovy-templates', version: '3.0.4'
+// https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.26'
+
+    // https://mvnrepository.com/artifact/org.apache.maven/maven-core
+    implementation 'org.apache.maven:maven-core:3.8.2'
+// https://mvnrepository.com/artifact/org.apache.maven/maven-model
+    implementation 'org.apache.maven:maven-model:3.8.2'
+// https://mvnrepository.com/artifact/org.apache.maven/maven-artifact
+    implementation 'org.apache.maven:maven-artifact:3.8.2'
+    // https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api
+    implementation 'org.apache.maven:maven-plugin-api:3.8.2'
+    implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.16.1'
+    implementation 'com.github.javaparser:javaparser-core:3.16.1'
+    implementation 'com.github.javaparser:javaparser-core-serialization:3.16.1'
+    // https://mvnrepository.com/artifact/io.leego/banana
+    implementation group: 'io.leego', name: 'banana', version: '2.1.0'
+    implementation 'com.querydsl:querydsl-apt:5.0.0'
+    implementation 'com.querydsl:querydsl-collections:5.0.0'
+    implementation 'com.j2html:j2html:1.6.0'
+    implementation 'io.vavr:vavr:1.0.0-alpha-4'
+    implementation 'fr.jcgay.send-notification:send-notification:0.16.0'
+}
+
+application {
+    mainClass.set("io.hashimati.MicrostartercliCommand")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("io.hashimati.*")
+    }
+}
+
+
+

@@ -1,0 +1,19 @@
+package ${entityRepositoryPackage}
+
+import ${importEntity}
+import io.micronaut.data.annotation.*
+import io.micronaut.data.model.*
+import io.micronaut.data.mongodb.annotation.MongoRepository
+<% if(isNonBlocking) out.print 'import io.micronaut.data.repository.reactive.*'%>
+import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>
+import java.util.*
+import org.bson.types.ObjectId
+${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@MongoRepository
+interface ${className}Repository:<% if(pageable && !isNonBlocking) out.print 'PageableRepository' %><% if(!pageable && !isNonBlocking) out.print 'CrudRepository' %><% if(!pageable && isNonBlocking && reactor) out.print 'ReactorCrudRepository' %><% if(!pageable && isNonBlocking && !reactor) out.print 'RxJavaCrudRepository' %><${className}, String> {
+${methods}
+}

@@ -1,0 +1,38 @@
+package ${clientPackage}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client
+import jakarta.inject.Inject
+import io.micronaut.http.MediaType
+import io.micronaut.http.multipart.CompletedFileUpload
+<% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
+<% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
+import ${entityPackage}
+${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@Client("/api/v1/${entities}")
+interface ${classNameA}Client {
+
+    @Post("/save")
+    fun save(${entityName}:${classNameA}): <% print reactor? "Mono" : "Single" %><${className}>
+
+    @Get("/get")
+    fun findById(@Parameter("id") id:String): <% print reactor? "Mono" : "Single" %><${className}>
+
+    @Delete("/delete/{id}")
+    fun deleteById(@PathVariable("id") id: Long): Boolean
+
+    @Get("/findAll")
+    fun findAll():<% print reactor? "Flux" : "Flowable" %><${className}>
+
+    @Put("/update")
+    fun update(@Body ${entityName}: ${className}):<% print reactor? "Mono" : "Single" %><${className}>
+${methods}
+}
+

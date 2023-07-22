@@ -1,0 +1,8 @@
+type ${className}{
+    id:${idType},
+    ${attributes}
+}
+input ${className}Input{
+    id:${idType},
+    ${attributes}
+}

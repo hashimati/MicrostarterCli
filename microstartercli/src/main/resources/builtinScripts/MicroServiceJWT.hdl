@@ -1,0 +1,20 @@
+service ${serviceName}{
+    port ${port};
+    reactive reactor;
+    package ${packageName}
+    build ${buildTool};
+    database ${database};
+    language ${language};
+    dao ${dao};
+    migrationTool liquibase;
+    annotation micronaut;
+    tracing jaeger;
+    testFramework junit;
+	security {
+		type jwt;
+		roles CUSTOMER_ROLE, SELLER_ROLE;
+		propagate;
+		services ${servicesName};
+	}
+
+}

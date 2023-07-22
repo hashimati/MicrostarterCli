@@ -1,0 +1,9 @@
+package ${securityPackage};
+
+
+public class Roles {
+
+    private final String
+            ADMIN = "ADMIN",
+            ${roles};
+}

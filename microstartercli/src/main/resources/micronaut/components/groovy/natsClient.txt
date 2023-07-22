@@ -1,0 +1,17 @@
+package ${pack}
+
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.messaging.annotation.MessageBody
+${importMessage}
+
+
+@NatsClient
+interface ${className} {
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all Client metric for send a '+Message+' object")' %>
+    @Subject("${topic}")
+    void send(${Message} message)
+
+}

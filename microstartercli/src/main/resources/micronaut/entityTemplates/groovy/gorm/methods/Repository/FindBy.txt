@@ -1,0 +1,2 @@
+
+     ${entityClass} findBy${Attribute}(${type} query)

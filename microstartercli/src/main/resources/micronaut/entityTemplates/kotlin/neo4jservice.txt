@@ -1,0 +1,34 @@
+package ${servicePackage}
+
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import ${entityPackage}
+import ${repoPackage}
+import io.reactivex.Single
+import io.reactivex.Flowable
+
+
+@Singleton
+class ${className}Service(private val ${entityName}Repository: ${className}Repository) {
+
+
+	fun save(${entityName}:${className} ) :Single<${className}> {
+	    return ${entityName}Repository.save(${entityName})
+	}
+
+
+    fun findById( id:String) :Single<${className}> {
+        return ${entityName}Repository.findById(id)
+    }
+
+
+    fun findAll(): Flowable<${className}> {
+        return ${entityName}Repository.findAll()
+    }
+
+
+    fun deleteById( id:String) : Single<Boolean> {
+        return ${entityName}Repository.deleteById(id)
+    }
+
+}

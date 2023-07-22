@@ -1,0 +1,8 @@
+micornaut:
+  security:
+    authentication: session
+    oauth2:
+      clients:
+        default:
+          client-id: ${OAUTH_CLIENT_ID}
+          client-secret: ${OAUTH_CLIENT_SECRET}

@@ -1,0 +1,21 @@
+package ${pack};
+
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.QueryValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+@Controller("${map}")
+public class ${className} {
+
+    private static final Logger log = LoggerFactory.getLogger(${className}.class);
+
+    @Get("/hello")
+    public String hello(@QueryValue("name") String name){
+        log.info("Printing Hello Name");
+        return "Hello "+name;
+    }
+
+}

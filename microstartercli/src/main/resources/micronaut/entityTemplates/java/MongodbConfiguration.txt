@@ -1,0 +1,11 @@
+package ${projectPackage}.config;
+
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.core.naming.Named;
+import java.util.HashMap;
+
+
+@ConfigurationProperties("mdb")
+public interface MongodbConfiguration extends Named {
+    HashMap<String, String> getCollections();
+}

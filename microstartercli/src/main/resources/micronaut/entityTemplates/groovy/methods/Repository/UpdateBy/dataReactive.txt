@@ -1,0 +1,2 @@
+
+    <% print reactor? "Mono" : "Single" %><Long> updateBy${Attribute}(${type} query, ${updates})${block}

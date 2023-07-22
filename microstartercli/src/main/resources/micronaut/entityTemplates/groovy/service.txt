@@ -1,0 +1,75 @@
+package ${servicePackage}
+
+<% if(cached) out.print 'import io.micronaut.cache.annotation.*' %>
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+<% if(transactional) out.print 'import jakarta.transaction.Transactional' %>
+import io.micronaut.http.multipart.CompletedFileUpload
+import ${entityPackage}
+<% if(principle) out.print 'import java.security.Principal' %>
+import ${repoPackage}
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+${moreImports}
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+<% if(cached) out.print '@CacheConfig("'+ tableName +'")' %>
+<% if(transactional) out.print '@Transactional'%>
+@Singleton
+class ${ClassName}Service {
+     Logger log = LoggerFactory.getLogger(${className}Service.class)
+    @Inject ${className}Repository ${entityName}Repository
+    <% if(file) out.print '@Inject FileService fileService' %>
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.save", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for saving '+entityName+' object")' %>
+    ${className} save(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+        log.info("Saving  ${className} : {}", ${entityName})
+         //TODO insert your logic here!
+         //saving Object
+
+         return ${entityName}Repository.save(${entityName})
+     }
+
+    <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    ${className} findById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+        log.info("Finding ${className} By Id: {}", id)
+        return ${entityName}Repository.findById(id).orElse(null)
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.deleteById", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    boolean deleteById(${idType} id<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>){
+        try
+        {
+            ${entityName}Repository.deleteById(id);
+            log.info("Deleting ${className} by Id: {}", id);
+            return true;
+        }
+        catch(Exception ex)
+        {
+            log.info("Failed to delete ${className} by Id: {}", id);
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAll", percentiles =[ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && principle) out.print ', ' %><%if(principle) out.print 'Principal principle'%> <% if(header) out.print ', String authorization'%>) {
+        log.info("Find All")
+        return  ${entityName}Repository.findAll(<% if(pageable) out.print 'pageable' %>);
+    }
+
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.update", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all service metric for update a '+entityName+' object")' %>
+    ${className} update(${className} ${entityName}<%if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  String authorization'%>)
+    {
+        log.info("update {}", ${entityName})
+        return ${entityName}Repository.update(${entityName})
+
+    }
+${methods}
+}

@@ -1,0 +1,51 @@
+
+    @NewSpan("${entityCap}-service")
+    @Timed(value = "${mainPackage}.${entity}Controller.upload${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving a ${attribute} of a ${entity}")
+    @Operation(summary = "uploading ${attributeCap} File",
+            description = "A REST service, which uploads ${attribute} for a ${entityCap} object."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "plain/text")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${entityCap} not found")
+    @Post(value = "/upload/${attribute}/{id}", consumes = MediaType.MULTIPART_FORM_DATA)
+    fun String upload${attributeCap}(@PathVariable("id")  id:${idType},   file:CompletedFileUpload)
+    {
+        return ${entity}Service.upload${attributeCap}(id, file)
+    }
+
+
+    @NewSpan("${entityCap}-service")
+    @Timed(value = "${mainPackage}.${entity}Controller.download${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for downloading the ${attribute} of a ${entity}")
+    @Operation(summary = "Downloading ${attributeCap} File",
+            description = "A REST service, which downloads a ${attribute} for a ${entityCap} object."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "Binary")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${entityCap} not found")
+    @Get(value = "/read/${attribute}/{id}")
+    fun read${attributeCap}(@PathVariable("id") id: ${idType} ):io.micronaut.http.server.types.files.StreamedFile
+    {
+        return ${entity}Service.download${attributeCap}(id)
+    }
+
+
+    @NewSpan("${entityCap}-service")
+    @Timed(value = "${mainPackage}.${entity}Controller.delete${attributeCap}", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a ${attribute} of a ${entity}")
+    @Operation(summary = "uploading ${attributeCap} File",
+            description = "A REST service, which deletes a ${attribute} for a ${entityCap} object."
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "plain/text")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${entityCap} not found")
+    @Delete("/delete/${attribute}/{id}")
+    fun delete${attributeCap}(@PathVariable("id") id: ${idType} ):String
+    {
+
+        return ${entity}Service.delete${attributeCap}(id)
+    }

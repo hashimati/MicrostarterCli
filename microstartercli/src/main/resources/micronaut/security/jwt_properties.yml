@@ -1,0 +1,20 @@
+micronaut:
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+        generator:
+          access-token:
+            expiration: 100000
+          refresh-token:
+            secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+    enabled: true
+    endpoints:
+      login:
+        path: "/api/security/login"
+      logout:
+        path: "/api/security/logout"

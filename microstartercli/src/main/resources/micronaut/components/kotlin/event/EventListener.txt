@@ -1,0 +1,20 @@
+package ${pack}.events
+
+import ${pack}.domains.${className}
+import io.micronaut.context.event.ApplicationEventListener
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import org.slf4j.LoggerFactory
+
+@Singleton
+class ${className}Listener() : ApplicationEventListener<${className}> {
+
+    override fun onApplicationEvent(${eventName}: ${className}) {
+        log.info("Listening ${className} event: {}", ${eventName})
+        //todo add your logic here.
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(${className}Listener::class.java)
+    }
+}

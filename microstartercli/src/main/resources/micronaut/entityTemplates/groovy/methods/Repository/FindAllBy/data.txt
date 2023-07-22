@@ -1,0 +1,1 @@
+    <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><$Entity> findAllBy${Attribute}(${type} ${attr}<% if(pageable) out.print ', Pageable pageable' %>)

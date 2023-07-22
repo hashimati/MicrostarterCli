@@ -1,0 +1,18 @@
+package ${pack}
+
+
+import io.micronaut.configuration.kafka.annotation.KafkaClient
+import io.micronaut.configuration.kafka.annotation.Topic
+import io.micronaut.messaging.annotation.MessageBody
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
+${importMessage}
+
+
+@KafkaClient
+interface ${className} {
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", description = "Observing all Client metric for send a '+Message+' object")' %>
+    @Topic("${topic}")
+    fun send(@MessageBody message:${Message})
+}

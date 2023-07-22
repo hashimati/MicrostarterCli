@@ -1,0 +1,21 @@
+package ${entityRepositoryPackage}
+
+import ${importEntity}
+import java.util.*
+import io.micronaut.data.annotation.*
+import io.micronaut.data.jdbc.annotation.JdbcRepository
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.model.*
+import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %>
+${moreImports}
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@Repository
+@JdbcRepository(dialect = Dialect.${dialect})
+interface ${className}Repository:<% if(pageable) out.print 'PageableRepository' %><% if(!pageable) out.print 'CrudRepository' %><${className}, Long> {
+    ${methods}
+}

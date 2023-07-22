@@ -1,0 +1,4 @@
+---
+aws:
+  key: "${key}"
+  secret: "${secret}"

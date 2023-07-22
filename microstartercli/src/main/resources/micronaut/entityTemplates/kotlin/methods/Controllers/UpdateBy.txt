@@ -1,0 +1,21 @@
+
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.updateby.'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Put'%><% if(jaxrs) out.print '@PUT @Path'%>("/updateBy${Attribute}")
+    @Version("1")
+    @Operation(summary = "Updating a ${entityName}.",
+            description = "A REST service, which updates a ${className} objects to the database by ${Attribute}, This service will only update these attributes {${updates}}.",
+            operationId = "Update${className}by${Attribute}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    fun update${Attribute}(<% if(jaeger) out.print '@SpanTag("updateupdateby.'+Attribute+'.'+entityName+'")'%> @QueryValue("query") query: ${type} ,  @Body body: ${className}<% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  @Header("Authorization")authorization:String '%>): ${returnType}
+    {
+        log.info("update {}", query)
+        return ${entityName}Service.updateBy${Attribute}(query, ${updatesVariables}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>)
+
+    }

@@ -1,0 +1,84 @@
+package ${defaultPackage}.controllers
+
+import ${defaultPackage}.domains.${className}
+import ${defaultPackage}.utils.Randomizer
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.MutableHttpRequest
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.Test
+<%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
+<%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
+<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
+${moreImports}
+import jakarta.inject.Inject
+
+
+@MicronautTest
+class ${className}ControllerTest {
+
+    @Inject
+    @Client("/api/v1/${entityName}")
+    HttpClient client;
+    <% if(header) out.print '@Inject SecurityClient securityClient;'%>
+
+    ${className} body;
+    @Test
+    void save() {
+        ${className} ${entityName} = new Randomizer<${className}>(${className}.class).getRandomInstance()
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<${className}> request = HttpRequest.POST("/save", ${entityName})<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>
+        this.body = client.toBlocking().retrieve(request, ${className}.class)
+
+        this.body = client.toBlocking().retrieve(request, ${className}.class)
+        assert body != null;
+    }
+
+    @Test
+    void findById() {
+
+
+        save();
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/get?id="+this.body.getId());
+        ${className} body = client.toBlocking().retrieve(request, ${className}.class)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        assert body != null
+        assert body.getId() == this.body.getId();
+    }
+
+    @Test
+    void deleteById() {
+        save();
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.DELETE("/delete/"+this.body.id)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+
+        Boolean body= client.toBlocking().retrieve(request, Boolean.class);
+
+        println body
+        assert body.booleanValue()== true;
+
+    }
+
+    @Test
+    void findAll() {
+
+        save();
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        MutableHttpRequest<Object> request = HttpRequest.GET("/findAll")<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        Iterable<${className}> list = client.toBlocking().retrieve(request, Iterable.class);
+        System.out.println(list);
+        assert list != null;
+
+    }
+
+    @Test
+    void update() {
+        save();
+        <% if(header) out.print 'BearerAccessRefreshToken token = securityClient.login(new UsernamePasswordCredentials("admin", "admin"));'%>
+        HttpRequest<${className}> request = HttpRequest.PUT("/update", this.body)<%if(header) out.print'.bearerAuth(token.getAccessToken())'%><%if(basic) out.print '.basicAuth("admin", "admin")'%>;
+        ${className} ${entityName} = client.toBlocking().retrieve(request, ${className}.class);
+        assert ${entityName} != null;
+
+    }
+}

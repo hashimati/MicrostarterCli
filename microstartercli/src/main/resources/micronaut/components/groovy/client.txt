@@ -1,0 +1,14 @@
+package ${pack}
+
+
+
+import io.micronaut.context.annotation.Parameter
+import io.micronaut.http.annotation.*
+import io.micronaut.http.client.annotation.Client;
+
+
+@Client(id ="${service-id}")
+interface ${className} {
+
+}
+

@@ -1,0 +1,4 @@
+    # ${className}
+    save${className}(${entityName} : ${className}Input):${className}
+    update${className}(${entityName} : ${className}Input):${className}
+    delete${className}(id : ${idType}):Boolean

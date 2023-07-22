@@ -1,0 +1,78 @@
+package ${repositoryPackage};
+
+import ${entityPackage}.${entityClass};
+import ${microstreamPackage}.${entityClass}Data;
+import io.micronaut.microstream.RootProvider;
+import io.micronaut.microstream.annotations.StoreParams;
+import io.micronaut.microstream.annotations.StoreReturn;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.UUID;
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
+
+@Singleton
+public class ${entityClass}Repository{
+
+    @Inject
+    RootProvider<${entityClass}Data> rootProvider;
+
+    
+    public ${entityClass} save(${entityClass} ${entity}) {
+        return save(rootProvider.root().get${entityClass}s(), ${entity});
+    }
+
+    
+    public ${entityClass} update(${entityClass} update) {
+        return update${entityClass}(update.getId(), update);
+    }
+
+    
+    public Optional<${entityClass}> findById(String id) {
+        return Optional.ofNullable(rootProvider.root().get${entityClass}s().get(id));
+    }
+    
+    public void deleteById(String id) {
+        remove${entityClass}(id);
+    }
+
+    public Iterable<${entityClass}> findAll()
+    {
+       return rootProvider.root().get${entityClass}s().values();
+    }
+    @StoreParams("${entity}s")
+    protected void remove${entityClass}(String id) {
+        rootProvider.root().get${entityClass}s().remove(id);
+
+    }
+
+    @StoreParams("${entity}s")
+    protected ${entityClass} save(HashMap<String, ${entityClass}> map , ${entityClass} ${entity})
+    {
+        ${entity}.setId(UUID.randomUUID().toString());
+        map.putIfAbsent(${entity}.getId(), ${entity});
+        return ${entity};
+    }
+
+    @StoreReturn
+    protected ${entityClass} update${entityClass}(String id, ${entityClass} update)
+    {
+        HashMap<String, ${entityClass}> map = rootProvider.root().get${entityClass}s();
+        ${entityClass} ${entity} = map.get(update.getId());
+        if(update != null)
+        {
+            map.put(${entity}.getId(), update);
+            return ${entity};
+        }
+            return null;
+    }
+
+    public boolean existsById(String id){
+        return rootProvider.root().get${entityClass}s().containsKey(id);
+    }
+
+}

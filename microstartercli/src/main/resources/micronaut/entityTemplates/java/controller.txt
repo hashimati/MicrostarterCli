@@ -1,0 +1,144 @@
+package ${controllerPackage};
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.multipart.CompletedFileUpload;
+import io.micronaut.core.annotation.NonNull;
+<% if(principle) out.print 'import java.security.Principal;' %>
+<% if(principle) out.print 'import io.micronaut.security.annotation.Secured;'%>
+<% if(principle) out.print 'import io.micronaut.security.rules.SecurityRule;' %>
+<% if(header) out.print 'import static io.micronaut.http.HttpHeaders.AUTHORIZATION;'%>
+import io.micronaut.retry.annotation.CircuitBreaker;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.core.version.annotation.Version;
+import io.micronaut.http.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+<% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
+<% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
+<% if(jaxrs) out.print 'import javax.ws.rs.*;'%>
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+<% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan;' %>
+<% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag;' %>
+import jakarta.inject.Inject;
+${containDate?'import java.util.Date;':''}
+${containBigInteger?'import java.math.BigInteger;':''}
+${containBigDecimal?'import java.math.BigDecimal;':''}
+import ${entityPackage};
+import ${servicePackage};
+${moreImports}
+
+@Tag(name = "${className}")
+<% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entities}")
+@CircuitBreaker(attempts = "5", maxDelay = "3s", reset = "30")
+public class ${className}Controller {
+
+    private static final Logger log = LoggerFactory.getLogger(${className}Controller.class);
+
+    @Inject private ${className}Service ${entityName}Service;
+
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.save", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for saving '+entityName+' object")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Post'%><% if(jaxrs) out.print '@POST @Path'%>("/save")
+    @Version("1")
+    @Operation(summary = "Creating a ${entityName} and Storing in the database",
+            description = "A REST service, which saves ${className} objects to the database.",
+            operationId = "Save${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Object Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not stored")
+    public ${className} save(<% if(jaeger) out.print '@SpanTag("save.'+entityName+'")'%> <% if(!jaxrs) out.print '@NonNull @Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName} <% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+        log.info("Saving  ${className} : {}", ${entityName});
+        //TODO insert your logic here!
+
+        //saving Object
+        return ${entityName}Service.save(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+    }
+
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by id")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/get")
+    @Version("1")
+    @Operation(summary = "Getting a ${entityName} by Id",
+        description = "A REST service, which retrieves a ${className} object by Id.",
+        operationId = "FindById${className}"
+    )
+    @ApiResponse(
+        content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public ${className} findById(<% if(jaeger) out.print '@SpanTag("findById.id")'%> <% if(!jaxrs) out.print '@Parameter("id")'%><% if(jaxrs) out.print '@QueryParam("id")'%> ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+        return ${entityName}Service.findById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+    }
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.deleteById", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for deleting a '+entityName+' object by id")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Delete'%><% if(jaxrs) out.print '@DELETE @Path'%>("/delete/{id}")
+    @Version("1")
+    @Operation(summary = "Deleting a ${entityName} by ID",
+            description = "A REST service, which deletes ${className} object from the database.",
+            operationId = "DeleteById${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "boolean")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public boolean deleteById(<% if(jaeger) out.print '@SpanTag("deleteById.id")'%> <% if(!jaxrs) out.print '@PathVariable'%><% if(jaxrs) out.print '@PathParam'%>("id") ${idType} id<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+        log.info("Deleting ${className} by Id: {}", id);
+        return  ${entityName}Service.deleteById(id<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+    }
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAll", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding all '+entityName+' objects")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/findAll")
+    @Version("1")
+    @Operation(summary = "Retrieving all ${entityName} objects as Json",
+            description = "A REST service, which returns all ${className} objects from the database.",
+            operationId = "FindAll${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    public <% if(pageable) out.print 'Page' %><% if(!pageable) out.print 'Iterable' %><${className}> findAll(<% if(pageable) out.print 'Pageable pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+        log.info("find All");
+        return ${entityName}Service.findAll(<% if(pageable) out.print 'pageable' %><% if(pageable && principle) out.print ', ' %><% if(principle) out.print 'principle'%> <% if(header) out.print ', authorization'%>);
+    }
+
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.update", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for update a '+entityName+' object")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Put'%><% if(jaxrs) out.print '@PUT @Path'%>("/update")
+    @Version("1")
+    @Operation(summary = "Updating a ${entityName}.",
+            description = "A REST service, which update a ${className} objects to the database.",
+            operationId = "Update${className}"
+    )
+    @ApiResponse(
+            content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public ${className} update(<% if(jaeger) out.print '@SpanTag("update.'+entityName+'")'%> <% if(!jaxrs) out.print '@NonNull @Body'%><% if(jaxrs) out.print 'final'%> ${className} ${entityName}<% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>)
+    {
+        log.info("update {}", ${entityName});
+        return ${entityName}Service.update(${entityName}<% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+
+    }
+
+${methods}
+}
+

@@ -1,0 +1,77 @@
+package ${repositoryPackage}
+
+import ${entityPackage}.${entityClass}
+import ${microstreamPackage}.${entityClass}Data
+import io.micronaut.microstream.RootProvider
+import io.micronaut.microstream.annotations.StoreParams
+import io.micronaut.microstream.annotations.StoreReturn
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+import java.util.HashMap
+import java.util.Optional
+import java.util.UUID
+${containDate?'import java.util.Date':''}
+${containBigInteger?'import java.math.BigInteger':''}
+${containBigDecimal?'import java.math.BigDecimal':''}
+
+@Singleton
+class ${entityClass}Repository(private val  rootProvider: RootProvider<${entityClass}Data>){
+
+
+
+    
+    fun save(${entityClass} ${entity}):${entityClass}  {
+        return save(rootProvider.root().${entity}s, ${entity})
+    }
+
+    
+    fun update(${entityClass} update) :${entityClass} {
+        return update${entityClass}(update.id, update)
+    }
+
+    
+    fun findById(String id) :Optional<${entityClass}>  {
+        return Optional.ofNullable(rootProvider.root().${entity}s.get(id))
+    }
+    
+    fun deleteById(String id) {
+        remove${entityClass}(id)
+    }
+
+    fun findAll(): Iterable<${entityClass}>
+    {
+       return rootProvider.root().${entity}s.values()
+    }
+    @StoreParams("${entity}s")
+    open fun remove${entityClass}(String id) {
+        rootProvider.root().${entity}s.remove(id)
+
+    }
+
+    @StoreParams("${entity}s")
+    open fun save(HashMap<String, ${entityClass}> map , ${entityClass} ${entity}): ${entityClass}
+    {
+        ${entity}.setId(UUID.randomUUID().toString())
+        map.putIfAbsent(${entity}.id, ${entity})
+        return ${entity}
+    }
+
+    @StoreReturn
+    open fun update${entityClass}(String id, ${entityClass} update):${entityClass}
+    {
+        HashMap<String, ${entityClass}> map = rootProvider.root().${entity}s
+        var ${entity} : ${entityClass} = map.get(update.id)
+        if(update != null)
+        {
+            map.put(${entity}.id, update)
+            return ${entity}
+        }
+            return null
+    }
+
+    fun existsById(String id): Boolean{
+        return rootProvider.root().${entity}s.containsKey(id)
+    }
+
+}

@@ -1,0 +1,7 @@
+    <% if(cached) out.print '@Cacheable' %>
+    <% if(micrometer) out.print '@Timed(value = "'+servicePackage+'.'+entityName+'Service.findAllBy'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by '+Attribute+'")' %>
+    fun findAllBy${Attribute}(query : ${attributeType}<% if(pageable) out.print ', pageable:Pageable ' %><% if(principle) out.print ', principle:Principal '%> <% if(header) out.print ',  authorization:String '%>) : ${returnTypeList} {
+          log.info("Finding ${className} By ${Attribute}: {}", query)
+          return ${entityName}Repository.findAllBy${Attribute}(query<% if(pageable) out.print ', pageable' %>)
+    }
+

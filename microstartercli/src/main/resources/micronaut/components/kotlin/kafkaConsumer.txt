@@ -1,0 +1,27 @@
+package ${pack}
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import io.micronaut.configuration.kafka.annotation.KafkaListener
+import io.micronaut.configuration.kafka.annotation.Topic
+import io.micronaut.messaging.annotation.MessageBody
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
+${importMessage}
+
+@KafkaListener(groupId = "${groupId}")
+class ${className} {
+
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.receive", description = "Observing all Consumer metric for receive a '+Message+' object")' %>
+    @Topic("${topic}")
+    fun receive(@MessageBody message:${Message})
+    {
+        log.info("Received {}", message)
+    }
+
+    companion object {
+        val log :Logger = LoggerFactory.getLogger(${className}::class.java)
+    }
+}

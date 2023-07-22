@@ -1,0 +1,146 @@
+package ${packageName}.utils
+
+import java.util.*
+import java.util.stream.Collectors
+import java.util.stream.IntStream
+import kotlin.random.Random
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+
+
+/**
+ *
+ * @author Ahmed Al Hashmi (@hashimati)
+ */
+
+
+class Randomizer<T : Any>(private val tClass: KClass<T>) {
+    private val rnd: Random
+
+    val c:Class<String> = String::class.java;
+    @get:Throws(IllegalAccessException::class, InstantiationException::class)
+    val randomInstance: T
+        get() {
+            val t = tClass.createInstance()
+            val fields = tClass.memberProperties.toMutableList()
+                    .filter { f-> !f.name.equals("id", ignoreCase = true)
+                            && !f.name.equals("datecreated", ignoreCase = true)
+                            && !f.name.equals("dateupdated", ignoreCase = true)}
+
+
+            for (f in fields) {
+                f.isAccessible = true
+                if (String::class.java.typeName.equals(f.returnType)) {
+                    try {
+                        val charList = IntStream.range(1, 5)
+                                .boxed()
+                                .map { x: Int -> x.toChar() }
+                                .collect(Collectors.toList())
+                        val stringBuilder = StringBuilder()
+                        while (charList.size > 0) {
+                            val index = rnd.nextInt(charList.size)
+                            stringBuilder.append(charList[index])
+                            charList.removeAt(index)
+                        }
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(f, "Test"+rnd.nextInt(charList.size))
+                        }
+
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (Date::class.java.typeName.equals(f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(f, Date())
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (Char.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextInt(100).toChar())
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Byte.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextInt(100).toByte())
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Short.javaClass.typeName.equals(f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextInt(100).toShort())
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Int.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextInt(100))
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Long.javaClass.typeName.equals( f.name)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextLong(100))
+                        }
+
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Boolean.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextBoolean())
+                        }                    }
+                    catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Double.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextDouble())
+                        }
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                } else if (kotlin.Float.javaClass.typeName.equals( f.returnType)) {
+                    try {
+                        val property = tClass.memberProperties.find { it.name == f.name }
+                        if (property is KMutableProperty<*>) {
+                            property.setter.call(t, rnd.nextFloat())
+                        }                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                }
+                System.gc()
+            }
+            return t
+        }
+
+    init {
+        rnd = Random
+    }
+}

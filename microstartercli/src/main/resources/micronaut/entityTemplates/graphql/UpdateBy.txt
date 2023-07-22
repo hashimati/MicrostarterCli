@@ -1,0 +1,2 @@
+
+    update${className}By${Attribute}(query:${Type},body:${className}Input):Int!

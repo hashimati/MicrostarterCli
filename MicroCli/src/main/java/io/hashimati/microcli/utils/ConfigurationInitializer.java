@@ -70,10 +70,10 @@ public class ConfigurationInitializer {
             printlnErr("The current directory is not a directory of a Micronaut Application/Function project");
             System.exit(0);
         }
-        else if(projectInfo.getFeatures().contains("properties")){
-            printlnErr("MicrostarterCli doesn't support configuration with \".properties\" files.");
-            System.exit(0);
-        }
+//        else if(projectInfo.getFeatures().contains("properties")){
+//            printlnErr("MicrostarterCli doesn't support configuration with \".properties\" files.");
+//            System.exit(0);
+//        }
         File file = new File(workingPath+"/"+"MicroCliConfig.json");
 
 
@@ -107,6 +107,7 @@ public class ConfigurationInitializer {
 //                        }
 //                    }
 //            );
+
 
             boolean monilithic = PromptGui.createConfirmResult("monolithic", "Is the application monolithic?", YES).getConfirmed() == YES;
             configurationInfo.setMonolithic(monilithic);
@@ -870,6 +871,11 @@ public class ConfigurationInitializer {
 //
 //        }
 
+        if(!projectInfo.getFeatures().contains("yaml") && MicronautProjectValidator.getMicronautVersion(workingPath).matches("[4-9].*"))
+        {
+            projectInfo.getFeatures().add("yaml");
+            MicronautProjectValidator.addDependency(workingPath,features.get("yaml"));
+        }
 
         if(configurationInfo.isSupportFileService()){
 
@@ -965,6 +971,7 @@ public class ConfigurationInitializer {
 
         projectInfo.dumpToFile(workingPath);
         //todo add dependencies to build files.
+
 
         configurationInfo.setAppName(MicronautProjectValidator.getAppName(workingPath));
         configurationInfo.setProjectInfo(projectInfo);

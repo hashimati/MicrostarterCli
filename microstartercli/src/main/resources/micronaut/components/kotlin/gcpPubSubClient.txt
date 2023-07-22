@@ -1,0 +1,17 @@
+package ${pack}
+
+
+import io.micronaut.gcp.pubsub.annotation.Topic;
+import io.micronaut.gcp.pubsub.annotation.PubSubClient;
+import io.micronaut.messaging.annotation.MessageBody
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+${importMessage}
+
+
+@PubSubClient
+interface ${className} {
+
+    <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", description = "Observing all Client metric for send a '+Message+' object")' %>
+    @Topic("${topic}")
+    fun send(message:${Message})
+}

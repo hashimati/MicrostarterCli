@@ -1,0 +1,18 @@
+package ${pack};
+
+
+${importMessage}
+import io.micronaut.rabbitmq.annotation.Queue
+import io.micronaut.rabbitmq.annotation.RabbitListener
+<% if(micrometer) out.print 'import io.micrometer.core.annotation.Timed;' %>
+
+@RabbitListener
+class ${className} {
+
+     <% if(micrometer) out.print '@Timed(value = "'+pack+'.'+className+'.send", percentiles = [ 0.5d, 0.95d, 0.99d ], description = "Observing all Consumer metric for send a '+Message+' object")' %>
+     @Queue("${queueName}")
+    void receive(${Message} message)
+    {
+        System.out.println(message);
+    }
+}

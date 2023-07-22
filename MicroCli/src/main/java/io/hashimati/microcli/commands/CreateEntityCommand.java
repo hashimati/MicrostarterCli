@@ -566,6 +566,12 @@ private String path;
 
 
                     ////==========
+                    String exception = micronautEntityGenerator.generateEntityException(entity, lang);
+                    GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getExceptionPackage()) + "/" + entity.getName() + "GeneralException" + extension, exception);
+
+                    String exceptionHandler = micronautEntityGenerator.generateEntityExceptionHandler(entity, lang);
+                    GeneratorUtils.createFile(path + "/src/main/" + configurationInfo.getProjectInfo().getSourceLanguage() + "/" + GeneratorUtils.packageToPath(entity.getExceptionPackage()) + "/" + entity.getName() + "ExceptionHandler" + extension, exceptionHandler);
+                    ////==========
                     String clientFileContent = micronautEntityGenerator.generateClient(entity, lang);
 
                     if(entity.getDatabaseType().equalsIgnoreCase(MicroStream_Embedded_Storage))

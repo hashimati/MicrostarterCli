@@ -1,0 +1,18 @@
+    <% if(jaeger) out.print '@NewSpan("'+className+'-service")'%>
+    <% if(micrometer) out.print '@Timed(value = "'+controllerPackage+'.'+entityName+'Controller.findAllBy'+Attribute+'", percentiles = { 0.5, 0.95, 0.99 }, description = "Observing all service metric for finding a '+entityName+' object by '+Attribute+'")' %>
+    <% if(principle) out.print '@Secured(SecurityRule.IS_AUTHENTICATED)'%>
+    <% if(!jaxrs) out.print '@Get'%><% if(jaxrs) out.print '@GET @Path'%>("/findAllBy${Attribute}")
+    @Operation(summary = "Getting all entity by ${Attribute}",
+       description = "A REST service, which retrieves a ${className} objects by ${Attribute}."
+    )
+    @ApiResponse(
+       content = @Content(mediaType = "application/json")
+    )
+    @ApiResponse(responseCode = "400", description = "Invalid Id Supplied")
+    @ApiResponse(responseCode = "404", description = "${className} not found")
+    public ${returnTypeList} findAllBy${Attribute}(${attributeType} query<% if(pageable) out.print ', Pageable pageable' %><% if(principle) out.print ', Principal principle'%> <% if(header) out.print ',  @Header("Authorization") String authorization'%>){
+          log.info("Finding all ${className} By ${Attribute}: {}", query);
+          return ${entityName}Service.findAllBy${Attribute}(query<% if(pageable) out.print ', pageable' %><% if(principle) out.print ', principle'%> <% if(header) out.print ', authorization'%>);
+    }
+
+
