@@ -81,8 +81,8 @@ public class FeaturesFactory {
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
                     "                </path>");
-            setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
-            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
+//            setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
+//            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
 
         }});
 
