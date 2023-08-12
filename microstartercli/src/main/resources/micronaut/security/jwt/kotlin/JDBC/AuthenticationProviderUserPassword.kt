@@ -24,7 +24,7 @@ import jakarta.transaction.Transactional
 open class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
                                          private val refreshTokenRepository: RefreshTokenRepository,
                                          private val eventPublisher: ApplicationEventPublisher<LoginEvent>,
-                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
+                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider<HttpRequest<Any>> {
 
 
     override fun authenticate(

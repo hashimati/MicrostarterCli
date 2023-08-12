@@ -80,6 +80,12 @@ public class FeaturesFactory {
                     "                  <groupId>io.micronaut.data</groupId>\n" +
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
+                            "              <exclusions>\n" +
+                            "                <exclusion>\n" +
+                            "                  <groupId>io.micronaut</groupId>\n" +
+                            "                  <artifactId>micronaut-inject</artifactId>\n" +
+                            "                </exclusion>\n" +
+                            "              </exclusions>\n" +
                     "                </path>");
 //            setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
 //            getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
@@ -106,6 +112,12 @@ public class FeaturesFactory {
                             "                  <groupId>io.micronaut.data</groupId>\n" +
                             "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                             "                  <version>${micronaut.data.version}</version>\n" +
+                            "              <exclusions>\n" +
+                            "                <exclusion>\n" +
+                            "                  <groupId>io.micronaut</groupId>\n" +
+                            "                  <artifactId>micronaut-inject</artifactId>\n" +
+                            "                </exclusion>\n" +
+                            "              </exclusions>\n" +
                             "                </path>");
             getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
 
@@ -164,6 +176,12 @@ public class FeaturesFactory {
                     "                  <groupId>io.micronaut.data</groupId>\n" +
                     "                  <artifactId>micronaut-data-processor</artifactId>\n" +
                     "                  <version>${micronaut.data.version}</version>\n" +
+                    "              <exclusions>\n" +
+                    "                <exclusion>\n" +
+                    "                  <groupId>io.micronaut</groupId>\n" +
+                    "                  <artifactId>micronaut-inject</artifactId>\n" +
+                    "                </exclusion>\n" +
+                    "              </exclusions>\n" +
                     "                </path>");
             setVersionProperties("<micronaut.data.version>3.7.2</micronaut.data.version>");
             getMavenProperties().putIfAbsent("micronaut.data.version", "3.7.2");
@@ -197,7 +215,13 @@ public class FeaturesFactory {
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
-                    "\t\t<version>3.7.2</version>\n" +
+                    "\t\t<version>${micronaut.data.version}</version>\n" +
+                    "              <exclusions>\n" +
+                    "                <exclusion>\n" +
+                    "                  <groupId>io.micronaut</groupId>\n" +
+                    "                  <artifactId>micronaut-inject</artifactId>\n" +
+                    "                </exclusion>\n" +
+                    "              </exclusions>\n" +
                     "\t</path>");
 
         }});
@@ -216,7 +240,13 @@ public class FeaturesFactory {
             setAnnotationMaven("\t<path>\n" +
                     "\t\t<groupId>io.micronaut.data</groupId>\n" +
                     "\t\t<artifactId>micronaut-data-document-processor</artifactId>\n" +
-                    "\t\t<version>3.7.2</version>\n" +
+                    "\t\t<version>${micronaut.data.version}</version>\n" +
+                    "              <exclusions>\n" +
+                    "                <exclusion>\n" +
+                    "                  <groupId>io.micronaut</groupId>\n" +
+                    "                  <artifactId>micronaut-inject</artifactId>\n" +
+                    "                </exclusion>\n" +
+                    "              </exclusions>\n" +
                     "\t</path>");
 
         }});
@@ -504,7 +534,7 @@ public class FeaturesFactory {
                     "            <path>\n" +
                     "              <groupId>org.projectlombok</groupId>\n" +
                     "              <artifactId>lombok</artifactId>\n" +
-                    "              <version>1.18.12</version>\n" +
+                    "              <version>${lombok.version}</version>\n" +
                     "            </path>");
             setGradle("    compileOnly(\"org.projectlombok:lombok\")");
             setAnnotationGradle("\n    annotationProcessor(\"org.projectlombok:lombok\")");
@@ -1300,7 +1330,4 @@ public class FeaturesFactory {
         }});
         return features;
     }
-
-
-
 }

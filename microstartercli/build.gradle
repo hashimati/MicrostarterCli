@@ -1,9 +1,10 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0"
+    id("io.micronaut.application") version "4.0.2"
+    id("io.micronaut.test-resources") version "4.0.2"
 }
 
-version = "0.1"
+version = "0.2.8"
 group = "io.hashimati"
 
 repositories {// url "https://s01.oss.sonatype.org/content/repositories/snapshots/"

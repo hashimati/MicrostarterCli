@@ -11,7 +11,7 @@ import java.time.Instant
 
 @Singleton
 class ApiKeyTokenValidator(apiKeyRepository: ApiKeyRepository) : TokenValidator {
-    private val apiKeyRepository: ApiKeyRepository
+    private val apiKeyRepository: ApiKeyRepository<HttpRequest<Any>>
 
     init {
         this.apiKeyRepository = apiKeyRepository

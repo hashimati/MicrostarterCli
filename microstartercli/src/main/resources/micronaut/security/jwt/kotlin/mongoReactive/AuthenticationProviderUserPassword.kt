@@ -18,7 +18,7 @@ import java.time.Instant
 class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
                                          private val refreshTokenRepository: RefreshTokenRepository,
                                          private val eventPublisher: LoginEventPublisher,
-                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
+                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider<HttpRequest<Any>> {
 
     override fun authenticate(
         request: HttpRequest<*>?,

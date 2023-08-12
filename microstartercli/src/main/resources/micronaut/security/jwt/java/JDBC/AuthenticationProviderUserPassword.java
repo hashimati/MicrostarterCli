@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-public class AuthenticationProviderUserPassword implements AuthenticationProvider {
+public class AuthenticationProviderUserPassword implements AuthenticationProvider<HttpRequest<?>> {
 
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);

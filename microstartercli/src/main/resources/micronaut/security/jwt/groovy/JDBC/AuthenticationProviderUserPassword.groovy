@@ -19,7 +19,7 @@ import reactor.core.publisher.Flux
 import jakarta.transaction.Transactional
 import java.time.Instant
 
-class AuthenticationProviderUserPassword implements AuthenticationProvider {
+class AuthenticationProviderUserPassword implements AuthenticationProvider<HttpRequest<?>> {
 
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);

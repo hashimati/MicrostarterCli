@@ -22,7 +22,7 @@ public class MicrostartercliCommandTest {
             PicocliRunner.run(MicrostartercliCommand.class, ctx, args);
 
             // microstartercli
-            assertTrue(baos.toString().contains("Hi!"));
+            assertTrue(baos.toString().contains("MicrostarterCLI"));
         }
     }
 }

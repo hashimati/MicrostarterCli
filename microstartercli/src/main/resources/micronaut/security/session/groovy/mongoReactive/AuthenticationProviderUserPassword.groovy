@@ -14,7 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 
-class AuthenticationProviderUserPassword implements AuthenticationProvider {
+class AuthenticationProviderUserPassword implements AuthenticationProvider<HttpRequest<?>> {
 
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class)

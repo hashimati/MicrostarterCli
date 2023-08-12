@@ -22,7 +22,7 @@ import jakarta.transaction.Transactional
 @Singleton
 open class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
                                          private val eventPublisher: ApplicationEventPublisher<LoginEvent>,
-                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
+                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider<HttpRequest<Any>> {
 
 
     override fun authenticate(

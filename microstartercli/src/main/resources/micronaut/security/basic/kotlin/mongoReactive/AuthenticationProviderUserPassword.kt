@@ -16,7 +16,7 @@ import java.time.Instant
 @Singleton
 class AuthenticationProviderUserPassword(private val userRepository: UserRepository,
                                          private val eventPublisher: LoginEventPublisher,
-                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider {
+                                         private val passwordEncoderService: PasswordEncoderService) : AuthenticationProvider<HttpRequest<Any>>{
 
     override fun authenticate(
         request: HttpRequest<*>?,

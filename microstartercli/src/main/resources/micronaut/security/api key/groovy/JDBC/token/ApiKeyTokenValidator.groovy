@@ -12,7 +12,7 @@ import org.reactivestreams.Publisher
 
 
 @Singleton
-class ApiKeyTokenValidator implements TokenValidator {
+class ApiKeyTokenValidator implements TokenValidator<HttpRequest<?>>  {
 
     private final ApiKeyRepository apiKeyRepository
 
