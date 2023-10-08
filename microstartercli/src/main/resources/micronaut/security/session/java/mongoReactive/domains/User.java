@@ -8,12 +8,14 @@ import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
 
+import io.micronaut.serde.annotation.Serdeable;
 
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@serdeable
 public class User {
 
     private String id;

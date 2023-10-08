@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import io.micronaut.serde.annotation.Serdeable;
 
 
 @Data
@@ -14,6 +15,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Serdeable
 public class User {
 
     private String id;

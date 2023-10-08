@@ -8,9 +8,11 @@ import java.time.Instant
 import java.util.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Size
+import io.micronaut.serde.annotation.Serdeable;
 
 
 @MappedEntity(value = "users", namingStrategy = NamingStrategies.Raw::class)
+@Serdeable
 data class User (
     @field:Id
     @GeneratedValue(GeneratedValue.Type.AUTO)

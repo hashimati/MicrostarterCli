@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.NewSpan' %>
 <% if(jaeger) out.print 'import io.micronaut.tracing.annotation.SpanTag' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Page' %>
+import io.micronaut.serde.annotation.Serdeable
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 ${moreImports}
 ${containDate?'import java.util.Date':''}
@@ -35,6 +36,7 @@ ${containBigDecimal?'import java.math.BigDecimal':''}
 @Tag(name = "${className}")
 <% if(!jaxrs) out.print '@Controller'%><% if(jaxrs) out.print '@Path'%>("/api/v1/${entities}")
 @CircuitBreaker(attempts = "5", maxDelay = "3s", reset = "30")
+@Serdeable
 class ${className}Controller {
 
     @Inject ${className}Service ${entityName}Service

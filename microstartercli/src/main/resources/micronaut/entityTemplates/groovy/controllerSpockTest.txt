@@ -11,7 +11,7 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 <%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
 <%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
-<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
+<%if(header) out.print 'import io.micronaut.security.token.render.BearerAccessRefreshToken'%>
 ${moreImports}
 import jakarta.inject.Inject
 

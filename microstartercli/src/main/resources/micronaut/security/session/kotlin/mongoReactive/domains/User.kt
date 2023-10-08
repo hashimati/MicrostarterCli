@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Size
 
 import kotlin.collections.HashSet
+import io.micronaut.serde.annotation.Serdeable;
 
+@Serdeable
 data class User (
     var id: String? = null,
 

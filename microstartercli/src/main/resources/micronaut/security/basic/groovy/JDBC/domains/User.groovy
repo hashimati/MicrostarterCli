@@ -8,9 +8,13 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import java.time.Instant
+import io.micronaut.serde.annotation.Serdeable;
+
+
 
 @Canonical
 @MappedEntity(value = "users", namingStrategy = NamingStrategies.Raw.class)
+@Serdeable
 class User {
 
     @Id

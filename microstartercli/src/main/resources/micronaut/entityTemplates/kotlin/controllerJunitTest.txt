@@ -8,7 +8,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 <%if(header) out.print 'import '+defaultPackage+'.security.SecurityClient'%>
 <%if(header) out.print 'import io.micronaut.security.authentication.UsernamePasswordCredentials'%>
-<%if(header) out.print 'import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken'%>
+<%if(header) out.print 'import io.micronaut.security.token.render.BearerAccessRefreshToken'%>
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 ${moreImports}

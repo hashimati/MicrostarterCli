@@ -5,6 +5,7 @@ ${jpa?'import javax.persistence.*;' :''}
 ${jdbc || mongo || jpa?'import io.micronaut.data.annotation.*;' :''}
 <% if(lombok) out.print "import lombok.*;" %><% if(!lombok) out.print "import java.util.Objects;" %>
 import jakarta.validation.constraints.*;
+import io.micronaut.serde.annotation.Serdeable;
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema;" %>
 ${containDate?'import java.util.Date;':''}
 ${containBigInteger?'import java.math.BigInteger;':''}
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 <% if(lombok) out.print "@AllArgsConstructor" %>
 <% if(lombok) out.print "@EqualsAndHashCode" %>
 <% if(lombok) out.print "@Builder" %>
+@Serdeable
 public class ${className}{
     <% if(jpa || mongo) out.print '@Id '%>
     <% if(jpa) out.print '@GeneratedValue(strategy = GenerationType.Type.SEQUENCE) '%>

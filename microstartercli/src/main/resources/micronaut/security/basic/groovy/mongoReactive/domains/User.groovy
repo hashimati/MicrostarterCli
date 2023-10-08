@@ -6,8 +6,10 @@ import ${securityPackage}.domains.LoginStatus
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
+import io.micronaut.serde.annotation.Serdeable;
 
 @Canonical
+@Serdeable
 class User {
 
     String id

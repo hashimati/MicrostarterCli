@@ -4,12 +4,14 @@ package ${securityPackage}.domains
 
 import groovy.transform.Canonical
 import ${securityPackage}.domains.LoginStatus
+import io.micronaut.serde.annotation.Serdeable;
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 @Canonical
+@Serdeable
 class User {
 
     String id

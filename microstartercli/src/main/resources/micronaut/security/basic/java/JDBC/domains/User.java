@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import io.micronaut.serde.annotation.Serdeable;
 
 
 @Data
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @MappedEntity(value = "users", namingStrategy = NamingStrategies.Raw.class)
+@Serdeable
 public class User {
 
     @Id

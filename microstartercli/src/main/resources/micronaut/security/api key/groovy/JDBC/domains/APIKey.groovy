@@ -9,9 +9,11 @@ import io.micronaut.data.model.naming.NamingStrategies
 
 import java.time.Instant
 
+import io.micronaut.serde.annotation.Serdeable;
 
 @Canonical
 @MappedEntity(value = "apikeys", namingStrategy = NamingStrategies.Raw.class)
+@Serdeable
 class APIKey {
 
     @Id
