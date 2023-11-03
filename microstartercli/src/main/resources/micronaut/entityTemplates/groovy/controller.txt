@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import io.micronaut.serde.annotation.Serdeable
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable' %>
 ${moreImports}
-${containDate?'import java.util.Date':''}
+${containDate?'import java.time.Instant':''}
 ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 

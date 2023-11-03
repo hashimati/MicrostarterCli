@@ -12,7 +12,7 @@ import io.micronaut.data.repository.<% if(pageable) out.print 'PageableRepositor
 import java.util.*
 <% if(mongo) out.print 'import org.bson.types.ObjectId' %>
 ${moreImports}
-${containDate?'import java.util.Date':''}
+${containDate?'import java.time.Instant':''}
 ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 

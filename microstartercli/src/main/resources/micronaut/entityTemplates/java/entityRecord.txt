@@ -3,7 +3,7 @@ ${importedPackages}
 ${jpa?'import javax.persistence.*;':''}
 ${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*;' :''}
 import jakarta.validation.constraints.*;
-${containDate?'import java.util.Date;':''}
+${containDate?'import java.time.Instant;':''}
 ${containBigInteger?'import java.math.BigInteger;':''}
 ${containBigDecimal?'import java.math.BigDecimal;':''}
 import java.util.*;

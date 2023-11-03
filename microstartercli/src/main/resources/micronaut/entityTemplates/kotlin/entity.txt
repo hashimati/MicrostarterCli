@@ -3,10 +3,11 @@ ${importedPackages}
 ${jpa?'import javax.persistence.*':''}
 ${jdbc || jpa || mongo?'import io.micronaut.data.annotation.*' :''}
 import jakarta.validation.constraints.*
-${containDate?'import java.util.Date':''}
+${containDate?'import java.time.Instant':''}
 ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 import java.util.List
+import java.time.Instant
 import io.micronaut.serde.annotation.Serdeable
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema" %>
 ${jdbc || mongo?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}

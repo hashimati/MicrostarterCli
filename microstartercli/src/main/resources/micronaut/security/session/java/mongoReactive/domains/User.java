@@ -5,7 +5,7 @@ import lombok.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashSet;
 
 import io.micronaut.serde.annotation.Serdeable;
@@ -32,9 +32,9 @@ public class User {
     @NotNull
     private String password;
 
-    private Date dateCreated;
+    private Instant dateCreated;
 
-    private Date dateUpdated;
+    private Instant dateUpdated;
 
     private boolean active ;
 
@@ -43,8 +43,8 @@ public class User {
 //    private Date expiration;
 //
 //    private Date passwordExpiration;
-    private Date lastTimeLogin;
-    private Date lastTimeTryToLogin;
+    private Instant lastTimeLogin;
+    private Instant lastTimeTryToLogin;
     private LoginStatus lastLoginStatus;
 
     private String activationCode;

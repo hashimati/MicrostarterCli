@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import io.micronaut.serde.annotation.Serdeable;
+import java.time.Instant
 
 @Canonical
 @Serdeable
@@ -37,8 +38,8 @@ class User {
 //    Date expiration
 //
 //    Date passwordExpiration
-    Date lastTimeLogin
-    Date lastTimeTryToLogin
+    Instant lastTimeLogin
+    Instant lastTimeTryToLogin
     LoginStatus lastLoginStatus
 
     String activationCode

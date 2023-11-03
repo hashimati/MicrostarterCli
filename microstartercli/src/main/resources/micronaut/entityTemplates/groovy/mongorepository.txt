@@ -9,7 +9,7 @@ import ${entityPackage}.${entityClass}
 <% if (reactor) out.print 'import reactor.core.publisher.Flux' %><% if(rxjava2) out.print 'import io.reactivex.Flowable'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Flowable'%>
 <% if (reactor) out.print 'import reactor.core.publisher.Mono' %><% if(rxjava2) out.print 'import io.reactivex.Single'%><% if(rxjava3) out.print 'import io.reactivex.core.rxjava3.Single'%>
 import org.bson.*
-${containDate?'import java.util.Date':''}
+${containDate?'import java.time.Instant':''}
 ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 import org.slf4j.Logger

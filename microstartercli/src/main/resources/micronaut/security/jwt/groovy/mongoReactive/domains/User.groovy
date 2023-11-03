@@ -5,7 +5,7 @@ package ${securityPackage}.domains
 import groovy.transform.Canonical
 import ${securityPackage}.domains.LoginStatus
 import io.micronaut.serde.annotation.Serdeable;
-
+import java.time.Instant
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
@@ -39,8 +39,8 @@ class User {
 //    Date expiration
 //
 //    Date passwordExpiration
-    Date lastTimeLogin
-    Date lastTimeTryToLogin
+    Instant lastTimeLogin
+    Instant lastTimeTryToLogin
     LoginStatus lastLoginStatus
 
     String activationCode

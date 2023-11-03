@@ -420,13 +420,13 @@ public class MicronautEntityGenerator
                         "    <% if(normal) out.println 'private String id;' %>\n" +
                         "    ${instances}\n" +
                         "    <% if(jdbc) out.print '@DateCreated ' %>\n" +
-                        "    <% if(jdbc) out.println 'private Date dateCreated;' %>\n" +
+                        "    <% if(jdbc) out.println 'private Instant dateCreated;' %>\n" +
                         "    <% if(jdbc) out.print  '@DateUpdated ' %>\n" +
-                        "    <% if(jdbc) out.println 'private Date dateUpdated;' %>\n" +
+                        "    <% if(jdbc) out.println 'private Instant dateUpdated;' %>\n" +
                         "    <% if(jpa) out.print '@DateCreated ' %>\n" +
-                        "    <% if(jpa) out.println 'private Date dateCreated;' %>\n" +
+                        "    <% if(jpa) out.println 'private Instant dateCreated;' %>\n" +
                         "    <% if(jpa) out.print '@DateUpdated ' %>\n" +
-                        "    <% if(jpa) out.println 'private Date dateUpdated;' %>\n" +
+                        "    <% if(jpa) out.println 'private Instant dateUpdated;' %>\n" +
                         "}", " <% if(jpa) out.print '@Id '%>\n" +
                         "    <% if(normal) out.println 'private String id;' %>\n" +
                         "    ${instances}\n" +

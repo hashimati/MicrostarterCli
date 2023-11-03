@@ -9,7 +9,7 @@ import java.util.*
 ${moreImports}
 <% if(pageable) out.print 'import io.micronaut.data.model.Page;' %>
 <% if(pageable) out.print 'import io.micronaut.data.model.Pageable;' %>
-${containDate?'import java.util.Date':''}
+${containDate?'import java.time.Instant':''}
 ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
 import java.util.Collections;
-import java.util.Date;
+import java.time.Instant;
 
 public class AuthenticationProviderUserPassword implements AuthenticationProvider<HttpRequest<?>> {
 

@@ -2,7 +2,7 @@ package ${domainPackage};
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Data
 public class LoginEvent {
@@ -10,6 +10,6 @@ public class LoginEvent {
     private String username, password;
     private LoginStatus status;
     private Date lastTryDate;
-    private Date lastTimeLogin;
+    private Instant lastTimeLogin;
 
 }

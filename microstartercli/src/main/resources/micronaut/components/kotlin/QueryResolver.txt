@@ -10,7 +10,7 @@ import ${servicePackage}.${className}Service
 <% if(principal) out.print 'import io.micronaut.security.utils.DefaultSecurityService' %>
 import jakarta.inject.Singleton;
 ${moreImports}
-${containDate?'import java.util.Date;':''}
+${containDate?'import java.time.Instant;':''}
 ${containBigInteger?'import java.math.BigInteger;':''}
 ${containBigDecimal?'import java.math.BigDecimal;':''}
 @Singleton

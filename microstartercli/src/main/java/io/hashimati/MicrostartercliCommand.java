@@ -94,7 +94,7 @@ public class MicrostartercliCommand implements Runnable {
                 "/_/  /_/_/\\__/_/  \\___/___/\\__/\\_,_/_/  \\__/\\__/_/   \n" +
                 "                                                     ";
         System.out.println(banner +
-                "\nMicrostarter CLI v0.2.9");
+                "\nMicrostarter CLI v0.2.10");
     }
     @Option(names = { "--verbose"}, description = "...")
     boolean verbose;
