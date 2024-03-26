@@ -303,7 +303,7 @@ private String path;
                     if (!Arrays.asList("String", "boolean", "short", "int", "long", "float", "double","BigInteger", "BigDecimal", "Date", "file").contains(attrTypeResult.getSelectedId())) {
                         entityAttribute.setEnumuration(true);
                         entityAttribute.setPremetive(false);
-                        entityAttribute.setTypePackage(configurationInfo.getProjectInfo().getDefaultPackage() + ".enums." + entityAttribute.getName());
+                        entityAttribute.setTypePackage(configurationInfo.getProjectInfo().getDefaultPackage() + ".enums." + entityAttribute.getType());
                     }
                     entityAttribute.setType(attrTypeResult.getSelectedId());
                     //todo Enter ask for Validation

@@ -14,10 +14,11 @@ public class ProjectConstants {
     public static class LanguagesConstants{
         public final static  String JAVA_LANG="java",
                 KOTLIN_LANG="kotlin",
-                GROOVY_LANG="groovy";
+                GROOVY_LANG="groovy",
+                DART_LANG="dart";
 
 
-        public final static List<String> LANGUAGES = Arrays.asList(JAVA_LANG, KOTLIN_LANG, GROOVY_LANG);
+        public final static List<String> LANGUAGES = Arrays.asList(JAVA_LANG, KOTLIN_LANG, GROOVY_LANG, DART_LANG);
     }
 
     public static class DatabasesConstants{

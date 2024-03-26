@@ -609,12 +609,18 @@ public class FeaturesFactory {
         }});
         features.put("jasypt", new Feature(){{
             setName("jasypt");
-            setGradle("     implementation(\"org.jasypt:jasypt:1.9.3\")");
+//            setGradle("     implementation(\"org.jasypt:jasypt:1.9.3\")");
+            setGradle("         implementation(\"org.apache.camel:camel-jasypt:4.2.0\")\n");
             getMaven().add("\t<dependency>\n" +
-                    "\t\t<groupId>org.jasypt</groupId>\n" +
-                    "\t\t<artifactId>jasypt</artifactId>\n" +
-                    "\t\t<version>1.9.3</version>\n" +
+                    "\t\t<groupId>org.apache.camel</groupId>\n" +
+                    "\t\t<artifactId>camel-jasypt</artifactId>\n" +
+                    "\t\t<version>4.2.0</version>\n" +
                     "\t</dependency>\n");
+//            getMaven().add("\t<dependency>\n" +
+//                    "\t\t<groupId>org.jasypt</groupId>\n" +
+//                    "\t\t<artifactId>jasypt</artifactId>\n" +
+//                    "\t\t<version>1.9.3</version>\n" +
+//                    "\t</dependency>\n");
         }});
         features.put("security-jwt", new Feature(){{
             setName("security-jwt");

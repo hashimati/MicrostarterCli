@@ -202,6 +202,8 @@ public class EntityAttribute {
                 return ((jpa && array)?elementCollectionAnnotation:"")+"\t" +type + " " + name +";\n";
             case KOTLIN_LANG:
                 return ((jpa && array)?elementCollectionAnnotation:"")+"\t" +"var" + " " + name + ":" + StringUtils.capitalize(type) +"\n";
+            case DART_LANG:
+                return "\t" +DataTypeMapper.dartMapper.getOrDefault(type.toLowerCase(), type) + " " + name +";\n";
             default:
                 return ((jpa && array)?elementCollectionAnnotation:"") +type + " " + name +" ";
         }

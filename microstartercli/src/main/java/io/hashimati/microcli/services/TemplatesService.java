@@ -44,7 +44,8 @@ public class TemplatesService {
             securityUtilsTemplates = new HashMap<>(),
             securityRefreshTokenTemplates= new HashMap<>(),
             securityPropertiesTemplates = new HashMap<>(),
-            securityLiquibase = new HashMap<>();
+            securityLiquibase = new HashMap<>(),
+            flutter = new HashMap<>();
 
 
     public static final String LOGBACK_PATH = "micronaut/logs/logback.xml";
@@ -241,6 +242,18 @@ public class TemplatesService {
             MICROSTREAM_ROOT_DATA = "MICROSTREAM_ROOT",
                     OPENAPI_PROPERTIES = "OPENAPI_PROPERTIES";
 
+            public static String FLUTTER_ENTITY = "FLUTTER_ENTITY",
+                                 FLUTTER_SERVICE = "FLUTTER_SERVICE",
+                                FLUTTER_CONTROLLER = "FLUTTER_CONTROLLER",
+                                FLUTTER_MODEL = "FLUTTER_MODEL",
+                                FLUTTER_REPOSITORY = "FLUTTER_REPOSITORY",
+                                FLUTTER_CLIENT = "FLUTTER_CLIENT",
+                                FLUTTER_ENUM = "FLUTTER_ENUM",
+                                FLUTTER_EXCEPTION = "FLUTTER_EXCEPTION",
+                                FLUTTER_LOGGING = "FLUTTER_LOGGING_PAGE",
+                                FLUTTER_ENTITY_PAGE = "FLUTTER_ENTITY_PAGE",
+                                FLUTTER_RANDOMIZER = "FLUTTER_RANDOMIZER",
+                                FLUTTER_CONTROLLER_UNIT_TEST = "FLUTTER_CONTROLLER_UNIT_TEST";
     public static String ATTRIBUTE ="attribute",
     CONSTRAINT  ="constraint",
    CREATE= "create";
@@ -796,7 +809,19 @@ public class TemplatesService {
 
         distributedTracingTemplates.put(DISTRIBUTED_TRACING_ZIPKIN, "micronaut/commons/tracing/zipkin.yml");
         distributedTracingTemplates.put(DISTRIBUTED_TRACING_JAEGER, "micronaut/commons/tracing/jaeger.yml");
+
+        flutter.put(FLUTTER_ENTITY, "/flutter/entity.dart");
+        flutter.put(FLUTTER_CLIENT, "/flutter/client.dart");
+        flutter.put(FLUTTER_SERVICE, "/flutter/service.dart");
+        flutter.put(FLUTTER_CONTROLLER, "/flutter/controller.dart");
+        flutter.put(FLUTTER_ENUM, "/flutter/enum.dart");
+        flutter.put(FLUTTER_EXCEPTION, "/flutter/exception.dart");
+        flutter.put(FLUTTER_REPOSITORY, "/flutter/repository.dart");
+        flutter.put(FLUTTER_SERVICE, "/flutter/service.dart");
+        flutter.put(FLUTTER_LOGGING, "/flutter/logging.dart");
+        flutter.put(FLUTTER_ENTITY_PAGE, "/flutter/entity_page.dart");
     }
+
 
     public void auxLoadTemplatePath(List<String> fileNames, HashMap<String, String> templates, String root)
     {

@@ -176,6 +176,22 @@ public class DataTypeMapper
         put("BigDecimal", "BigDecimal");
     }};
 
+    public  final static HashMap<String, String> dartMapper = new HashMap<>(){{
+       put("int", "int");
+         put("byte", "int");
+            put("long", "int");
+            put("short", "int");
+            put("boolean", "bool");
+            put("char", "int");
+            put("float", "double");
+            put("double", "double");
+            put("string", "String");
+            put("date", "String");
+            put("file", "String");
+            put("BigInteger", "String");
+            put("BigDecimal", "String");
+
+    }};
 
     public final static HashMap<String ,String> protoMapper = new HashMap<String, String>(){{
 
