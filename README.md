@@ -1,5 +1,5 @@
 # MicrostarterCLI
-MicrostarterCli is a command-line rapid development tool for Micronaut applications. It helps developers to cut the development time and focus on the application logic by generating Micronaut components and configurations using ready-built templates. This tool is a [Micronaut](https://github.com/micronaut-projects)/[PicoCLI](https://github.com/remkop/picocli) application powered with [ConsoleUI](https://github.com/awegmann/consoleui)
+MicrostarterCli is a command-line rapid development tool for Micronaut applications. It helps developers cut the development time and focus on the application logic by generating Micronaut components and configurations using ready-built templates. This tool is a [Micronaut](https://github.com/micronaut-projects)/[PicoCLI](https://github.com/remkop/picocli) application powered with [ConsoleUI](https://github.com/awegmann/consoleui)
 
 
 
@@ -113,12 +113,12 @@ The MicrostarterCli uses [Banana](https://github.com/yihleego/banana) to generat
 <a name="started"> </a>
 ## Quick Start
 
-As a getting started steps, we will generate an application using The Micronaut Launch. Then, we will generate a Fruit entity, repository, service, REST API, and GraphQL endpoints.
+As a getting started step, we will generate an application using The Micronaut Launch. Then, we will generate a Fruit entity, repository, service, REST API, and GraphQL endpoints.
 
 1. Download the MicrostarterCli. 
 2. Generate a Micronaut Application using [Micronaut Launch](https://launch.micronaut.io) or [Micronaut CLI](https://micronaut.io/download/). 
-3. Unzip MicrostarterCli in the Micronaut Application or configure it in you environment.  
-4. Open the Terminal/Command Prompt. And, navigate to the project's directory. 
+3. Unzip MicrostarterCli in the Micronaut Application or configure it in your environment.  
+4. Open the Terminal/Command Prompt. And navigate to the project's directory. 
 5. Run this command to start generating the Fruit entity
 ```shell
 mc entity -e fruit --graphql
