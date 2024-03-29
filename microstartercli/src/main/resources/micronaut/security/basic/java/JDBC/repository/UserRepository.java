@@ -16,5 +16,5 @@ public interface UserRepository extends CrudRepository<User, <% if(jdbc) out.pri
     public User findByUsername(String username);
     public List<User> findAll();
     public boolean existsByUsername(String username);
-    public Long updateByUsername(String username, LoginStatus lastLoginStatus, Instant lastTimeTryToLogin);
+    public Long updateByUsername(String username, LoginStatus lastLoginStatus, Instant lastTimeTryToLogin, Instant lastTimeLogin);
 }
