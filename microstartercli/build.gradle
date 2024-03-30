@@ -1,10 +1,10 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.2"
-    id("io.micronaut.test-resources") version "4.0.2"
+    id("io.micronaut.application") version "4.3.5"
+    id("io.micronaut.test-resources") version "4.3.5"
 }
 
-version = "0.2.10"
+version = "0.2.11"
 group = "io.hashimati"
 
 repositories {// url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
@@ -105,8 +105,8 @@ application {
     mainClass.set("io.hashimati.MicrostartercliCommand")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
 }
 
 micronaut {

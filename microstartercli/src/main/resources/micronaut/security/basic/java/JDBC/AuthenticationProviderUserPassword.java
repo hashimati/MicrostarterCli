@@ -33,8 +33,6 @@ public class AuthenticationProviderUserPassword implements HttpRequestAuthentica
     private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
     @Inject
     private UserRepository userRepository;
-    @Inject
-    private RefreshTokenRepository refreshTokenRepository;
 
     @Inject
     private ApplicationEventPublisher<LoginEvent> eventPublisher;
@@ -112,8 +110,6 @@ public class AuthenticationProviderUserPassword implements HttpRequestAuthentica
 
 
         if(passwordEncoderService.matches(authenticationRequest.getSecret(), user.getPassword())){
-            System.out.printf("User : %s, Password : %s\n", authenticationRequest.getIdentity(), authenticationRequest.getSecret());
-            refreshTokenRepository.deleteByUsername(authenticationRequest.getIdentity());
             loginEvent.setStatus(LoginStatus.SUCCEED);
             loginEvent.setLastTimeLogin(Instant.now());
             eventPublisher.publishEvent(loginEvent);

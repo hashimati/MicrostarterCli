@@ -4,9 +4,8 @@ package ${securityPackage};
 import ${securityPackage}.domains.LoginEvent;
 import ${securityPackage}.domains.LoginStatus;
 import ${securityPackage}.domains.User;
-import ${securityPackage}.event.LoginEventPublisher;
-import ${securityPackage}.repository.RefreshTokenRepository;
 import ${securityPackage}.repository.UserRepository;
+import ${securityPackage}.repository.RefreshTokenRepository;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
@@ -114,7 +113,6 @@ public class AuthenticationProviderUserPassword implements HttpRequestAuthentica
 
 
         if(passwordEncoderService.matches(authenticationRequest.getSecret(), user.getPassword())){
-            System.out.printf("User : %s, Password : %s\n", authenticationRequest.getIdentity(), authenticationRequest.getSecret());
             refreshTokenRepository.deleteByUsername(authenticationRequest.getIdentity());
             loginEvent.setStatus(LoginStatus.SUCCEED);
             loginEvent.setLastTimeLogin(Instant.now());

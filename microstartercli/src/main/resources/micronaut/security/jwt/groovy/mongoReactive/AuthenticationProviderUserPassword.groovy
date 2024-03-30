@@ -113,7 +113,6 @@ public class AuthenticationProviderUserPassword implements HttpRequestAuthentica
 
 
         if(passwordEncoderService.matches(authenticationRequest.getSecret(), user.getPassword())){
-            System.out.printf("User : %s, Password : %s\n", authenticationRequest.getIdentity(), authenticationRequest.getSecret())
             refreshTokenRepository.deleteByUsername(authenticationRequest.getIdentity())
             loginEvent.setStatus(LoginStatus.SUCCEED)
             loginEvent.setLastTimeLogin(Instant.now())
