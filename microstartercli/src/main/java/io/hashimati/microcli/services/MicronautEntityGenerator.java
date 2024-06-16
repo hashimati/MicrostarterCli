@@ -392,6 +392,7 @@ public class MicronautEntityGenerator
         binder.put("reactor", entity.getReactiveFramework().equalsIgnoreCase("reactor") && entity.isNonBlocking());
         binder.put("principle", entity.isSecurityEnabled());
         binder.put("header", entity.getSecurityStrategy().equalsIgnoreCase("jwt"));
+        binder.put("security", entity.isSecurityEnabled());
         binder.put("pageable", entity.isPageable());
         binder.put("lombok", entity.isLombok());
         binder.put("constructors", entity.getEmptyConstructor() + "\n"+entity.getAllArgsConstructor());

@@ -244,7 +244,9 @@ public class Entity
     public void setPackages(String defaultPackage) {
 
         this.setDefaultPackage(defaultPackage);
+//        this.setEntityPackage(new StringBuilder().append(defaultPackage).append(".domains").toString());
         this.setEntityPackage(new StringBuilder().append(defaultPackage).append(".domains").toString());
+
         this.setRepoPackage(new StringBuilder().append(defaultPackage).append(".repositories").toString());
         this.setServicePackage(new StringBuilder().append(defaultPackage).append(".services").toString());
         this.setRestPackage(new StringBuilder().append(defaultPackage).append(".controllers").toString());

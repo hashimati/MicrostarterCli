@@ -12,6 +12,8 @@ import io.micronaut.serde.annotation.Serdeable
 <% if(openApi) out.print "import io.swagger.v3.oas.annotations.media.Schema" %>
 ${jdbc || mongo?'import static io.micronaut.data.model.naming.NamingStrategies.*' :''}
 import com.fasterxml.jackson.annotation.JsonProperty
+${security? 'import io.micronaut.security.annotation.CreatedBy':''}
+${security? 'import io.micronaut.security.annotation.UpdatedBy' :''}
 
 <% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>

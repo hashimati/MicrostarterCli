@@ -9,11 +9,16 @@ package io.hashimati.microcli.domains;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import io.hashimati.microcli.constants.FieldTypes;
 import io.hashimati.microcli.utils.DataTypeMapper;
 import io.hashimati.microcli.utils.Visitor;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.StringUtils;
+
+import java.sql.ClientInfoStatus;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.hashimati.microcli.constants.ProjectConstants.EntityAttributeType.*;
 import static io.hashimati.microcli.constants.ProjectConstants.LanguagesConstants.*;
@@ -38,6 +43,8 @@ public class EntityAttribute {
     private boolean isFile;
 
     private FieldTypes fieldType;
+    private List<String> groupValues = new ArrayList<String>();
+
     public EntityAttribute()
     {}
     @JsonIgnore

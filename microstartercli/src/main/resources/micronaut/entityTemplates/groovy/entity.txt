@@ -15,7 +15,8 @@ ${containBigInteger?'import java.math.BigInteger':''}
 ${containBigDecimal?'import java.math.BigDecimal':''}
 import java.util.*
 
-
+${security? 'import io.micronaut.security.annotation.CreatedBy':''}
+${security? 'import io.micronaut.security.annotation.UpdatedBy' :''}
 
 <% if(openApi) out.print "@Schema(name=\"${className}\", description=\"${className} Description\")" %>
 <% if(jpa) out.print "@Entity(name=\"${collectionName}\")"%>
@@ -36,5 +37,6 @@ class ${className}{
 
     <% if(jdbc || jpa || mongo) out.print '@DateUpdated' %>
     <% if(jdbc || jpa || mongo) out.print 'Instant dateUpdated;' %>
-
+    <% if(security) out.print '@CreatedBy private String createdBy' %>
+    <% if(security) out.print '@UpdatedBy private String updatedBy' %>
 }

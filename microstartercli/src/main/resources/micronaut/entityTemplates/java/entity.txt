@@ -15,6 +15,9 @@ import java.util.*;
 ${jdbc|| mongo?'import static io.micronaut.data.model.naming.NamingStrategies.*;' :''}
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+${security? 'import io.micronaut.security.annotation.CreatedBy;':''}
+${security? 'import io.micronaut.security.annotation.UpdatedBy;':''}
+
 
 
 <% if(jpa) out.print "@Entity(name =\"${collectionName}\")"%>
@@ -41,9 +44,11 @@ public class ${className}{
     <% if(jdbc || jpa || mongo) out.print '@DateCreated private Instant dateCreated;' %>
     <% if(jdbc|| jpa || mongo) out.print '@DateUpdated private Instant dateUpdated;' %>
 
-<% if(!lombok) out.print constructors %>
-<% if(!lombok) out.print getters %>
-<% if(!lombok) out.print setters %>
-<% if(!lombok) out.print equals %>
-<% if(!lombok) out.print hashcode %>
+    <% if(!lombok) out.print constructors %>
+    <% if(!lombok) out.print getters %>
+    <% if(!lombok) out.print setters %>
+    <% if(!lombok) out.print equals %>
+    <% if(!lombok) out.print hashcode %>
+    <% if(security) out.print '@CreatedBy private String createdBy;' %>
+    <% if(security) out.print '@UpdatedBy private String updatedBy;' %>
 }
