@@ -7,12 +7,14 @@ micronaut:
           secret:
             generator:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+        generator:
+          refresh-token:
+            secret: "${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"
+            enabled: true
         enabled: true
       generator:
         access-token:
-          expiration: 100000
-        refresh-token:
-          secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+          expiration: 2000000
     enabled: true
     endpoints:
       login:

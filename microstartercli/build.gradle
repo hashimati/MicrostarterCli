@@ -4,7 +4,7 @@ plugins {
     id("io.micronaut.test-resources") version "4.3.5"
 }
 
-version = "0.2.11"
+version = "0.2.12"
 group = "io.hashimati"
 
 repositories {// url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
