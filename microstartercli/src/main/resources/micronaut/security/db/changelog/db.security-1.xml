@@ -5,9 +5,9 @@
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="dateCreated" type="datetime">
-        </column>
+            </column>
             <column name="dateUpdated" type="datetime">
-        </column>
+            </column>
             <column name="username" type="varchar(255)">
                 <constraints/>
             </column>
@@ -50,7 +50,7 @@
         <addAutoIncrement columnDataType="bigint" columnName="id" incrementBy="1" startWith="1" tableName="users"/>
         <createTable tableName="refreshTokens">
             <column name="id" type="bigint">
-                <constraints unique="true" nullable="false" primaryKey="true"/>
+                <constraints unique="true" nullable="true" primaryKey="true"/>
             </column>
             <column name="username" type="varchar(255)">
                 <constraints/>
@@ -66,6 +66,8 @@
                 <constraints/>
             </column>
         </createTable>
+        <addAutoIncrement columnDataType="bigint" columnName="id" incrementBy="1" startWith="1" tableName="refreshTokens"/>
+
         <createTable tableName="Roles">
             <column name="id" type="bigint">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
@@ -74,7 +76,8 @@
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-    </changeSet>
-    
-</databaseChangeLog>
+        <addAutoIncrement columnDataType="bigint" columnName="id" incrementBy="1" startWith="1" tableName="Roles"/>
 
+    </changeSet>
+
+</databaseChangeLog>

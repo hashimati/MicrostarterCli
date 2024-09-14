@@ -43,12 +43,11 @@ public class InitCommand implements Callable<Integer> {
     @Option(names = "--name", defaultValue = "demo", description = "To sepcify the application name.\n It should be without spaces.")
     private String name;
 
-    @Option(names= {"--javaVersion"}, defaultValue = "JDK_17",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11\nPlease, check: https://launch.micronaut.io/select-options")
+    @Option(names= {"--javaVersion"}, defaultValue = "JDK_21",showDefaultValue = CommandLine.Help.Visibility.ALWAYS, description = "To specify the java version.\n Options: JDK_8, JDK_11, JDK_17\nDefault value: JDK_11\nPlease, check: https://launch.micronaut.io/select-options")
     private String javaVersion;
 
     @Option(names = {"--lang"}, defaultValue = "JAVA", description = "To specify the project's language.\nOptions: JAVA, GROOVY, KOTLIN\nPlease, check: https://launch.micronaut.io/select-options")
     private String language;
-    
     @Option(names = "--type", defaultValue = "default", description = "To specify the application type.\nOptions:DEFAULT, CLI, FUNCTION, GRPC, MESSAGING\nPlease, check: https://launch.micronaut.io/select-options")
     private String type; 
     
@@ -60,8 +59,7 @@ public class InitCommand implements Callable<Integer> {
 
     @Option(names = "--build", defaultValue = "GRADLE", description = "To specify the build tool.\nOptions: GRADLE, GRADLE_KOTLIN, MAVEN\nPlease, check: https://launch.micronaut.io/select-options")
     private String build;
-
-
+    
 
     @Override
     public Integer call() throws Exception {
