@@ -1,6 +1,6 @@
 dataSource:
-  url: jdbc:sqlserver://localhost:1433;databaseName=${databaseName}
-  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jdbc-url: jdbc:sqlserver://localhost:1433;databaseName=${databaseName}
+  driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: sa
   password: 'Hello1234'
   pooled: true

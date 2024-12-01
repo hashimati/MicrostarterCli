@@ -1,6 +1,6 @@
 dataSource:
-  url: jdbc:mysql://localhost:3306/${databaseName}
-  driverClassName: com.mysql.cj.jdbc.Driver
+  jdbc-url: jdbc:mysql://localhost:3306/${databaseName}
+  driver-class-name: com.mysql.cj.jdbc.Driver
   username: root
   password: 'Hello1234'
   pooled: true

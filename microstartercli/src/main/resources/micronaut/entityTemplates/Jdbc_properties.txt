@@ -1,7 +1,7 @@
 datasources:
   default:
     url: jdbc:mysql://127.0.0.1:3306/${databasename}
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 'Hello@1234'
     dialect: MYSQL
@@ -20,8 +20,8 @@ compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
 ----
 datasources:
   default:
-    url: jdbc:mariadb://127.0.0.1:3306/${databasename}
-    driverClassName: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mariadb://127.0.0.1:3306/${databasename}
+    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 'Hello@1234'
     dialect: MYSQL
@@ -39,8 +39,8 @@ compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
 
 datasources:
   default:
-    url: jdbc:postgresql://127.0.0.1:5740/${databasename}
-    driverClassName: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://127.0.0.1:5740/${databasename}
+    driver-class-name: org.postgresql.Driver
     username: <Enter your username here>
     password: <Enter your password here>
     dialect: POSTGRES
@@ -62,8 +62,8 @@ compile group: 'org.postgresql', name: 'postgresql', version: '42.2.11'
 
 datasources:
   default:
-    url: jdbc:oracle:thin:@myhost:1521:${databasename}
-    driverClassName: oracle.jdbc.driver.OracleDriver
+    jdbc-url: jdbc:oracle:thin:@myhost:1521:${databasename}
+    driver-class-name: oracle.jdbc.driver.OracleDriver
     username: root
     password: 'Hello@1234'
     dialect: ORACLE
@@ -82,8 +82,8 @@ compile group: 'com.oracle.ojdbc', name: 'ojdbc10', version: '19.3.0.0'
 ----
 datasources:
   default:
-    url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
+    jdbc-url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
     username: sa
     password: ''
     schema-generate: CREATE_DROP
@@ -93,8 +93,8 @@ datasources:
 
 datasources:
   default:
-    url: jdbc:sqlserver://localhost;instance=SQLEXPRESS;databaseName=${databaseName}
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://localhost;instance=SQLEXPRESS;databaseName=${databaseName}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: root
     password: 'Hello@1234'
     dialect: SQL_SERVER

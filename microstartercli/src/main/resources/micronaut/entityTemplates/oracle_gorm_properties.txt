@@ -1,6 +1,6 @@
 dataSource:
-  url: jdbc:oracle:thin:@localhost:1521/${databaseName}
-  driverClassName: oracle.jdbc.OracleDriver
+  jdbc-url: jdbc:oracle:thin:@localhost:1521/${databaseName}
+  driver-class-name: oracle.jdbc.OracleDriver
   username: system
   password: oracle
   pooled: true

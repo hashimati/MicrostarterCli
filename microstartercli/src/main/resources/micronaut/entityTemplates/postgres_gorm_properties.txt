@@ -1,6 +1,6 @@
 dataSource:
-  url: jdbc:postgresql://localhost:5432/${databaseName}
-  driverClassName: org.postgresql.Driver
+  jdbc-url: jdbc:postgresql://localhost:5432/${databaseName}
+  driver-class-name: org.postgresql.Driver
   username: postgres
   password: 'Hello1234'
   pooled: true

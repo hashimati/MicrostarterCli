@@ -1,10 +1,12 @@
             <createTable tableName="${tableName}"
                          remarks="A table to store all ${tableName} records">
-
+                <column name="id" type="bigint" autoIncrement="true">
+                    <constraints unique="true" nullable="false" primaryKey="true"/>
+                </column>
                ${columns}
             </createTable>
-            <addAutoIncrement columnDataType="bigint"
-                              columnName="id"
-                              incrementBy="1"
-                              startWith="1"
-                              tableName="${tableName}"/>
+<!--            <addAutoIncrement columnDataType="bigint"-->
+<!--                              columnName="id"-->
+<!--                              incrementBy="1"-->
+<!--                              startWith="1"-->
+<!--                              tableName="${tableName}"/>-->

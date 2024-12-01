@@ -3,6 +3,6 @@ r2dbc:
     default:
       schema-generate: ${schemaGenerate}
       dialect: MYSQL
-      url: r2dbc:mysql://localhost:3306/${databaseName}
+      jdbc-url: r2dbc:mysql://localhost:3306/${databaseName}
       username: root
       password: 'Hello1234'

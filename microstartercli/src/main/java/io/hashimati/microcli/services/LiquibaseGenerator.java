@@ -61,13 +61,13 @@ public class LiquibaseGenerator
                 .append("unique=\"true\" ")
                 .append("nullable=\"false\" ")
                 .append("primaryKey=\"true\" ");
-        StringBuilder declaration = new StringBuilder(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
-            put("columnName", "id");
-            put("type", mapper.get("long"));
-            put("constraints", templateEngine.createTemplate(constraintTemplate).make(new HashMap<String, String>(){{
-                put("constraints", idConstraintsBuilder.toString());}}).toString());
-        }}).toString()+"\n");
-        declaration.append(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
+//        StringBuilder declaration = new StringBuilder(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
+//            put("columnName", "id");
+//            put("type", mapper.get("long"));
+//            put("constraints", templateEngine.createTemplate(constraintTemplate).make(new HashMap<String, String>(){{
+//                put("constraints", idConstraintsBuilder.toString());}}).toString());
+//        }}).toString()+"\n");
+       StringBuilder declaration = new  StringBuilder(templateEngine.createTemplate(columnTemplate).make(new HashMap<String, String>(){{
             put("columnName", "dateCreated");
             put("type", mapper.get("date"));
             put("constraints", "");

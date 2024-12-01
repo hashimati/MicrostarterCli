@@ -1,7 +1,7 @@
 datasources:
   default:
-    url: jdbc:mariadb://localhost:3306/${databaseName}
-    driverClassName: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mariadb://localhost:3306/${databaseName}
+    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 'Hello1234'
 #    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration

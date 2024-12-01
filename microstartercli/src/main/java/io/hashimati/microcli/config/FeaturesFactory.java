@@ -344,12 +344,12 @@ public class FeaturesFactory {
         features.put("mysql", new Feature(){{
             setName("mysql");
             getMaven().add("  <dependency>\n" +
-                    "      <groupId>mysql</groupId>\n" +
-                    "      <artifactId>mysql-connector-java</artifactId>\n" +
+                    "      <groupId>com.mysql</groupId>\n" +
+                    "      <artifactId>mysql-connector-j</artifactId>\n" +
                     "      <scope>runtime</scope>\n" +
                     "    </dependency>\n");
 
-            setGradle("    runtimeOnly(\"mysql:mysql-connector-java\")");
+            setGradle("    runtimeOnly(\"com.mysql:mysql-connector-j\")");
             setTestGradle("    testRuntimeOnly(\"org.testcontainers:mysql\")");
             setTestMaven(" <dependency>\n" +
                     "      <groupId>org.testcontainers</groupId>\n" +

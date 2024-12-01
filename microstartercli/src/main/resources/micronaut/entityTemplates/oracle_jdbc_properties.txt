@@ -1,7 +1,7 @@
 datasources:
   default:
-    url: jdbc:oracle:thin:@localhost:1521/${databaseName}
-    driverClassName: oracle.jdbc.OracleDriver
+    jdbc-url: jdbc:oracle:thin:@localhost:1521/${databaseName}
+    driver-class-name: oracle.jdbc.OracleDriver
     username: system
     password: oracle
 #    schema-generate: CREATE_DROP  # Enable this to create the database schema on startup if you don't use data Migration
