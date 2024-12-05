@@ -782,7 +782,7 @@ Microstarer Domain Language is Domain Specific Application that used to describe
 <b>.hdl</b> is the conventional extensions for the Microstarter Domain Language. 
 
 ### Quick Start Example
-The below is a simple exampla to define a Micronaut project using Microstarter Domain Language. 
+The below is a simple example to define a Micronaut project using Microstarter Domain Language. 
 ```javascript
 service FruitService{
     // Project Configuration 
